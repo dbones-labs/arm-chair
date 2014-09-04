@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E11B204F-16D8-4578-9743-9D12ED2DAD53}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArmChair</RootNamespace>
+    <AssemblyName>ArmChair.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntityManagement\IRevisionAccessor.cs" />
+    <Compile Include="Processes\Update\BulkContext.cs" />
+    <Compile Include="Processes\Update\BulkPipeline.cs" />
+    <Compile Include="Processes\Update\BulkUpdateDataBaseTask.cs" />
+    <Compile Include="CommitStatus.cs" />
+    <Compile Include="Serialization\ContractResolver.cs" />
+    <Compile Include="Processes\CreateTaskContext.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="Extenstions.cs" />
+    <Compile Include="Http\BasicAuthentication.cs" />
+    <Compile Include="Http\Connection.cs" />
+    <Compile Include="Http\CookieAuthentication.cs" />
+    <Compile Include="Http\FormRequest.cs" />
+    <Compile Include="Http\HttpContentType.cs" />
+    <Compile Include="Http\HttpVerbType.cs" />
+    <Compile Include="Http\IAuthentication.cs" />
+    <Compile Include="Http\IConnection.cs" />
+    <Compile Include="Http\IRequest.cs" />
+    <Compile Include="Http\IResponse.cs" />
+    <Compile Include="Http\Request.cs" />
+    <Compile Include="Http\RequestException.cs" />
+    <Compile Include="Http\Response.cs" />
+    <Compile Include="IDocument.cs" />
+    <Compile Include="EntityManagement\EntityHandlerStrategy.cs" />
+    <Compile Include="EntityManagement\IEntityHandlerStrategy.cs" />
+    <Compile Include="IdManagement\GlobalKey.cs" />
+    <Compile Include="IdManagement\GuidGenerator.cs" />
+    <Compile Include="IdManagement\IdAccessor.cs" />
+    <Compile Include="IdManagement\IIdAccessor.cs" />
+    <Compile Include="IdManagement\IIdentityGenerator.cs" />
+    <Compile Include="IdManagement\IIdManager.cs" />
+    <Compile Include="IdManagement\Key.cs" />
+    <Compile Include="IdManagement\SimpleIdManager.cs" />
+    <Compile Include="IdManagement\UniqueToTypeKey.cs" />
+    <Compile Include="IDocumentify.cs" />
+    <Compile Include="InSession\ActionType.cs" />
+    <Compile Include="InSession\SessionCache.cs" />
+    <Compile Include="InSession\SessionEntry.cs" />
+    <Compile Include="ISession.cs" />
+    <Compile Include="Processes\Load\LoadContext.cs" />
+    <Compile Include="Processes\Load\LoadFromDataBaseTask.cs" />
+    <Compile Include="Processes\Load\LoadManyFromDataBaseTask.cs" />
+    <Compile Include="Processes\Load\LoadPipeline.cs" />
+    <Compile Include="Processes\Load\PostSaveToSesionTask.cs" />
+    <Compile Include="Processes\Load\PostTrackingTask.cs" />
+    <Compile Include="Processes\Update\PostUpdateSesionTask.cs" />
+    <Compile Include="Processes\Update\PostUpdateTrackingTask.cs" />
+    <Compile Include="Processes\Load\PreLoadFromSessionTask.cs" />
+    <Compile Include="Processes\Update\PreUpdateFilterTrackingTask.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Tasks\PipilineExecutor.cs" />
+    <Compile Include="Tasks\IPipeItemTask.cs" />
+    <Compile Include="Tracking\ITrackingProvider.cs" />
+    <Compile Include="Tracking\Shadowing\ShadowTrackingProvider.cs" />
+    <Compile Include="Tracking\Shadowing\TrackingEntry.cs" />
+    <Compile Include="Processes\Update\UpdatePayLoad.cs" />
+    <Compile Include="Utils\CallGet.cs" />
+    <Compile Include="Utils\CallSet.cs" />
+    <Compile Include="Utils\ExpressionExtensions.cs" />
+    <Compile Include="Utils\Comparing\Comparer.cs" />
+    <Compile Include="Utils\Copying\ShadowCopier.cs" />
+    <Compile Include="Utils\Copying\CollectionCopyToTarget.cs" />
+    <Compile Include="Utils\Copying\CopyMeta.cs" />
+    <Compile Include="Utils\Copying\CopyToTarget.cs" />
+    <Compile Include="Utils\Copying\DictionaryCopyToTarget.cs" />
+    <Compile Include="Utils\Copying\EntityCopyToTarget.cs" />
+    <Compile Include="Utils\Copying\ICopyToTarget.cs" />
+    <Compile Include="Utils\Copying\ValueCopyToTarget.cs" />
+    <Compile Include="Utils\FieldMeta.cs" />
+    <Compile Include="Utils\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Utils\ShortGuid.cs" />
+    <Compile Include="Utils\TypeExtensions.cs" />
+    <Compile Include="Utils\TypeMeta.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
