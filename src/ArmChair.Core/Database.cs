@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime.Serialization.Formatters;
     using EntityManagement;
     using Http;
@@ -14,23 +15,22 @@
     {
         private readonly string _name;
         private readonly IConnection _connection;
+        private readonly ISerializer _serializer;
         private readonly IRevisionAccessor _revisionAccessor;
         private readonly JsonSerializerSettings _settings;
-        private readonly JsonSerializer _serializer;
 
-        public Database(string name, Connection connection, IRevisionAccessor revisionAccessor)
+        public Database(string name, Connection connection, ISerializer serializer)
         {
             _name = name;
             _connection = connection;
-            _revisionAccessor = revisionAccessor;
+            _serializer = serializer;
 
 
-            _settings = new JsonSerializerSettings();
-
-            _settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple;
-            _settings.TypeNameHandling = TypeNameHandling.Auto;
-            _settings.ContractResolver = new ContractResolver();
-            _serializer = JsonSerializer.Create(_settings);
+            //_settings = new JsonSerializerSettings();
+            //_settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple;
+            //_settings.TypeNameHandling = TypeNameHandling.Auto;
+            //_settings.ContractResolver = new ContractResolver();
+            //_serializer = JsonSerializer.Create(_settings);
         }
 
 
@@ -44,40 +44,28 @@
             _connection.Execute(request, response =>
             {
                 var content = response.Content.ReadToEnd();
-                var jsonContent = JObject.Parse(content);
-                using (var reader = new JTokenReader(jsonContent))
-                {
-                    entity = _serializer.Deserialize(reader);
-                }
-
+                entity = _serializer.Deserialize(content);
             });
             return entity;
         }
 
         public IEnumerable<object> LoadAllEntities(IEnumerable<string> keys)
         {
-            var json = JsonConvert.SerializeObject(new { Keys = keys }, Formatting.None, _settings);
-            var entities = new List<object>();
+            var requestJson = _serializer.Serialize(new AllDocsRequest {Keys = keys});
+            IEnumerable<object> entities = null;
 
             var request = new Request("/:db/_all_docs", HttpVerbType.Post);
             request.AddUrlSegment("db", _name);
             request.AddParameter("include_docs", "true"); //load entire content.
-            request.AddContent(writer => writer.Write(json), HttpContentType.Json);
+            request.AddContent(writer => writer.Write(requestJson), HttpContentType.Json);
 
             _connection.Execute(request, response =>
             {
                 var content = response.Content.ReadToEnd();
-                var jsonContent = JObject.Parse(content);
-                var docs = jsonContent["rows"].Select(row => row["doc"]).Cast<JObject>().ToList();
+                var result = _serializer.Deserialize<AllDocsResponse>(content);
+                entities = result.Rows.Select(x => x.Doc);
 
-                foreach (var doc in docs)
-                {
-                    using (var reader = new JTokenReader(doc))
-                    {
-                        var entity = _serializer.Deserialize(reader);
-                        entities.Add(entity);
-                    }
-                }
+                
             });
             return entities;
         }
@@ -124,7 +112,7 @@
                 {
                     _serializer.Serialize(writer, entity);
                     writer.Flush();
-                    temp = (JObject) writer.Token;
+                    temp = (JObject)writer.Token;
                 }
 
                 var requiredForDelete = temp.Properties().Where(x => x.Name == "_id" || x.Name == "_rev");
