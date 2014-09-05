@@ -19,6 +19,17 @@ namespace ArmChair.Utils
             Type = fieldInfo.FieldType;
             IsReadOnly = fieldInfo.IsInitOnly;
 
+            if (Name.StartsWith("<", StringComparison.CurrentCultureIgnoreCase))
+            {
+                int index = Name.IndexOf(">", StringComparison.CurrentCultureIgnoreCase);
+                FriendlyName = Name.Substring(1, index - 1);
+            }
+
+            if (Name.StartsWith("_", StringComparison.CurrentCultureIgnoreCase))
+            {
+                FriendlyName = Name.Substring(1, Name.Length - 1);
+            }
+
             if (!fieldInfo.IsInitOnly)
             {
                 _setter = fieldInfo.CreateFieldSet();
@@ -30,6 +41,8 @@ namespace ArmChair.Utils
         public bool IsReadOnly { get; private set; }
 
         public string Name { get; private set; }
+        
+        public string FriendlyName { get; private set; }
 
         public FieldInfo FieldInfo { get; private set; }
 
