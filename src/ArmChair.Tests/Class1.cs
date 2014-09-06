@@ -25,7 +25,7 @@ namespace ArmChair.Tests
             var idAccessor = new IdAccessor();
             var idManager = new SimpleIdManager(idAccessor);
             var revisionAccessor = new RevisionAccessor();
-            var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), revisionAccessor);
+            var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), new Serializer(null,null,null));
 
             var loadPipeline = new LoadPipeline(database, idManager, revisionAccessor);
             var updatePipeline = new BulkPipeline(database, idManager, revisionAccessor);

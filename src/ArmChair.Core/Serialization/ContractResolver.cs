@@ -4,13 +4,11 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reflection;
-    using System.Threading;
+    using System.Text;
     using EntityManagement;
     using IdManagement;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Serialization;
     using Utils;
@@ -18,9 +16,10 @@
     public interface ISerializer
     {
         object Deserialize(string json);
+        object Deserialize(string json, Type type);
         string Serialize(object instance);
-        string Serialize<T>(T instance);
-        T Deserialize<T>(string json);
+        string Serialize(object instance, Type type);
+        
     }
 
     public class Serializer : ISerializer
@@ -28,7 +27,9 @@
         private readonly JsonSerializerSettings _settings;
         private readonly IIdAccessor _idAccessor;
         private readonly IRevisionAccessor _revisionAccessor;
-        private JsonSerializer _jsonSerializer;
+        private readonly JsonSerializer _jsonSerializer;
+        private readonly IDictionary<Type, IHandler> _serializationHandlers = new Dictionary<Type, IHandler>(); 
+
 
         public Serializer(JsonSerializerSettings settings, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
         {
@@ -36,47 +37,105 @@
             _idAccessor = idAccessor;
             _revisionAccessor = revisionAccessor;
             _jsonSerializer = JsonSerializer.Create(_settings);
+
+            AddHandler(new AllDocsRequestHandler());
+            AddHandler(new AllDocsResponseHandler());
+            AddHandler(new BulkDocsRequestHandler());
+            AddHandler(new BulkDocResponseHandler());
+
         }
 
         public object Deserialize(string json)
         {
-            var jobject = JObject.Parse(json);
-
-            
-
-
-            using (var reader = new JsonTextReader(new StreamReader(json)))
+            using (var stringReader = new StreamReader(json))
+            using (var reader = new JsonTextReader(stringReader))
             {
-            //return _jsonSerializer    
+                return _jsonSerializer.Deserialize(reader);
             }
-            throw new NotImplementedException();
         }
 
         public string Serialize(object instance)
         {
-            throw new NotImplementedException();
-
+            var result = new StringBuilder();
+            using (var stringWriter = new StringWriter(result))
+            using (var writer = new JsonTextWriter(stringWriter))
+            {
+                _jsonSerializer.Serialize(writer, instance);
+                writer.Flush();
+            }
+            return result.ToString();
         }
 
 
-        public string Serialize<T>(T instance)
+        public string Serialize(object instance, Type type)
         {
-            throw new NotImplementedException();
+            IHandler handler;
+            if (_serializationHandlers.TryGetValue(type, out handler))
+            {
+                var ctx = new SerializerContext() {Entity = instance};
+                handler.Handle(ctx, this);
+                return ctx.Json;
+            }
+
+            //default handle.
+            return Serialize(instance);
         }
 
-        public T Deserialize<T>(string json)
+        public object Deserialize(string json, Type type)
         {
-            throw new NotImplementedException();
+            IHandler handler;
+            if (_serializationHandlers.TryGetValue(type, out handler))
+            {
+                var ctx = new SerializerContext() { Json = json };
+                handler.Handle(ctx, this);
+                return ctx.Entity;
+            }
+
+            //default handle.
+            return Deserialize(json);
         }
 
         public JToken SerializeAsJson(object instance)
         {
-            
+
+            //TODO: just remove the ID.. and handle it locally
+            var type = instance.GetType();
+            JObject jObject;
+
+            using (var writer = new JTokenWriter())
+            {
+                _jsonSerializer.Serialize(writer, instance);
+                writer.Flush();
+                jObject = (JObject) writer.Token;
+            }
+
+            var idField = _idAccessor.GetIdField(type);
+            var revField = _revisionAccessor.GetRevisionField(type);
+            jObject.RenameProperty(idField.FriendlyName, "_id");
+            jObject.RenameProperty(revField.FriendlyName, "_rev");
+
+            return jObject;
         }
 
-        public object DeserializeFromJson(JToken instance)
+        public object DeserializeFromJson(JObject jObject)
         {
+            var typeName = (string)jObject["$type"];
+            var type = Type.GetType(typeName);
 
+            var idField = _idAccessor.GetIdField(type);
+            var revField = _revisionAccessor.GetRevisionField(type);
+            jObject.RenameProperty("_id", idField.FriendlyName);
+            jObject.RenameProperty("_rev", revField.FriendlyName);
+
+            using (var reader = new JTokenReader(jObject))
+            {
+                return _jsonSerializer.Deserialize(reader);
+            }
+        }
+
+        internal void AddHandler(IHandler handler)
+        {
+            _serializationHandlers.Add(handler.HandlesType, handler);
         }
     }
 
@@ -100,7 +159,52 @@
         public bool Ok { get; set; }
     }
 
-    
+    public class BulkDocsRequestHandler : IHandler
+    {
+        public Type HandlesType { get { return typeof(BulkDocsRequest); } }
+        public void Handle(SerializerContext context, Serializer serializer)
+        {
+            var request = (BulkDocsRequest)context.Entity;
+
+            var jsonDocs = new List<JObject>();
+            foreach (var doc in request.Docs)
+            {
+                var jsonDoc = new JObject();
+                jsonDoc.Add(jsonDoc);
+                jsonDoc.Add("_id", doc.Id);
+                if (string.IsNullOrWhiteSpace(doc.Rev))
+                {
+                    continue;
+                }
+                jsonDoc.Add("_rev", doc.Rev);
+                if (doc.Delete)
+                {
+                    jsonDoc.Add("_deleted", true);
+                }
+            }
+
+            var jObject = new JObject {{"docs", new JArray(jsonDocs)}};
+            context.Json = jObject.ToString(Formatting.None);
+        }
+    }
+
+    public class BulkDocResponseHandler : IHandler
+    {
+        public Type HandlesType { get { return typeof(IEnumerable<BulkDocResponse>); } }
+        public void Handle(SerializerContext context, Serializer serializer)
+        {
+            var response = context.Json;
+            var json = new JArray(response);
+
+            context.Entity = json.Select(x => new BulkDocResponse()
+            {
+                Id = (string)x["id"],
+                Rev = (string)x["rev"],
+                Ok = (bool)x["ok"]
+            }).ToList();
+        }
+    }
+
 
 
     public class AllDocsRequest
@@ -110,8 +214,6 @@
 
     public class AllDocsResponse
     {
-        
-        
         public int Offset { get; set; }
         public int TotalRows { get; set; }
         public IEnumerable<AllDocsRowResponse> Rows { get; set; }
@@ -141,49 +243,13 @@
         void Handle(SerializerContext context, Serializer serializer);
     }
 
-    public abstract class HandlerBase : IHandler
-    {
-        public IIdAccessor IdAccessor { get; internal set; }
-        public IRevisionAccessor RevisionAccessor { get; internal set; }
-
-        public abstract Type HandlesType { get; }
-        public abstract void Handle(SerializerContext context, Serializer serializer);
-
-        public JToken SerializeToJson(object instance, Serializer serializer)
-        {
-            var type = instance.GetType();
-            var jObject = (JObject)serializer.SerializeAsJson(instance);
-            
-            var idField = IdAccessor.GetIdField(type);
-            var revField = RevisionAccessor.GetRevisionField(type);
-            jObject.RenameProperty(idField.FriendlyName, "_id");
-            jObject.RenameProperty(revField.FriendlyName, "_rev");
-
-            return jObject;
-
-        }
-
-        public object DeserializeInstance(JObject jObject, Serializer serializer)
-        {
-            var typeName = (string)jObject["$type"];
-            var type = Type.GetType(typeName);
-            
-            var idField = IdAccessor.GetIdField(type);
-            var revField = RevisionAccessor.GetRevisionField(type);
-            jObject.RenameProperty("_id", idField.FriendlyName);
-            jObject.RenameProperty("_rev", revField.FriendlyName);
-
-            return serializer.DeserializeFromJson(jObject);
-        }
-    }
-
     public class AllDocsRequestHandler : IHandler
     {
         public Type HandlesType { get { return typeof (AllDocsRequest); } }
         public void Handle(SerializerContext context, Serializer serializer)
         {
             var request = (AllDocsRequest) context.Entity;
-            var keys = serializer.SerializeAsJson(request.Keys);
+            var keys = serializer.Serialize(request.Keys);
 
             var jObject = new JObject();
             jObject.Add("keys", keys);
@@ -217,54 +283,17 @@
     }
     
 
-
-
     public static class JObjectExtensions
     {
-        public static void RenameKeyFields(this JObject jObject, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
-        {
-            var typeName = (string)jObject["$type"];
-            if (!string.IsNullOrWhiteSpace(typeName))
-            {
-                var type = Type.GetType(typeName);
-                var idField = idAccessor.GetIdField(type);
-                if (idField == null)
-                {
-                    return;
-                }
-                var revisionField = revisionAccessor.GetRevisionField(type);
-
-            }
-        }
-
         public static void RenameProperty(this JObject jObject, string oldName, string newName)
         {
-            
+            var property = jObject.Property(oldName);
+            var value = property.Value;
+            property.Remove();
 
-            //var temp = jObject[oldName];
-            //jObject.Remove(temp)
+            jObject.Add(newName, value);
         }
     }
-
-    public class DocumentJsonWriter : JsonTextWriter
-    {
-        private readonly IIdAccessor _idAccessor;
-        private readonly IRevisionAccessor _revisionAccessor;
-
-        public DocumentJsonWriter(TextWriter textWriter, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) 
-            : base(textWriter)
-        {
-            _idAccessor = idAccessor;
-            _revisionAccessor = revisionAccessor;
-        }
-
-
-        
-    }
-    
-
-
-    
 
     public class ContractResolver : CamelCasePropertyNamesContractResolver
     {
