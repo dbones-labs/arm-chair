@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Remoting.Messaging;
+    using Commands;
     using EntityManagement;
     using IdManagement;
     using InSession;
+    using Serialization;
     using Tasks;
 
     public class BulkUpdateDataBaseTask : IPipeTask<BulkContext>
@@ -39,7 +41,7 @@
                 //    case ActionType.Add:
                 //        entityAdds.Add(bulkContext.Entity);
                 //        break;
-                //    case ActionType.Update:
+                //    case ActionType.Attach:
                 //        entityUpdates.Add(bulkContext.Key.ToString(), bulkContext.Entity);
                 //        break;
                 //    case ActionType.Delete:

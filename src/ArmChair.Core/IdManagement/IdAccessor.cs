@@ -54,8 +54,6 @@ namespace ArmChair.IdManagement
             SetUpId<T>(backingFieldName);
         }
 
-
-
         public object GetId(object instance)
         {
             Type type = instance.GetType();

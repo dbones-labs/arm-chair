@@ -1,21 +1,30 @@
-﻿namespace ArmChair.IdManagement
+﻿using System;
+
+namespace ArmChair.IdManagement
 {
-    public class GlobalKey : Key
+    public class IntToTypeKey : Key
     {
         private readonly object _id;
         private readonly int _hash;
         private readonly string _readFriendly;
 
-        public GlobalKey(object id)
+        public IntToTypeKey(Type type, int id, string couchId)
         {
+            //TODO: extract int from the couchdb.
+
             _id = id;
-            _hash = _id.GetHashCode();
-            _readFriendly = _id.ToString();
+            _readFriendly = string.Format("{0}/{1}", type.FullName, id);
+            _hash = _readFriendly.GetHashCode();
         }
 
         public override object Id
         {
             get { return _id; }
+        }
+
+        public override string CouchDbId
+        {
+            get { return _readFriendly; }
         }
 
         public override int GetHashCode()

@@ -14,6 +14,7 @@
         private readonly LoadPipeline _loadPipeline;
         private readonly BulkPipeline _bulkPipeline;
         private readonly IIdManager _idManager;
+        private readonly IdAccessor _idAccessor;
         private readonly ITrackingProvider _trackingProvider;
         //private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
@@ -21,6 +22,7 @@
             LoadPipeline loadPipeline,
             BulkPipeline bulkPipeline,
             IIdManager idManager,
+            IdAccessor idAccessor,
             ITrackingProvider trackingProvider,
             ISessionCache sessionCache
             )
@@ -29,6 +31,7 @@
             _loadPipeline = loadPipeline;
             _bulkPipeline = bulkPipeline;
             _idManager = idManager;
+            _idAccessor = idAccessor;
             _trackingProvider = trackingProvider;
         }
 
@@ -39,12 +42,13 @@
 
         public virtual void Add<T>(T instance) where T : class
         {
-            var key = _idManager.GetId(instance); //set if they set one.
+            var type = typeof (T);
+            var key = _idManager.GetFromId(type, instance); //set if they set one.
 
             if (key == null)
             {
-                key = _idManager.GenerateId(typeof(T));
-                _idManager.SetId(instance, key.Id);
+                key = _idManager.GenerateId(type);
+                _idAccessor.SetId(instance, key.Id);
             }
 
             var entry = new SessionEntry()
@@ -57,11 +61,12 @@
             _sessionCache.Attach(entry);
         }
 
-        public virtual void Update<T>(T instance) where T : class
+        public virtual void Attach<T>(T instance) where T : class
         {
             //allows for attaching exiting objects to this session! 
             //(issue could arise with the rev)
-            var key = _idManager.GetId(instance);
+            var value = _idAccessor.GetId(instance);
+            var key = _idManager.GetFromId(typeof (T), value);
             var entry = new SessionEntry()
             {
                 Action = ActionType.Update,
@@ -74,7 +79,8 @@
 
         public virtual void Remove<T>(T instance) where T : class
         {
-            var key = _idManager.GetId(instance);
+            var value = _idAccessor.GetId(instance);
+            var key = _idManager.GetFromId(typeof(T), value);
             var entry = new SessionEntry()
             {
                 Action = ActionType.Delete,

@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Commands;
     using Http;
+    using Serialization;
 
     public class Database
     {

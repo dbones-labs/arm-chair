@@ -1,0 +1,128 @@
+﻿namespace ArmChair.Serialization.Newton
+{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using EntityManagement;
+    using IdManagement;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
+    public class Serializer : ISerializer
+    {
+        private readonly JsonSerializerSettings _settings;
+        private readonly IIdAccessor _idAccessor;
+        private readonly IRevisionAccessor _revisionAccessor;
+        private readonly JsonSerializer _jsonSerializer;
+        private readonly IDictionary<Type, IHandler> _serializationHandlers = new Dictionary<Type, IHandler>(); 
+
+
+        public Serializer(JsonSerializerSettings settings, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
+        {
+            _settings = settings;
+            _idAccessor = idAccessor;
+            _revisionAccessor = revisionAccessor;
+            _jsonSerializer = JsonSerializer.Create(_settings);
+
+            AddHandler(new AllDocsRequestHandler());
+            AddHandler(new AllDocsResponseHandler());
+            AddHandler(new BulkDocsRequestHandler());
+            AddHandler(new BulkDocResponseHandler());
+
+        }
+
+        public object Deserialize(string json)
+        {
+            using (var stringReader = new StreamReader(json))
+            using (var reader = new JsonTextReader(stringReader))
+            {
+                return _jsonSerializer.Deserialize(reader);
+            }
+        }
+
+        public string Serialize(object instance)
+        {
+            var result = new StringBuilder();
+            using (var stringWriter = new StringWriter(result))
+            using (var writer = new JsonTextWriter(stringWriter))
+            {
+                _jsonSerializer.Serialize(writer, instance);
+                writer.Flush();
+            }
+            return result.ToString();
+        }
+
+
+        public string Serialize(object instance, Type type)
+        {
+            IHandler handler;
+            if (_serializationHandlers.TryGetValue(type, out handler))
+            {
+                var ctx = new SerializerContext() {Entity = instance};
+                handler.Handle(ctx, this);
+                return ctx.Json;
+            }
+
+            //default handle.
+            return Serialize(instance);
+        }
+
+        public object Deserialize(string json, Type type)
+        {
+            IHandler handler;
+            if (_serializationHandlers.TryGetValue(type, out handler))
+            {
+                var ctx = new SerializerContext() { Json = json };
+                handler.Handle(ctx, this);
+                return ctx.Entity;
+            }
+
+            //default handle.
+            return Deserialize(json);
+        }
+
+        public JToken SerializeAsJson(object instance)
+        {
+
+            //TODO: just remove the ID.. and handle it locally
+            var type = instance.GetType();
+            JObject jObject;
+
+            using (var writer = new JTokenWriter())
+            {
+                _jsonSerializer.Serialize(writer, instance);
+                writer.Flush();
+                jObject = (JObject) writer.Token;
+            }
+
+            var idField = _idAccessor.GetIdField(type);
+            var revField = _revisionAccessor.GetRevisionField(type);
+            jObject.RenameProperty(idField.FriendlyName, "_id");
+            jObject.RenameProperty(revField.FriendlyName, "_rev");
+
+            return jObject;
+        }
+
+        public object DeserializeFromJson(JObject jObject)
+        {
+            var typeName = (string)jObject["$type"];
+            var type = Type.GetType(typeName);
+
+            var idField = _idAccessor.GetIdField(type);
+            var revField = _revisionAccessor.GetRevisionField(type);
+            jObject.RenameProperty("_id", idField.FriendlyName);
+            jObject.RenameProperty("_rev", revField.FriendlyName);
+
+            using (var reader = new JTokenReader(jObject))
+            {
+                return _jsonSerializer.Deserialize(reader);
+            }
+        }
+
+        internal void AddHandler(IHandler handler)
+        {
+            _serializationHandlers.Add(handler.HandlesType, handler);
+        }
+    }
+}
