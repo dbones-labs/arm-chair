@@ -21,9 +21,10 @@
         {
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
             var toload = items.Where(x => !x.LoadedFromCache).ToDictionary(loadContext => loadContext.Key.ToString());
-            var entities = _database.LoadAllEntities(toload.Keys);
+            var allDocs = _database.LoadAllEntities(new AllDocsRequest() {Keys = toload.Keys});
 
-            foreach (var entity in entities)
+            //only interested in the doc
+            foreach (var entity in allDocs.Rows.Select(x=>x.Doc))
             {
                 var key = _idManager.GetId(entity);
                 toload[key.ToString()].Entity = entity;
