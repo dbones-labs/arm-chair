@@ -1,23 +1,28 @@
-﻿using System;
-
-namespace ArmChair.IdManagement
+﻿namespace ArmChair.IdManagement
 {
-    public class UniqueToTypeKey : Key
+    using Utils;
+
+    public class ShortGuidKey : Key
     {
         private readonly object _id;
         private readonly int _hash;
         private readonly string _readFriendly;
 
-        public UniqueToTypeKey(Type type, object id)
+        public ShortGuidKey(ShortGuid id)
         {
             _id = id;
-            _readFriendly = string.Format("{0}/{1}", type.FullName, id);
+            _readFriendly = _id.ToString();
             _hash = _readFriendly.GetHashCode();
         }
 
         public override object Id
         {
             get { return _id; }
+        }
+
+        public override string CouchDbId
+        {
+            get { return _readFriendly; }
         }
 
         public override int GetHashCode()

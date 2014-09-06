@@ -3,6 +3,7 @@
     public abstract class Key
     {
         public abstract object Id { get; }
+        public abstract string CouchDbId { get; }
         public abstract override int GetHashCode();
 
         public override bool Equals(object obj)

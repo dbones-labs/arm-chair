@@ -13,6 +13,7 @@ namespace ArmChair.Tests
     using NUnit.Framework;
     using Processes.Load;
     using Processes.Update;
+    using Serialization.Newton;
     using Tracking.Shadowing;
 
     [TestFixture]
@@ -23,18 +24,18 @@ namespace ArmChair.Tests
         {
             //global
             var idAccessor = new IdAccessor();
-            var idManager = new SimpleIdManager(idAccessor);
+            var idManager = new ShortGuidIdManager();
             var revisionAccessor = new RevisionAccessor();
             var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), new Serializer(null,null,null));
 
-            var loadPipeline = new LoadPipeline(database, idManager, revisionAccessor);
+            var loadPipeline = new LoadPipeline(database, idManager, idAccessor, revisionAccessor);
             var updatePipeline = new BulkPipeline(database, idManager, revisionAccessor);
 
             //session level
             var tracker = new ShadowTrackingProvider();
             var sessionCache = new SessionCache();
 
-            var session = new Session(loadPipeline, updatePipeline, idManager, tracker, sessionCache);
+            var session = new Session(loadPipeline, updatePipeline, idManager, idAccessor, tracker, sessionCache);
 
             var p = new Person("dave");
             session.Add(p);

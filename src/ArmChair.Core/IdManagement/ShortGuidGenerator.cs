@@ -2,7 +2,7 @@
 
 namespace ArmChair.IdManagement
 {
-    public class GuidGenerator : IIdentityGenerator
+    public class ShortGuidGenerator : IIdentityGenerator
     {
         public object GenerateId()
         {

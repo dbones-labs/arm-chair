@@ -14,6 +14,7 @@
     {
         private readonly Database _database;
         private readonly IIdManager _idManager;
+        private readonly IdAccessor _idAccessor;
         private readonly IRevisionAccessor _revisionAccessor;
 
         //custom tasks
@@ -23,10 +24,12 @@
 
         public LoadPipeline(Database database,
             IIdManager idManager,
+            IdAccessor idAccessor,
             IRevisionAccessor revisionAccessor)
         {
             _database = database;
             _idManager = idManager;
+            _idAccessor = idAccessor;
             _revisionAccessor = revisionAccessor;
         }
 
@@ -47,7 +50,7 @@
 
         public IEnumerable<T> LoadMany<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
         {
-            return Load<T>(ids, sessionCache, tracking, new LoadManyFromDataBaseTask(_database, _idManager));
+            return Load<T>(ids, sessionCache, tracking, new LoadManyFromDataBaseTask(_database, _idManager, _idAccessor));
         }
 
         protected virtual IEnumerable<T> Load<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking, IPipeTask<LoadContext> loadTask) where T : class
@@ -69,7 +72,7 @@
             var type = typeof(T);
             var loadContexts = ids.Cast<object>().Select(id =>
             {
-                var idKey = _idManager.GetKeyFromId(type, id);
+                var idKey = _idManager.GetFromId(type, id);
                 return new LoadContext()
                 {
                     Key = idKey
