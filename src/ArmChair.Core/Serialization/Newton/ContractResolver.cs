@@ -1,6 +1,7 @@
 ﻿namespace ArmChair.Serialization.Newton
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -41,6 +42,20 @@
         {
             var temp = objectType.GetTypeMeta().Fields.Select(x => x.FieldInfo).Cast<MemberInfo>().ToList();
             return temp;
+        }
+
+
+        protected override JsonContract CreateContract(Type objectType)
+        {
+            if (!objectType.IsClass || typeof(IEnumerable).IsAssignableFrom(objectType))
+            {
+                return base.CreateContract(objectType);
+            }
+
+            var contract = base.CreateContract(objectType);
+            contract.DefaultCreator = objectType.GetTypeMeta().Ctor;
+            contract.DefaultCreatorNonPublic = true;
+            return contract;
         }
     }
 }

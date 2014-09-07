@@ -12,9 +12,9 @@
         public void Handle(SerializerContext context, Serializer serializer)
         {
             var response = context.Json;
-            var json = new JArray(response);
+            var json = JArray.Parse(response);
 
-            context.Entity = json.Select(x => new BulkDocResponse()
+            context.Entity = json.Children().Select(x => new BulkDocResponse()
             {
                 Id = (string)x["id"],
                 Rev = (string)x["rev"],

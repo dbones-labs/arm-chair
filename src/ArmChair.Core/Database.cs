@@ -1,8 +1,6 @@
 ﻿namespace ArmChair
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using Commands;
     using Http;
     using Serialization;
@@ -38,7 +36,7 @@
             _connection.Execute(request, response =>
             {
                 var content = response.Content.ReadToEnd();
-                entity = _serializer.Deserialize(content);
+                entity = _serializer.Deserialize<object>(content);//would like a betterway
             });
             return entity;
         }

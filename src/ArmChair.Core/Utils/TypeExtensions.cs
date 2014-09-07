@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace ArmChair.Utils
 {
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+
     public static class TypeExtensions
     {
         public static IDictionary<Type, IEnumerable<Type>> TypeHierarchies = new Dictionary<Type, IEnumerable<Type>>();
@@ -50,6 +54,15 @@ namespace ArmChair.Utils
                 TypeMetas.Add(type, meta);
                 return meta;
             }
+        }
+
+
+        public static string ToCamelCase(this string s)
+        {
+            //Build the titlecase string
+            var titlecase = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s.ToLowerInvariant());
+            //Ensures that there is at-least two characters (so that the Substring method doesn't freak out)
+            return (titlecase.Length > 1) ? Char.ToLowerInvariant(titlecase[0]) + titlecase.Substring(1) : titlecase;
         }
     }
 }
