@@ -24,11 +24,12 @@
             if (entry == null)
             {
                 yield return item;
+                yield break;
             }
 
             if (entry.Action == ActionType.Delete)
             {
-                yield return null;
+                yield break;
             }
             item.Entity = entry.Instance;
             item.LoadedFromCache = true;

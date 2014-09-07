@@ -31,6 +31,7 @@
                 if (!CanHandle(item))
                 {
                     yield return item;
+                    yield break;
                 }
 
                 var results = Execute(item);
