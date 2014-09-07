@@ -33,7 +33,11 @@
 
             foreach (var bulkContext in items)
             {
-                var entry = new BulkDocRequest {Id = bulkContext.Key.CouchDbId};
+                var entry = new BulkDocRequest
+                {
+                    Content = bulkContext.Entity,
+                    Id = bulkContext.Key.CouchDbId
+                };
                 
                 switch (bulkContext.ActionType)
                 {

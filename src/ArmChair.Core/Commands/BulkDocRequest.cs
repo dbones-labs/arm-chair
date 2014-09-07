@@ -3,8 +3,8 @@
     public class BulkDocRequest
     {
         public object Content { get; set; }
-        //public string Id { get; set; }
-        //public string Rev { get; set; }
+        public string Id { get; set; }
+        public string Rev { get; set; }
         public bool Delete { get; set; }
     }
 }

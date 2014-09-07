@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
     using Commands;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -18,26 +16,25 @@
             var jsonDocs = new List<JObject>();
             foreach (var doc in request.Docs)
             {
+                //delete
+                if (doc.Delete)
+                {
+                    var toRemove = new JObject();
+                    toRemove.Add("_id", new JValue(doc.Id));
+                    toRemove.Add("_rev", new JValue(doc.Rev));
+                    toRemove.Add("_deleted", true);
+                    jsonDocs.Add(toRemove);
+                    continue;
+                }
+
                 var jsonDoc = (JObject)serializer.SerializeAsJson(doc.Content);
                 jsonDocs.Add(jsonDoc);
              
+                //add
                 if (string.IsNullOrWhiteSpace((string)jsonDoc["_rev"]))
                 {
                     //new doc
                     jsonDoc.Remove("_rev");
-                    continue;
-                }
-                
-
-                if (doc.Delete)
-                {
-                    var toRemove = jsonDoc.Properties().Where(x => x.Name != "_id" || x.Name != "_rev").ToList();
-                    foreach (var prop in toRemove)
-                    {
-                        prop.Remove();
-                    }
-
-                    jsonDoc.Add("_deleted", true);
                 }
             }
 

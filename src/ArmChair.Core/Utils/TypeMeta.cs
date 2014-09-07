@@ -18,6 +18,7 @@ namespace ArmChair.Utils
 
         public TypeMeta(Type type)
         {
+            //Need to test the inherited field getter/setter
             //try and process all this once
             _type = type;
             _allTypes = type.GetAllTypes();

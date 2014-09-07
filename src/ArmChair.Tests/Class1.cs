@@ -6,6 +6,7 @@
     using Http;
     using IdManagement;
     using InSession;
+    using Microsoft.Win32;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using Processes.Load;
@@ -23,7 +24,7 @@
             var settings = new JsonSerializerSettings
             {
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                TypeNameHandling = TypeNameHandling.Auto,
+                TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new ContractResolver()
             };
 
@@ -33,7 +34,7 @@
             var revisionAccessor = new RevisionAccessor();
             var serializer = new Serializer(settings, idAccessor, revisionAccessor);
 
-            var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), serializer);
+            var database = new Database("test_db", new Connection("http://192.168.1.79:5984"), serializer);
 
             var loadPipeline = new LoadPipeline(database, idManager, idAccessor, revisionAccessor);
             var updatePipeline = new BulkPipeline(database, idManager, revisionAccessor);
@@ -44,13 +45,16 @@
 
             var session = new Session(loadPipeline, updatePipeline, idManager, idAccessor, tracker, sessionCache);
 
-            var p = new Person("dave");
-            session.Add(p);
+            //var p = new Person("dave");
+            //session.Add(p);
 
-            var book = new Book("title", p);
-            session.Add(book);
+            //var book = new Book("title", p);
+            //session.Add(book);
 
-            session.Commit();
+            var p = session.GetById<Book>("fKvKrp9I5U-rz5VWKo314A");
+
+
+            //session.Commit();
         }
 
     }

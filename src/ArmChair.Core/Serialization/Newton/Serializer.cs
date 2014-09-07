@@ -8,6 +8,7 @@
     using IdManagement;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Utils;
 
     public class Serializer : ISerializer
     {
@@ -51,8 +52,9 @@
                 return ctx.Entity;
             }
 
-            //default handle.
-            return Deserialize(json);
+            
+            var doc = JObject.Parse(json);
+            return DeserializeFromJson(doc);
         }
 
         public T Deserialize<T>(string json)
@@ -109,8 +111,8 @@
 
             var idField = _idAccessor.GetIdField(type);
             var revField = _revisionAccessor.GetRevisionField(type);
-            jObject.RenameProperty(idField.FriendlyName, "_id");
-            jObject.RenameProperty(revField.FriendlyName, "_rev");
+            jObject.RenameProperty(idField.FriendlyName.ToCamelCase(), "_id");
+            jObject.RenameProperty(revField.FriendlyName.ToCamelCase(), "_rev");
 
             return jObject;
         }
