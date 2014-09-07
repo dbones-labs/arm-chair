@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using Tasks;
 
-    public class LoadFromDataBaseTask : PipeItemTask<LoadContext>
+    public class LoadFromDataBaseMapTask : PipeItemMapTask<LoadContext>
     {
         private readonly Database _database;
 
-        public LoadFromDataBaseTask(Database database)
+        public LoadFromDataBaseMapTask(Database database)
         {
             _database = database;
         }

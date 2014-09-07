@@ -45,7 +45,7 @@
 
         public T LoadOne<T>(object id, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
         {
-            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseTask(_database)).FirstOrDefault();
+            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseMapTask(_database)).FirstOrDefault();
         }
 
         public IEnumerable<T> LoadMany<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
@@ -59,12 +59,12 @@
 
             //setup the pipeline
             var tasks = new List<IPipeTask<LoadContext>>();
-            tasks.Add(new PreLoadFromSessionTask(sessionCache));
+            tasks.Add(new PreLoadFromSessionMapTask(sessionCache));
             tasks.AddRange(_preLoadTasks.Select(preLoadTask => preLoadTask(taskCtx)));
             tasks.Add(loadTask);
             tasks.AddRange(_postLoadTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new PostSaveToSesionTask(sessionCache));
-            tasks.Add(new PostTrackingTask(tracking));
+            tasks.Add(new PostSaveToSesionMapTask(sessionCache));
+            tasks.Add(new PostTrackingMapTask(tracking));
 
             var pipilineExecutor = tasks.CreatePipeline();
 

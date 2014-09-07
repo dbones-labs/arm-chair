@@ -4,11 +4,11 @@
     using InSession;
     using Tasks;
 
-    public class PostUpdateSesionTask : PipeItemTask<BulkContext>
+    public class PostUpdateSesionMapTask : PipeItemMapTask<BulkContext>
     {
         private readonly ISessionCache _sessionCache;
 
-        public PostUpdateSesionTask(ISessionCache sessionCache)
+        public PostUpdateSesionMapTask(ISessionCache sessionCache)
         {
             _sessionCache = sessionCache;
         }

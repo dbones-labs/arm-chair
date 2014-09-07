@@ -4,11 +4,11 @@
     using InSession;
     using Tasks;
 
-    public class PreLoadFromSessionTask : PipeItemTask<LoadContext>
+    public class PreLoadFromSessionMapTask : PipeItemMapTask<LoadContext>
     {
         private readonly ISessionCache _sessionCache;
 
-        public PreLoadFromSessionTask(ISessionCache sessionCache)
+        public PreLoadFromSessionMapTask(ISessionCache sessionCache)
         {
             _sessionCache = sessionCache;
         }

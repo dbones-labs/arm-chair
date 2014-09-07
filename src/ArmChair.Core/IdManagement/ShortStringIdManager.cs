@@ -4,11 +4,11 @@ namespace ArmChair.IdManagement
 {
     using Utils;
 
-    public class ShortGuidIdManager : IIdManager
+    public class ShortStringIdManager : IIdManager
     {
         private readonly IIdentityGenerator _identityGenerator;
 
-        public ShortGuidIdManager()
+        public ShortStringIdManager()
         {
             _identityGenerator = new ShortGuidGenerator();
         }
@@ -20,7 +20,7 @@ namespace ArmChair.IdManagement
 
         public Key GetFromId(Type type, object id)
         {
-            return new ShortGuidKey((ShortGuid)id);
+            return id == null ? null : new ShortGuidKey((string)id);
         }
 
         public Key GetFromCouchDbId(Type type, string id)

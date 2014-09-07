@@ -5,11 +5,11 @@
     using Tasks;
     using Tracking;
 
-    public class PreUpdateFilterTrackingTask : PipeItemTask<BulkContext>
+    public class PreUpdateFilterTrackingMapTask : PipeItemMapTask<BulkContext>
     {
         private readonly ITrackingProvider _tracking;
 
-        public PreUpdateFilterTrackingTask(ITrackingProvider tracking)
+        public PreUpdateFilterTrackingMapTask(ITrackingProvider tracking)
         {
             _tracking = tracking;
         }

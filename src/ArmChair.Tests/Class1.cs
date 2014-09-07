@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ArmChair.Tests
+﻿namespace ArmChair.Tests
 {
+    using System.Runtime.Serialization.Formatters;
     using Domain;
     using EntityManagement;
     using Http;
     using IdManagement;
     using InSession;
+    using Newtonsoft.Json;
     using NUnit.Framework;
     using Processes.Load;
     using Processes.Update;
@@ -22,11 +19,21 @@ namespace ArmChair.Tests
         [Test]
         public void Test1()
         {
+            //externals
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameHandling = TypeNameHandling.Auto,
+                ContractResolver = new ContractResolver()
+            };
+
             //global
             var idAccessor = new IdAccessor();
-            var idManager = new ShortGuidIdManager();
+            var idManager = new ShortStringIdManager();
             var revisionAccessor = new RevisionAccessor();
-            var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), new Serializer(null,null,null));
+            var serializer = new Serializer(settings, idAccessor, revisionAccessor);
+
+            var database = new Database("test_db", new Connection("http://192.168.1.79:5984/"), serializer);
 
             var loadPipeline = new LoadPipeline(database, idManager, idAccessor, revisionAccessor);
             var updatePipeline = new BulkPipeline(database, idManager, revisionAccessor);

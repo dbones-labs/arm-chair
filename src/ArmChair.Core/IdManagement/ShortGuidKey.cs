@@ -1,17 +1,15 @@
 ﻿namespace ArmChair.IdManagement
 {
-    using Utils;
-
     public class ShortGuidKey : Key
     {
-        private readonly object _id;
+        private readonly string _id;
         private readonly int _hash;
         private readonly string _readFriendly;
 
-        public ShortGuidKey(ShortGuid id)
+        public ShortGuidKey(string id)
         {
             _id = id;
-            _readFriendly = _id.ToString();
+            _readFriendly = _id;
             _hash = _readFriendly.GetHashCode();
         }
 

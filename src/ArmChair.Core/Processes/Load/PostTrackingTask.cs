@@ -4,11 +4,11 @@
     using Tasks;
     using Tracking;
 
-    public class PostTrackingTask : PipeItemTask<LoadContext>
+    public class PostTrackingMapTask : PipeItemMapTask<LoadContext>
     {
         private readonly ITrackingProvider _tracking;
 
-        public PostTrackingTask(ITrackingProvider tracking)
+        public PostTrackingMapTask(ITrackingProvider tracking)
         {
             _tracking = tracking;
         }

@@ -56,7 +56,7 @@
             _connection.Execute(request, response =>
             {
                 var content = response.Content.ReadToEnd();
-                 result = (AllDocsResponse)_serializer.Deserialize(content, typeof(AllDocsResponse));
+                result = _serializer.Deserialize<AllDocsResponse>(content);
             });
             return result;
         }
@@ -74,7 +74,7 @@
             _connection.Execute(request, response =>
             {
                 var content = response.Content.ReadToEnd();
-                results = (IEnumerable<BulkDocResponse>)_serializer.Deserialize(content, typeof(IEnumerable<BulkDocResponse>));
+                results = _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
             });
             //TODO: partial update the object before exit of method via serializer
             return results;

@@ -43,7 +43,8 @@
         public virtual void Add<T>(T instance) where T : class
         {
             var type = typeof (T);
-            var key = _idManager.GetFromId(type, instance); //set if they set one.
+            var value = _idAccessor.GetId(instance);
+            var key = _idManager.GetFromId(typeof(T), value);
 
             if (key == null)
             {
