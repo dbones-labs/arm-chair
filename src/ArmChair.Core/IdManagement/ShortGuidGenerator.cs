@@ -11,7 +11,7 @@ namespace ArmChair.IdManagement
 
         public bool IsValidId(object value)
         {
-            return value is string;
+            return string.IsNullOrWhiteSpace((string)value);
         }
     }
 }

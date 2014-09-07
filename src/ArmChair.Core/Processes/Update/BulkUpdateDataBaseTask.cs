@@ -29,45 +29,42 @@
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
 
             var entityUpdates = new Dictionary<string, object>();
-
-            var request = new BulkDocsRequest();
+            var docRequests = new List<BulkDocRequest>();
 
             foreach (var bulkContext in items)
             {
-                //var entry = new BulkDocRequest();
-                //var idKey = _idManager.GetKeyFromId()
-                //switch (bulkContext.ActionType)
-                //{
-                //    case ActionType.Add:
-                //        entityAdds.Add(bulkContext.Entity);
-                //        break;
-                //    case ActionType.Attach:
-                //        entityUpdates.Add(bulkContext.Key.ToString(), bulkContext.Entity);
-                //        break;
-                //    case ActionType.Delete:
-                //        entityDeletes.Add(bulkContext.Entity);
-                //        break;
-                //    default:
-                //        throw new ArgumentOutOfRangeException();
-                //}
+                var entry = new BulkDocRequest {Id = bulkContext.Key.CouchDbId};
+                
+                switch (bulkContext.ActionType)
+                {
+                    case ActionType.Add:
+                        break;
+                    case ActionType.Update:
+                        entityUpdates.Add(bulkContext.Key.ToString(), bulkContext.Entity);
+                        break;
+                    case ActionType.Delete:
+                        entry.Rev = (string)_revisionAccessor.GetRevision(bulkContext.Entity);
+                        entry.Delete = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                docRequests.Add(entry);
+                entityUpdates.Add(entry.Id, bulkContext.Entity);
             }
-            //var updatePayLoad = new UpdatePayLoad()
-            //{
-            //    Creates = entityAdds,
-            //    Updates = entityUpdates.Values,
-            //    Deletes = entityDeletes
-            //};
 
-            //var updates = _database.BulkApplyChanges(updatePayLoad);
-            ////TODO:here
-            //foreach (var update in updates)
-            //{
-            //    var entity = entityUpdates[update.Id];
-            //    _revisionAccessor.SetRevision(entity, update.Rev);
-            //}
+            var request = new BulkDocsRequest {Docs = docRequests};
 
-            //return items;
-            return null;
+            var updates = _database.BulkApplyChanges(request);
+            //update any revisions!
+            foreach (var update in updates)
+            {
+                var entity = entityUpdates[update.Id];
+                _revisionAccessor.SetRevision(entity, update.Rev);
+            }
+
+            return items;
+            
         }
     }
 }

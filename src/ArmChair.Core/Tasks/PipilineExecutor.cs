@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ArmChair.Tasks
+﻿namespace ArmChair.Tasks
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// creates a pipeline with yielding. This class allows to multiple tasks to
     /// be executed against each item.

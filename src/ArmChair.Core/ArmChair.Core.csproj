@@ -84,7 +84,7 @@
     <Compile Include="IdManagement\IIdentityGenerator.cs" />
     <Compile Include="IdManagement\IIdManager.cs" />
     <Compile Include="IdManagement\Key.cs" />
-    <Compile Include="IdManagement\ShortGuidIdManager.cs" />
+    <Compile Include="IdManagement\ShortStringIdManager.cs" />
     <Compile Include="IdManagement\IntToTypeKey.cs" />
     <Compile Include="InSession\ActionType.cs" />
     <Compile Include="InSession\SessionCache.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Serialization\Newton\Serializer.cs" />
     <Compile Include="Serialization\Newton\SerializerContext.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="Tasks\PipeItemMapTask.cs" />
     <Compile Include="Tasks\PipilineExecutor.cs" />
     <Compile Include="Tasks\IPipeItemTask.cs" />
     <Compile Include="Tracking\ITrackingProvider.cs" />

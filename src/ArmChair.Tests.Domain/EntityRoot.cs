@@ -1,5 +1,7 @@
 ﻿namespace ArmChair.Tests.Domain
 {
+    using Utils;
+
     /// <summary>
     /// base for all domain object which use this Uow
     /// </summary>

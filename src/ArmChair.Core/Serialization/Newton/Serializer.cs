@@ -41,6 +41,25 @@
             }
         }
 
+        public object Deserialize(string json, Type type)
+        {
+            IHandler handler;
+            if (_serializationHandlers.TryGetValue(type, out handler))
+            {
+                var ctx = new SerializerContext() { Json = json };
+                handler.Handle(ctx, this);
+                return ctx.Entity;
+            }
+
+            //default handle.
+            return Deserialize(json);
+        }
+
+        public T Deserialize<T>(string json)
+        {
+            return (T)Deserialize(json, typeof (T));
+        }
+
         public string Serialize(object instance)
         {
             var result = new StringBuilder();
@@ -52,7 +71,6 @@
             }
             return result.ToString();
         }
-
 
         public string Serialize(object instance, Type type)
         {
@@ -68,19 +86,12 @@
             return Serialize(instance);
         }
 
-        public object Deserialize(string json, Type type)
+        public string Serialize<T>(T instance)
         {
-            IHandler handler;
-            if (_serializationHandlers.TryGetValue(type, out handler))
-            {
-                var ctx = new SerializerContext() { Json = json };
-                handler.Handle(ctx, this);
-                return ctx.Entity;
-            }
-
-            //default handle.
-            return Deserialize(json);
+            return Serialize(instance, typeof (T));
         }
+
+        
 
         public JToken SerializeAsJson(object instance)
         {

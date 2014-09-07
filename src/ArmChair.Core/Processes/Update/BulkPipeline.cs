@@ -46,12 +46,12 @@
 
             //setup the pipeline
             var tasks = new List<IPipeTask<BulkContext>>();
-            tasks.Add(new PreUpdateFilterTrackingTask(tracking));
+            tasks.Add(new PreUpdateFilterTrackingMapTask(tracking));
             tasks.AddRange(_preProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
             tasks.Add(new BulkUpdateDataBaseTask(_database, _revisionAccessor));
             tasks.AddRange(_postProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new PostUpdateSesionTask(sessionCache));
-            tasks.Add(new PostUpdateTrackingTask(tracking));
+            tasks.Add(new PostUpdateSesionMapTask(sessionCache));
+            tasks.Add(new PostUpdateTrackingMapTask(tracking));
 
             var pipilineExecutor = tasks.CreatePipeline();
 
