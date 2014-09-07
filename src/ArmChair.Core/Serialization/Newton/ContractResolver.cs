@@ -44,6 +44,10 @@
             return temp;
         }
 
+        protected override IList<JsonProperty> CreateConstructorParameters(ConstructorInfo constructor, JsonPropertyCollection memberProperties)
+        {
+            return base.CreateConstructorParameters(constructor, memberProperties);
+        }
 
         protected override JsonContract CreateContract(Type objectType)
         {

@@ -8,7 +8,7 @@ namespace ArmChair.Tests.Domain
         private readonly IList<Contributor> _contributors = new List<Contributor>();
         private readonly IList<Edition> _editions = new List<Edition>();
 
-        protected Book()
+        public Book()
         {
 
         }
