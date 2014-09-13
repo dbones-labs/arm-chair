@@ -11,12 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Update
+namespace ArmChair.Processes.Commit
 {
     using IdManagement;
     using InSession;
 
-    public class BulkContext
+    public class CommitContext
     {
         public Key Key { get; set; }
         public object Entity { get; set; }

@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Update
+namespace ArmChair.Processes.Commit
 {
     using System;
     using System.Collections.Generic;
@@ -30,8 +30,8 @@ namespace ArmChair.Processes.Update
         private readonly IRevisionAccessor _revisionAccessor;
 
         //custom tasks
-        private readonly List<Func<CreateTaskContext, IPipeTask<BulkContext>>> _preProcessTasks = new List<Func<CreateTaskContext, IPipeTask<BulkContext>>>();
-        private readonly List<Func<CreateTaskContext, IPipeTask<BulkContext>>> _postProcessTasks = new List<Func<CreateTaskContext, IPipeTask<BulkContext>>>();
+        private readonly List<Func<CreateTaskContext, IPipeTask<CommitContext>>> _preProcessTasks = new List<Func<CreateTaskContext, IPipeTask<CommitContext>>>();
+        private readonly List<Func<CreateTaskContext, IPipeTask<CommitContext>>> _postProcessTasks = new List<Func<CreateTaskContext, IPipeTask<CommitContext>>>();
 
 
         public CommitPipeline(
@@ -44,12 +44,12 @@ namespace ArmChair.Processes.Update
             _revisionAccessor = revisionAccessor;
         }
 
-        public void RegisterPreProcessTask(Func<CreateTaskContext, IPipeTask<BulkContext>> createTask)
+        public void RegisterPreProcessTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _preProcessTasks.Add(createTask);
         }
 
-        public void RegisterPostLoadTask(Func<CreateTaskContext, IPipeTask<BulkContext>> createTask)
+        public void RegisterPostLoadTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _postProcessTasks.Add(createTask);
         }
@@ -59,20 +59,20 @@ namespace ArmChair.Processes.Update
             var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);
 
             //setup the pipeline
-            var tasks = new List<IPipeTask<BulkContext>>();
-            tasks.Add(new PreUpdateFilterTrackingMapTask(tracking));
+            var tasks = new List<IPipeTask<CommitContext>>();
+            tasks.Add(new PreCommitFilterTrackingTask(tracking));
             tasks.AddRange(_preProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new BulkUpdateDataBaseTask(_couchDb, _revisionAccessor));
+            tasks.Add(new CommitToDbTask(_couchDb, _revisionAccessor));
             tasks.AddRange(_postProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new PostUpdateSesionMapTask(sessionCache));
-            tasks.Add(new PostUpdateTrackingMapTask(tracking));
+            tasks.Add(new PostCommitSesionTask(sessionCache));
+            tasks.Add(new PostCommitTrackingTask(tracking));
 
             var pipilineExecutor = tasks.CreatePipeline();
 
             //setup the bulk update context
             var bulkContexts = sessionCache.Entries.Select(entry =>
             {
-                var bulkCtx = new BulkContext()
+                var bulkCtx = new CommitContext()
                 {
                     ActionType = entry.Action,
                     Entity = entry.Instance,

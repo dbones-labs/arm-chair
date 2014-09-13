@@ -15,10 +15,11 @@ namespace ArmChair
 {
     using System.Collections;
     using System.Collections.Generic;
+    using EntityManagement;
     using IdManagement;
     using InSession;
+    using Processes.Commit;
     using Processes.Load;
-    using Processes.Update;
     using Tracking;
 
     public class Session : ISession
@@ -120,6 +121,7 @@ namespace ArmChair
         public virtual void Commit()
         {
             _commitPipeline.Process(_sessionCache, _trackingProvider);
+            
         }
     }
 }

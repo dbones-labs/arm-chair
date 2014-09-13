@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Update
+namespace ArmChair.Processes.Commit
 {
     using System;
     using System.Collections.Generic;
@@ -21,18 +21,18 @@ namespace ArmChair.Processes.Update
     using InSession;
     using Tasks;
 
-    public class BulkUpdateDataBaseTask : IPipeTask<BulkContext>
+    public class CommitToDbTask : IPipeTask<CommitContext>
     {
         private readonly CouchDb _couchDb;
         private readonly IRevisionAccessor _revisionAccessor;
 
-        public BulkUpdateDataBaseTask(CouchDb couchDb, IRevisionAccessor revisionAccessor)
+        public CommitToDbTask(CouchDb couchDb, IRevisionAccessor revisionAccessor)
         {
             _couchDb = couchDb;
             _revisionAccessor = revisionAccessor;
         }
 
-        public IEnumerable<BulkContext> Execute(IEnumerable<BulkContext> items)
+        public IEnumerable<CommitContext> Execute(IEnumerable<CommitContext> items)
         {
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
 
