@@ -98,9 +98,9 @@
     <Compile Include="Processes\Load\PostSaveToSesionTask.cs" />
     <Compile Include="Processes\Load\PostTrackingTask.cs" />
     <Compile Include="Processes\Commit\PostCommitSesionTask.cs" />
-    <Compile Include="Processes\Commit\PostUpdateTrackingTask.cs" />
+    <Compile Include="Processes\Commit\PostCommitTrackingTask.cs" />
     <Compile Include="Processes\Load\PreLoadFromSessionTask.cs" />
-    <Compile Include="Processes\Commit\PreUpdateFilterTrackingTask.cs" />
+    <Compile Include="Processes\Commit\PreCommitFilterTrackingTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Newton\IHandler.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
