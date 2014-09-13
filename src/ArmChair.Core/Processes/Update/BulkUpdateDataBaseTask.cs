@@ -16,24 +16,19 @@ namespace ArmChair.Processes.Update
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.Remoting.Messaging;
     using Commands;
     using EntityManagement;
-    using IdManagement;
     using InSession;
-    using Serialization;
     using Tasks;
 
     public class BulkUpdateDataBaseTask : IPipeTask<BulkContext>
     {
-        private readonly Database _database;
-        private readonly IIdManager _idManager;
-        private readonly IIdAccessor _idAccessor;
+        private readonly CouchDb _couchDb;
         private readonly IRevisionAccessor _revisionAccessor;
 
-        public BulkUpdateDataBaseTask(Database database, IRevisionAccessor revisionAccessor)
+        public BulkUpdateDataBaseTask(CouchDb couchDb, IRevisionAccessor revisionAccessor)
         {
-            _database = database;
+            _couchDb = couchDb;
             _revisionAccessor = revisionAccessor;
         }
 
@@ -72,7 +67,7 @@ namespace ArmChair.Processes.Update
 
             var request = new BulkDocsRequest {Docs = docRequests};
 
-            var updates = _database.BulkApplyChanges(request);
+            var updates = _couchDb.BulkApplyChanges(request);
             //update any revisions!
             foreach (var update in updates)
             {

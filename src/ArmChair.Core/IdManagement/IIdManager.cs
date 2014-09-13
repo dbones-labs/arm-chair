@@ -15,10 +15,33 @@ using System;
 
 namespace ArmChair.IdManagement
 {
+    /// <summary>
+    /// Handles the Id strategies to be used for each type. NOTE this uses
+    /// a <see cref="Key"/> to manage Id's in this framework.
+    /// </summary>
     public interface IIdManager
     {
+        /// <summary>
+        /// New Key/Id for a type
+        /// </summary>
+        /// <param name="type">Type to generate an Id for</param>
+        /// <returns>ID Key</returns>
         Key GenerateId(Type type);
+
+        /// <summary>
+        /// Given the Type and ID value, this will return the valid Key
+        /// </summary>
+        /// <param name="type">the type</param>
+        /// <param name="id">value of the Id</param>
+        /// <returns>Key to use</returns>
         Key GetFromId(Type type, object id);
+
+        /// <summary>
+        /// Gets the key from the CoucbDb string value
+        /// </summary>
+        /// <param name="type">the type</param>
+        /// <param name="id">couchdb value</param>
+        /// <returns>Key to use</returns>
         Key GetFromCouchDbId(Type type, string id);
     }
 }

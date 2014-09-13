@@ -16,16 +16,6 @@ using ArmChair.IdManagement;
 
 namespace ArmChair.InSession
 {
-
-
-    public interface ISessionCache
-    {
-        void Attach(SessionEntry entry);
-        SessionEntry this[Key key] { get; }
-        void Remove(Key key);
-        IEnumerable<SessionEntry> Entries { get; }
-    }
-
     public class SessionCache : ISessionCache
     {
         private readonly IDictionary<Key, SessionEntry> _objectsInSession = new Dictionary<Key, SessionEntry>();
@@ -62,5 +52,10 @@ namespace ArmChair.InSession
         }
 
         public IEnumerable<SessionEntry> Entries { get { return _objectsInSession.Values; } }
+        
+        public void Clear()
+        {
+            _objectsInSession.Clear();
+        }
     }
 }

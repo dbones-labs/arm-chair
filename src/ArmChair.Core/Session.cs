@@ -23,26 +23,26 @@ namespace ArmChair
 
     public class Session : ISession
     {
-        private readonly ISessionCache _sessionCache;
         private readonly LoadPipeline _loadPipeline;
-        private readonly BulkPipeline _bulkPipeline;
+        private readonly CommitPipeline _commitPipeline;
         private readonly IIdManager _idManager;
-        private readonly IdAccessor _idAccessor;
+        private readonly IIdAccessor _idAccessor;
         private readonly ITrackingProvider _trackingProvider;
+        private readonly ISessionCache _sessionCache;
         //private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
         public Session(
             LoadPipeline loadPipeline,
-            BulkPipeline bulkPipeline,
+            CommitPipeline commitPipeline,
             IIdManager idManager,
-            IdAccessor idAccessor,
+            IIdAccessor idAccessor,
             ITrackingProvider trackingProvider,
             ISessionCache sessionCache
             )
         {
             _sessionCache = sessionCache;
             _loadPipeline = loadPipeline;
-            _bulkPipeline = bulkPipeline;
+            _commitPipeline = commitPipeline;
             _idManager = idManager;
             _idAccessor = idAccessor;
             _trackingProvider = trackingProvider;
@@ -50,7 +50,7 @@ namespace ArmChair
 
         public virtual void Dispose()
         {
-            //do nothing a the moment.
+            //do nothing for the moment.
         }
 
         public virtual void Add<T>(T instance) where T : class
@@ -119,7 +119,7 @@ namespace ArmChair
 
         public virtual void Commit()
         {
-            _bulkPipeline.Process(_sessionCache, _trackingProvider);
+            _commitPipeline.Process(_sessionCache, _trackingProvider);
         }
     }
 }

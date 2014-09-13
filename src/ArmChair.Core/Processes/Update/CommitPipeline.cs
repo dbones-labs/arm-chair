@@ -16,15 +16,16 @@ namespace ArmChair.Processes.Update
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Commands;
     using EntityManagement;
     using IdManagement;
     using InSession;
     using Tasks;
     using Tracking;
 
-    public class BulkPipeline
+    public class CommitPipeline
     {
-        private readonly Database _database;
+        private readonly CouchDb _couchDb;
         private readonly IIdManager _idManager;
         private readonly IRevisionAccessor _revisionAccessor;
 
@@ -33,12 +34,12 @@ namespace ArmChair.Processes.Update
         private readonly List<Func<CreateTaskContext, IPipeTask<BulkContext>>> _postProcessTasks = new List<Func<CreateTaskContext, IPipeTask<BulkContext>>>();
 
 
-        public BulkPipeline(
-            Database database,
+        public CommitPipeline(
+            CouchDb couchDb,
             IIdManager idManager,
             IRevisionAccessor revisionAccessor)
         {
-            _database = database;
+            _couchDb = couchDb;
             _idManager = idManager;
             _revisionAccessor = revisionAccessor;
         }
@@ -55,13 +56,13 @@ namespace ArmChair.Processes.Update
 
         public virtual void Process(ISessionCache sessionCache, ITrackingProvider tracking)
         {
-            var taskCtx = new CreateTaskContext(_database, _idManager, _revisionAccessor, sessionCache);
+            var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);
 
             //setup the pipeline
             var tasks = new List<IPipeTask<BulkContext>>();
             tasks.Add(new PreUpdateFilterTrackingMapTask(tracking));
             tasks.AddRange(_preProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new BulkUpdateDataBaseTask(_database, _revisionAccessor));
+            tasks.Add(new BulkUpdateDataBaseTask(_couchDb, _revisionAccessor));
             tasks.AddRange(_postProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
             tasks.Add(new PostUpdateSesionMapTask(sessionCache));
             tasks.Add(new PostUpdateTrackingMapTask(tracking));

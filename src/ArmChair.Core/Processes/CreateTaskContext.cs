@@ -13,13 +13,14 @@
 // limitations under the License.
 namespace ArmChair.Processes
 {
+    using Commands;
     using EntityManagement;
     using IdManagement;
     using InSession;
 
     public class CreateTaskContext
     {
-        public CreateTaskContext(Database database,
+        public CreateTaskContext(CouchDb couchDb,
             IIdManager idManager,
             IRevisionAccessor revisionAccessor,
             ISessionCache sessionCache)
@@ -27,10 +28,10 @@ namespace ArmChair.Processes
             SessionCache = sessionCache;
             RevisionAccessor = revisionAccessor;
             IdManager = idManager;
-            Database = database;
+            CouchDb = couchDb;
         }
 
-        public Database Database { get; private set; }
+        public CouchDb CouchDb { get; private set; }
         public IIdManager IdManager { get; private set; }
         public IRevisionAccessor RevisionAccessor { get; private set; }
         public ISessionCache SessionCache { get; private set; }

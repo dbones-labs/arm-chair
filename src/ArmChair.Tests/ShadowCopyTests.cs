@@ -11,18 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ArmChair.Castle;
-using ArmChair.Tests.Domain;
-using ArmChair.Utils.Copying;
-using NUnit.Framework;
-using ArmChair.Utils.Comparing;
-
 namespace ArmChair.Tests
 {
+    using System;
+    using Domain;
+    using Utils.Copying;
+    using NUnit.Framework;
+    using Utils.Comparing;
+
     public class CastleDocumentifyTests
     {
         [Test]

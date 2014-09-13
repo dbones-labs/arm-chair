@@ -17,6 +17,7 @@ namespace ArmChair.Processes.Load
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Commands;
     using EntityManagement;
     using IdManagement;
     using InSession;
@@ -25,9 +26,9 @@ namespace ArmChair.Processes.Load
 
     public class LoadPipeline
     {
-        private readonly Database _database;
+        private readonly CouchDb _couchDb;
         private readonly IIdManager _idManager;
-        private readonly IdAccessor _idAccessor;
+        private readonly IIdAccessor _idAccessor;
         private readonly IRevisionAccessor _revisionAccessor;
 
         //custom tasks
@@ -35,12 +36,12 @@ namespace ArmChair.Processes.Load
         private readonly List<Func<CreateTaskContext, IPipeTask<LoadContext>>> _postLoadTasks = new List<Func<CreateTaskContext, IPipeTask<LoadContext>>>();
 
 
-        public LoadPipeline(Database database,
+        public LoadPipeline(CouchDb couchDb,
             IIdManager idManager,
-            IdAccessor idAccessor,
+            IIdAccessor idAccessor,
             IRevisionAccessor revisionAccessor)
         {
-            _database = database;
+            _couchDb = couchDb;
             _idManager = idManager;
             _idAccessor = idAccessor;
             _revisionAccessor = revisionAccessor;
@@ -58,17 +59,17 @@ namespace ArmChair.Processes.Load
 
         public T LoadOne<T>(object id, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
         {
-            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseMapTask(_database)).FirstOrDefault();
+            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseMapTask(_couchDb)).FirstOrDefault();
         }
 
         public IEnumerable<T> LoadMany<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
         {
-            return Load<T>(ids, sessionCache, tracking, new LoadManyFromDataBaseTask(_database, _idManager, _idAccessor));
+            return Load<T>(ids, sessionCache, tracking, new LoadManyFromDataBaseTask(_couchDb, _idManager, _idAccessor));
         }
 
         protected virtual IEnumerable<T> Load<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking, IPipeTask<LoadContext> loadTask) where T : class
         {
-            var taskCtx = new CreateTaskContext(_database, _idManager, _revisionAccessor, sessionCache);
+            var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);
 
             //setup the pipeline
             var tasks = new List<IPipeTask<LoadContext>>();

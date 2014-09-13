@@ -13,9 +13,22 @@
 // limitations under the License.
 namespace ArmChair.IdManagement
 {
+    /// <summary>
+    /// Generate ID's to be used
+    /// </summary>
     public interface IIdentityGenerator
     {
+        /// <summary>
+        /// Generate a new ID Value
+        /// </summary>
+        /// <returns>ID value</returns>
         object GenerateId();
+
+        /// <summary>
+        /// confirm if a value is a valid ID
+        /// </summary>
+        /// <param name="value">value to check</param>
+        /// <returns>true if it is OK</returns>
         bool IsValidId(object value);
     }
 }

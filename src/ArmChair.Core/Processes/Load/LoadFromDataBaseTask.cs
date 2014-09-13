@@ -14,15 +14,16 @@
 namespace ArmChair.Processes.Load
 {
     using System.Collections.Generic;
+    using Commands;
     using Tasks;
 
     public class LoadFromDataBaseMapTask : PipeItemMapTask<LoadContext>
     {
-        private readonly Database _database;
+        private readonly CouchDb _couchDb;
 
-        public LoadFromDataBaseMapTask(Database database)
+        public LoadFromDataBaseMapTask(CouchDb couchDb)
         {
-            _database = database;
+            _couchDb = couchDb;
         }
 
         public override bool CanHandle(LoadContext item)
@@ -32,7 +33,7 @@ namespace ArmChair.Processes.Load
 
         public override IEnumerable<LoadContext> Execute(LoadContext item)
         {
-            var entity = _database.LoadEntity(item.Key.ToString());
+            var entity = _couchDb.LoadEntity(item.Key.ToString());
             item.Entity = entity;
             yield return item;
         }

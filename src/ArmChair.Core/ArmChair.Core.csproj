@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database.cs" />
     <Compile Include="EntityManagement\IRevisionAccessor.cs" />
+    <Compile Include="EntityManagement\RevisionAccessor.cs" />
+    <Compile Include="InSession\ISessionCache.cs" />
     <Compile Include="Processes\Update\BulkContext.cs" />
-    <Compile Include="Processes\Update\BulkPipeline.cs" />
+    <Compile Include="Processes\Update\CommitPipeline.cs" />
     <Compile Include="Processes\Update\BulkUpdateDataBaseTask.cs" />
     <Compile Include="Commands\AllDocsRequest.cs" />
     <Compile Include="Serialization\Newton\AllDocsRequestHandler.cs" />
@@ -61,7 +64,7 @@
     <Compile Include="Serialization\Newton\BulkDocsRequestHandler.cs" />
     <Compile Include="Serialization\Newton\ContractResolver.cs" />
     <Compile Include="Processes\CreateTaskContext.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="Commands\CouchDb.cs" />
     <Compile Include="Extenstions.cs" />
     <Compile Include="Http\BasicAuthentication.cs" />
     <Compile Include="Http\Connection.cs" />
@@ -76,8 +79,6 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestException.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="EntityManagement\EntityHandlerStrategy.cs" />
-    <Compile Include="EntityManagement\IEntityHandlerStrategy.cs" />
     <Compile Include="IdManagement\ShortGuidKey.cs" />
     <Compile Include="IdManagement\ShortGuidGenerator.cs" />
     <Compile Include="IdManagement\IdAccessor.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Serialization\Newton\Serializer.cs" />
     <Compile Include="Serialization\Newton\SerializerContext.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Tasks\PipeItemMapTask.cs" />
     <Compile Include="Tasks\PipilineExecutor.cs" />
     <Compile Include="Tasks\IPipeItemTask.cs" />

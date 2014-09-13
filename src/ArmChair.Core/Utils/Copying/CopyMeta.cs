@@ -24,7 +24,6 @@ namespace ArmChair.Utils.Copying
     {
         private readonly Type _source;
         private bool _compiled;
-        private bool _manuallySetCtor = false;
         private Func<object> _ctor;
         private readonly object _lock = new object();
         private readonly IList<ICopyToTarget> _copyActions = new List<ICopyToTarget>();

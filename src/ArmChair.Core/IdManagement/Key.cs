@@ -13,10 +13,22 @@
 // limitations under the License.
 namespace ArmChair.IdManagement
 {
+    /// <summary>
+    /// allows the unique handling of Ids.
+    /// it stores the Id value and the CouchDb value
+    /// </summary>
     public abstract class Key
     {
+        /// <summary>
+        /// the Id value
+        /// </summary>
         public abstract object Id { get; }
+
+        /// <summary>
+        /// couchdb value of the id
+        /// </summary>
         public abstract string CouchDbId { get; }
+
         public abstract override int GetHashCode();
 
         public override bool Equals(object obj)
@@ -30,7 +42,7 @@ namespace ArmChair.IdManagement
         }
 
         /// <summary>
-        /// The string value is used to save to the database.
+        /// The string value is used to save to the CouchDb.
         /// </summary>
         /// <returns>it should return a fully unique value.</returns>
         public abstract override string ToString();
