@@ -13,9 +13,19 @@
 // limitations under the License.
 namespace ArmChair.Utils.Copying
 {
+    /// <summary>
+    /// Copy values from the source to the target.
+    /// </summary>
     public interface ICopyToTarget
     {
+        /// <summary>
+        /// copy across all the vales from source to destination.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
         void Copy(object source, object destination);
+
+
         void Congfigure(ShadowCopier copier);
     }
 }

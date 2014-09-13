@@ -16,26 +16,29 @@ namespace ArmChair.Http
     using System;
     using System.Net;
 
+    /// <summary>
+    /// HTTP connection, which requests are excuted against.
+    /// </summary>
     public interface IConnection
     {
         /// <summary>
-        /// set the authentication to use for all request on this connection
+        /// set the authentication to use for all request on this connection.
         /// </summary>
         IAuthentication Authentication { get; set; }
 
         /// <summary>
-        /// set the proxy to use for this connection
+        /// set the proxy to use for this connection.
         /// </summary>
         /// <remarks>
-        /// setting it to null will make the connection faster
+        /// setting it to null will make the connection faster.
         /// </remarks>
         IWebProxy Proxy { get; set; }
 
         /// <summary>
-        /// Execute a command against this connection/endpoint
+        /// Execute a command against this connection/endpoint.
         /// </summary>
-        /// <param name="request">request to execute</param>
-        /// <param name="responseHandler"></param>
+        /// <param name="request">request to execute.</param>
+        /// <param name="responseHandler">handler of the response</param>
         void Execute(IRequest request, Action<IResponse> responseHandler);
     }
 }

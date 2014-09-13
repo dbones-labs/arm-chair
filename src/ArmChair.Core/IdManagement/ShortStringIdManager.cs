@@ -15,8 +15,6 @@ using System;
 
 namespace ArmChair.IdManagement
 {
-    using Utils;
-
     public class ShortStringIdManager : IIdManager
     {
         private readonly IIdentityGenerator _identityGenerator;

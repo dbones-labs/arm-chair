@@ -16,6 +16,7 @@ namespace ArmChair.Serialization.Newton
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.Serialization.Formatters;
     using System.Text;
     using EntityManagement;
     using IdManagement;
@@ -29,8 +30,18 @@ namespace ArmChair.Serialization.Newton
         private readonly IIdAccessor _idAccessor;
         private readonly IRevisionAccessor _revisionAccessor;
         private readonly JsonSerializer _jsonSerializer;
-        private readonly IDictionary<Type, IHandler> _serializationHandlers = new Dictionary<Type, IHandler>(); 
+        private readonly IDictionary<Type, IHandler> _serializationHandlers = new Dictionary<Type, IHandler>();
 
+
+        public Serializer(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) : this(new JsonSerializerSettings
+            {
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameHandling = TypeNameHandling.Objects,
+                ContractResolver = new ContractResolver()
+            }, idAccessor, revisionAccessor)
+        {
+            //please neaten me up.    
+        }
 
         public Serializer(JsonSerializerSettings settings, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
         {

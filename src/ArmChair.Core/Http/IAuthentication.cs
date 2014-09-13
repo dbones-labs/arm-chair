@@ -18,6 +18,10 @@ namespace ArmChair.Http
     /// </summary>
     public interface IAuthentication
     {
+        /// <summary>
+        /// Apply authentication to the request
+        /// </summary>
+        /// <param name="request">request to apply authentication to</param>
         void Apply(IRequest request);
     }
 }

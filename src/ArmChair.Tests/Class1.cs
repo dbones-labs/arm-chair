@@ -13,19 +13,9 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
-    using System.Runtime.Serialization.Formatters;
     using Domain;
-    using EntityManagement;
     using Http;
-    using IdManagement;
-    using InSession;
-    using Microsoft.Win32;
-    using Newtonsoft.Json;
     using NUnit.Framework;
-    using Processes.Load;
-    using Processes.Update;
-    using Serialization.Newton;
-    using Tracking.Shadowing;
 
     [TestFixture]
     class Class1
@@ -33,42 +23,35 @@ namespace ArmChair.Tests
         [Test]
         public void Test1()
         {
-            //externals
-            var settings = new JsonSerializerSettings
+            var db = new Database("test_db", new Connection("http://192.168.1.79:5984"));
+            using (var session = db.CreateSession())
             {
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                TypeNameHandling = TypeNameHandling.Objects,
-                ContractResolver = new ContractResolver()
-            };
+                //var p = new Person("dave");
+                //session.Add(p);
 
-            //global
-            var idAccessor = new IdAccessor();
-            var idManager = new ShortStringIdManager();
-            var revisionAccessor = new RevisionAccessor();
-            var serializer = new Serializer(settings, idAccessor, revisionAccessor);
+                //var book = new Book("title", p);
+                //session.Add(book);
 
-            var database = new Database("test_db", new Connection("http://192.168.1.79:5984"), serializer);
+                var p = session.GetById<Book>("fKvKrp9I5U-rz5VWKo314A");
 
-            var loadPipeline = new LoadPipeline(database, idManager, idAccessor, revisionAccessor);
-            var updatePipeline = new BulkPipeline(database, idManager, revisionAccessor);
 
-            //session level
-            var tracker = new ShadowTrackingProvider();
-            var sessionCache = new SessionCache();
+                //session.Commit();    
+            }
+            
+        }
 
-            var session = new Session(loadPipeline, updatePipeline, idManager, idAccessor, tracker, sessionCache);
 
-            //var p = new Person("dave");
-            //session.Add(p);
+        [Test]
+        public void Test2()
+        {
 
-            //var book = new Book("title", p);
-            //session.Add(book);
-
+            var db = new Database("test_db", new Connection("http://192.168.1.79:5984"));
+            var session = db.CreateSession();
             var p = session.GetById<Book>("fKvKrp9I5U-rz5VWKo314A");
 
 
-            //session.Commit();
         }
+
 
     }
 }
