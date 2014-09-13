@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Update
+namespace ArmChair.Processes.Commit
 {
     using System.Collections.Generic;
 
-    public class UpdatePayLoad
+    public class CommitPayLoad
     {
         public IEnumerable<object> Deletes { get; set; }
         public IEnumerable<object> Updates { get; set; }

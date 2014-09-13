@@ -16,6 +16,7 @@ namespace ArmChair.Processes.Load
     using System.Collections.Generic;
     using System.Linq;
     using Commands;
+    using EntityManagement;
     using IdManagement;
     using Tasks;
 

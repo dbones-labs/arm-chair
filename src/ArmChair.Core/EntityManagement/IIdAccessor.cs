@@ -11,13 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Linq.Expressions;
-using System.Reflection;
-using ArmChair.Utils;
 
-namespace ArmChair.IdManagement
+namespace ArmChair.EntityManagement
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using Utils;
+
     /// <summary>
     /// Store information about the Id field within each 
     /// instance to be stored in the database

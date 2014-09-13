@@ -11,38 +11,37 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Update
+namespace ArmChair.Processes.Commit
 {
     using System.Collections.Generic;
     using InSession;
     using Tasks;
+    using Tracking;
 
-    public class PostUpdateSesionMapTask : PipeItemMapTask<BulkContext>
+    public class PostCommitTrackingTask : PipeItemMapTask<CommitContext>
     {
-        private readonly ISessionCache _sessionCache;
+        private readonly ITrackingProvider _tracking;
 
-        public PostUpdateSesionMapTask(ISessionCache sessionCache)
+        public PostCommitTrackingTask(ITrackingProvider tracking)
         {
-            _sessionCache = sessionCache;
+            _tracking = tracking;
         }
 
-        public override bool CanHandle(BulkContext item)
+        public override bool CanHandle(CommitContext item)
         {
-            return item.ActionType != ActionType.Update;
+            return item.ActionType != ActionType.Delete;
         }
 
-        public override IEnumerable<BulkContext> Execute(BulkContext item)
+        public override IEnumerable<CommitContext> Execute(CommitContext item)
         {
-            if (item.ActionType == ActionType.Add)
+            if (item.TrackingRequiresReset)
             {
-                var entry = _sessionCache[item.Key];
-                entry.Action = ActionType.Update;
+                _tracking.Reset(item.Entity);
             }
             else
             {
-                _sessionCache.Remove(item.Key);
+                _tracking.TrackInstance(item.Entity);
             }
-
             yield return item;
         }
     }

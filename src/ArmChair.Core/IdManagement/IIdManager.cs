@@ -11,10 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-
 namespace ArmChair.IdManagement
 {
+    using System;
+
     /// <summary>
     /// Handles the Id strategies to be used for each type. NOTE this uses
     /// a <see cref="Key"/> to manage Id's in this framework.
