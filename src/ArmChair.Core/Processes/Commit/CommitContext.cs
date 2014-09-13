@@ -21,6 +21,6 @@ namespace ArmChair.Processes.Commit
         public Key Key { get; set; }
         public object Entity { get; set; }
         public ActionType ActionType { get; set; }
-        public bool TrackingRequiresReset { get; set; }
+        //public bool TrackingRequiresReset { get; set; }
     }
 }

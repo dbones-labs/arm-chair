@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair.Processes.Commit
 {
+    using System;
     using System.Collections.Generic;
     using InSession;
     using Tasks;
@@ -34,14 +35,21 @@ namespace ArmChair.Processes.Commit
 
         public override IEnumerable<CommitContext> Execute(CommitContext item)
         {
-            if (item.TrackingRequiresReset)
+            switch (item.ActionType)
             {
-                _tracking.Reset(item.Entity);
+                case ActionType.Add:
+                    _tracking.TrackInstance(item.Entity);
+                    break;
+                case ActionType.Update:
+                    _tracking.Reset(item.Entity);
+                    break;
+                case ActionType.Delete:
+                    _tracking.CeaseTracking(item.Entity);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else
-            {
-                _tracking.TrackInstance(item.Entity);
-            }
+
             yield return item;
         }
     }
