@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
+    <Compile Include="CastleDocumentifyTests.cs" />
+    <Compile Include="LoadingTests.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="SavingTests.cs" />
     <Compile Include="ShadowCopyTests.cs" />

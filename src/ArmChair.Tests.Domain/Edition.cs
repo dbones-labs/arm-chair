@@ -11,25 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-
 namespace ArmChair.Tests.Domain
 {
+    using System;
+
     public class Edition
     {
+        protected Edition() { }
 
         public Edition(string name, EditionType editionType)
         {
             Name = name;
             Type = editionType;
-
         }
-
-        protected Edition()
-        {
-
-        }
-
+        
         public virtual DateTime ReleaseDate { get; set; }
         public virtual string Name { get; private set; }
         public virtual EditionType Type { get; private set; }

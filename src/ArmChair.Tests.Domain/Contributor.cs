@@ -15,10 +15,7 @@ namespace ArmChair.Tests.Domain
 {
     public class Contributor
     {
-        protected Contributor()
-        {
-
-        }
+        protected Contributor() { }
 
         public Contributor(string id, string name, ContributorType contribution)
         {
