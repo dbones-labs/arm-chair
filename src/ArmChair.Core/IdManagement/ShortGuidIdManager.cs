@@ -15,11 +15,11 @@ namespace ArmChair.IdManagement
 {
     using System;
 
-    public class ShortStringIdManager : IIdManager
+    public class ShortGuidIdManager : IIdManager
     {
         private readonly IIdentityGenerator _identityGenerator;
 
-        public ShortStringIdManager()
+        public ShortGuidIdManager()
         {
             _identityGenerator = new ShortGuidGenerator();
         }

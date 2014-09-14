@@ -33,7 +33,10 @@ namespace ArmChair.Processes.Load
 
         public override IEnumerable<LoadContext> Execute(LoadContext item)
         {
-            _tracking.TrackInstance(item.Entity);
+            if (item.Entity != null)
+            {
+                _tracking.TrackInstance(item.Entity);    
+            }
             yield return item;
         }
     }

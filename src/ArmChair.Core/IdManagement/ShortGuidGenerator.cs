@@ -19,7 +19,7 @@ namespace ArmChair.IdManagement
     {
         public object GenerateId()
         {
-            return ShortGuid.NewGuid().ToString();
+            return "1"+ShortGuid.NewGuid();
         }
 
         public bool IsValidId(object value)

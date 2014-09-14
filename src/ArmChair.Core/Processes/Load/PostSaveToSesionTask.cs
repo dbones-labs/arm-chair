@@ -33,14 +33,18 @@ namespace ArmChair.Processes.Load
 
         public override IEnumerable<LoadContext> Execute(LoadContext item)
         {
-            var sessionEntry = new SessionEntry()
+            if (item .Entity != null)
             {
-                Action = ActionType.Update,
-                Instance = item.Entity,
-                Key = item.Key
-            };
-
-            _sessionCache.Attach(sessionEntry);
+                var sessionEntry = new SessionEntry()
+                {
+                    Action = ActionType.Update,
+                    Instance = item.Entity,
+                    Key = item.Key
+                };
+            
+                _sessionCache.Attach(sessionEntry);    
+            }
+            
             yield return item;
         }
     }

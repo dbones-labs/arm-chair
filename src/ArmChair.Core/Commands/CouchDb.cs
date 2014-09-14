@@ -14,6 +14,7 @@
 namespace ArmChair.Commands
 {
     using System.Collections.Generic;
+    using System.Net;
     using Http;
     using Serialization;
 
@@ -57,8 +58,16 @@ namespace ArmChair.Commands
 
             _connection.Execute(request, response =>
             {
-                var content = response.Content.ReadToEnd();
-                entity = _serializer.Deserialize<object>(content);//would like a betterway
+                if (response.Status == HttpStatusCode.NotFound)
+                {
+                    entity = null;
+                }
+                else
+                {
+                    var content = response.Content.ReadToEnd();
+                    entity = _serializer.Deserialize<object>(content);//would like a betterway    
+                }
+                
             });
             return entity;
         }

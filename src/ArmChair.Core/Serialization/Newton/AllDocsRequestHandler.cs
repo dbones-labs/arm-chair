@@ -27,7 +27,7 @@ namespace ArmChair.Serialization.Newton
             var keys = serializer.Serialize(request.Keys);
 
             var jObject = new JObject();
-            jObject.Add("keys", keys);
+            jObject.Add("keys", JArray.Parse(keys));
 
             context.Json = jObject.ToString(Formatting.None);
         }

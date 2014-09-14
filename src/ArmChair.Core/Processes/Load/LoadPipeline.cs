@@ -95,7 +95,7 @@ namespace ArmChair.Processes.Load
 
 
             var results = pipilineExecutor.Execute(loadContexts);
-            return results.Select(x => x.Entity).Cast<T>();
+            return results.Select(x => x.Entity).Where(x => x != null).Cast<T>();
         }
     }
 }

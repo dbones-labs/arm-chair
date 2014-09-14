@@ -15,7 +15,9 @@ namespace ArmChair.Http
 {
     public enum HttpVerbType
     {
+        Delete,
         Post,
+        Put,
         Get
     }
 }

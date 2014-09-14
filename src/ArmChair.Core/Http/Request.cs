@@ -48,7 +48,7 @@ namespace ArmChair.Http
             request.AutomaticDecompression =
                 DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.None;
 
-            if (_httpVerb != HttpVerbType.Get)
+            if (!(_httpVerb == HttpVerbType.Get || _writeContent == null))
             {
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
@@ -57,24 +57,31 @@ namespace ArmChair.Http
                 }
             }
 
-
-            using (var httpResponse = (HttpWebResponse)request.GetResponse())
+            try
             {
-                var stream = httpResponse.GetResponseStream();
-
-                if (stream == null)
+                using (var httpResponse = (HttpWebResponse)request.GetResponse())
                 {
-                    var response = new Response(httpResponse);
-                    handleRequest(response);
-                }
-                else
-                {
-                    using (var contentReader = new StreamReader(stream))
+                    Stream stream = httpResponse.GetResponseStream();
+                    if (stream == null)
                     {
-                        var response = new Response(httpResponse, contentReader);
+                        var response = new Response(httpResponse);
                         handleRequest(response);
                     }
+                    else
+                    {
+                        using (var contentReader = new StreamReader(stream))
+                        {
+                            var response = new Response(httpResponse, contentReader);
+                            handleRequest(response);
+                        }
+                    }
                 }
+            }
+            catch (WebException we)
+            {
+                var httpResponse = we.Response as HttpWebResponse;
+                var response = new Response(httpResponse);
+                handleRequest(response);
             }
         }
 
@@ -141,7 +148,7 @@ namespace ArmChair.Http
             }
         }
 
-        protected void SetContentType(HttpContentType contentType)
+        public void SetContentType(HttpContentType contentType)
         {
             string value;
             switch (contentType)
@@ -164,8 +171,14 @@ namespace ArmChair.Http
             string value;
             switch (verbType)
             {
+                case HttpVerbType.Delete:
+                    value = "DELETE";
+                    break;
                 case HttpVerbType.Post:
                     value = "POST";
+                    break;
+                case HttpVerbType.Put:
+                    value = "PUT";
                     break;
                 case HttpVerbType.Get:
                     value = "GET";
