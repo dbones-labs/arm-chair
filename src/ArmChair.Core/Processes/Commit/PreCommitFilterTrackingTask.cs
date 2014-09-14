@@ -35,7 +35,7 @@ namespace ArmChair.Processes.Commit
         public override IEnumerable<CommitContext> Execute(CommitContext item)
         {
             //filter out update items which have no changes.
-            if (_tracking.HasChanges(item))
+            if (_tracking.HasChanges(item.Entity))
             {
                 yield return item;
             }

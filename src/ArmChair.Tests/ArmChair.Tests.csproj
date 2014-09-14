@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachingTests.cs" />
     <Compile Include="BasicTests.cs" />
     <Compile Include="CastleDocumentifyTests.cs" />
+    <Compile Include="DeletingTests.cs" />
     <Compile Include="LoadingTests.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="SavingTests.cs" />

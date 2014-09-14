@@ -41,9 +41,5 @@ namespace ArmChair.Tests
                 Assert.IsFalse(people.Any());
             }
         }
-
-
-
-        
     }
 }

@@ -21,10 +21,7 @@ namespace ArmChair.Tests.Domain
         private readonly IList<Contributor> _contributors = new List<Contributor>();
         private readonly IList<Edition> _editions = new List<Edition>();
 
-        public Book()
-        {
-
-        }
+        public Book() { }
 
         public Book(string title, Person author)
         {
@@ -48,7 +45,6 @@ namespace ArmChair.Tests.Domain
             }
             _editions.Add(edition);
         }
-
 
         public virtual string Title { get; private set; }
         public virtual IEnumerable<Contributor> Contributors { get { return _contributors; } }

@@ -17,12 +17,15 @@ namespace ArmChair.Tests.Domain
 
     public class Edition
     {
+        protected int _hash;
+
         protected Edition() { }
 
         public Edition(string name, EditionType editionType)
         {
             Name = name;
             Type = editionType;
+            _hash = Name.GetHashCode() + Type.GetHashCode();
         }
         
         public virtual DateTime ReleaseDate { get; set; }
@@ -42,7 +45,7 @@ namespace ArmChair.Tests.Domain
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode() + Type.GetHashCode(); ;
+            return _hash;
         }
     }
 }

@@ -52,7 +52,6 @@ namespace ArmChair.Processes.Commit
                     case ActionType.Add:
                         break;
                     case ActionType.Update:
-                        entityUpdates.Add(bulkContext.Key.ToString(), bulkContext.Entity);
                         break;
                     case ActionType.Delete:
                         entry.Rev = (string)_revisionAccessor.GetRevision(bulkContext.Entity);

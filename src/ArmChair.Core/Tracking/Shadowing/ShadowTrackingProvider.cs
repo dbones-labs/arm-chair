@@ -50,8 +50,13 @@ namespace ArmChair.Tracking.Shadowing
         public bool HasChanges(object instance)
         {
             TrackingEntry entry;
-            return _trackedEntries.TryGetValue(instance, out entry)
-                && _comparer.AreEqual(instance, entry.ShadowCopy);
+            if(_trackedEntries.TryGetValue(instance, out entry))
+            {
+                var hasChanges = !_comparer.AreEqual(instance, entry.ShadowCopy);
+                return hasChanges;
+            }
+
+            return false;
         }
 
         public void CeaseTracking(object instance)
