@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>Boxes.Core</id>
+        <id>ArmChair.Core</id>
         <version>0.0.0</version>
-        <title>Boxes Core</title>
-        <authors>Boxes Contrib Team</authors>
+        <title>ArmChair Core</title>
+        <authors>ArmChair Contrib Team</authors>
         <owners>dbones.co.uk</owners>
-		<iconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/boxes/logo/boxeslogo.jpg</iconUrl>
+		<iconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/armchair/armChair128.png</iconUrl>
         <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
-        <projectUrl>https://github.com/boxes-project</projectUrl>
+        <projectUrl>http://docs.dbones.co.uk/armchair.MainPage.ashx</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Boxes is a package discovery and isolation framework for building compositional applications using the .NET Framework.</description>
-        <summary>Boxes is a package discovery and isolation framework for building compositional applications using the .NET Framework.</summary>
-        <copyright>Copyright 2012 - 2013 dbones.co.uk</copyright>
-        <language>es-US</language>
-        <tags>Composition Plugin Module Modular Package Bundle Isolated</tags>
+        <description>ArmChair is a .NET Client for CouchDB</description>
+        <summary>ArmChair is a .NET Client for CouchDB</summary>
+        <copyright>Copyright 2013 - 2014 dbones.co.uk</copyright>
+        <language>en-US</language>
+        <tags>UOW CouchDB Document Database Client</tags>
     </metadata>
     <files>
         <file src="src\Boxes.Core\bin\Release\Boxes.Core.dll" target="lib\net40" />

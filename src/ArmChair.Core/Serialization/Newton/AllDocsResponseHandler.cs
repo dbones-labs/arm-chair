@@ -24,9 +24,14 @@ namespace ArmChair.Serialization.Newton
         public Type HandlesType { get { return typeof(AllDocsResponse); } }
         public void Handle(SerializerContext context, Serializer serializer)
         {
-            
             var jsonContent = JObject.Parse(context.Json);
-            var docs = jsonContent["rows"].Select(row => row["doc"]).Cast<JObject>().ToList();
+            
+            var docs = jsonContent["rows"]
+                .Select(row => row["doc"])
+                .Where(x=> x != null)
+                .Cast<JObject>()
+                .ToList();
+            
             var entities = docs.Select(serializer.DeserializeFromJson).ToList();
             IEnumerable<AllDocsRowResponse> rows = entities.Select(x => new AllDocsRowResponse()
             {

@@ -28,7 +28,7 @@ namespace ArmChair
         {
             //global
             IdAccessor = new IdAccessor();
-            IdManager = new ShortStringIdManager();
+            IdManager = new ShortGuidIdManager();
             RevisionAccessor = new RevisionAccessor();
             Serializer = new Serializer(IdAccessor, RevisionAccessor);
 

@@ -88,7 +88,7 @@
     <Compile Include="IdManagement\IIdentityGenerator.cs" />
     <Compile Include="IdManagement\IIdManager.cs" />
     <Compile Include="IdManagement\Key.cs" />
-    <Compile Include="IdManagement\ShortStringIdManager.cs" />
+    <Compile Include="IdManagement\ShortGuidIdManager.cs" />
     <Compile Include="InSession\ActionType.cs" />
     <Compile Include="InSession\SessionCache.cs" />
     <Compile Include="InSession\SessionEntry.cs" />
