@@ -28,7 +28,7 @@ namespace ArmChair
         private readonly CommitPipeline _commitPipeline;
         private readonly IIdManager _idManager;
         private readonly IIdAccessor _idAccessor;
-        private readonly ITrackingProvider _trackingProvider;
+        private readonly ITrackingProvider _tracking;
         private readonly ISessionCache _sessionCache;
         //private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
@@ -37,7 +37,7 @@ namespace ArmChair
             CommitPipeline commitPipeline,
             IIdManager idManager,
             IIdAccessor idAccessor,
-            ITrackingProvider trackingProvider,
+            ITrackingProvider tracking,
             ISessionCache sessionCache
             )
         {
@@ -46,7 +46,7 @@ namespace ArmChair
             _commitPipeline = commitPipeline;
             _idManager = idManager;
             _idAccessor = idAccessor;
-            _trackingProvider = trackingProvider;
+            _tracking = tracking;
         }
 
         public virtual void Dispose()
@@ -85,10 +85,11 @@ namespace ArmChair
             var entry = new SessionEntry()
             {
                 Action = ActionType.Update,
-                Instance = instance,
+                Instance = _tracking.TrackInstance(instance),
                 Key = key
             };
 
+            
             _sessionCache.Attach(entry);
         }
 
@@ -108,19 +109,19 @@ namespace ArmChair
 
         public virtual IEnumerable<T> GetByIds<T>(IEnumerable ids) where T : class
         {
-            var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _trackingProvider);
+            var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _tracking);
             return results;
         }
 
         public virtual T GetById<T>(object id) where T : class
         {
-            var result = _loadPipeline.LoadOne<T>(id, _sessionCache, _trackingProvider);
+            var result = _loadPipeline.LoadOne<T>(id, _sessionCache, _tracking);
             return result;
         }
 
         public virtual void Commit()
         {
-            _commitPipeline.Process(_sessionCache, _trackingProvider);
+            _commitPipeline.Process(_sessionCache, _tracking);
             
         }
     }
