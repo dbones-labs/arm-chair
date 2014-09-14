@@ -15,14 +15,11 @@ namespace ArmChair.Tests.Domain
 {
     public class Person : EntityRoot
     {
+        protected Person() { }
+
         public Person(string name)
         {
             Name = name;
-        }
-
-        protected Person()
-        {
-
         }
 
         public virtual string Name { get; set; }

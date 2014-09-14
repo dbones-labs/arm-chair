@@ -13,32 +13,37 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Domain;
     using NUnit.Framework;
 
-    public class BasicTests: TestCase
+    public class LoadingTests : TestCase
     {
         [Test]
-        public void Save_into_database()
+        public void Try_load_object_which_does_not_exist()
         {
-            string authorId;
-
             using (var session = Database.CreateSession())
             {
-                var author = new Person("dave");
-                session.Add(author);
-
-                authorId = author.Id;
-
-                session.Commit();    
-            }
-
-            using (var session = Database.CreateSession())
-            {
-                var author = session.GetById<Person>(authorId);
-
-                Assert.AreEqual(author.Name, "dave");
+                var person = session.GetById<Person>("123");
+                Assert.IsNull(person);
             }
         }
+
+
+        [Test]
+        public void Try_load_objects_which_does_not_exist()
+        {
+            using (var session = Database.CreateSession())
+            {
+                var ids = new List<string> {"123", "12323123"};
+                var people = session.GetByIds<Person>(ids);
+                Assert.IsFalse(people.Any());
+            }
+        }
+
+
+
+        
     }
 }

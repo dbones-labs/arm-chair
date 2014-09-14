@@ -24,7 +24,7 @@ namespace ArmChair.Tests
         protected Database Database;
         protected string DbName = "auto_testing";
         protected string DbLocation = "http://192.168.1.79:5984";
-        protected WebProxy Proxy = true ? new WebProxy("127.0.0.1", 8888) : null;
+        protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8888) : null;
 
 
         public virtual Database CreateDatabase()

@@ -19,50 +19,6 @@ namespace ArmChair.Tests
     using NUnit.Framework;
     using Utils.Comparing;
 
-    public class CastleDocumentifyTests
-    {
-        [Test]
-        public void SimpleCopy()
-        {
-            //var p = new Person("Dave") { Id = 1337 };
-            //var sut = new Documentify();
-
-            //var result = sut.AggregateRoot(p);
-            //var document = (IDocument) result;
-            //document.CouchDbId = "123";
-            //document.CouchDbVersion = "1";
-
-            //Assert.IsTrue(result is IDocument);
-            //Assert.IsTrue(result is Person);
-            //Assert.AreEqual(document.CouchDbId, "123");
-            //Assert.AreEqual(document.CouchDbVersion, "1");
-
-        }
-
-
-        [Test]
-        public void LittleMoreComplexCopy()
-        {
-            //var p = new Person("Dave") { Id = 1337 };
-            //var p2 = new Person("Ben") { Id = 1332 };
-            //var b = new Book("This is a test", p);
-            //b.AddEdition(new Edition("10th year limited Edition", EditionType.HardBack) { ReleaseDate = DateTime.Now });
-            //b.AddContributor(p2, ContributorType.Editor);
-            //var sut = new Documentify();
-
-            //var result = sut.AggregateRoot(b);
-            //var document = (IDocument)result;
-            //document.CouchDbId = "123";
-            //document.CouchDbVersion = "1";
-
-            //Assert.IsTrue(result is IDocument);
-            //Assert.IsTrue(result is Book);
-            //Assert.AreEqual(document.CouchDbId, "123");
-            //Assert.AreEqual(document.CouchDbVersion, "1");
-            
-        }
-    }
-
 
     [TestFixture]
     public class ShadowCopyTests
