@@ -1,4 +1,4 @@
-#ArmChair.Core - Out of the box development
+#ArmChair.Core
 =======
 
 CouchDB + .NET + Unit-Of-Work = ArmChair.
