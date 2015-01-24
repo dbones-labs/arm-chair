@@ -11,13 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Threading;
-
 namespace ArmChair.Utils
 {
+    using System;
+    using System.Threading;
+
+    /// <summary>
+    /// extensions
+    /// </summary>
     public static class ReaderWriterLockSlimExtensions
     {
+        /// <summary>
+        /// apply an action within this lock
+        /// </summary>
+        /// <param name="lock">the lock to use</param>
+        /// <param name="action">the action to perform</param>
         public static void ReaderLock(this ReaderWriterLockSlim @lock, Action action)
         {
             @lock.EnterReadLock();
@@ -31,6 +39,11 @@ namespace ArmChair.Utils
             }
         }
 
+        /// <summary>
+        /// apply an action within this lock
+        /// </summary>
+        /// <param name="lock">the lock to use</param>
+        /// <param name="action">the action to perform</param>
         public static void WriterLock(this ReaderWriterLockSlim @lock, Action action)
         {
             @lock.EnterWriteLock();

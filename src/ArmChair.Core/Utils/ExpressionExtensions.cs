@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System.Linq.Expressions;
-using System.Reflection;
-
 namespace ArmChair.Utils
 {
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     public static class ExpressionExtensions
     {
         public static CallGet CreateFieldGet(this FieldInfo field)

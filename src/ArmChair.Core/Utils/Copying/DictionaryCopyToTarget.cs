@@ -11,15 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Collections;
-
 namespace ArmChair.Utils.Copying
 {
+    using System;
+    using System.Collections;
+
+    /// <summary>
+    /// handle to copy of a dictionary
+    /// </summary>
     public class DictionaryCopyToTarget : CopyToTarget
     {
         private readonly Func<object, object> _getKeyValue;
         private readonly Func<object, object> _getValue;
+
         public DictionaryCopyToTarget(Type type)
         {
             var genericArguments = type.GetGenericArguments();
@@ -30,7 +34,6 @@ namespace ArmChair.Utils.Copying
             _getValue = genericArguments[1].IsValueType
                 ? (Func<object, object>)(source => source)
                 : (Func<object, object>)(source => Copier.Copy(source));
-
         }
 
         public override void Copy(object source, object destination)

@@ -34,14 +34,14 @@ namespace ArmChair.Http
             }
         }
 
-        public override void Execute(string baseUrl, Action<Response> handleRequest, IWebProxy proxy = null)
+        public override void Execute(string baseUrl, Action<Response> handleResonse, IWebProxy proxy = null)
         {
             if (_formParams.Any())
             {
                 _writeContent = writer => writer.Write(string.Join("&", _formParams));
             }
 
-            base.Execute(baseUrl, handleRequest, proxy);
+            base.Execute(baseUrl, handleResonse, proxy);
         }
 
         public override void AddContent(Action<StreamWriter> writeConent, HttpContentType contentType)

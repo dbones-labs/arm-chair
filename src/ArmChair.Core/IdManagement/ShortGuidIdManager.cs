@@ -15,6 +15,10 @@ namespace ArmChair.IdManagement
 {
     using System;
 
+
+    /// <summary>
+    /// uses the Short Guid as the ID for entities
+    /// </summary>
     public class ShortGuidIdManager : IIdManager
     {
         private readonly IIdentityGenerator _identityGenerator;

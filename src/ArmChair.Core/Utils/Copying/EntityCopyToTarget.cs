@@ -11,10 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-
 namespace ArmChair.Utils.Copying
 {
+    using System;
+
+    /// <summary>
+    /// copy an entity
+    /// </summary>
     public class EntityCopyToTarget : CopyToTarget
     {
         private readonly FieldMeta _field;

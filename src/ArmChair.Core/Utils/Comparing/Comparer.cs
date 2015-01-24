@@ -11,13 +11,22 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System.Collections;
-using System.Linq;
-
 namespace ArmChair.Utils.Comparing
 {
+    using System.Collections;
+    using System.Linq;
+
+    /// <summary>
+    /// compaires 2 instances
+    /// </summary>
     public class Comparer
     {
+        /// <summary>
+        /// establish is 2 instances are equal (this does not mean they are the same instance)
+        /// </summary>
+        /// <param name="left">instance to comapare</param>
+        /// <param name="right">instance to comapare</param>
+        /// <returns>true is they are equal</returns>
         public virtual bool AreEqual(object left, object right)
         {
             if (left == null && right == null) return true;

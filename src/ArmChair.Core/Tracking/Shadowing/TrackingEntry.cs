@@ -11,8 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Tracking
+namespace ArmChair.Tracking.Shadowing
 {
+    /// <summary>
+    /// the tracking entry references both the copy and the actual instance
+    /// </summary>
     public class TrackingEntry
     {
         public object Instance { get; set; }

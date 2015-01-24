@@ -16,6 +16,9 @@ using System.Collections.Generic;
 
 namespace ArmChair.Utils.Copying
 {
+    /// <summary>
+    /// this is an implementation of a shawdow copy
+    /// </summary>
     public class ShadowCopier
     {
         readonly IDictionary<Type, CopyMeta> _copyMetas = new Dictionary<Type, CopyMeta>();
