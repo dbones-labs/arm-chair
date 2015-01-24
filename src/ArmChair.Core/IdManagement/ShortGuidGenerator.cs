@@ -15,6 +15,9 @@ namespace ArmChair.IdManagement
 {
     using Utils;
 
+    /// <summary>
+    /// Short Guid Generator
+    /// </summary>
     public class ShortGuidGenerator : IIdentityGenerator
     {
         public object GenerateId()

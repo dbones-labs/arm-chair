@@ -1,25 +1,13 @@
-﻿// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
-//  
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-using System;
-
-namespace ArmChair.Utils
+﻿namespace ArmChair.Utils
 {
+    using System;
+
     /// <summary>
     /// Represents a globally unique identifier (GUID) with a 
     /// shorter string value. Sguid
     /// </summary>
     /// <remarks>
+    /// this struct was made avaliable from:
     /// http://www.singular.co.nz/blog/archive/2007/12/20/shortguid-a-shorter-and-url-friendly-guid-in-c-sharp.aspx
     /// </remarks>
     public struct ShortGuid

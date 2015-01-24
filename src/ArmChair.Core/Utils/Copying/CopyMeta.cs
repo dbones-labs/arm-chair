@@ -11,15 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
 namespace ArmChair.Utils.Copying
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// stores infomation about copying
+    /// </summary>
     public class CopyMeta
     {
         private readonly Type _source;
@@ -29,16 +29,27 @@ namespace ArmChair.Utils.Copying
         private readonly IList<ICopyToTarget> _copyActions = new List<ICopyToTarget>();
         private ShadowCopier _copier;
 
+        /// <summary>
+        /// create a copy meta for this type
+        /// </summary>
+        /// <param name="source">the source type</param>
         public CopyMeta(Type source)
         {
             _source = source;
         }
 
+        /// <summary>
+        /// configure this copymeta with the main copier which will run the overall process
+        /// </summary>
+        /// <param name="copier"></param>
         public virtual void Congfigure(ShadowCopier copier)
         {
             _copier = copier;
         }
 
+        /// <summary>
+        /// compiles the copy over to use with each field, so when we do copy it will just run though this compiled list.
+        /// </summary>
         public virtual void Compile()
         {
             lock (_lock)
@@ -83,12 +94,22 @@ namespace ArmChair.Utils.Copying
             }
         }
 
+        /// <summary>
+        /// add a copy strategy to be ran against this type
+        /// </summary>
+        /// <param name="copyToTarget"></param>
         private void AddTargetToCopy(ICopyToTarget copyToTarget)
         {
             copyToTarget.Congfigure(_copier);
             _copyActions.Add(copyToTarget);
         }
 
+        /// <summary>
+        /// copy over the values from src to dest
+        /// </summary>
+        /// <param name="source">the src</param>
+        /// <param name="destination">can be null, will newup a new instance</param>
+        /// <returns>the destination</returns>
         public object Copy(object source, object destination = null)
         {
             if (!_compiled) Compile();

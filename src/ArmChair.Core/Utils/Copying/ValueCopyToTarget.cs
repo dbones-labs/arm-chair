@@ -13,6 +13,9 @@
 // limitations under the License.
 namespace ArmChair.Utils.Copying
 {
+    /// <summary>
+    /// copy over a value
+    /// </summary>
     public class ValueCopyToTarget : CopyToTarget
     {
         private readonly FieldMeta _field;

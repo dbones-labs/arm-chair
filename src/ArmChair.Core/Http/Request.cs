@@ -37,7 +37,7 @@ namespace ArmChair.Http
 
         public virtual IWebProxy Proxy { get; set; }
 
-        public virtual void Execute(string baseUrl, Action<Response> handleRequest, IWebProxy proxy = null)
+        public virtual void Execute(string baseUrl, Action<Response> handleResonse, IWebProxy proxy = null)
         {
             string url = CreateUrl(baseUrl);
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -65,14 +65,14 @@ namespace ArmChair.Http
                     if (stream == null)
                     {
                         var response = new Response(httpResponse);
-                        handleRequest(response);
+                        handleResonse(response);
                     }
                     else
                     {
                         using (var contentReader = new StreamReader(stream))
                         {
                             var response = new Response(httpResponse, contentReader);
-                            handleRequest(response);
+                            handleResonse(response);
                         }
                     }
                 }
@@ -81,7 +81,7 @@ namespace ArmChair.Http
             {
                 var httpResponse = we.Response as HttpWebResponse;
                 var response = new Response(httpResponse);
-                handleRequest(response);
+                handleResonse(response);
             }
         }
 

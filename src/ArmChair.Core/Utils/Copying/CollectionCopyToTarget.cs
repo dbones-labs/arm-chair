@@ -11,14 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Collections;
-
 namespace ArmChair.Utils.Copying
 {
+    using System;
+    using System.Collections;
+
+    /// <summary>
+    /// copy over a collection
+    /// </summary>
     public class CollectionCopyToTarget : CopyToTarget
     {
         private readonly Func<object, object> _getValue;
+
         public CollectionCopyToTarget(Type type)
         {
             var genericArguments = type.GetGenericArguments();

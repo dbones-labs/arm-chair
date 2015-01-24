@@ -13,6 +13,10 @@
 // limitations under the License.
 namespace ArmChair.IdManagement
 {
+
+    /// <summary>
+    /// Short Guid as a Key (ID) ready to be used with entities
+    /// </summary>
     public class ShortGuidKey : Key
     {
         private readonly string _id;

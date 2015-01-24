@@ -13,11 +13,35 @@
 // limitations under the License.
 namespace ArmChair.Tracking
 {
+    /// <summary>
+    /// tracks instances to see if they have been modified
+    /// </summary>
     public interface ITrackingProvider
     {
+        /// <summary>
+        /// add instance to be tracked
+        /// </summary>
+        /// <param name="instance">instance to be tracked</param>
+        /// <returns>returns the tracked instance, use this reference to the instance</returns>
         object TrackInstance(object instance);
+
+        /// <summary>
+        /// reset an instance, it will take these values as being the baseline
+        /// </summary>
+        /// <param name="instance">the instance to use as a baseline</param>
         void Reset(object instance);
+        
+        /// <summary>
+        /// see if there are any chanes to a tracked instance
+        /// </summary>
+        /// <param name="instance">the current instance, to check against</param>
+        /// <returns>true if there have been any changes since it was registed for tracking</returns>
         bool HasChanges(object instance);
+        
+        /// <summary>
+        /// stop tracking an instance, do this to free up memory
+        /// </summary>
+        /// <param name="instance">instance which we do not want to track anymore</param>
         void CeaseTracking(object instance);
     }
 }

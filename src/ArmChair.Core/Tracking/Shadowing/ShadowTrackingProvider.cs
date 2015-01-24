@@ -17,6 +17,9 @@ namespace ArmChair.Tracking.Shadowing
     using Utils.Comparing;
     using Utils.Copying;
 
+    /// <summary>
+    /// tracks for dirty instances, by taking a copy of the instance as a baseline, and then comparing the actual instance with copy to see if there was a change.
+    /// </summary>
     public class ShadowTrackingProvider : ITrackingProvider
     {
         readonly IDictionary<object, TrackingEntry> _trackedEntries = new Dictionary<object, TrackingEntry>();
