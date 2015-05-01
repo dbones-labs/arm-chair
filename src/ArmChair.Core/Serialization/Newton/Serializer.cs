@@ -19,7 +19,6 @@ namespace ArmChair.Serialization.Newton
     using System.Runtime.Serialization.Formatters;
     using System.Text;
     using EntityManagement;
-    using IdManagement;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Utils;
