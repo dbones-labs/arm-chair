@@ -70,9 +70,10 @@ namespace ArmChair.Utils
         public static string ToCamelCase(this string s)
         {
             //Build the titlecase string
-            var titlecase = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s.ToLowerInvariant());
+            
+            //var titlecase = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s.ToLowerInvariant());
             //Ensures that there is at-least two characters (so that the Substring method doesn't freak out)
-            return (titlecase.Length > 1) ? Char.ToLowerInvariant(titlecase[0]) + titlecase.Substring(1) : titlecase;
+            return (s.Length > 1) ? Char.ToLowerInvariant(s[0]) + s.Substring(1) : s;
         }
     }
 }
