@@ -49,10 +49,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArmChair.Castle\ArmChair.Castle.csproj">
-      <Project>{80224318-885e-4382-8f2a-708d4aa2e329}</Project>
-      <Name>ArmChair.Castle</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ArmChair.Core\ArmChair.Core.csproj">
       <Project>{E11B204F-16D8-4578-9743-9D12ED2DAD53}</Project>
       <Name>ArmChair.Core</Name>

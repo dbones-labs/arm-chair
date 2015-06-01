@@ -15,12 +15,12 @@ namespace ArmChair.Processes.Commit
 {
     using IdManagement;
     using InSession;
+    using Utils;
 
-    public class CommitContext
+    public class CommitContext : Dynamic
     {
         public Key Key { get; set; }
         public object Entity { get; set; }
         public ActionType ActionType { get; set; }
-        //public bool TrackingRequiresReset { get; set; }
     }
 }
