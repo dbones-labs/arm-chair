@@ -47,11 +47,19 @@ namespace ArmChair.Processes.Load
             _revisionAccessor = revisionAccessor;
         }
 
+        /// <summary>
+        /// add a task to be executed before items are loaded from the database.
+        /// </summary>
+        /// <param name="createTask">note this is a function that create your task in a context</param>
         public void RegisterPreLoadTask(Func<CreateTaskContext, IPipeTask<LoadContext>> createTask)
         {
             _preLoadTasks.Add(createTask);
         }
 
+        /// <summary>
+        /// add a task to be execute after items are loaded from the database
+        /// </summary>
+        /// <param name="createTask">note this is a function that create your task in a context</param>
         public void RegisterPostLoadTask(Func<CreateTaskContext, IPipeTask<LoadContext>> createTask)
         {
             _postLoadTasks.Add(createTask);
@@ -74,9 +82,9 @@ namespace ArmChair.Processes.Load
             //setup the pipeline
             var tasks = new List<IPipeTask<LoadContext>>();
             tasks.Add(new PreLoadFromSessionMapTask(sessionCache));
-            tasks.AddRange(_preLoadTasks.Select(preLoadTask => preLoadTask(taskCtx)));
+            tasks.AddRange(_preLoadTasks.Select(task => task(taskCtx)));
             tasks.Add(loadTask);
-            tasks.AddRange(_postLoadTasks.Select(preLoadTask => preLoadTask(taskCtx)));
+            tasks.AddRange(_postLoadTasks.Select(task => task(taskCtx)));
             tasks.Add(new PostSaveToSesionMapTask(sessionCache));
             tasks.Add(new PostTrackingMapTask(tracking));
 

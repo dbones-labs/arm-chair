@@ -44,12 +44,12 @@ namespace ArmChair.Processes.Commit
             _revisionAccessor = revisionAccessor;
         }
 
-        public void RegisterPreProcessTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
+        public void RegisterPreCommitTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _preProcessTasks.Add(createTask);
         }
 
-        public void RegisterPostLoadTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
+        public void RegisterPostCommitTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _postProcessTasks.Add(createTask);
         }

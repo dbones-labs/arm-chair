@@ -54,6 +54,7 @@
     <Compile Include="Processes\Commit\CommitPipeline.cs" />
     <Compile Include="Processes\Commit\CommitToDbTask.cs" />
     <Compile Include="Commands\AllDocsRequest.cs" />
+    <Compile Include="Utils\Dynamic.cs" />
     <Compile Include="Serialization\Newton\AllDocsRequestHandler.cs" />
     <Compile Include="Commands\AllDocsResponse.cs" />
     <Compile Include="Serialization\Newton\AllDocsResponseHandler.cs" />

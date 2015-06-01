@@ -14,8 +14,9 @@
 namespace ArmChair.Processes.Load
 {
     using IdManagement;
+    using Utils;
 
-    public class LoadContext
+    public class LoadContext : Dynamic
     {
         public Key Key { get; set; }
         public object Entity { get; set; }
