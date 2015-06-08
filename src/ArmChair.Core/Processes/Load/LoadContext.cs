@@ -13,12 +13,14 @@
 // limitations under the License.
 namespace ArmChair.Processes.Load
 {
+    using System;
     using IdManagement;
     using Utils;
 
     public class LoadContext : Dynamic
     {
         public Key Key { get; set; }
+        public Type Type { get; set; }
         public object Entity { get; set; }
         public bool LoadedFromCache { get; set; }
     }

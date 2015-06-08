@@ -17,22 +17,39 @@ namespace ArmChair.Serialization.Newton
     using System.Collections.Generic;
     using System.Linq;
     using Commands;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    public class BulkDocResponseHandler : IHandler
+    /// <summary>
+    /// handle the Bulk add, insert and delete request
+    /// </summary>
+    public class BulkDocsResponseConverter : JsonConverter
     {
-        public Type HandlesType { get { return typeof(IEnumerable<BulkDocResponse>); } }
-        public void Handle(SerializerContext context, Serializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var response = context.Json;
-            var json = JArray.Parse(response);
+            throw new NotImplementedException();
+        }
 
-            context.Entity = json.Children().Select(x => new BulkDocResponse()
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var json = JArray.ReadFrom(reader);
+
+            return json.Children().Select(x => new BulkDocResponse()
             {
                 Id = (string)x["id"],
                 Rev = (string)x["rev"],
                 Ok = (bool)x["ok"]
             }).ToList();
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(IEnumerable<BulkDocResponse>).IsAssignableFrom(objectType);
         }
     }
 }

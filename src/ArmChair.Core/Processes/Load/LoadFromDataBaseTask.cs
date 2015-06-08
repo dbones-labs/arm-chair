@@ -33,7 +33,7 @@ namespace ArmChair.Processes.Load
 
         public override IEnumerable<LoadContext> Execute(LoadContext item)
         {
-            var entity = _couchDb.LoadEntity(item.Key.ToString());
+            var entity = _couchDb.LoadEntity(item.Key.ToString(), item.Type);
             item.Entity = entity;
             yield return item;
         }

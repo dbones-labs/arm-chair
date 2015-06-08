@@ -14,51 +14,45 @@
 namespace ArmChair.Serialization.Newton
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization.Formatters;
     using System.Text;
     using EntityManagement;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using Utils;
+    using Newtonsoft.Json.Converters;
 
     public class Serializer : ISerializer
     {
         private readonly JsonSerializerSettings _settings;
-        private readonly IIdAccessor _idAccessor;
-        private readonly IRevisionAccessor _revisionAccessor;
         private readonly JsonSerializer _jsonSerializer;
-        private readonly IDictionary<Type, IHandler> _serializationHandlers = new Dictionary<Type, IHandler>();
 
 
-        public Serializer(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) : this(new JsonSerializerSettings
-            {
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                TypeNameHandling = TypeNameHandling.Objects,
-                ContractResolver = new ContractResolver()
-            }, idAccessor, revisionAccessor)
+        public Serializer(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
+            : this(new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.Objects,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Converters = new JsonConverter[]{
+                        new IsoDateTimeConverter(),
+                        new BulkDocsRequestConverter(), 
+                        new BulkDocsResponseConverter(), 
+                        new AllDocsRequestConverter(), 
+                        new AllDocsResponseConverter() },
+                    ContractResolver = new ContractResolver(idAccessor, revisionAccessor)
+                })
         {
-            //please neaten me up.    
         }
 
-        public Serializer(JsonSerializerSettings settings, IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
+        public Serializer(JsonSerializerSettings settings)
         {
             _settings = settings;
-            _idAccessor = idAccessor;
-            _revisionAccessor = revisionAccessor;
             _jsonSerializer = JsonSerializer.Create(_settings);
-
-            AddHandler(new AllDocsRequestHandler());
-            AddHandler(new AllDocsResponseHandler());
-            AddHandler(new BulkDocsRequestHandler());
-            AddHandler(new BulkDocResponseHandler());
-
         }
 
         public object Deserialize(string json)
         {
-            using (var stringReader = new StreamReader(json))
+            using (var stringReader = new StringReader(json))
             using (var reader = new JsonTextReader(stringReader))
             {
                 return _jsonSerializer.Deserialize(reader);
@@ -67,17 +61,11 @@ namespace ArmChair.Serialization.Newton
 
         public object Deserialize(string json, Type type)
         {
-            IHandler handler;
-            if (_serializationHandlers.TryGetValue(type, out handler))
+            using (var stringReader = new StringReader(json))
+            using (var reader = new JsonTextReader(stringReader))
             {
-                var ctx = new SerializerContext() { Json = json };
-                handler.Handle(ctx, this);
-                return ctx.Entity;
+                return _jsonSerializer.Deserialize(reader, type);
             }
-
-            
-            var doc = JObject.Parse(json);
-            return DeserializeFromJson(doc);
         }
 
         public T Deserialize<T>(string json)
@@ -99,66 +87,12 @@ namespace ArmChair.Serialization.Newton
 
         public string Serialize(object instance, Type type)
         {
-            IHandler handler;
-            if (_serializationHandlers.TryGetValue(type, out handler))
-            {
-                var ctx = new SerializerContext() {Entity = instance};
-                handler.Handle(ctx, this);
-                return ctx.Json;
-            }
-
-            //default handle.
             return Serialize(instance);
         }
 
         public string Serialize<T>(T instance)
         {
-            return Serialize(instance, typeof (T));
-        }
-
-        
-
-        public JToken SerializeAsJson(object instance)
-        {
-
-            //TODO: just remove the ID.. and handle it locally
-            var type = instance.GetType();
-            JObject jObject;
-
-            using (var writer = new JTokenWriter())
-            {
-                _jsonSerializer.Serialize(writer, instance);
-                writer.Flush();
-                jObject = (JObject) writer.Token;
-            }
-
-            var idField = _idAccessor.GetIdField(type);
-            var revField = _revisionAccessor.GetRevisionField(type);
-            jObject.RenameProperty(idField.FriendlyName.ToCamelCase(), "_id");
-            jObject.RenameProperty(revField.FriendlyName.ToCamelCase(), "_rev");
-
-            return jObject;
-        }
-
-        public object DeserializeFromJson(JObject jObject)
-        {
-            var typeName = (string)jObject["$type"];
-            var type = Type.GetType(typeName);
-
-            var idField = _idAccessor.GetIdField(type);
-            var revField = _revisionAccessor.GetRevisionField(type);
-            jObject.RenameProperty("_id", idField.FriendlyName);
-            jObject.RenameProperty("_rev", revField.FriendlyName);
-
-            using (var reader = new JTokenReader(jObject))
-            {
-                return _jsonSerializer.Deserialize(reader);
-            }
-        }
-
-        internal void AddHandler(IHandler handler)
-        {
-            _serializationHandlers.Add(handler.HandlesType, handler);
+            return Serialize(instance, typeof(T));
         }
     }
 }

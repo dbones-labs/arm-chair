@@ -97,7 +97,8 @@ namespace ArmChair.Processes.Load
                 var idKey = _idManager.GetFromId(type, id);
                 return new LoadContext()
                 {
-                    Key = idKey
+                    Key = idKey,
+                    Type = type
                 };
             });
 

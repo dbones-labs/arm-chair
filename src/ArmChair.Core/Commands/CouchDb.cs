@@ -13,8 +13,10 @@
 // limitations under the License.
 namespace ArmChair.Commands
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Reflection;
     using Http;
     using Serialization;
 
@@ -49,7 +51,7 @@ namespace ArmChair.Commands
         /// </summary>
         /// <param name="key">the key/id of the document</param>
         /// <returns>returns the document in its POCO form</returns>
-        public object LoadEntity(string key)
+        public object LoadEntity(string key, Type objecType)
         {
             object entity = null;
             var request = new Request("/:db/:key", HttpVerbType.Get);
@@ -65,7 +67,7 @@ namespace ArmChair.Commands
                 else
                 {
                     var content = response.Content.ReadToEnd();
-                    entity = _serializer.Deserialize<object>(content);//would like a betterway    
+                    entity = _serializer.Deserialize(content, objecType);   
                 }
                 
             });

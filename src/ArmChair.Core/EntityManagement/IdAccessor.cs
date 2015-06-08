@@ -23,23 +23,23 @@ namespace ArmChair.EntityManagement
     public class IdAccessor : IIdAccessor
     {
         private readonly IDictionary<Type, FieldMeta> _typeIdFields = new Dictionary<Type, FieldMeta>();
-        private bool _allowAutoScanningForId;
-        private Func<Type, string> _idNamePattern;
+        private bool _allowAutoScanning;
+        private Func<Type, string> _namePattern;
 
         public IdAccessor()
         {
-            _allowAutoScanningForId = true;
+            _allowAutoScanning = true;
         }
 
         public void AllowAutoScanningForId()
         {
-            _allowAutoScanningForId = true;
+            _allowAutoScanning = true;
         }
 
         public void SetUpIdPattern(Func<Type, string> pattern)
         {
-            _allowAutoScanningForId = true;
-            _idNamePattern = pattern;
+            _allowAutoScanning = true;
+            _namePattern = pattern;
         }
 
         public void SetUpId<T>(FieldInfo field)
@@ -87,15 +87,15 @@ namespace ArmChair.EntityManagement
             {
                 if (!_typeIdFields.ContainsKey(type))
                 {
-                    if (!_allowAutoScanningForId)
+                    if (!_allowAutoScanning)
                     {
                         throw new Exception("please setup an Id or allow for auto scanning");
                     }
                     var idField = ScanForId(type);
-                    if (idField == null)
-                    {
-                        return null;
-                    }
+                    //if (idField == null)
+                    //{
+                    //    return null;
+                    //}
                     _typeIdFields.Add(type, idField);
                 }
             }
@@ -109,9 +109,9 @@ namespace ArmChair.EntityManagement
 
         private FieldMeta ScanForId(Type type)
         {
-            var idPatterns = _idNamePattern == null
+            var idPatterns = _namePattern == null
                                  ? new[] { GetPropertyBackingFieldName("Id"), GetPropertyBackingFieldName(type.Name+"Id"), "id", "_id" }
-                                 : new[] {_idNamePattern(type)};
+                                 : new[] {_namePattern(type)};
 
             return type
                 .GetTypeMeta()
