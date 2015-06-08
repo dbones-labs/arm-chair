@@ -22,41 +22,41 @@ namespace ArmChair.EntityManagement
 
     public class RevisionAccessor : IRevisionAccessor
     {
-        private readonly IDictionary<Type, FieldMeta> _typeIdFields = new Dictionary<Type, FieldMeta>();
-        private bool _allowAutoScanningForId;
-        private Func<Type, string> _revisionNamePattern;
+        private readonly IDictionary<Type, FieldMeta> _typeRevisionFields = new Dictionary<Type, FieldMeta>();
+        private bool _allowAutoScanning;
+        private Func<Type, string> _namePattern;
 
         public RevisionAccessor()
         {
-            _allowAutoScanningForId = true;
+            _allowAutoScanning = true;
         }
 
         public void AllowAutoScanningForRevision()
         {
-            _allowAutoScanningForId = true;
+            _allowAutoScanning = true;
         }
 
         public void DisableAutoScanningForRevision()
         {
-            _allowAutoScanningForId = false;
+            _allowAutoScanning = false;
         }
 
         public void SetUpRevisionPattern(Func<Type, string> pattern)
         {
-            _allowAutoScanningForId = true;
-            _revisionNamePattern = pattern;
+            _allowAutoScanning = true;
+            _namePattern = pattern;
         }
 
         public void SetUpRevision<T>(FieldInfo field)
         {
             if (field == null) throw new ArgumentNullException("field");
-            _typeIdFields.Add(typeof(T), new FieldMeta(field));
+            _typeRevisionFields.Add(typeof(T), new FieldMeta(field));
         }
 
         public void SetUpId<T>(FieldMeta field)
         {
             if (field == null) throw new ArgumentNullException("field");
-            _typeIdFields.Add(typeof(T), field);
+            _typeRevisionFields.Add(typeof(T), field);
         }
 
         public void SetUpRevision<T>(string fieldName)
@@ -90,23 +90,23 @@ namespace ArmChair.EntityManagement
 
         public FieldMeta GetRevisionField(Type type)
         {
-            lock (_typeIdFields)
+            lock (_typeRevisionFields)
             {
-                if (!_typeIdFields.ContainsKey(type))
+                if (!_typeRevisionFields.ContainsKey(type))
                 {
-                    if (!_allowAutoScanningForId)
+                    if (!_allowAutoScanning)
                     {
-                        throw new Exception("please setup an Id or allow for auto scanning");
+                        throw new Exception("please setup revision field or allow for auto scanning");
                     }
-                    var idField = ScanForId(type);
-                    if (idField == null)
-                    {
-                        return null;
-                    }
-                    _typeIdFields.Add(type, idField);
+                    var revision = ScanForRevision(type);
+                    //if (revision == null)
+                    //{
+                    //    return null;
+                    //}
+                    _typeRevisionFields.Add(type, revision);
                 }
             }
-            return _typeIdFields[type];
+            return _typeRevisionFields[type];
         }
 
         private string GetPropertyBackingFieldName(string propertyName)
@@ -114,11 +114,11 @@ namespace ArmChair.EntityManagement
             return string.Format("<{0}>k__BackingField", propertyName);
         }
 
-        private FieldMeta ScanForId(Type type)
+        private FieldMeta ScanForRevision(Type type)
         {
-            var idPatterns = _revisionNamePattern == null
-                ? new[] { GetPropertyBackingFieldName("Revision"), GetPropertyBackingFieldName(type.Name + "Revision"), GetPropertyBackingFieldName("Rev"), GetPropertyBackingFieldName(type.Name + "Rev"), "rev", "_rev" }
-                : new[] { _revisionNamePattern(type) };
+            var idPatterns = _namePattern == null
+                ? new[] { GetPropertyBackingFieldName("Revision"), GetPropertyBackingFieldName(type.Name + "Revision"), GetPropertyBackingFieldName("Rev"), "rev", "_rev", "revision", "_revision", GetPropertyBackingFieldName(type.Name + "Rev"), GetPropertyBackingFieldName(type.Name + "Revision") }
+                : new[] { _namePattern(type) };
 
             return type
                 .GetTypeMeta()

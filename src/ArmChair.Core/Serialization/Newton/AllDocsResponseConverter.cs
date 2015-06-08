@@ -17,34 +17,61 @@ namespace ArmChair.Serialization.Newton
     using System.Collections.Generic;
     using System.Linq;
     using Commands;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    public class AllDocsResponseHandler : IHandler
+
+    /// <summary>
+    /// handle the query response
+    /// </summary>
+    public class AllDocsResponseConverter : JsonConverter
     {
-        public Type HandlesType { get { return typeof(AllDocsResponse); } }
-        public void Handle(SerializerContext context, Serializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var jsonContent = JObject.Parse(context.Json);
-            
+            throw new NotImplementedException();
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            Func<JObject, object> getObject = jInstance =>
+            {
+                var type = Type.GetType((string)jInstance["$type"]);
+                using (var tReader = jInstance.CreateReader())
+                {
+                    return serializer.Deserialize(tReader, type);
+                }
+            };
+
+            var jsonContent = JObject.ReadFrom(reader);
+
             var docs = jsonContent["rows"]
                 .Select(row => row["doc"])
-                .Where(x=> x != null)
+                .Where(x => x != null)
                 .Cast<JObject>()
                 .ToList();
-            
-            var entities = docs.Select(serializer.DeserializeFromJson).ToList();
+
+            var entities = docs.Select(getObject).ToList();
             IEnumerable<AllDocsRowResponse> rows = entities.Select(x => new AllDocsRowResponse()
             {
                 Doc = x,
             });
 
-            context.Entity = new AllDocsResponse()
+            return new AllDocsResponse()
             {
                 Rows = rows,
                 Offset = (int)jsonContent["offset"],
                 TotalRows = (int)jsonContent["total_rows"]
-
             };
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(AllDocsResponse) == objectType;
         }
     }
 }
