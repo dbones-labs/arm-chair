@@ -117,7 +117,7 @@ namespace ArmChair.EntityManagement
         private FieldMeta ScanForRevision(Type type)
         {
             var idPatterns = _namePattern == null
-                ? new[] { GetPropertyBackingFieldName("Revision"), GetPropertyBackingFieldName(type.Name + "Revision"), GetPropertyBackingFieldName("Rev"), "rev", "_rev", "revision", "_revision", GetPropertyBackingFieldName(type.Name + "Rev"), GetPropertyBackingFieldName(type.Name + "Revision") }
+                ? new[] { GetPropertyBackingFieldName("Revision"), GetPropertyBackingFieldName("Rev"), "rev", "_rev", "revision", "_revision", GetPropertyBackingFieldName(type.Name + "Rev"), GetPropertyBackingFieldName(type.Name + "Revision") }
                 : new[] { _namePattern(type) };
 
             return type
