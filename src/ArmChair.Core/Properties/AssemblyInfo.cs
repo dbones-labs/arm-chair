@@ -1,4 +1,4 @@
-// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
+// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("0.1.6")]
-[assembly: AssemblyVersion("0.1.6")]
-[assembly: AssemblyFileVersion("0.1.6")]
+// [assembly: AssemblyVersion("0.2.1")]
+[assembly: AssemblyVersion("0.2.1")]
+[assembly: AssemblyFileVersion("0.2.1")]

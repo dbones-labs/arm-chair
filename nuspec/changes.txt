@@ -1,3 +1,7 @@
+0.2.x
+==============
+updated the serialisation code
+
 0.1.x
 ==============
 Inital release
