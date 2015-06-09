@@ -54,6 +54,9 @@
     <Compile Include="Processes\Commit\CommitPipeline.cs" />
     <Compile Include="Processes\Commit\CommitToDbTask.cs" />
     <Compile Include="Commands\AllDocsRequest.cs" />
+    <Compile Include="Serialization\Newton\BaseOverride.cs" />
+    <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
+    <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
     <Compile Include="Utils\Dynamic.cs" />
     <Compile Include="Serialization\Newton\AllDocsRequestConverter.cs" />
     <Compile Include="Commands\AllDocsResponse.cs" />
@@ -65,7 +68,7 @@
     <Compile Include="Serialization\Newton\BulkDocsResponseConverter.cs" />
     <Compile Include="Commands\BulkDocsRequest.cs" />
     <Compile Include="Serialization\Newton\BulkDocsRequestConverter.cs" />
-    <Compile Include="Serialization\Newton\ContractResolver.cs" />
+    <Compile Include="Serialization\Newton\DocumentContractResolver.cs" />
     <Compile Include="Processes\CreateTaskContext.cs" />
     <Compile Include="Commands\CouchDb.cs" />
     <Compile Include="Extenstions.cs" />
@@ -108,7 +111,6 @@
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Newton\JObjectExtensions.cs" />
     <Compile Include="Serialization\Newton\Serializer.cs" />
-    <Compile Include="Serialization\Newton\SerializerContext.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Tasks\PipeItemMapTask.cs" />

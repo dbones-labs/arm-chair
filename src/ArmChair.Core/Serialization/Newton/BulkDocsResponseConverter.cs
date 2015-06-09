@@ -1,4 +1,4 @@
-﻿// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
+﻿// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ namespace ArmChair.Serialization.Newton
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var json = JArray.ReadFrom(reader);
+            var json = JToken.ReadFrom(reader);
 
             return json.Children().Select(x => new BulkDocResponse()
             {

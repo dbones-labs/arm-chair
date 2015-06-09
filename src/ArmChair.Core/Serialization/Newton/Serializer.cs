@@ -1,4 +1,4 @@
-﻿// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
+﻿// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,33 +15,26 @@ namespace ArmChair.Serialization.Newton
 {
     using System;
     using System.IO;
-    using System.Runtime.Serialization.Formatters;
     using System.Text;
     using EntityManagement;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
 
+
+    /// <summary>
+    /// default serializer.
+    /// </summary>
     public class Serializer : ISerializer
     {
-        private readonly JsonSerializerSettings _settings;
-        private readonly JsonSerializer _jsonSerializer;
-
+        private JsonSerializerSettings _settings;
+        private JsonSerializer _jsonSerializer;
 
         public Serializer(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
-            : this(new JsonSerializerSettings
-                {
-                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                    TypeNameHandling = TypeNameHandling.Objects,
-                    NullValueHandling = NullValueHandling.Ignore,
-                    Converters = new JsonConverter[]{
-                        new IsoDateTimeConverter(),
-                        new BulkDocsRequestConverter(), 
-                        new BulkDocsResponseConverter(), 
-                        new AllDocsRequestConverter(), 
-                        new AllDocsResponseConverter() },
-                    ContractResolver = new ContractResolver(idAccessor, revisionAccessor)
-                })
         {
+            var factory = new SerializerSettingsFactory();
+            factory.SetUpDocumentContractResolver(idAccessor, revisionAccessor);
+            var settings = factory.Create();
+            _settings = settings;
+            _jsonSerializer = JsonSerializer.Create(_settings);
         }
 
         public Serializer(JsonSerializerSettings settings)
@@ -49,6 +42,23 @@ namespace ArmChair.Serialization.Newton
             _settings = settings;
             _jsonSerializer = JsonSerializer.Create(_settings);
         }
+
+        /// <summary>
+        /// change the settings.
+        /// </summary>
+        public JsonSerializerSettings Settings
+        {
+            set
+            {
+                if (value == null)
+                {
+                    throw new Exception("requires a value");
+                }
+                _settings = value;
+                _jsonSerializer = JsonSerializer.Create(_settings);
+            }
+        }
+
 
         public object Deserialize(string json)
         {

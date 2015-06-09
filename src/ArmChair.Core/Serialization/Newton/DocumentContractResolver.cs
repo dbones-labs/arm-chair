@@ -1,4 +1,4 @@
-﻿// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
+﻿// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ namespace ArmChair.Serialization.Newton
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using EntityManagement;
@@ -27,17 +26,25 @@ namespace ArmChair.Serialization.Newton
     /// <summary>
     /// Armchair overrides the default contract resolver to add some support for its naming conventions
     /// </summary>
-    public class ContractResolver : CamelCasePropertyNamesContractResolver
+    public class DocumentContractResolver : CamelCasePropertyNamesContractResolver
     {
         private IDictionary<Type, LinkedList<PropertiesOverride>> _propertiesOverride = new Dictionary<Type, LinkedList<PropertiesOverride>>();
         protected PropertiesOverride _baseOverride;
 
-        public ContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
+        /// <summary>
+        /// create an instance of the contract resolver to handle Counch DB documents 
+        /// </summary>
+        public DocumentContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
         {
             _baseOverride = new BaseOverride(idAccessor, revisionAccessor);
         }
 
         
+        /// <summary>
+        /// add a <see cref="PropertiesOverride"/> to the reslover, consider this as an alternative 
+        /// to Converters
+        /// </summary>
+        /// <param name="override">the override to add</param>
         public virtual void AddPropertyOverride(PropertiesOverride @override)
         {
             LinkedList<PropertiesOverride> overrides = null;
@@ -108,70 +115,4 @@ namespace ArmChair.Serialization.Newton
             return contract;
         }
     }
-
-
-    public abstract class PropertiesOverride
-    {
-        protected PropertiesOverride()
-        {
-            Type = GetSupportedType();
-        }
-
-        public Type Type { get; protected set; }
-
-        public abstract void Set(Type actualType, IDictionary<string, JsonProperty> properties);
-
-        protected abstract Type GetSupportedType();
-
-        protected static string ToCamelCase(string s)
-        {
-            if (String.IsNullOrEmpty(s) || !Char.IsUpper(s[0]))
-                return s;
-            char[] chArray = s.ToCharArray();
-            for (int index = 0; index < chArray.Length; ++index)
-            {
-                bool flag = index + 1 < chArray.Length;
-                if (index <= 0 || !flag || Char.IsUpper(chArray[index + 1]))
-                    chArray[index] = Char.ToLower(chArray[index], CultureInfo.InvariantCulture);
-                else
-                    break;
-            }
-            return new string(chArray);
-        }
-    }
-
-    public abstract class PropertiesOverride<T> : PropertiesOverride where T : class
-    {
-        protected override Type GetSupportedType()
-        {
-            return typeof (T);
-        }
-    }
-
-    public class BaseOverride : PropertiesOverride<object>
-    {
-        private readonly IIdAccessor _idAccessor;
-        private readonly IRevisionAccessor _revisionAccessor;
-
-        public BaseOverride(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
-        {
-            _idAccessor = idAccessor;
-            _revisionAccessor = revisionAccessor;
-        }
-
-        public override void Set(Type actualType, IDictionary<string, JsonProperty> properties)
-        {
-            var idField = _idAccessor.GetIdField(actualType);
-            var revField = _revisionAccessor.GetRevisionField(actualType);
-
-            if (idField == null || revField == null)
-            {
-                return;
-            }
-
-            properties[ToCamelCase(idField.FriendlyName)].PropertyName = "_id";
-            properties[ToCamelCase(revField.FriendlyName)].PropertyName = "_rev";
-        }
-    }
-
 }

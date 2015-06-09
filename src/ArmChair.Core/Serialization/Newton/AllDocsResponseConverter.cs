@@ -1,4 +1,4 @@
-﻿// Copyright 2013 - 2014 dbones.co.uk (David Rundle)
+﻿// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ namespace ArmChair.Serialization.Newton
                 }
             };
 
-            var jsonContent = JObject.ReadFrom(reader);
+            var jsonContent = JToken.ReadFrom(reader);
 
             var docs = jsonContent["rows"]
                 .Select(row => row["doc"])
