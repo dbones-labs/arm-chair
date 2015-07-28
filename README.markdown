@@ -11,6 +11,11 @@ ArmChair has been built from the ground up with the following goals:
 * Customisable - Add support for your IDs, Tracking, Serialization etc.
 * Use of an Indexing Service - Search by IDs, where the initial search can be executed on ElasticSearch / Solr / Lucene
 
+##Documentation
+
+its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChair.Default.aspx
+
+
 ##Compatibility
 
 * .NET 4.0 +
