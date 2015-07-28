@@ -17,8 +17,20 @@ ArmChair has been built from the ground up with the following goals:
 * CouchDB 1.2 +
 
 Planned Mono (on Linux) Support
-
+passes compatibility test.
 
 
 ##Licence
 Apache 2.0 licensed.
+
+
+
+##Building from source
+
+to build the project you will need to install *node* and *gulp*
+
+```
+gulp build-all [--buildNumber 123]
+```
+
+the buildNumber is optional, if not included it will set the patch number to 0.
