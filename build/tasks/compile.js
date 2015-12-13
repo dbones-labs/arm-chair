@@ -8,6 +8,8 @@ gulp.task('compile', function() {
 		.pipe(msbuild({
             //targets: ['Clean', 'Release'],
             errorOnFail: true,
-            stdout: true
+            stdout: true,
+            logCommand: true,
+            toolsVersion:12
         }));
 });
