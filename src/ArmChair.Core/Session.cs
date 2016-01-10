@@ -1,4 +1,4 @@
-﻿// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
+﻿// Copyright 2014 - dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ namespace ArmChair
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using EntityManagement;
     using IdManagement;
     using InSession;
@@ -116,7 +115,6 @@ namespace ArmChair
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
             if (!ids.GetEnumerator().MoveNext()) return new List<T>();
-            //ids.GetEnumerator().Reset();
             var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _tracking);
             return results;
         }

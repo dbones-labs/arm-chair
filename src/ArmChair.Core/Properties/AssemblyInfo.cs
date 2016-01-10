@@ -1,4 +1,4 @@
-// Copyright 2013 - 2015 dbones.co.uk (David Rundle)
+// Copyright 2014 - dbones.co.uk (David Rundle)
 //  
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("ArmChair.Core")]
-[assembly: AssemblyCopyright("Copyright dbones.co.uk 2013-2016")]
+[assembly: AssemblyCopyright("Copyright dbones.co.uk 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

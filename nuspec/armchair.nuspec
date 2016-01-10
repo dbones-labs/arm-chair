@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>ArmChair is a .NET Client for CouchDB</description>
         <summary>ArmChair is a .NET Client for CouchDB</summary>
-        <copyright>Copyright 2013 - 2015 dbones.co.uk</copyright>
+        <copyright>Copyright 2014 dbones.co.uk</copyright>
         <language>en-US</language>
         <tags>UOW CouchDB Document Database Client</tags>
         <dependencies>

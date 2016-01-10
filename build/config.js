@@ -14,7 +14,7 @@ var config = {
 //command config
 config.command = {
     assembly: {
-        copyright: 'Copyright '+ config.company +' 2013-' + new Date().getFullYear()
+        copyright: 'Copyright '+ config.company +' 2014'
     },
     test:{
         dllName: '*.Tests.dll'
