@@ -7,9 +7,9 @@ gulp.task('compile', function() {
         //.pipe(msbuild());
 		.pipe(msbuild({
             //targets: ['Clean', 'Release'],
-            errorOnFail: true,
+			errorOnFail: true,
             stdout: true,
             logCommand: true,
-            toolsVersion:12
+            toolsVersion:14.0
         }));
 });

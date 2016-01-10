@@ -30,13 +30,23 @@ namespace ArmChair.Tests
             }
         }
 
-
         [Test]
         public void Try_load_objects_which_does_not_exist()
         {
             using (var session = Database.CreateSession())
             {
                 var ids = new List<string> {"123", "12323123"};
+                var people = session.GetByIds<Person>(ids);
+                Assert.IsFalse(people.Any());
+            }
+        }
+
+        [Test]
+        public void Handle_empty_list()
+        {
+            using (var session = Database.CreateSession())
+            {
+                var ids = new List<string>();
                 var people = session.GetByIds<Person>(ids);
                 Assert.IsFalse(people.Any());
             }

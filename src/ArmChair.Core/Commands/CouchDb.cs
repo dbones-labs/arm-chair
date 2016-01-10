@@ -16,7 +16,6 @@ namespace ArmChair.Commands
     using System;
     using System.Collections.Generic;
     using System.Net;
-    using System.Reflection;
     using Http;
     using Serialization;
 

@@ -13,8 +13,10 @@
 // limitations under the License.
 namespace ArmChair
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using EntityManagement;
     using IdManagement;
     using InSession;
@@ -56,6 +58,7 @@ namespace ArmChair
 
         public virtual void Add<T>(T instance) where T : class
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             var type = typeof (T);
             var value = _idAccessor.GetId(instance);
             var key = _idManager.GetFromId(typeof(T), value);
@@ -78,6 +81,7 @@ namespace ArmChair
 
         public virtual void Attach<T>(T instance) where T : class
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             //allows for attaching exiting objects to this session! 
             //(issue could arise with the rev)
             var value = _idAccessor.GetId(instance);
@@ -95,6 +99,7 @@ namespace ArmChair
 
         public virtual void Remove<T>(T instance) where T : class
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             var value = _idAccessor.GetId(instance);
             var key = _idManager.GetFromId(typeof(T), value);
             var entry = new SessionEntry()
@@ -109,12 +114,16 @@ namespace ArmChair
 
         public virtual IEnumerable<T> GetByIds<T>(IEnumerable ids) where T : class
         {
+            if (ids == null) throw new ArgumentNullException(nameof(ids));
+            if (!ids.GetEnumerator().MoveNext()) return new List<T>();
+            //ids.GetEnumerator().Reset();
             var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _tracking);
             return results;
         }
 
         public virtual T GetById<T>(object id) where T : class
         {
+            if (id == null) throw new ArgumentNullException(nameof(id));
             var result = _loadPipeline.LoadOne<T>(id, _sessionCache, _tracking);
             return result;
         }
@@ -122,7 +131,6 @@ namespace ArmChair
         public virtual void Commit()
         {
             _commitPipeline.Process(_sessionCache, _tracking);
-            
         }
     }
 }
