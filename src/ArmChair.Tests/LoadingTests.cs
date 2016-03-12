@@ -41,6 +41,37 @@ namespace ArmChair.Tests
             }
         }
 
+
+        [Test]
+        public void Try_an_object_which_does_not_exist_with_some_that_do()
+        {
+
+            using (var session = Database.CreateSession())
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    var person = new Person("dave");
+                    person.Id = i.ToString();
+                    session.Add(person);
+                }
+                session.Commit();
+            }
+
+            IList<Person> people;
+            using (var session = Database.CreateSession())
+            {
+                var ids = new List<string> { "2", "12323123", "3", "1", "hello-world" };
+                people = session.GetByIds<Person>(ids).ToList();
+            }
+
+            //must insure the order (this is part of the contract).
+            Assert.IsTrue(people.Count() == 3);
+            Assert.IsTrue(people[0].Id == "2");
+            Assert.IsTrue(people[1].Id == "3");
+            Assert.IsTrue(people[2].Id == "1");
+        }
+
+
         [Test]
         public void Handle_empty_list()
         {
