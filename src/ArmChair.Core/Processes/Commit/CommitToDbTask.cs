@@ -35,6 +35,12 @@ namespace ArmChair.Processes.Commit
         public IEnumerable<CommitContext> Execute(IEnumerable<CommitContext> items)
         {
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
+            
+            //do not call the db if we have no items to transact on.
+            if (!items.Any())
+            {
+                return items;
+            }
 
             var entityUpdates = new Dictionary<string, object>();
             var docRequests = new List<BulkDocRequest>();

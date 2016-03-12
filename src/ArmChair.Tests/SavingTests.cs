@@ -66,8 +66,19 @@ namespace ArmChair.Tests
             }
 
             Assert.AreEqual(loadedPeople.Count, people.Count, "did not save/load all people");
-            Assert.IsTrue(loadedPeople.All(x => people.Any(y => y.Id == x.Id)), "ids where not handled corretly");
-            Assert.IsTrue(loadedPeople.All(x => people.Any(y => y.Rev == x.Rev)), "revisions where not handled corretly");
+            Assert.IsTrue(loadedPeople.All(x => people.Any(y => y.Id == x.Id)), "ids where not handled correctly");
+            Assert.IsTrue(loadedPeople.All(x => people.Any(y => y.Rev == x.Rev)), "revisions where not handled correctly");
+        }
+
+        [Test]
+        public void Save_nothing()
+        {
+            using (var session = Database.CreateSession())
+            {
+                session.Commit();
+            }
+
+            Assert.Pass();
         }
     }
 }

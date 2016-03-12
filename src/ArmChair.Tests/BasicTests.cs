@@ -13,10 +13,11 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
+    using System;
     using Domain;
     using NUnit.Framework;
 
-    public class BasicTests: TestCase
+    public class BasicTests : TestCase
     {
         [Test]
         public void Save_into_database()
@@ -30,7 +31,7 @@ namespace ArmChair.Tests
 
                 authorId = author.Id;
 
-                session.Commit();    
+                session.Commit();
             }
 
             using (var session = Database.CreateSession())
@@ -40,5 +41,6 @@ namespace ArmChair.Tests
                 Assert.AreEqual(author.Name, "dave");
             }
         }
+
     }
 }
