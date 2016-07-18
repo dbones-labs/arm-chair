@@ -13,6 +13,7 @@ var nunitDir = toolsDir + '/nunit';
 var zipFileName = toolsDir + '/nunit.zip';
 var runnerFileName =  nunitDir + '/NUnit-2.6.4/bin/nunit-console.exe';
 
+var isWin = /^win/.test(process.platform);
 
 gulp.task('test', ['get-nunit'], function () {
 
@@ -20,7 +21,7 @@ gulp.task('test', ['get-nunit'], function () {
 
 	var setup = {
 
-		executable: runnerFileName,
+		executable: monoize(runnerFileName),
 
 		// The options below map directly to the NUnit console runner. See here
 		// for more info: http://www.nunit.org/index.php?p=consoleCommandLine&r=2.6.3
@@ -91,3 +92,10 @@ gulp.task('nunit-download', function(done) {
 		.on('finish', function () { done(); });
 
 });
+
+function monoize(command) {
+	if(isWin){
+		return command;
+	}
+	return "mono " + command;
+}
