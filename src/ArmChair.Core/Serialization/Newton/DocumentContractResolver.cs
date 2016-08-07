@@ -26,7 +26,7 @@ namespace ArmChair.Serialization.Newton
     /// <summary>
     /// Armchair overrides the default contract resolver to add some support for its naming conventions
     /// </summary>
-    public class DocumentContractResolver : CamelCasePropertyNamesContractResolver
+    public class DocumentContractResolver : DefaultContractResolver // CamelCasePropertyNamesContractResolver
     {
         private IDictionary<Type, LinkedList<PropertiesOverride>> _propertiesOverride = new Dictionary<Type, LinkedList<PropertiesOverride>>();
         protected PropertiesOverride _baseOverride;
@@ -34,9 +34,17 @@ namespace ArmChair.Serialization.Newton
         /// <summary>
         /// create an instance of the contract resolver to handle Counch DB documents 
         /// </summary>
-        public DocumentContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor)
+        public DocumentContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) : base(true)
         {
             _baseOverride = new BaseOverride(idAccessor, revisionAccessor);
+
+            var naming = new LocalCamelCaseNamingStrategy
+            {
+                OverrideSpecifiedNames = true,
+                ProcessDictionaryKeys = true
+            };
+
+            NamingStrategy = naming;
         }
 
         
@@ -56,8 +64,6 @@ namespace ArmChair.Serialization.Newton
             overrides.AddLast(@override);
         }
 
-        
-
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
             //ignore the current MemberSerialization
@@ -74,27 +80,6 @@ namespace ArmChair.Serialization.Newton
                 }
             }
             return properties.Values.ToList();
-        }
-
-        protected override string ResolvePropertyName(string propertyName)
-        {
-            if (string.IsNullOrWhiteSpace(propertyName))
-            {
-                return null;
-            }
-
-            if (propertyName.StartsWith("<", StringComparison.CurrentCultureIgnoreCase))
-            {
-                int index = propertyName.IndexOf(">", StringComparison.CurrentCultureIgnoreCase);
-                propertyName = propertyName.Substring(1, index - 1);
-            }
-
-            if (propertyName.StartsWith("_", StringComparison.CurrentCultureIgnoreCase))
-            {
-                propertyName = propertyName.Substring(1, propertyName.Length - 1);
-            }
-
-            return base.ResolvePropertyName(propertyName);
         }
 
         protected override List<MemberInfo> GetSerializableMembers(Type objectType)
@@ -114,6 +99,31 @@ namespace ArmChair.Serialization.Newton
             contract.DefaultCreator = objectType.GetTypeMeta().Ctor;
             contract.DefaultCreatorNonPublic = true;
             return contract;
+        }
+    }
+
+
+    internal class LocalCamelCaseNamingStrategy : CamelCaseNamingStrategy
+    {
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            if (string.IsNullOrWhiteSpace(propertyName))
+            {
+                return null;
+            }
+
+            if (propertyName.StartsWith("<", StringComparison.CurrentCultureIgnoreCase))
+            {
+                int index = propertyName.IndexOf(">", StringComparison.CurrentCultureIgnoreCase);
+                propertyName = propertyName.Substring(1, index - 1);
+            }
+
+            if (propertyName.StartsWith("_", StringComparison.CurrentCultureIgnoreCase))
+            {
+                propertyName = propertyName.Substring(1, propertyName.Length - 1);
+            }
+
+            return base.ResolvePropertyName(propertyName);
         }
     }
 }
