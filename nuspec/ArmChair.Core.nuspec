@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<?xml version="1.0" encoding="utf-8"?><package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>ArmChair.Core</id>
         <version>0.0.0</version>
@@ -15,17 +14,15 @@
         <copyright>Copyright 2014 dbones.co.uk</copyright>
         <language>en-US</language>
         <tags>UOW CouchDB Document Database Client</tags>
-        <dependencies>
-            <dependency id="Newtonsoft.Json" version="7.0.1" />
-        </dependencies>
+        <dependencies><group><dependency id="Newtonsoft.Json" version="9.0.1"/></group></dependencies>
     </metadata>
     <files>
-        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.dll" target="lib\net40\ArmChair.Core.dll" />
-        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.pdb" target="lib\net40\ArmChair.Core.pdb" />
-        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.XML" target="lib\net40\ArmChair.Core.XML" />
-        <file src="nuspec\Apache License 2.0.txt" target="Apache License 2.0.txt" />
-        <file src="nuspec\changes.txt" target="changes.txt" />
-        <file src="nuspec\license.txt" target="license.txt" />
-        <file src="nuspec\ReadMe.txt" target="ReadMe.txt" />
+        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.dll" target="lib\net40\ArmChair.Core.dll"/>
+        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.pdb" target="lib\net40\ArmChair.Core.pdb"/>
+        <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.XML" target="lib\net40\ArmChair.Core.XML"/>
+        <file src="nuspec\Apache License 2.0.txt" target="Apache License 2.0.txt"/>
+        <file src="nuspec\changes.txt" target="changes.txt"/>
+        <file src="nuspec\license.txt" target="license.txt"/>
+        <file src="nuspec\ReadMe.txt" target="ReadMe.txt"/>
     </files>
 </package>
