@@ -54,6 +54,7 @@
     <Compile Include="Processes\Commit\CommitToDbTask.cs" />
     <Compile Include="Commands\AllDocsRequest.cs" />
     <Compile Include="Serialization\Newton\BaseOverride.cs" />
+    <Compile Include="Serialization\Newton\LocalCamelCaseNamingStrategy.cs" />
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
     <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
     <Compile Include="Utils\Dynamic.cs" />

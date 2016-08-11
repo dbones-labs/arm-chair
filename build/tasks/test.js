@@ -37,10 +37,10 @@ gulp.task('test', ['get-nunit'], function () {
 			work: outputDir,
 
 			// Label each test in stdOut.
-			labels: true
+			labels: true,
 
 			//// Set internal trace level.
-			//trace: 'Off|Error|Warning|Info|Verbose',
+			trace: 'Info',
 
 			// Framework version to be used for tests.
 			//framework: 'net-4.0'
