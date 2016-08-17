@@ -6,12 +6,12 @@ var unzip = require('unzip');
 var mkdirp = require('mkdirp');
 var config = require('../config');
 
-var nunitLocation= 'http://github.com/nunit/nunitv2/releases/download/2.6.4/NUnit-2.6.4.zip';
+var nunitLocation= 'https://github.com/nunit/nunit/releases/download/3.4.1/NUnit-3.4.1.zip';
 var toolsDir = config.toolsDir;
 var outputDir = config.outputDir +'/test';
 var nunitDir = toolsDir + '/nunit';
 var zipFileName = toolsDir + '/nunit.zip';
-var runnerFileName =  nunitDir + '/NUnit-2.6.4/bin/nunit-console.exe';
+var runnerFileName =  nunitDir + '/bin/nunit3-console.exe';
 
 var isWin = /^win/.test(process.platform);
 
@@ -21,7 +21,7 @@ gulp.task('test', ['get-nunit'], function () {
 
 	var setup = {
 
-		executable: monoize(runnerFileName),
+		executable: runnerFileName,
 
 		// The options below map directly to the NUnit console runner. See here
 		// for more info: http://www.nunit.org/index.php?p=consoleCommandLine&r=2.6.3
@@ -33,14 +33,16 @@ gulp.task('test', ['get-nunit'], function () {
 			// Suppress XML result output.
 			noresult: false,
 
+			workers: 1,
+
 			// Work directory for output files.
 			work: outputDir,
 
 			// Label each test in stdOut.
-			labels: true,
+			//labels: true//,
 
 			//// Set internal trace level.
-			trace: 'Info',
+			trace: 'Info'
 
 			// Framework version to be used for tests.
 			//framework: 'net-4.0'
@@ -92,10 +94,3 @@ gulp.task('nunit-download', function(done) {
 		.on('finish', function () { done(); });
 
 });
-
-function monoize(command) {
-	if(isWin){
-		return command;
-	}
-	return "mono " + command;
-}
