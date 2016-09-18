@@ -59,7 +59,7 @@ namespace ArmChair.Serialization.Newton
             return new AllDocsResponse()
             {
                 Rows = rows,
-                Offset = (int)jsonContent["offset"],
+                Offset = (int)(jsonContent["offset"] ?? 0),
                 TotalRows = (int)jsonContent["total_rows"]
             };
         }
