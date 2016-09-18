@@ -72,7 +72,7 @@ namespace ArmChair.Tests
         {
             OnFixtureTearDown();
 
-            EnsureDbIsDeleted();
+            //EnsureDbIsDeleted();
         }
 
         private void EnsureDbIsDeleted()
