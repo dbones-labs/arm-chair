@@ -49,6 +49,7 @@ namespace ArmChair.Commands
         /// Load a single Document
         /// </summary>
         /// <param name="key">the key/id of the document</param>
+        /// <param name="objecType">the type that is being loaded</param>
         /// <returns>returns the document in its POCO form</returns>
         public object LoadEntity(string key, Type objecType)
         {
@@ -63,7 +64,7 @@ namespace ArmChair.Commands
                     return null;
                 }
 
-                var content = response.Content.ReadToEnd();
+                var content = response.GetBody();
                 return _serializer.Deserialize(content, objecType);
             }
         }
@@ -83,7 +84,7 @@ namespace ArmChair.Commands
 
             using (var response = _connection.Execute(request))
             {
-                var content = response.Content.ReadToEnd();
+                var content = response.GetBody();
                 return _serializer.Deserialize<AllDocsResponse>(content);
             }
         }
@@ -95,16 +96,14 @@ namespace ArmChair.Commands
         /// <returns></returns>
         public IEnumerable<BulkDocResponse> BulkApplyChanges(BulkDocsRequest updates)
         {
-
             var json = _serializer.Serialize(updates);
-
             var request = new Request("/:db/_bulk_docs", HttpVerbType.Post);
             request.AddUrlSegment("db", _name);
             request.AddContent(writer => writer.Write(json), HttpContentType.Json);
 
             using (var response = _connection.Execute(request))
             {
-                var content = response.Content.ReadToEnd();
+                var content = response.GetBody();
                 return _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
             }
         }

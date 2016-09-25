@@ -1,8 +1,17 @@
+0.4.x
+==============
+support for couchdb 2.0
+updated internal http calling code
+
+0.3.x
+==============
+updated to newton 9.x, which required updates to serialisation code
+
 0.2.x
 ==============
-updated the serialisation code
+improved the serialisation code
 
 0.1.x
 ==============
-Inital release
+Initial release
 support for Add, Remove, Attach, and get by Id(s)
