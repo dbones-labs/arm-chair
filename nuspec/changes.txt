@@ -1,7 +1,7 @@
 0.4.x
 ==============
 support for couchdb 2.0
-updated internal http calling code
+updated internal http code
 
 0.3.x
 ==============
