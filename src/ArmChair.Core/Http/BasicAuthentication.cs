@@ -22,16 +22,25 @@ namespace ArmChair.Http
     /// </summary>
     public class BasicAuthentication : IAuthentication
     {
-        private string authHeader;
+        private readonly string _authHeader;
+        /// <summary>
+        /// Create an instance of a RFC 2617 (aka BASIC) Authentication, to be applied on a connection
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <param name="password">password</param>
         public BasicAuthentication(string userName, string password)
         {
             var encoded = Convert.ToBase64String(Encoding.Default.GetBytes(userName + ":" + password));
-            authHeader = "Basic " + encoded;
+            _authHeader = "Basic " + encoded;
         }
 
-        public void Apply(IRequest request)
+        /// <summary>
+        /// applies security to the request.
+        /// </summary>
+        /// <param name="request">the request to apply security too</param>
+        public virtual void Apply(IConnection connection, IRequest request)
         {
-            request.AddHeader("Authorization", authHeader);
+            request.AddHeader("Authorization", _authHeader);
         }
     }
 }

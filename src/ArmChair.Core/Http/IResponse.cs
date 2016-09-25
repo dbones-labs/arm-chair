@@ -13,13 +13,14 @@
 // limitations under the License.
 namespace ArmChair.Http
 {
+    using System;
     using System.IO;
     using System.Net;
 
     /// <summary>
     /// Http response
     /// </summary>
-    public interface IResponse
+    public interface IResponse : IDisposable
     {
         /// <summary>
         /// HTTP status, ie 200
@@ -27,9 +28,15 @@ namespace ArmChair.Http
         HttpStatusCode Status { get; }
 
         /// <summary>
-        /// the content stream
+        /// the content stream, use this to get hold of the stream
         /// </summary>
         StreamReader Content { get; }
+
+        /// <summary>
+        /// get the content body as a string
+        /// </summary>
+        /// <returns>body content</returns>
+        string GetBody();
 
         /// <summary>
         /// the size of the response

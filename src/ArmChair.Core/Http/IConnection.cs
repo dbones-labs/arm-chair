@@ -35,10 +35,21 @@ namespace ArmChair.Http
         IWebProxy Proxy { get; set; }
 
         /// <summary>
+        /// the URL to be used for this connection
+        /// </summary>
+        string BaseUrl { get; }
+
+        /// <summary>
         /// Execute a command against this connection/endpoint.
         /// </summary>
         /// <param name="request">request to execute.</param>
         /// <param name="responseHandler">handler of the response</param>
         void Execute(IRequest request, Action<IResponse> responseHandler);
+
+        /// <summary>
+        /// Execute a command against this connection/endpoint.
+        /// </summary>
+        /// <param name="request">request to execute.</param>
+        IResponse Execute(IRequest request);
     }
 }

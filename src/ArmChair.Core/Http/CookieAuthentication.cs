@@ -23,6 +23,12 @@ namespace ArmChair.Http
         private Cookie _authSession;
 
 
+        /// <summary>
+        /// create a RFC 2019 (COOKIE) Authentication, to be applied on a connection
+        /// </summary>
+        /// <param name="serverUrl">cookie auth endpoint</param>
+        /// <param name="userName">username</param>
+        /// <param name="password">passwork</param>
         public CookieAuthentication(
             string serverUrl,
             string userName,
@@ -31,8 +37,8 @@ namespace ArmChair.Http
 
             var connection = new Connection(serverUrl);
             var request = new FormRequest("/_session", HttpVerbType.Post);
-            request.AddFormParameter("name", userName);
-            request.AddFormParameter("password", password);
+            request.AddBodyParameter("name", userName);
+            request.AddBodyParameter("password", password);
 
             connection.Execute(request, response =>
             {
@@ -44,7 +50,7 @@ namespace ArmChair.Http
             });
         }
 
-        public void Apply(IRequest request)
+        public virtual void Apply(IConnection connection, IRequest request)
         {
             request.AddCookie(_authSession);
         }

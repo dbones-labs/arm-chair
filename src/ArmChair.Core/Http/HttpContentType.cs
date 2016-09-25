@@ -13,10 +13,22 @@
 // limitations under the License.
 namespace ArmChair.Http
 {
+    /// <summary>
+    /// supported HTTP content types
+    /// </summary>
     public enum HttpContentType
     {
+        /// <summary>
+        /// JS serialised Object
+        /// </summary>
         Json,
+        /// <summary>
+        /// XML serialised Object
+        /// </summary>
         Xml,
+        /// <summary>
+        /// Form made of key/value pairs
+        /// </summary>
         Form
     }
 }

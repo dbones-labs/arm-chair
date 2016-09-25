@@ -20,7 +20,7 @@ namespace ArmChair.Tests
     public class AttachingTests : TestCase
     {
         [Test]
-        public void Simple_Attach()
+        public void Simple_attach()
         {
             Book book;
             using (var session = Database.CreateSession())
@@ -47,6 +47,7 @@ namespace ArmChair.Tests
                 session.Commit();
             }
 
+            
 
             using (var session = Database.CreateSession())
             {

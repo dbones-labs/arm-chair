@@ -14,6 +14,7 @@
 namespace ArmChair.Http
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Net;
 
@@ -28,20 +29,41 @@ namespace ArmChair.Http
         IWebProxy Proxy { get; set; }
 
         /// <summary>
+        /// URL of the request, not including the base
+        /// </summary>
+        string Url { get; }
+
+        /// <summary>
+        /// HTTP Parameters being used in the required (on the queryString)
+        /// </summary>
+        IEnumerable<Parameter> Parameters { get; }
+
+        /// <summary>
+        /// HTTP Verb being used in the request
+        /// </summary>
+        HttpVerbType HttpVerb { get; }
+
+        /// <summary>
         /// execute the request
         /// </summary>
         /// <param name="baseUrl">the base URL which the request will be against</param>
-        /// <param name="handleResonse">delegate to handle the response</param>
         /// <param name="proxy">override the proxy, else use the one which is registered against the request</param>
-        void Execute(string baseUrl, Action<Response> handleResonse, IWebProxy proxy = null);
-        
+        IResponse Execute(string baseUrl, IWebProxy proxy = null);
+
+
+        /// <summary>
+        /// access the request object directly
+        /// </summary>
+        /// <param name="config">setup the request object</param>
+        void Configure(Action<HttpWebRequest> config);
+
         /// <summary>
         /// add a header
         /// </summary>
         /// <param name="key">the name</param>
         /// <param name="header">the value</param>
         void AddHeader(string key, string header);
-        
+
         /// <summary>
         /// add a cookie 
         /// </summary>
@@ -49,18 +71,31 @@ namespace ArmChair.Http
         void AddCookie(Cookie cookie);
 
         /// <summary>
-        /// add a URL param (?name=value)
+        /// add a URL param (?name=value), uses a default encoder
         /// </summary>
         /// <param name="key">the name</param>
         /// <param name="value">value</param>
         void AddParameter(string key, string value);
 
         /// <summary>
-        /// add URL param hi.com/:name => hi.com/value
+        /// add a URL param (?name=value)
+        /// </summary>
+        /// <param name="param">full spec the param</param>
+        void AddParameter(Parameter param);
+
+        /// <summary>
+        /// add URL param hi.com/:name => hi.com/value (uses default encoder)
         /// </summary>
         /// <param name="key">param name</param>
         /// <param name="value">the param value</param>
         void AddUrlSegment(string key, string value);
+
+        /// <summary>
+        /// add URL param hi.com/:name => hi.com/value
+        /// </summary>
+        /// <param name="param">full spec the param</param>
+        void AddUrlSegment(Parameter param);
+
 
         /// <summary>
         /// add the content/body to the request
@@ -68,5 +103,13 @@ namespace ArmChair.Http
         /// <param name="writeConent">write to the steam when it has been made avaliable</param>
         /// <param name="contentType">the type of the content</param>
         void AddContent(Action<StreamWriter> writeConent, HttpContentType contentType);
+
+
+        /// <summary>
+        /// over ride any value on the underlying httpRequest.
+        /// </summary>
+        /// <param name="apply"></param>
+        void SetupRequest(Action<HttpWebRequest> apply);
+
     }
 }

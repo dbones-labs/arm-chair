@@ -18,14 +18,16 @@ namespace ArmChair.Http
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Web;
 
+    /// <summary>
+    /// A HTTP form request
+    /// </summary>
     public class FormRequest : Request
     {
-        protected List<string> _formParams = new List<string>();
+        protected List<Parameter> _formParams = new List<Parameter>();
 
-        public FormRequest(string url, HttpVerbType verbType)
-            : base(url, verbType)
+        public FormRequest(string appendUrlToBase, HttpVerbType verbType = HttpVerbType.Post)
+            : base(appendUrlToBase, verbType)
         {
             SetContentType(HttpContentType.Form);
             if (verbType == HttpVerbType.Get)
@@ -34,25 +36,44 @@ namespace ArmChair.Http
             }
         }
 
-        public override void Execute(string baseUrl, Action<Response> handleResonse, IWebProxy proxy = null)
+        /// <summary>
+        /// body paramerters, to be sent which are to be sent to the server
+        /// </summary>
+        public virtual IEnumerable<Parameter> BodyParameters => _formParams;
+
+        public override IResponse Execute(string baseUrl, IWebProxy proxy = null)
         {
             if (_formParams.Any())
             {
-                _writeContent = writer => writer.Write(string.Join("&", _formParams));
+                var values = _formParams.Select(x => $"{x.Name}={x.EncodedValue}");
+                _writeContent = writer => writer.Write(string.Join("&", values));
             }
 
-            base.Execute(baseUrl, handleResonse, proxy);
+            return base.Execute(baseUrl, proxy);
         }
 
         public override void AddContent(Action<StreamWriter> writeConent, HttpContentType contentType)
         {
-            throw new NotImplementedException("use AddFormParameter");
+            throw new NotImplementedException("use AddBodyParameter");
         }
 
-        public virtual void AddFormParameter(string key, string value)
+        /// <summary>
+        /// Add a body parameter (uses no encoder, string will be passed through)
+        /// </summary>
+        /// <param name="key">name of the param</param>
+        /// <param name="value">value of the param</param>
+        public virtual void AddBodyParameter(string key, string value)
         {
-            var encoded = HttpUtility.UrlEncode(value);
-            _formParams.Add(string.Format("{0}={1}", key, encoded));
+            _formParams.Add(new Parameter { Name = key, Value = value, EncodingFunc = v => v });
+        }
+
+        /// <summary>
+        /// Add a body parameter
+        /// </summary>
+        /// <param name="param">the parameter containing the name and value</param>
+        public virtual void AddBodyParameter(Parameter param)
+        {
+            _formParams.Add(param);
         }
 
     }

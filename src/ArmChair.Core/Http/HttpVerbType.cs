@@ -13,11 +13,26 @@
 // limitations under the License.
 namespace ArmChair.Http
 {
+    /// <summary>
+    /// HTTP Verbs which can be used with a request
+    /// </summary>
     public enum HttpVerbType
     {
+        /// <summary>
+        /// Delete a resource
+        /// </summary>
         Delete,
+        /// <summary>
+        /// Post is mostly assoicated with a new resouce
+        /// </summary>
         Post,
+        /// <summary>
+        /// Put is mostly associated with a update to a resouce
+        /// </summary>
         Put,
+        /// <summary>
+        /// Get a resouce
+        /// </summary>
         Get
     }
 }
