@@ -48,6 +48,7 @@
     <Compile Include="Database.cs" />
     <Compile Include="EntityManagement\IRevisionAccessor.cs" />
     <Compile Include="EntityManagement\RevisionAccessor.cs" />
+    <Compile Include="Http\Parameter.cs" />
     <Compile Include="InSession\ISessionCache.cs" />
     <Compile Include="Processes\Commit\CommitContext.cs" />
     <Compile Include="Processes\Commit\CommitPipeline.cs" />

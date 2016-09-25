@@ -52,25 +52,20 @@ namespace ArmChair.Commands
         /// <returns>returns the document in its POCO form</returns>
         public object LoadEntity(string key, Type objecType)
         {
-            object entity = null;
             var request = new Request("/:db/:key", HttpVerbType.Get);
             request.AddUrlSegment("db", _name);
             request.AddUrlSegment("key", key);
 
-            _connection.Execute(request, response =>
+            using (var response = _connection.Execute(request))
             {
                 if (response.Status == HttpStatusCode.NotFound)
                 {
-                    entity = null;
+                    return null;
                 }
-                else
-                {
-                    var content = response.Content.ReadToEnd();
-                    entity = _serializer.Deserialize(content, objecType);   
-                }
-                
-            });
-            return entity;
+
+                var content = response.Content.ReadToEnd();
+                return _serializer.Deserialize(content, objecType);
+            }
         }
 
         /// <summary>
@@ -86,13 +81,11 @@ namespace ArmChair.Commands
             request.AddParameter("include_docs", "true"); //load entire content.
             request.AddContent(writer => writer.Write(requestJson), HttpContentType.Json);
 
-            AllDocsResponse result = null;
-            _connection.Execute(request, response =>
+            using (var response = _connection.Execute(request))
             {
                 var content = response.Content.ReadToEnd();
-                result = _serializer.Deserialize<AllDocsResponse>(content);
-            });
-            return result;
+                return _serializer.Deserialize<AllDocsResponse>(content);
+            }
         }
 
         /// <summary>
@@ -109,14 +102,11 @@ namespace ArmChair.Commands
             request.AddUrlSegment("db", _name);
             request.AddContent(writer => writer.Write(json), HttpContentType.Json);
 
-            IEnumerable<BulkDocResponse> results = null;
-            _connection.Execute(request, response =>
+            using (var response = _connection.Execute(request))
             {
                 var content = response.Content.ReadToEnd();
-                results = _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
-            });
-         
-            return results;
+                return _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
+            }
         }
     }
 }

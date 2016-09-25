@@ -21,7 +21,8 @@ namespace ArmChair.Http
         /// <summary>
         /// Apply authentication to the request
         /// </summary>
+        /// <param name="connection">the current connection</param>
         /// <param name="request">request to apply authentication to</param>
-        void Apply(IRequest request);
+        void Apply(IConnection connection, IRequest request);
     }
 }

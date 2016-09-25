@@ -29,5 +29,11 @@ namespace ArmChair.Http
         }
 
         public IRequest Request { get; set; }
+
+
+        public override string Message
+        {
+            get { return $"request {Request}"; }
+        }
     }
 }

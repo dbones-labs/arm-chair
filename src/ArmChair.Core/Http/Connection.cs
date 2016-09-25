@@ -18,26 +18,44 @@ namespace ArmChair.Http
 
     public class Connection : IConnection
     {
-        private readonly string _baseUrl;
+        public string BaseUrl { get; protected set; }
 
+        /// <summary>
+        /// create a new connection instance, note that this does not keep open an active connection
+        /// </summary>
+        /// <param name="baseUrl">the base url which all requests will be based from</param>
         public Connection(string baseUrl)
         {
-            _baseUrl = baseUrl;
+            BaseUrl = baseUrl;
         }
 
-        public IAuthentication Authentication { get; set; }
+        public virtual IAuthentication Authentication { get; set; }
 
-        public IWebProxy Proxy { get; set; }
+        public virtual IWebProxy Proxy { get; set; }
 
-        public void Execute(IRequest request, Action<IResponse> responseHandler)
+        public virtual void Execute(IRequest request, Action<IResponse> responseHandler)
         {
             try
             {
-                if (Authentication != null)
+                Authentication?.Apply(this, request);
+                using (var response = request.Execute(BaseUrl, Proxy))
                 {
-                    Authentication.Apply(request);
+                    responseHandler(response);
                 }
-                request.Execute(_baseUrl, responseHandler, Proxy);
+            }
+            catch (Exception ex)
+            {
+                throw new RequestException(request, ex);
+            }
+
+        }
+
+        public virtual IResponse Execute(IRequest request)
+        {
+            try
+            {
+                Authentication?.Apply(this, request);
+                return request.Execute(BaseUrl, Proxy);
             }
             catch (Exception ex)
             {

@@ -19,29 +19,48 @@ namespace ArmChair.Http
     using System.Linq;
     using System.Net;
     using System.Text;
-    using System.Web;
 
+    /// <summary>
+    /// Http Request
+    /// </summary>
     public class Request : IRequest
     {
         protected string _url;
-        protected readonly List<string> _params = new List<string>();
+        protected readonly List<Parameter> _params = new List<Parameter>();
         protected readonly List<Action<HttpWebRequest>> _configs = new List<Action<HttpWebRequest>>();
         protected Action<StreamWriter> _writeContent;
         protected HttpVerbType _httpVerb = HttpVerbType.Get;
+        protected List<Action<HttpWebRequest>> _requestSetups = new List<Action<HttpWebRequest>>();
 
-        public Request(string url, HttpVerbType verbType)
+        /// <summary>
+        /// create new HTTP request, you need to execute this against the connection
+        /// </summary>
+        /// <param name="url">addtional URL, which is applied off the URL Base on the connection</param>
+        /// <param name="verbType">HTTP verb</param>
+        public Request(string url, HttpVerbType verbType = HttpVerbType.Get)
         {
             _url = url;
             SetVerb(verbType);
+            CreateResponse = httpResponse => new Response(httpResponse);
         }
 
         public virtual IWebProxy Proxy { get; set; }
+        public virtual string Url => _url;
+        public virtual HttpVerbType HttpVerb => _httpVerb;
+        public virtual Func<HttpWebResponse, IResponse> CreateResponse { get; set; }
+        public virtual IEnumerable<Parameter> Parameters => _params;
+        public virtual string UserAgent { get; set; }
+        public string Accept { get; set; }
 
-        public virtual void Execute(string baseUrl, Action<Response> handleResonse, IWebProxy proxy = null)
+
+        public virtual IResponse Execute(string baseUrl, IWebProxy proxy = null)
         {
             string url = CreateUrl(baseUrl);
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Proxy = proxy ?? Proxy;
+            //request.KeepAlive = false;
+            if (UserAgent != null) request.UserAgent = UserAgent;
+            if (Accept != null) request.Accept = Accept;
 
             Setup(request);
 
@@ -59,52 +78,65 @@ namespace ArmChair.Http
 
             try
             {
-                using (var httpResponse = (HttpWebResponse)request.GetResponse())
-                {
-                    Stream stream = httpResponse.GetResponseStream();
-                    if (stream == null)
-                    {
-                        var response = new Response(httpResponse);
-                        handleResonse(response);
-                    }
-                    else
-                    {
-                        using (var contentReader = new StreamReader(stream))
-                        {
-                            var response = new Response(httpResponse, contentReader);
-                            handleResonse(response);
-                        }
-                    }
-                }
+                return CreateResponse((HttpWebResponse)request.GetResponse());
             }
             catch (WebException we)
             {
+                if (we.Response == null)
+                {
+                    throw;
+                }
+
                 var httpResponse = we.Response as HttpWebResponse;
-                var response = new Response(httpResponse);
-                handleResonse(response);
+                var response = CreateResponse(httpResponse);
+                return response;
+            }
+        }
+        
+        public virtual void AddHeader(string key, string header)
+        {
+            switch (key)
+            {
+                case "Accept":
+                    Accept = header;
+                    break;
+                case "User-Agent":
+                    UserAgent = header;
+                    break;
+                default:
+                    _configs.Add(request => request.Headers.Add(key, header));
+                    break;
             }
         }
 
-        public virtual void AddHeader(string key, string header)
-        {
-            _configs.Add(request => request.Headers.Add(key, header));
-        }
-
-        public void AddCookie(Cookie cookie)
+        public virtual void AddCookie(Cookie cookie)
         {
             _configs.Add(request => request.CookieContainer.Add(cookie));
         }
 
+        public virtual void Configure(Action<HttpWebRequest> config)
+        {
+            _configs.Add(config);
+        }
+
         public virtual void AddParameter(string key, string value)
         {
-            var encoded = HttpUtility.UrlEncode(value);
-            _params.Add(string.Format("{0}={1}", key, encoded));
+            AddParameter(new Parameter(){Name = key, Value = value});
+        }
+
+        public virtual void AddParameter(Parameter param)
+        {
+            _params.Add(param);
         }
 
         public virtual void AddUrlSegment(string key, string value)
         {
-            var encoded = HttpUtility.UrlEncode(value);
-            _url = _url.Replace(string.Format(":{0}", key), encoded);
+            AddUrlSegment(new Parameter(){Name = key, Value = value});
+        }
+
+        public virtual void AddUrlSegment(Parameter param)
+        {
+            _url = _url.Replace(string.Format(":{0}", param.Name), param.EncodedValue);
         }
 
         public virtual void AddContent(Action<StreamWriter> writeConent, HttpContentType contentType)
@@ -113,7 +145,12 @@ namespace ArmChair.Http
             _writeContent = writeConent;
         }
 
-        private string CreateUrl(string baseUrl)
+        public virtual void SetupRequest(Action<HttpWebRequest> apply)
+        {
+            _requestSetups.Add(apply);
+        }
+
+        protected virtual string CreateUrl(string baseUrl)
         {
             var builder = new StringBuilder();
             builder.Append(baseUrl);
@@ -132,7 +169,8 @@ namespace ArmChair.Http
 
             if (_params.Any())
             {
-                var @params = string.Join("&", _params);
+                var p1 = _params.Select(param => string.Format("{0}={1}", param.Name, param.EncodedValue));
+                var @params = string.Join("&", p1);
                 builder.Append("?");
                 builder.Append(@params);
             }
@@ -140,7 +178,7 @@ namespace ArmChair.Http
             return builder.ToString();
         }
 
-        private void Setup(HttpWebRequest request)
+        protected virtual void Setup(HttpWebRequest request)
         {
             foreach (var config in _configs)
             {
@@ -148,7 +186,7 @@ namespace ArmChair.Http
             }
         }
 
-        public void SetContentType(HttpContentType contentType)
+        public virtual void SetContentType(HttpContentType contentType)
         {
             string value;
             switch (contentType)
@@ -160,12 +198,17 @@ namespace ArmChair.Http
                     value = "application/x-www-form-urlencoded";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("contentType");
+                    throw new ArgumentOutOfRangeException(nameof(contentType));
             }
             _configs.Add(request => request.ContentType = value);
         }
 
-        private void SetVerb(HttpVerbType verbType)
+        public override string ToString()
+        {
+            return $"Verb: {_httpVerb} - {_url}.";
+        }
+
+        protected virtual void SetVerb(HttpVerbType verbType)
         {
             _httpVerb = verbType;
             string value;
@@ -184,7 +227,7 @@ namespace ArmChair.Http
                     value = "GET";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("verbType");
+                    throw new ArgumentOutOfRangeException(nameof(verbType));
             }
 
             _configs.Add(request => request.Method = value);

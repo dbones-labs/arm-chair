@@ -14,6 +14,7 @@
 namespace ArmChair.Tests
 {
     using System.Net;
+    using System.Threading;
     using Http;
     using NUnit.Framework;
 
@@ -33,16 +34,43 @@ namespace ArmChair.Tests
             return new Database(DbName, conn);
         }
 
+        /// <summary>
+        /// while running couch 2.0 preview, we had some tests which would
+        /// fail if we ran too fast.
+        /// 
+        /// this is a hack to slow us down between action and assert.
+        /// </summary>
+        public virtual void EventallyRun()
+        {
+            Thread.Sleep(750);
+        }
+
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
             EnsureDbIsDeleted();
+
             //create a test db
             var conn = new Connection(DbLocation) {Proxy = Proxy};
             var createDb = new Request("/:db", HttpVerbType.Put);
             createDb.AddUrlSegment("db", DbName);
             createDb.SetContentType(HttpContentType.Json);
             conn.Execute(createDb, response => { });
+
+            var wait = true;
+            var confirmDb = new Request("/:db", HttpVerbType.Get);
+            confirmDb.AddUrlSegment("db", DbName);
+            confirmDb.SetContentType(HttpContentType.Json);
+
+            EventallyRun();
+
+            while (wait)
+            {
+                conn.Execute(confirmDb, response =>
+                {
+                    wait = response.Status != HttpStatusCode.OK;
+                });
+            }
 
             Database = CreateDatabase();
             OnFixtureSetup();
