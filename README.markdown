@@ -17,8 +17,8 @@ its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChai
 
 ##Nuget
 
-**Current version:** 0.4.x
-**Released: September** 2016
+* **Current version:** 0.4.x
+* **Released:** September 2016
 
 ```
 PM> Install-Package ArmChair.Core
