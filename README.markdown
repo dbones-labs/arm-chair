@@ -1,7 +1,7 @@
 #ArmChair.Core
 =======
 
-CouchDB + .NET + Unit-Of-Work = ArmChair.
+**CouchDB + .NET + Unit-Of-Work = ArmChair.**
 
 ArmChair has been built from the ground up with the following goals:
 
@@ -15,27 +15,34 @@ ArmChair has been built from the ground up with the following goals:
 
 its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChair.Default.aspx
 
+##Nuget
+
+**Current version:** 0.4.x
+**Released: September** 2016
+
+```
+PM> Install-Package ArmChair.Core
+```
 
 ##Compatibility
 
-* .NET 4.0 +
-* CouchDB 1.2 +
-
-Planned Mono (on Linux) Support
-passes compatibility test.
-
+* .NET 4.0 + / Mono 4.0 +
+* CouchDB 1.2 + / CouchDB 2.0 +
 
 ##Licence
+
 Apache 2.0 licensed.
-
-
 
 ##Building from source
 
 to build the project you will need to install *node* and *gulp*
 
 ```
+npm install
 gulp build-all [--buildNumber 123]
 ```
 
 the buildNumber is optional, if not included it will set the patch number to 0.
+
+####Note
+*Please ensure that you test the usage of this library, before using this in your production system.*
