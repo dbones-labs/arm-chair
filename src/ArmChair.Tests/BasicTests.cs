@@ -13,7 +13,6 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
-    using System;
     using Domain;
     using NUnit.Framework;
 

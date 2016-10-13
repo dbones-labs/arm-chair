@@ -78,7 +78,7 @@ namespace ArmChair
         /// </summary>
         /// <typeparam name="T">the object type whichs to filter on</typeparam>
         /// <returns>all items which satisfy the query</returns>
-        IQueryable<T> Query<T>() where T : class;
+        IQueryable<T> Query<T>(string index = null) where T : class;
 
     }
 
@@ -99,11 +99,6 @@ namespace ArmChair
         /// Skip the first ‘n’ results, where ‘n’ is the value specified. Optional
         /// </summary>
         public long? Skip { get; set; }
-
-        /// <summary>
-        /// list of fields to return.
-        /// </summary>
-        public IList<string> Fields { get; set; }
 
 
         public string Index { get; set; }

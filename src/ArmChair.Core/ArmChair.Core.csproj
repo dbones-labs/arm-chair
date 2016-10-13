@@ -70,6 +70,7 @@
     <Compile Include="Linq\Pre\Query.cs" />
     <Compile Include="Linq\Pre\ReplaceSourceVisitor.cs" />
     <Compile Include="Linq\Pre\SubPatternRegistry.cs" />
+    <Compile Include="Linq\QueryObject.cs" />
     <Compile Include="Linq\Transform\HandlerRegistry.cs" />
     <Compile Include="Linq\Transform\Handlers\AndOrVisitorHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandler.cs" />

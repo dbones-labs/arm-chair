@@ -1,5 +1,6 @@
 namespace ArmChair.Linq.Pre.Handlers
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     public class FirstSubPatternHandler : SubPatternHandlerBase
@@ -17,6 +18,10 @@ namespace ArmChair.Linq.Pre.Handlers
                 ctx.LinqQuery.AddWhereClause(args[1]);
             }
 
+            ctx.LinqQuery.PostProcess = ctx.CurrentMethod.Expression.Method.Name.Contains("Default")
+                ? (IPostProcess) new FirstOrDefaultPostProcess()
+                : new FirstPostProcess();
+
             ctx.LinqQuery.Paging.Take = 1;
         }
 
@@ -24,5 +29,26 @@ namespace ArmChair.Linq.Pre.Handlers
         {
             return true;
         }
+
+
+        class FirstOrDefaultPostProcess : IPostProcess
+        {
+            public object Execute<T>(IEnumerable<T> items)
+            {
+                return items.FirstOrDefault();
+            }
+        }
+
+        class FirstPostProcess : IPostProcess
+        {
+            public object Execute<T>(IEnumerable<T> items)
+            {
+                return items.First();
+            }
+        }
+
     }
+
+
+    
 }
