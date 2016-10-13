@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Core", "ArmChair.Core\ArmChair.Core.csproj", "{E11B204F-16D8-4578-9743-9D12ED2DAD53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Tests", "ArmChair.Tests\ArmChair.Tests.csproj", "{931C97FA-7EB3-422A-86E4-94768D2F18FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Tests.Domain", "ArmChair.Tests.Domain\ArmChair.Tests.Domain.csproj", "{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQToolkit", "IQToolkit\IQToolkit.csproj", "{0DA62A7C-3B40-456F-A4B2-B3E19ED4080E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA62A7C-3B40-456F-A4B2-B3E19ED4080E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA62A7C-3B40-456F-A4B2-B3E19ED4080E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA62A7C-3B40-456F-A4B2-B3E19ED4080E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA62A7C-3B40-456F-A4B2-B3E19ED4080E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

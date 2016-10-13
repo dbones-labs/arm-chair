@@ -22,7 +22,7 @@ namespace ArmChair.Serialization.Newton
 
 
     /// <summary>
-    /// handle the query response
+    /// handle the ids query response
     /// </summary>
     public class AllDocsResponseConverter : JsonConverter
     {

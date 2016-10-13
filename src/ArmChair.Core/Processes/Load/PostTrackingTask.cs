@@ -17,7 +17,7 @@ namespace ArmChair.Processes.Load
     using Tasks;
     using Tracking;
 
-    public class PostTrackingMapTask : PipeItemMapTask<LoadContext>
+    public class PostTrackingMapTask<T> : PipeItemMapTask<T> where T: LoadContext
     {
         private readonly ITrackingProvider _tracking;
 
@@ -26,12 +26,12 @@ namespace ArmChair.Processes.Load
             _tracking = tracking;
         }
 
-        public override bool CanHandle(LoadContext item)
+        public override bool CanHandle(T item)
         {
             return !item.LoadedFromCache;
         }
 
-        public override IEnumerable<LoadContext> Execute(LoadContext item)
+        public override IEnumerable<T> Execute(T item)
         {
             if (item.Entity != null)
             {

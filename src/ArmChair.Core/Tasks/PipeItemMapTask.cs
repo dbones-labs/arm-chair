@@ -48,7 +48,7 @@ namespace ArmChair.Tasks
                 }
 
                 var results = Execute(item);
-                foreach (var result in results.Where(x => !(x == null)))
+                foreach (var result in results.Where(x => x != null))
                 {
                     yield return result;
                 }

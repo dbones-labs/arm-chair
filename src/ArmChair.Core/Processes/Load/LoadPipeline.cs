@@ -85,8 +85,8 @@ namespace ArmChair.Processes.Load
             tasks.AddRange(_preLoadTasks.Select(task => task(taskCtx)));
             tasks.Add(loadTask);
             tasks.AddRange(_postLoadTasks.Select(task => task(taskCtx)));
-            tasks.Add(new PostSaveToSesionMapTask(sessionCache));
-            tasks.Add(new PostTrackingMapTask(tracking));
+            tasks.Add(new PostSaveToSesionMapTask<LoadContext>(sessionCache));
+            tasks.Add(new PostTrackingMapTask<LoadContext>(tracking));
 
             var pipilineExecutor = tasks.CreatePipeline();
 

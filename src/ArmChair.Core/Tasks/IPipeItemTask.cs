@@ -19,12 +19,19 @@ namespace ArmChair.Tasks
     /// this represents a task. these are applied normally within a Pipeline
     /// </summary>
     /// <typeparam name="T">what type the task will be executed against</typeparam>
-    public interface IPipeTask<T>
+    public interface IPipeTask<T> : IPipeTask<IEnumerable<T>, IEnumerable<T>>
+    {
+    }
+
+    /// <summary>
+    /// this represents a task. these are applied normally within a Pipeline
+    /// </summary>
+    public interface IPipeTask<in TIn, out TOut>
     {
         /// <summary>
         /// executes the tasks logic
         /// </summary>
-        /// <param name="items">the items on which the task will operate on</param>
-        IEnumerable<T> Execute(IEnumerable<T> items);
+        /// <param name="input">the input on which the task will operate on</param>
+        TOut Execute(TIn input);
     }
 }

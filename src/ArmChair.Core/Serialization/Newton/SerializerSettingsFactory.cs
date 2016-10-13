@@ -38,7 +38,8 @@ namespace ArmChair.Serialization.Newton
             Converters.AddRange(new JsonConverter[]{
                 new IsoDateTimeConverter(),
                 new BulkDocsRequestConverter(), 
-                new BulkDocsResponseConverter(), 
+                new BulkDocsResponseConverter(),
+                new MongoQueryResponseConverter(), 
                 new AllDocsRequestConverter(), 
                 new AllDocsResponseConverter() });
                         
