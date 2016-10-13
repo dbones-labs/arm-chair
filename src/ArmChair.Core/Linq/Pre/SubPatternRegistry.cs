@@ -19,6 +19,7 @@
                 new FirstSubPatternHandler(),
                 new OrderBySubPatternHandler(),
                 new SkipSubPatternHandler(),
+                new SingleSubPatternHandler(),
                 new TakeSubPatternHandler(),
                 new WhereSubPatternHandler()
             };

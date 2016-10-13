@@ -3,10 +3,13 @@ namespace ArmChair.Linq.Pre.Handlers
     using System.Collections.Generic;
     using System.Linq;
 
-    public class FirstSubPatternHandler : SubPatternHandlerBase
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SingleSubPatternHandler : SubPatternHandlerBase
     {
-        public FirstSubPatternHandler()
-            : base(objects => objects.First(), objects => objects.FirstOrDefault())
+        public SingleSubPatternHandler()
+            : base(objects => objects.Single(), objects => objects.SingleOrDefault())
         {
         }
 
@@ -19,10 +22,11 @@ namespace ArmChair.Linq.Pre.Handlers
             }
 
             ctx.LinqQuery.PostProcess = ctx.CurrentMethod.Expression.Method.Name.Contains("Default")
-                ? (IPostProcess) new FirstOrDefaultPostProcess()
-                : new FirstPostProcess();
+                ? (IPostProcess)new SingleOrDefaultPostProcess()
+                : new SinglePostProcess();
 
-            ctx.LinqQuery.Paging.Take = 1;
+            //note this take 2 is to ensure we have a SINGLE returned.
+            ctx.LinqQuery.Paging.Take = 2;
         }
 
         public override bool IndexQueryCompleted(ProcessingLinqContext ctx)
@@ -31,19 +35,19 @@ namespace ArmChair.Linq.Pre.Handlers
         }
 
 
-        class FirstOrDefaultPostProcess : IPostProcess
+        class SingleOrDefaultPostProcess : IPostProcess
         {
             public object Execute<T>(IEnumerable<T> items)
             {
-                return items.FirstOrDefault();
+                return items.SingleOrDefault();
             }
         }
 
-        class FirstPostProcess : IPostProcess
+        class SinglePostProcess : IPostProcess
         {
             public object Execute<T>(IEnumerable<T> items)
             {
-                return items.First();
+                return items.Single();
             }
         }
 
