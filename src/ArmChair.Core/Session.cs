@@ -16,16 +16,21 @@ namespace ArmChair
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using EntityManagement;
     using IdManagement;
     using InSession;
+    using IQToolkit;
+    using Linq;
     using Processes.Commit;
     using Processes.Load;
+    using Processes.Query;
     using Tracking;
 
     public class Session : ISession
     {
         private readonly LoadPipeline _loadPipeline;
+        private readonly QueryPipeline _queryPipeline;
         private readonly CommitPipeline _commitPipeline;
         private readonly IIdManager _idManager;
         private readonly IIdAccessor _idAccessor;
@@ -35,6 +40,7 @@ namespace ArmChair
 
         public Session(
             LoadPipeline loadPipeline,
+            QueryPipeline queryPipeline,
             CommitPipeline commitPipeline,
             IIdManager idManager,
             IIdAccessor idAccessor,
@@ -44,6 +50,7 @@ namespace ArmChair
         {
             _sessionCache = sessionCache;
             _loadPipeline = loadPipeline;
+            _queryPipeline = queryPipeline;
             _commitPipeline = commitPipeline;
             _idManager = idManager;
             _idAccessor = idAccessor;
@@ -58,7 +65,7 @@ namespace ArmChair
         public virtual void Add<T>(T instance) where T : class
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
-            var type = typeof (T);
+            var type = typeof(T);
             var value = _idAccessor.GetId(instance);
             var key = _idManager.GetFromId(typeof(T), value);
 
@@ -84,7 +91,7 @@ namespace ArmChair
             //allows for attaching exiting objects to this session! 
             //(issue could arise with the rev)
             var value = _idAccessor.GetId(instance);
-            var key = _idManager.GetFromId(typeof (T), value);
+            var key = _idManager.GetFromId(typeof(T), value);
             var entry = new SessionEntry()
             {
                 Action = ActionType.Update,
@@ -92,7 +99,7 @@ namespace ArmChair
                 Key = key
             };
 
-            
+
             _sessionCache.Attach(entry);
         }
 
@@ -129,6 +136,18 @@ namespace ArmChair
         public virtual void Commit()
         {
             _commitPipeline.Process(_sessionCache, _tracking);
+        }
+
+        public virtual IEnumerable<T> Query<T>(MongoQuery query) where T : class
+        {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+            var result = _queryPipeline.Query<T>(query, _sessionCache, _tracking);
+            return result;
+        }
+
+        public virtual IQueryable<T> Query<T>() where T : class
+        {
+            return new Query<T>(new QueryProvider<T>(this));
         }
     }
 }

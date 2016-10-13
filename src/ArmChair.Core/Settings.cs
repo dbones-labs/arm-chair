@@ -13,12 +13,16 @@
 // limitations under the License.
 namespace ArmChair
 {
+    using System.Runtime.Serialization.Formatters;
     using Commands;
     using EntityManagement;
     using Http;
     using IdManagement;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Processes.Commit;
     using Processes.Load;
+    using Processes.Query;
     using Serialization;
     using Serialization.Newton;
 
@@ -31,12 +35,18 @@ namespace ArmChair
             IdManager = new ShortGuidIdManager();
             RevisionAccessor = new RevisionAccessor();
             Serializer = new Serializer(IdAccessor, RevisionAccessor);
+            QuerySerializer = new Serializer(new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.None,
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
-            CouchDb = new CouchDb(databaseName, connection, Serializer);
+            CouchDb = new CouchDb(databaseName, connection, Serializer, QuerySerializer);
 
             LoadPipeline = new LoadPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
             CommitPipeline = new CommitPipeline(CouchDb, IdManager, RevisionAccessor);
-            
+            QueryPipeline = new QueryPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
         }
 
 
@@ -44,9 +54,11 @@ namespace ArmChair
         public IIdManager IdManager { get; private set; }
         public IRevisionAccessor RevisionAccessor { get; private set; }
         public ISerializer Serializer { get; private set; }
+        public ISerializer QuerySerializer { get; private set; }
 
         public LoadPipeline LoadPipeline { get; private set; }
         public CommitPipeline CommitPipeline { get; private set; }
+        public QueryPipeline QueryPipeline { get; private set; }
         public CouchDb CouchDb { get; private set; }
 
 

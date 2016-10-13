@@ -30,6 +30,7 @@ namespace ArmChair.Commands
         private readonly string _name;
         private readonly IConnection _connection;
         private readonly ISerializer _serializer;
+        private readonly ISerializer _querySerializer;
 
 
         /// <summary>
@@ -38,11 +39,13 @@ namespace ArmChair.Commands
         /// <param name="name">name of the CouchDb</param>
         /// <param name="connection">the connection to the CouchDb</param>
         /// <param name="serializer">the serializer to use when exxchanging data</param>
-        public CouchDb(string name, Connection connection, ISerializer serializer)
+        /// <param name="querySerializer">serializer for mongo queries</param>
+        public CouchDb(string name, Connection connection, ISerializer serializer, ISerializer querySerializer)
         {
             _name = name;
             _connection = connection;
             _serializer = serializer;
+            _querySerializer = querySerializer;
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace ArmChair.Commands
         /// <param name="key">the key/id of the document</param>
         /// <param name="objecType">the type that is being loaded</param>
         /// <returns>returns the document in its POCO form</returns>
-        public object LoadEntity(string key, Type objecType)
+        public virtual object LoadEntity(string key, Type objecType)
         {
             var request = new Request("/:db/:key", HttpVerbType.Get);
             request.AddUrlSegment("db", _name);
@@ -74,7 +77,7 @@ namespace ArmChair.Commands
         /// </summary>
         /// <param name="keys">keys/ids of the documents to load</param>
         /// <returns>the documents loaded into their assocaited POCO's</returns>
-        public AllDocsResponse LoadAllEntities(AllDocsRequest keys)
+        public virtual AllDocsResponse LoadAllEntities(AllDocsRequest keys)
         {
             var requestJson = _serializer.Serialize(keys);
             var request = new Request("/:db/_all_docs", HttpVerbType.Post);
@@ -94,7 +97,7 @@ namespace ArmChair.Commands
         /// </summary>
         /// <param name="updates"></param>
         /// <returns></returns>
-        public IEnumerable<BulkDocResponse> BulkApplyChanges(BulkDocsRequest updates)
+        public virtual IEnumerable<BulkDocResponse> BulkApplyChanges(BulkDocsRequest updates)
         {
             var json = _serializer.Serialize(updates);
             var request = new Request("/:db/_bulk_docs", HttpVerbType.Post);
@@ -106,6 +109,27 @@ namespace ArmChair.Commands
                 var content = response.GetBody();
                 return _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
             }
+        }
+
+        /// <summary>
+        /// apply
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public virtual MongoQueryResponse MongoQuery(MongoQueryRequest query)
+        {
+            //use_index 
+            var json = _querySerializer.Serialize(query);
+            var request = new Request("/:db/_find", HttpVerbType.Post);
+            request.AddUrlSegment("db", _name);
+            request.AddContent(writer => writer.Write(json), HttpContentType.Json);
+
+            using (var response = _connection.Execute(request))
+            {
+                var content = response.GetBody();
+                return _serializer.Deserialize<MongoQueryResponse>(content);
+            }
+
         }
     }
 }

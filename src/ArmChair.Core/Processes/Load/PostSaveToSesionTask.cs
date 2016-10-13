@@ -17,7 +17,7 @@ namespace ArmChair.Processes.Load
     using InSession;
     using Tasks;
 
-    public class PostSaveToSesionMapTask : PipeItemMapTask<LoadContext>
+    public class PostSaveToSesionMapTask<T> : PipeItemMapTask<T> where T: LoadContext
     {
         private readonly ISessionCache _sessionCache;
 
@@ -26,12 +26,12 @@ namespace ArmChair.Processes.Load
             _sessionCache = sessionCache;
         }
 
-        public override bool CanHandle(LoadContext item)
+        public override bool CanHandle(T item)
         {
             return !item.LoadedFromCache;
         }
 
-        public override IEnumerable<LoadContext> Execute(LoadContext item)
+        public override IEnumerable<T> Execute(T item)
         {
             if (item .Entity != null)
             {

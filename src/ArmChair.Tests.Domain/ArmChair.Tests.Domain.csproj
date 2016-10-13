@@ -38,15 +38,20 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Book.cs" />
+    <Compile Include="Sample1\Book.cs" />
     <Compile Include="EntityRoot.cs" />
-    <Compile Include="Contributor.cs" />
-    <Compile Include="ContributorType.cs" />
-    <Compile Include="Edition.cs" />
-    <Compile Include="EditionType.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Sample1\Contributor.cs" />
+    <Compile Include="Sample1\ContributorType.cs" />
+    <Compile Include="Sample1\Edition.cs" />
+    <Compile Include="Sample1\EditionType.cs" />
+    <Compile Include="Sample1\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sample2\Animal.cs" />
+    <Compile Include="Sample2\Cat.cs" />
+    <Compile Include="Sample2\Dog.cs" />
+    <Compile Include="Sample2\KennelBooking.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

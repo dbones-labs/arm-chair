@@ -36,20 +36,27 @@ namespace ArmChair
         /// all the settings used with this database
         /// you can access and override any setting
         /// </summary>
-        public Settings Settings { get; private set; }
+        public virtual Settings Settings { get; private set; }
 
         /// <summary>
         /// create a session with the database, which will allow 
         /// you to interact with it in a Unit Of Work style
         /// </summary>
         /// <returns>active session</returns>
-        public ISession CreateSession()
+        public virtual ISession CreateSession()
         {
             //session level
             var tracker = new ShadowTrackingProvider();
             var sessionCache = new SessionCache();
 
-            var session = new Session(Settings.LoadPipeline, Settings.CommitPipeline, Settings.IdManager, Settings.IdAccessor, tracker, sessionCache);
+            var session = new Session(
+                Settings.LoadPipeline,
+                Settings.QueryPipeline,
+                Settings.CommitPipeline, 
+                Settings.IdManager, 
+                Settings.IdAccessor, 
+                tracker, 
+                sessionCache);
             return session;
         }
     }

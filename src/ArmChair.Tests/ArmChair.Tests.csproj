@@ -46,6 +46,7 @@
     <Compile Include="AttachingTests.cs" />
     <Compile Include="BasicTests.cs" />
     <Compile Include="DeletingTests.cs" />
+    <Compile Include="Linq\QueryingViaLinqTests.cs" />
     <Compile Include="LoadingTests.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="SavingTests.cs" />

@@ -15,6 +15,7 @@ namespace ArmChair.Tests
 {
     using System;
     using Domain;
+    using Domain.Sample2;
     using Utils.Copying;
     using NUnit.Framework;
     using Utils.Comparing;
@@ -46,8 +47,65 @@ namespace ArmChair.Tests
 
 
             var sut = new ShadowCopier();
+
             var result = sut.Copy(b);
+
             Assert.IsTrue(new Comparer().AreEqual(b, result));
         }
+
+        [Test]
+        public void Poly_object_initial_copy_test()
+        {
+            var booking = new KennelBooking() { Id = "123" };
+            var cat = new Cat() { Name = "Whiskers", RequiresHeatPad = true };
+            booking.Animal = cat;
+
+            var sut = new ShadowCopier();
+
+            var result = sut.Copy(booking);
+
+            Assert.IsTrue(new Comparer().AreEqual(booking, result));
+        }
+
+
+        [Test]
+        public void Poly_object_copy_2_objects_test()
+        {
+            var catBooking = new KennelBooking() { Id = "123" };
+            var cat = new Cat() { Name = "Whiskers", RequiresHeatPad = true };
+            catBooking.Animal = cat;
+
+            var dogBooking = new KennelBooking() { Id = "123" };
+            var dog = new Dog() { Name = "Skippy", NumberOfWalksPerDay = 2};
+            dogBooking.Animal = dog;
+
+            var sut = new ShadowCopier();
+
+            var result1 = sut.Copy(catBooking);
+            var result2 = sut.Copy(dogBooking);
+
+            Assert.IsTrue(new Comparer().AreEqual(catBooking, result1));
+            Assert.IsTrue(new Comparer().AreEqual(dogBooking, result2));
+            Assert.IsFalse(new Comparer().AreEqual(catBooking, result2));
+        }
+
+
+
+        [Test]
+        public void Poly_object_post_change_test()
+        {
+            var booking = new KennelBooking() { Id = "123" };
+            var cat = new Cat() { Name = "Whiskers", RequiresHeatPad = true };
+            booking.Animal = cat;
+
+            var sut = new ShadowCopier();
+
+            var result = sut.Copy(booking);
+            cat.RequiresHeatPad = false;
+
+            Assert.IsFalse(new Comparer().AreEqual(booking, result));
+        }
+
+
     }
 }

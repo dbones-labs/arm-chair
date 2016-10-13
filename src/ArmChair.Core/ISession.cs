@@ -16,6 +16,7 @@ namespace ArmChair
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// An active session with the database, using a unit of work, any attach object will be
@@ -63,5 +64,58 @@ namespace ArmChair
         /// Commit all changes to the database.
         /// </summary>
         void Commit();
+
+        /// <summary>
+        /// execute a mongo query against CouchDb, note this is under preview
+        /// </summary>
+        /// <typeparam name="T">the object type which is being queried</typeparam>
+        /// <param name="query">the mongo query to execute</param>
+        /// <returns>all items which satisfy the query</returns>
+        IEnumerable<T> Query<T>(MongoQuery query) where T : class;
+
+        /// <summary>
+        /// basic support for linq over mongo queries, note this is under preview
+        /// </summary>
+        /// <typeparam name="T">the object type whichs to filter on</typeparam>
+        /// <returns>all items which satisfy the query</returns>
+        IQueryable<T> Query<T>() where T : class;
+
     }
+
+
+    public class MongoQuery
+    {
+        /// <summary>
+        /// JSON object describing criteria used to select documents. More information provided in the section on selector syntax.
+        /// </summary>
+        public IDictionary<string, object> Selector { get; set; }
+
+        /// <summary>
+        /// Maximum number of results returned. Default is 25. Optional
+        /// </summary>
+        public long? Limit { get; set; }
+
+        /// <summary>
+        /// Skip the first ‘n’ results, where ‘n’ is the value specified. Optional
+        /// </summary>
+        public long? Skip { get; set; }
+
+        /// <summary>
+        /// list of fields to return.
+        /// </summary>
+        public IList<string> Fields { get; set; }
+
+
+        public string Index { get; set; }
+
+        public IList<IDictionary<string, Order>> Sort { get; set; }
+    }
+
+
+    public enum Order
+    {
+        Asc,
+        Desc
+    }
+
 }
