@@ -6,7 +6,6 @@ namespace ArmChair.Linq
     using IQToolkit;
     using Pre;
     using Transform;
-    using Utils;
 
     /// <summary>
     /// Linq-Couchdb over Mongo Query
@@ -16,10 +15,12 @@ namespace ArmChair.Linq
     public class QueryProvider<T> : QueryProvider where T: class
     {
         private readonly Session _session;
+        private readonly string _index;
 
-        public QueryProvider(Session session)
+        public QueryProvider(Session session, string index = null)
         {
             _session = session;
+            _index = index;
         }
 
         public override string GetQueryText(Expression expression)
@@ -31,13 +32,12 @@ namespace ArmChair.Linq
         {
             //preprocess
             expression = PartialEvaluator.Eval(expression);
-            
-            
             var linqQuery = LinqVisitor.Eval(expression);
 
             IDictionary<string, object> query;
             var requiresAnd = linqQuery.WhereClauses.Count() > 1;
 
+            //get the mongo object selector
             if (!requiresAnd)
             {
                 var where = linqQuery.WhereClauses.First();
@@ -48,8 +48,8 @@ namespace ArmChair.Linq
                 var clauses = new List<IDictionary<string, object>>();
                 foreach (var whereClause in linqQuery.WhereClauses)
                 {
-                    var partical = MongoQueryTransformVisitor.Eval(whereClause, _session);
-                    clauses.Add(partical);
+                    var partial = MongoQueryTransformVisitor.Eval(whereClause, _session);
+                    clauses.Add(partial);
                 }
 
                 query = new QueryObject()
@@ -60,6 +60,7 @@ namespace ArmChair.Linq
             
             var mongoQuery = new MongoQuery()
             {
+                Index = _index,
                 Selector = query,
                 Skip = linqQuery.Paging.Skip,
                 Limit = linqQuery.Paging.Take,
@@ -69,7 +70,7 @@ namespace ArmChair.Linq
             var collection = _session.Query<T>(mongoQuery);
             if (linqQuery.ParentQuery == null)
             {
-                return collection;
+                return linqQuery.PostProcess.Execute(collection);
             }
 
             //we have only run some of the query, this will setup the rest
@@ -83,10 +84,4 @@ namespace ArmChair.Linq
 
         
     }
-
-    public class QueryObject : Dynamic
-    {
-        
-    }
-
 }

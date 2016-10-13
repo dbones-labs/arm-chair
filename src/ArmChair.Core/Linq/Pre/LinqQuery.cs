@@ -3,6 +3,7 @@ namespace ArmChair.Linq.Pre
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using Handlers;
 
     /// <summary>
     /// a view of the query that we are processing
@@ -16,6 +17,7 @@ namespace ArmChair.Linq.Pre
         {
             Paging = new Paging();
             FullQuery = fullQuery;
+            PostProcess = new DefaultPostProcess();
         }
 
         /// <summary>
@@ -39,13 +41,15 @@ namespace ArmChair.Linq.Pre
         /// </summary>
         public Paging Paging { get; set; }
 
+        
         /// <summary>
         /// the property name to order the results by
         /// </summary>
         public IEnumerable<OrderBy> Ordering { get { return _ordering; } }
 
-
         public Func<object, object> PostIndexProcessing { get; set; }
+
+        public IPostProcess PostProcess { get; set; }
 
 
         public void AddWhereClause(Expression expression)
@@ -61,5 +65,14 @@ namespace ArmChair.Linq.Pre
         //need to see how we support facets
         //public MethodCallExpression GroupBy { get; set; }
 
+    }
+
+
+    public class DefaultPostProcess : IPostProcess
+    {
+        public object Execute<T>(IEnumerable<T> items)
+        {
+            return items;
+        }
     }
 }

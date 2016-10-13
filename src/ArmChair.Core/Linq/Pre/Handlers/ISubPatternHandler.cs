@@ -1,5 +1,6 @@
 namespace ArmChair.Linq.Pre.Handlers
 {
+    using System.Collections.Generic;
 
     /// <summary>
     /// processes part of the LinqQuery
@@ -21,5 +22,11 @@ namespace ArmChair.Linq.Pre.Handlers
         /// will need to be handled in proc
         /// </summary>
         bool IndexQueryCompleted(ProcessingLinqContext ctx);
+
+    }
+
+    public interface IPostProcess
+    {
+        object Execute<T>(IEnumerable<T> items);
     }
 }

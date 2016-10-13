@@ -145,9 +145,9 @@ namespace ArmChair
             return result;
         }
 
-        public virtual IQueryable<T> Query<T>() where T : class
+        public virtual IQueryable<T> Query<T>(string index = null) where T : class
         {
-            return new Query<T>(new QueryProvider<T>(this));
+            return new Query<T>(new QueryProvider<T>(this, index));
         }
     }
 }
