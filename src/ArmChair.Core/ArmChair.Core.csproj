@@ -57,6 +57,7 @@
     <Compile Include="Linq\Pre\Handlers\FirstSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\ISubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\OrderBySubPatternHandler.cs" />
+    <Compile Include="Linq\Pre\Handlers\SingleSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\SkipSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\SubPatternHandlerBase.cs" />
     <Compile Include="Linq\Pre\Handlers\TakeSubPatternHandler.cs" />
