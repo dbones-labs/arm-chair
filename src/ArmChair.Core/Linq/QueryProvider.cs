@@ -3,6 +3,7 @@ namespace ArmChair.Linq
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using EntityManagement;
     using IQToolkit;
     using Pre;
     using Transform;
@@ -12,13 +13,18 @@ namespace ArmChair.Linq
     /// </summary>
     /// <remarks> initial look into supporting Linq-Couchdb over Mongo Query</remarks>
     /// <typeparam name="T">the type which this search is against</typeparam>
-    public class QueryProvider<T> : QueryProvider where T: class
+    public class QueryProvider<T> : QueryProvider where T : class
     {
-        private readonly Session _session;
+        private readonly SessionContext _sessionContext;
+        private readonly ISession _session;
         private readonly string _index;
 
-        public QueryProvider(Session session, string index = null)
+        public QueryProvider(ITypeManager typeManager, ISession session, string index = null)
         {
+            _sessionContext = new SessionContext()
+            {
+                TypeManager = typeManager
+            };
             _session = session;
             _index = index;
         }
@@ -34,30 +40,34 @@ namespace ArmChair.Linq
             expression = PartialEvaluator.Eval(expression);
             var linqQuery = LinqVisitor.Eval(expression);
 
-            IDictionary<string, object> query;
-            var requiresAnd = linqQuery.WhereClauses.Count() > 1;
+            //get the type constraint
+            var types = _sessionContext.TypeManager.Implementation(typeof(T)).Select(x => $"{x.FullName}, {x.Assembly.GetName().Name}");
+            var typesQuery = new QueryObject { { "\\$type", new QueryObject { { "$in", types } } } };
 
-            //get the mongo object selector
-            if (!requiresAnd)
+            var clauses = new List<IDictionary<string, object>>();
+            clauses.Add(typesQuery);
+
+            //get all the other where clauses
+            foreach (var whereClause in linqQuery.WhereClauses)
             {
-                var where = linqQuery.WhereClauses.First();
-                query = MongoQueryTransformVisitor.Eval(where, _session);
+                var partial = MongoQueryTransformVisitor.Eval(whereClause, _sessionContext);
+                clauses.Add(partial);
+            }
+            
+            //either take the single where clause or "and" them all together
+            IDictionary<string, object> query;
+            if (clauses.Count == 1)
+            {
+                query = clauses.First();
             }
             else
             {
-                var clauses = new List<IDictionary<string, object>>();
-                foreach (var whereClause in linqQuery.WhereClauses)
-                {
-                    var partial = MongoQueryTransformVisitor.Eval(whereClause, _session);
-                    clauses.Add(partial);
-                }
-
                 query = new QueryObject()
                 {
-                    { "$and", clauses } 
+                    { "$and", clauses }
                 };
             }
-            
+
             var mongoQuery = new MongoQuery()
             {
                 Index = _index,
@@ -76,12 +86,12 @@ namespace ArmChair.Linq
             //we have only run some of the query, this will setup the rest
             linqQuery.ParentQuery.RewriteSource(collection);
             var exp = linqQuery.ParentQuery.Expression;
-            
+
             //run the expression!
             var result = Expression.Lambda(exp).Compile().DynamicInvoke();
             return result;
         }
 
-        
+
     }
 }

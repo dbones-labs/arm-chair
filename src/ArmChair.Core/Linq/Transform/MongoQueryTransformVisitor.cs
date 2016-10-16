@@ -12,7 +12,7 @@ namespace ArmChair.Linq.Transform
         readonly IDictionary<Type, List<IHandler>> _handlers;
         public VisitorContext Context { get; set; }
 
-        public static IDictionary<string,object> Eval(Expression expression, ISession session)
+        public static IDictionary<string,object> Eval(Expression expression, SessionContext session)
         {
             var visitor = new MongoQueryTransformVisitor();
             var context = new VisitorContext(visitor);

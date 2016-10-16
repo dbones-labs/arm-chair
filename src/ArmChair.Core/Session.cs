@@ -22,7 +22,7 @@ namespace ArmChair
     using InSession;
     using IQToolkit;
     using Linq;
-    using Processes.Commit;
+    using Processes.Commit  ;
     using Processes.Load;
     using Processes.Query;
     using Tracking;
@@ -32,16 +32,18 @@ namespace ArmChair
         private readonly LoadPipeline _loadPipeline;
         private readonly QueryPipeline _queryPipeline;
         private readonly CommitPipeline _commitPipeline;
+        private readonly QueryFactory _queryFactory;
         private readonly IIdManager _idManager;
         private readonly IIdAccessor _idAccessor;
+        private readonly ITypeManager _typeManager;
         private readonly ITrackingProvider _tracking;
         private readonly ISessionCache _sessionCache;
-        //private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
         public Session(
             LoadPipeline loadPipeline,
             QueryPipeline queryPipeline,
             CommitPipeline commitPipeline,
+            QueryFactory queryFactory,
             IIdManager idManager,
             IIdAccessor idAccessor,
             ITrackingProvider tracking,
@@ -52,6 +54,7 @@ namespace ArmChair
             _loadPipeline = loadPipeline;
             _queryPipeline = queryPipeline;
             _commitPipeline = commitPipeline;
+            _queryFactory = queryFactory;
             _idManager = idManager;
             _idAccessor = idAccessor;
             _tracking = tracking;
@@ -147,7 +150,7 @@ namespace ArmChair
 
         public virtual IQueryable<T> Query<T>(string index = null) where T : class
         {
-            return new Query<T>(new QueryProvider<T>(this, index));
+            return _queryFactory.Create<T>(this, index);
         }
     }
 }

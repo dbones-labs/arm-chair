@@ -44,6 +44,13 @@ namespace ArmChair.EntityManagement
         /// <summary>
         /// Set the Id directly against a Type
         /// </summary>
+        /// <param name="type">the tpye which to set the Id against</param>
+        /// <param name="field">Id Field</param>
+        void SetUpId(Type type, FieldInfo field);
+
+        /// <summary>
+        /// Set the Id directly against a Type
+        /// </summary>
         /// <typeparam name="T">the tpye which to set the Id against</typeparam>
         /// <param name="fieldName">name of the Id field</param>
         void SetUpId<T>(string fieldName);

@@ -48,7 +48,10 @@
     <Compile Include="Commands\MongoQueryRequest.cs" />
     <Compile Include="Commands\MongoQueryResponse.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="EntityManagement\Config\ClassMap.cs" />
+    <Compile Include="EntityManagement\Config\SettingsExtensions.cs" />
     <Compile Include="EntityManagement\IRevisionAccessor.cs" />
+    <Compile Include="EntityManagement\ITypeManager.cs" />
     <Compile Include="EntityManagement\RevisionAccessor.cs" />
     <Compile Include="Http\Parameter.cs" />
     <Compile Include="InSession\ISessionCache.cs" />
@@ -71,7 +74,9 @@
     <Compile Include="Linq\Pre\Query.cs" />
     <Compile Include="Linq\Pre\ReplaceSourceVisitor.cs" />
     <Compile Include="Linq\Pre\SubPatternRegistry.cs" />
+    <Compile Include="Linq\QueryFactory.cs" />
     <Compile Include="Linq\QueryObject.cs" />
+    <Compile Include="Linq\SessionContext.cs" />
     <Compile Include="Linq\Transform\HandlerRegistry.cs" />
     <Compile Include="Linq\Transform\Handlers\AndOrVisitorHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandler.cs" />
@@ -88,7 +93,6 @@
     <Compile Include="Linq\Paging.cs" />
     <Compile Include="Linq\QueryProvider.cs" />
     <Compile Include="Linq\ReflectionHelper.cs" />
-    <Compile Include="Linq\SearchExtensions.cs" />
     <Compile Include="Linq\StringExtensions.cs" />
     <Compile Include="Processes\Commit\CommitContext.cs" />
     <Compile Include="Processes\Commit\CommitPipeline.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Processes\Query\PostCheckCacheTask.cs" />
     <Compile Include="Processes\Query\QueryPipeline.cs" />
     <Compile Include="Serialization\Newton\BaseOverride.cs" />
+    <Compile Include="Serialization\Newton\DocConverter.cs" />
     <Compile Include="Serialization\Newton\LocalCamelCaseNamingStrategy.cs" />
     <Compile Include="Serialization\Newton\MongoQueryResponseConverter.cs" />
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />

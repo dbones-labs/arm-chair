@@ -50,6 +50,8 @@ namespace ArmChair.EntityManagement
         /// <param name="fieldName">name of the Revision field</param>
         void SetUpRevision<T>(string fieldName);
 
+        void SetUpRevision(Type type, FieldInfo field);
+
         /// <summary>
         /// Set the Revision directly against a Type
         /// </summary>

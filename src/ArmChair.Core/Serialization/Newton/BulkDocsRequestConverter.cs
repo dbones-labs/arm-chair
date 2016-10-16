@@ -65,10 +65,7 @@ namespace ArmChair.Serialization.Newton
             throw new NotImplementedException();
         }
 
-        public override bool CanRead
-        {
-            get { return false; }
-        }
+        public override bool CanRead => false;
 
         public override bool CanConvert(Type objectType)
         {

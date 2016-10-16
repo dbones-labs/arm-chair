@@ -43,30 +43,40 @@ namespace ArmChair.EntityManagement
 
         public void SetUpRevisionPattern(Func<Type, string> pattern)
         {
+            if (pattern == null) throw new ArgumentNullException(nameof(pattern));
             _allowAutoScanning = true;
             _namePattern = pattern;
         }
 
         public void SetUpRevision<T>(FieldInfo field)
         {
-            if (field == null) throw new ArgumentNullException("field");
+            if (field == null) throw new ArgumentNullException(nameof(field));
             _typeRevisionFields.Add(typeof(T), new FieldMeta(field));
         }
 
         public void SetUpId<T>(FieldMeta field)
         {
-            if (field == null) throw new ArgumentNullException("field");
+            if (field == null) throw new ArgumentNullException(nameof(field));
             _typeRevisionFields.Add(typeof(T), field);
         }
 
         public void SetUpRevision<T>(string fieldName)
         {
+            if (fieldName == null) throw new ArgumentNullException(nameof(fieldName));
             FieldMeta fieldInfo = typeof(T).GetTypeMeta().Fields.FirstOrDefault(x => x.Name == fieldName);
             SetUpId<T>(fieldInfo);
         }
 
+        public void SetUpRevision(Type type, FieldInfo field)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (field == null) throw new ArgumentNullException(nameof(field));
+            _typeRevisionFields.Add(type, new FieldMeta(field));
+        }
+
         public void SetUpRevision<T>(Expression<Func<T, object>> property)
         {
+            if (property == null) throw new ArgumentNullException(nameof(property));
             string name = ((MemberExpression)((UnaryExpression)property.Body).Operand).Member.Name;
             string backingFieldName = GetPropertyBackingFieldName(name);
             SetUpRevision<T>(backingFieldName);
@@ -76,6 +86,7 @@ namespace ArmChair.EntityManagement
 
         public object GetRevision(object instance)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             Type type = instance.GetType();
             FieldMeta idField = GetRevisionField(type);
             return idField.GetFieldValueFor(instance);
@@ -83,6 +94,7 @@ namespace ArmChair.EntityManagement
 
         public void SetRevision(object instance, object id)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             Type type = instance.GetType();
             FieldMeta idField = GetRevisionField(type);
             idField.SetFieldValueOf(instance, id);
@@ -111,7 +123,7 @@ namespace ArmChair.EntityManagement
 
         private string GetPropertyBackingFieldName(string propertyName)
         {
-            return string.Format("<{0}>k__BackingField", propertyName);
+            return $"<{propertyName}>k__BackingField";
         }
 
         private FieldMeta ScanForRevision(Type type)

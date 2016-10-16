@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
+    using System.Linq;
     using System.Net;
     using System.Threading;
     using Http;
@@ -45,13 +46,22 @@ namespace ArmChair.Tests
             Thread.Sleep(750);
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void FixtureSetup()
         {
+            OnFixtureSetup();
+        }
+
+        protected virtual void OnFixtureSetup() { }
+
+        [SetUp]
+        public void Setup()
+        {
+            DbName = TestContext.CurrentContext.Test.FullName.ToLower().Replace(".","-").Trim();
             EnsureDbIsDeleted();
 
             //create a test db
-            var conn = new Connection(DbLocation) {Proxy = Proxy};
+            var conn = new Connection(DbLocation) { Proxy = Proxy };
             var createDb = new Request("/:db", HttpVerbType.Put);
             createDb.AddUrlSegment("db", DbName);
             createDb.SetContentType(HttpContentType.Json);
@@ -73,14 +83,6 @@ namespace ArmChair.Tests
             }
 
             Database = CreateDatabase();
-            OnFixtureSetup();
-        }
-
-        protected virtual void OnFixtureSetup() { }
-
-        [SetUp]
-        public void Setup()
-        {
             OnSetup();
         }
 
@@ -95,12 +97,11 @@ namespace ArmChair.Tests
 
         protected virtual void OnTearDown() { }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void FixtureTearDown()
         {
             OnFixtureTearDown();
-
-            //EnsureDbIsDeleted();
+            EnsureDbIsDeleted();
         }
 
         private void EnsureDbIsDeleted()
@@ -108,24 +109,27 @@ namespace ArmChair.Tests
             //delete a test db
             var conn = new Connection(DbLocation) { Proxy = Proxy };
 
-            bool needToDelete = false;
-            
-            var checkDb = new Request("/:db", HttpVerbType.Get);
-            checkDb.AddUrlSegment("db", DbName);
-            checkDb.SetContentType(HttpContentType.Json);
-            conn.Execute(checkDb, response =>
-            {
-                needToDelete = response.Status == HttpStatusCode.OK;
-            });
+            bool needToDelete = true;
 
-            if (needToDelete)
+            while (needToDelete)
             {
-                var deleteDb = new Request("/:db", HttpVerbType.Delete);
-                deleteDb.AddUrlSegment("db", DbName);
-                deleteDb.SetContentType(HttpContentType.Json);
-                conn.Execute(deleteDb, response => { });    
+                var checkDb = new Request("/:db", HttpVerbType.Get);
+                checkDb.AddUrlSegment("db", DbName);
+                checkDb.SetContentType(HttpContentType.Json);
+                conn.Execute(checkDb, response =>
+                {
+                    needToDelete = response.Status == HttpStatusCode.OK;
+                });
+
+                if (needToDelete)
+                {
+                    var deleteDb = new Request("/:db", HttpVerbType.Delete);
+                    deleteDb.AddUrlSegment("db", DbName);
+                    deleteDb.SetContentType(HttpContentType.Json);
+                    conn.Execute(deleteDb, response => { });
+                }
             }
-            
+
         }
 
 
