@@ -14,6 +14,7 @@
 namespace ArmChair.Tests
 {
     using Domain;
+    using Domain.Sample1;
     using NUnit.Framework;
 
     public class BasicTests : TestCase

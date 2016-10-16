@@ -15,6 +15,7 @@ namespace ArmChair.Tests
 {
     using System.Linq;
     using Domain;
+    using Domain.Sample1;
     using NUnit.Framework;
 
     public class AttachingTests : TestCase
