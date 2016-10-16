@@ -21,7 +21,7 @@ namespace ArmChair.Tests
     public class LoadingTests : TestCase
     {
         [Test]
-        public void Try_load_object_which_does_not_exist()
+        public void Load_object_which_does_not_exist()
         {
             using (var session = Database.CreateSession())
             {
@@ -31,7 +31,7 @@ namespace ArmChair.Tests
         }
 
         [Test]
-        public void Try_load_objects_which_does_not_exist()
+        public void Load_objects_which_does_not_exist()
         {
             using (var session = Database.CreateSession())
             {
@@ -43,7 +43,7 @@ namespace ArmChair.Tests
 
 
         [Test]
-        public void Try_an_object_which_does_not_exist_with_some_that_do()
+        public void Object_which_does_not_exist_with_some_that_do_exist()
         {
 
             using (var session = Database.CreateSession())

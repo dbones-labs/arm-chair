@@ -63,12 +63,12 @@ namespace ArmChair.Utils
         /// <summary>
         /// denotes if the field is readonly
         /// </summary>
-        public bool IsReadOnly { get; private set; }
+        public bool IsReadOnly { get; }
 
         /// <summary>
         /// name of the field, within the parent class
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
         
         /// <summary>
         /// the name of the field without the scoping meta, ie _ or the backing angle brackets

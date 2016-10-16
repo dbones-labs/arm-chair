@@ -18,6 +18,7 @@ namespace ArmChair.Tests.Linq
     using Domain;
     using NUnit.Framework;
 
+
     public class BasicTests : TestCase
     {
         [Test]

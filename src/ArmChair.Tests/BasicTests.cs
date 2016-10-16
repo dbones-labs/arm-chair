@@ -40,6 +40,6 @@ namespace ArmChair.Tests
                 Assert.AreEqual(author.Name, "dave");
             }
         }
-
     }
+
 }

@@ -38,30 +38,40 @@ namespace ArmChair.EntityManagement
 
         public void SetUpIdPattern(Func<Type, string> pattern)
         {
+            if (pattern == null) throw new ArgumentNullException(nameof(pattern));
             _allowAutoScanning = true;
             _namePattern = pattern;
         }
 
         public void SetUpId<T>(FieldInfo field)
         {
-            if (field == null) throw new ArgumentNullException("field");
+            if (field == null) throw new ArgumentNullException(nameof(field));
             _typeIdFields.Add(typeof(T), new FieldMeta(field));
+        }
+
+        public void SetUpId(Type type, FieldInfo field)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (field == null) throw new ArgumentNullException(nameof(field));
+            _typeIdFields.Add(type, new FieldMeta(field));
         }
 
         public void SetUpId<T>(FieldMeta field)
         {
-            if (field == null) throw new ArgumentNullException("field");
+            if (field == null) throw new ArgumentNullException(nameof(field));
             _typeIdFields.Add(typeof(T), field);
         }
 
         public void SetUpId<T>(string fieldName)
         {
+            if (fieldName == null) throw new ArgumentNullException(nameof(fieldName));
             FieldMeta fieldInfo = typeof(T).GetTypeMeta().Fields.FirstOrDefault(x => x.Name == fieldName);
             SetUpId<T>(fieldInfo);
         }
 
         public void SetUpId<T>(Expression<Func<T, object>> property)
         {
+            if (property == null) throw new ArgumentNullException(nameof(property));
             string name = ((MemberExpression)((UnaryExpression)property.Body).Operand).Member.Name;
             string backingFieldName = GetPropertyBackingFieldName(name);
             SetUpId<T>(backingFieldName);
@@ -69,6 +79,7 @@ namespace ArmChair.EntityManagement
 
         public object GetId(object instance)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             Type type = instance.GetType();
             FieldMeta idField = GetIdField(type);
             return idField.GetFieldValueFor(instance);
@@ -76,6 +87,7 @@ namespace ArmChair.EntityManagement
 
         public void SetId(object instance, object id)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             Type type = instance.GetType();
             FieldMeta idField = GetIdField(type);
             idField.SetFieldValueOf(instance, id);

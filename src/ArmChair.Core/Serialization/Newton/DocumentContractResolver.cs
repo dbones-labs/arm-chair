@@ -73,7 +73,6 @@ namespace ArmChair.Serialization.Newton
             LinkedList<PropertiesOverride> overrides = null;
             if (_propertiesOverride.TryGetValue(type, out overrides))
             {
-
                 foreach (var propertiesOverride in overrides)
                 {
                     propertiesOverride.Set(type, properties);

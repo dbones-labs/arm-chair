@@ -75,31 +75,31 @@ namespace ArmChair.Utils
         /// <summary>
         /// ctor for the type (note this is the parameterless ctor)
         /// </summary>
-        public Func<object> Ctor { get { return _ctor; } }
-        
+        public Func<object> Ctor => _ctor;
+
         /// <summary>
         /// denotes if the type is abstract
         /// </summary>
-        public bool IsAbstract { get { return _isAbstract; } }
-        
+        public bool IsAbstract => _isAbstract;
+
         /// <summary>
         /// all the types in the inheritance hierarchy
         /// </summary>
-        public IEnumerable<Type> AllTypes { get { return _allTypes; } }
+        public IEnumerable<Type> AllTypes => _allTypes;
 
         /// <summary>
         /// all the value type fields this type has
         /// </summary>
-        public IEnumerable<FieldMeta> ValueFields { get { return _valueFields.Values; } }
+        public IEnumerable<FieldMeta> ValueFields => _valueFields.Values;
 
         /// <summary>
         /// all the fields this type has
         /// </summary>
-        public IEnumerable<FieldMeta> Fields { get { return _allFields.Values; } }
+        public IEnumerable<FieldMeta> Fields => _allFields.Values;
 
         /// <summary>
         /// the actual type
         /// </summary>
-        public Type Type { get { return _type; } }
+        public Type Type => _type;
     }
 }

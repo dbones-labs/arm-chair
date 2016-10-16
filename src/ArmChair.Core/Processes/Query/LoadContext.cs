@@ -20,8 +20,4 @@ namespace ArmChair.Processes.Query
         public MongoQuery Query { get; set; }
         
     }
-
-
-
-
 }

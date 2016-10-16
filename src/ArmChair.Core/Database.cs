@@ -52,7 +52,8 @@ namespace ArmChair
             var session = new Session(
                 Settings.LoadPipeline,
                 Settings.QueryPipeline,
-                Settings.CommitPipeline, 
+                Settings.CommitPipeline,
+                Settings.QueryFactory, 
                 Settings.IdManager, 
                 Settings.IdAccessor, 
                 tracker, 
