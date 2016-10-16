@@ -3,6 +3,7 @@ namespace ArmChair.Tests.Linq
     using System.Collections.Generic;
     using System.Linq;
     using Domain;
+    using Domain.Sample1;
     using Domain.Sample2;
     using NUnit.Framework;
 

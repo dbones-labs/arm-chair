@@ -15,6 +15,7 @@ namespace ArmChair.Tests
 {
     using System;
     using Domain;
+    using Domain.Sample1;
     using Domain.Sample2;
     using Utils.Copying;
     using NUnit.Framework;
