@@ -103,7 +103,6 @@
     <Compile Include="Processes\Query\PostCheckCacheTask.cs" />
     <Compile Include="Processes\Query\QueryPipeline.cs" />
     <Compile Include="Serialization\Newton\BaseOverride.cs" />
-    <Compile Include="Serialization\Newton\DocConverter.cs" />
     <Compile Include="Serialization\Newton\LocalCamelCaseNamingStrategy.cs" />
     <Compile Include="Serialization\Newton\MongoQueryResponseConverter.cs" />
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />

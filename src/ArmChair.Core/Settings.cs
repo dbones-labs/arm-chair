@@ -37,11 +37,12 @@ namespace ArmChair
             TypeManager = new TypeManager();
 
             Serializer = new Serializer(IdAccessor, RevisionAccessor);
+
             QuerySerializer = new Serializer(new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.None,
                 NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = new CamelCasePropertyNamesContractResolver() { NamingStrategy = new LocalCamelCaseNamingStrategy() }
             });
 
             CouchDb = new CouchDb(databaseName, connection, Serializer, QuerySerializer);
