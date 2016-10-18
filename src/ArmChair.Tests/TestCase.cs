@@ -93,6 +93,7 @@ namespace ArmChair.Tests
         public void TearDown()
         {
             OnTearDown();
+            EnsureDbIsDeleted();
         }
 
         protected virtual void OnTearDown() { }
@@ -101,7 +102,6 @@ namespace ArmChair.Tests
         public void FixtureTearDown()
         {
             OnFixtureTearDown();
-            EnsureDbIsDeleted();
         }
 
         private void EnsureDbIsDeleted()

@@ -21,7 +21,7 @@ namespace ArmChair.Tests.Linq
             var types = typeof(Person).Assembly.GetTypes().Where(x => typeof(EntityRoot).IsAssignableFrom(x)).ToList();
             Database.Settings.Register(types);
         }
-       
+
 
         public virtual void KnownTestDataGenericTestData()
         {
@@ -38,15 +38,17 @@ namespace ArmChair.Tests.Linq
                 book.AddEdition(new Edition("preview", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-10) });
 
                 //add some domain 2
-                var lealoo = new Cat { Id = "c1", Name = "Lealoo", RequiresHeatPad = true };
-                var bonnie = new Dog { Id = "d1", Name = "Bonnie", NumberOfWalksPerDay = 2 };
+                var leeloo = new Cat { Id = "c1", Name = "leeloo", RequiresHeatPad = true };
+                var robbie = new Cat() { Id = "c2", Name = "robbie", RequiresHeatPad = false };
+                var bonnie = new Dog { Id = "d1", Name = "bonnie", NumberOfWalksPerDay = 2 };
 
-                var booking = new KennelBooking() { Animal = lealoo, Start = DateTime.Now, End = DateTime.Now.AddDays(2), Id = "bk1" };
+                var booking = new KennelBooking() { Animal = leeloo, Start = DateTime.Now, End = DateTime.Now.AddDays(2), Id = "bk1" };
 
                 session.Add(dave);
                 session.Add(chan);
                 session.Add(book);
-                session.Add(lealoo);
+                session.Add(leeloo);
+                session.Add(robbie);
                 session.Add(bonnie);
                 session.Add(booking);
                 session.Commit();

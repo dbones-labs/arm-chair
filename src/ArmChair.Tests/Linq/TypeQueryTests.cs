@@ -2,7 +2,6 @@ namespace ArmChair.Tests.Linq
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Domain;
     using Domain.Sample1;
     using Domain.Sample2;
     using NUnit.Framework;
@@ -30,7 +29,20 @@ namespace ArmChair.Tests.Linq
                 results = session.Query<object>().ToList();
             }
 
-            Assert.IsTrue(results.Count == 6);
+            Assert.IsTrue(results.Count == 7);
+        }
+
+        [Test]
+        public void Inherited_type_property()
+        {
+            List<Cat> results;
+            using (var session = Database.CreateSession())
+            {
+                results = session.Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
+            }
+
+            Assert.IsTrue(results.Count == 1);
+            Assert.IsTrue(results.First().Name == "leeloo");
         }
     }
 }
