@@ -6,6 +6,7 @@ namespace ArmChair.Tests.Linq
     using Domain.Sample2;
     using NUnit.Framework;
 
+
     public class SubProperyQueryTests : QueryTestCase
     {
         [Test]

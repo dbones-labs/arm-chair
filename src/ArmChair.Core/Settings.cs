@@ -19,6 +19,7 @@ namespace ArmChair
     using IdManagement;
     using Linq;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
     using Processes.Commit;
     using Processes.Load;
@@ -38,16 +39,23 @@ namespace ArmChair
 
             Serializer = new Serializer(IdAccessor, RevisionAccessor);
 
-            QuerySerializer = new Serializer(new JsonSerializerSettings()
+            //query serializer
+            var settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.None,
                 NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver() { NamingStrategy = new LocalCamelCaseNamingStrategy() }
-            });
+                ContractResolver =
+                    new CamelCasePropertyNamesContractResolver()
+                    {
+                        NamingStrategy = new LocalCamelCaseNamingStrategy(true)
+                    }
+            };
+            settings.Converters.Add(new OrderEnumConverter());
+            QuerySerializer = new Serializer(settings);
 
             CouchDb = new CouchDb(databaseName, connection, Serializer, QuerySerializer);
 
-            QueryFactory = new QueryFactory(TypeManager);
+            QueryFactory = new QueryFactory(TypeManager, IdAccessor);
 
             LoadPipeline = new LoadPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
             CommitPipeline = new CommitPipeline(CouchDb, IdManager, RevisionAccessor);

@@ -5,17 +5,59 @@ namespace ArmChair.Linq.Transform
     using System.Linq;
     using System.Linq.Expressions;
     using Handlers;
-    using Newtonsoft.Json.Linq;
+    using Utils;
+
+
+    public class OrderByHandler
+    {
+        private readonly SessionContext _context;
+
+        public OrderByHandler(SessionContext context)
+        {
+            _context = context;
+        }
+
+
+        /// <summary>
+        /// gets the full name of the field (hello.world)
+        /// </summary>
+        /// <param name="memberExpression">the expression to pull this from</param>
+        /// <returns></returns>
+        public virtual string GetMemberName(MemberExpression memberExpression)
+        {
+            var prefixExpression = memberExpression.Expression as MemberExpression;
+
+            //note this should be at the root level
+            if (prefixExpression == null)
+                return GetActualName(memberExpression.Member.DeclaringType, memberExpression.Member.Name);
+
+            //as we are not at the root level, we should not need to see if there is an id field,
+            var prefix = GetMemberName(prefixExpression);
+            return string.Join(".", prefix, memberExpression.Member.Name);
+        }
+
+        private string GetActualName(Type type, string name)
+        {
+            var idMeta = _context.IdAccessor.GetIdField(type);
+            if (idMeta != null && idMeta.FriendlyName == name)
+            {
+                return "_id";
+            }
+            return name;
+        }
+
+       
+    }
 
     public class MongoQueryTransformVisitor : ExpressionVisitor
     {
         readonly IDictionary<Type, List<IHandler>> _handlers;
         public VisitorContext Context { get; set; }
 
-        public static IDictionary<string,object> Eval(Expression expression, SessionContext session)
+        public static IDictionary<string,object> Eval(Expression expression, SessionContext sessionContext)
         {
             var visitor = new MongoQueryTransformVisitor();
-            var context = new VisitorContext(visitor);
+            var context = new VisitorContext(visitor, sessionContext);
             visitor.Context = context;
 
             visitor.Visit(expression);

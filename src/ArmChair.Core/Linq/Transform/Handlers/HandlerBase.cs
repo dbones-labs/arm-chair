@@ -2,6 +2,7 @@ namespace ArmChair.Linq.Transform.Handlers
 {
     using System;
     using System.Linq.Expressions;
+    using Utils;
 
     public abstract class HandlerBase<T> : IHandler<T> where T : Expression
     {
@@ -30,13 +31,27 @@ namespace ArmChair.Linq.Transform.Handlers
         /// </summary>
         /// <param name="memberExpression">the expression to pull this from</param>
         /// <returns></returns>
-        protected virtual string GetMemberName(MemberExpression memberExpression)
+        protected virtual string GetMemberName(MemberExpression memberExpression, VisitorContext context)
         {
             var prefixExpression = memberExpression.Expression as MemberExpression;
-            if (prefixExpression == null) return memberExpression.Member.Name;
 
-            var prefix = GetMemberName(prefixExpression);
+            //note this should be at the root level
+            if (prefixExpression == null)
+                return GetActualName(memberExpression.Member.DeclaringType, memberExpression.Member.Name, context);
+
+            //as we are not at the root level, we should not need to see if there is an id field,
+            var prefix = GetMemberName(prefixExpression, context);
             return string.Join(".", prefix, memberExpression.Member.Name);
+        }
+
+        private string GetActualName(Type type, string name, VisitorContext context)
+        {
+            var idMeta = context.SessionContext.IdAccessor.GetIdField(type);
+            if (idMeta != null && idMeta.FriendlyName == name)
+            {
+                return "_id";
+            }
+            return name;
         }
 
 

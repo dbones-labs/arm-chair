@@ -49,6 +49,7 @@
     <Compile Include="Linq\BasicTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
     <Compile Include="Linq\QueryTestCase.cs" />
+    <Compile Include="Linq\SortQueryTests.cs" />
     <Compile Include="Linq\SpecialFieldQueryTests.cs" />
     <Compile Include="Linq\SubProperyQueryTests.cs" />
     <Compile Include="Linq\TypeQueryTests.cs" />

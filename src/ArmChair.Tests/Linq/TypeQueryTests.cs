@@ -1,5 +1,6 @@
 namespace ArmChair.Tests.Linq
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
@@ -17,7 +18,7 @@ namespace ArmChair.Tests.Linq
                 results = session.Query<Person>().ToList();
             }
 
-            Assert.IsTrue(results.Count == 2);
+            Assert.IsTrue(results.Count == Query<Person>().Count());
         }
 
         [Test]
@@ -29,20 +30,22 @@ namespace ArmChair.Tests.Linq
                 results = session.Query<object>().ToList();
             }
 
-            Assert.IsTrue(results.Count == 7);
+            Assert.IsTrue(results.Count == ReferenceItems.Count);
         }
 
         [Test]
         public void Inherited_type_property()
         {
             List<Cat> results;
+            List<Cat> reference;
             using (var session = Database.CreateSession())
             {
                 results = session.Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
+                reference = Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
             }
 
-            Assert.IsTrue(results.Count == 1);
-            Assert.IsTrue(results.First().Name == "leeloo");
+            Assert.IsTrue(results.Count == reference.Count);
+            Assert.IsTrue(results.First().Name == reference.First().Name);
         }
     }
 }

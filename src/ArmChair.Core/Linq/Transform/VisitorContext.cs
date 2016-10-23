@@ -8,10 +8,13 @@ namespace ArmChair.Linq.Transform
     {
         private readonly Stack<IDictionary<string, object>> _terms = new Stack<IDictionary<string, object>>(5);
         private readonly MongoQueryTransformVisitor _visitor;
+        public SessionContext SessionContext { get; private set; }
 
-        public VisitorContext(MongoQueryTransformVisitor visitor)
+
+        public VisitorContext(MongoQueryTransformVisitor visitor, SessionContext sessionContext)
         {
             _visitor = visitor;
+            SessionContext = sessionContext;
         }
 
         public void Visit(Expression expression)

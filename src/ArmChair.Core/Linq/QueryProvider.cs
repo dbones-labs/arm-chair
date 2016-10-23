@@ -1,5 +1,6 @@
 namespace ArmChair.Linq
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -19,11 +20,13 @@ namespace ArmChair.Linq
         private readonly ISession _session;
         private readonly string _index;
 
-        public QueryProvider(ITypeManager typeManager, ISession session, string index = null)
+        public QueryProvider(ITypeManager typeManager, IIdAccessor idAccessor, ISession session, string index = null)
         {
             _sessionContext = new SessionContext()
             {
-                TypeManager = typeManager
+                TypeManager = typeManager,
+                IdAccessor = idAccessor
+
             };
             _session = session;
             _index = index;
@@ -47,6 +50,7 @@ namespace ArmChair.Linq
             var clauses = new List<IDictionary<string, object>>();
             clauses.Add(typesQuery);
 
+            _sessionContext.QueryPart = QueryPart.Where;
             //get all the other where clauses
             foreach (var whereClause in linqQuery.WhereClauses)
             {
@@ -68,13 +72,26 @@ namespace ArmChair.Linq
                 };
             }
 
+            //sorting / orderby
+            var handler = new OrderByHandler(_sessionContext);
+            _sessionContext.QueryPart = QueryPart.OrderBy;
+            var orders = new List<IDictionary<string, Order>>();
+            foreach (var orderBy in linqQuery.Ordering)
+            {
+                IDictionary<string, Order> order = new Dictionary<string, Order>();
+                var name = handler.GetMemberName(((MemberExpression)((Expression<Func<T,string>>)((UnaryExpression)orderBy.Expression).Operand).Body));
+                var or = orderBy.Direction == OrderByDirection.Asc ? Order.Asc : Order.Desc;
+                order.Add(name, or);
+                orders.Add(order);
+            }
+
             var mongoQuery = new MongoQuery()
             {
                 Index = _index,
                 Selector = query,
                 Skip = linqQuery.Paging.Skip,
                 Limit = linqQuery.Paging.Take,
-                //Sort = linqQuery.Ordering.Select(x=> )
+                Sort = orders
             };
 
             var collection = _session.Query<T>(mongoQuery);

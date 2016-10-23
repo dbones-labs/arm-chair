@@ -15,7 +15,6 @@ namespace ArmChair.Tests.Linq
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Domain;
     using Domain.Sample1;
     using NUnit.Framework;
 

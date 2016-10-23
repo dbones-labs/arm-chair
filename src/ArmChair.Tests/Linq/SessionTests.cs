@@ -35,6 +35,7 @@ namespace ArmChair.Tests.Linq
                     dave2 = session.Query<Person>().First(x => x.Name == "dave");
                 }
 
+                //as the session instance has been change, we retained that version.
                 Assert.IsTrue(dave == dave2);
             }
         }
