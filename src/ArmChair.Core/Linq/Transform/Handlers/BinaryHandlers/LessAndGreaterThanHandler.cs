@@ -1,4 +1,4 @@
-namespace ArmChair.Linq.Transform.Handlers
+namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
 {
     using System.Linq.Expressions;
 
@@ -21,7 +21,7 @@ namespace ArmChair.Linq.Transform.Handlers
             }
 
             var nameValue = GetNameValue(expression);
-            var name = GetMemberName(nameValue.Member);
+            var name = GetMemberName(nameValue.Member, context);
 
             var compareObject = new QueryObject { { @operator, nameValue.Constant.Value } };
             var result = new QueryObject { { name, compareObject } };

@@ -95,23 +95,20 @@ namespace ArmChair.EntityManagement
 
         public FieldMeta GetIdField(Type type)
         {
+            //try and return asap;
+            FieldMeta meta;
+            if (_typeIdFields.TryGetValue(type, out meta)) return meta;
+
             lock (_typeIdFields)
             {
-                if (!_typeIdFields.ContainsKey(type))
-                {
-                    if (!_allowAutoScanning)
-                    {
-                        throw new Exception("please setup an Id or allow for auto scanning");
-                    }
-                    var idField = ScanForId(type);
-                    //if (idField == null)
-                    //{
-                    //    return null;
-                    //}
-                    _typeIdFields.Add(type, idField);
-                }
+                //check again, if no autoscanning, then return null
+                if (_typeIdFields.TryGetValue(type, out meta) || !_allowAutoScanning) return meta;
+
+                //allow the store of null;
+                var idField = ScanForId(type);
+                _typeIdFields.Add(type, idField);
+                return idField;
             }
-            return _typeIdFields[type];
         }
 
         private string GetPropertyBackingFieldName(string propertyName)

@@ -11,5 +11,15 @@ namespace ArmChair.Linq
     public class SessionContext
     {
         public ITypeManager TypeManager { get; set; }
+        public IIdAccessor IdAccessor { get; set; }
+
+        public QueryPart QueryPart { get; set; }
+    }
+
+
+    public enum QueryPart
+    {
+        Where,
+        OrderBy
     }
 }

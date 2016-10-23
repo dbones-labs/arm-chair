@@ -13,6 +13,8 @@
 // limitations under the License.
 namespace ArmChair.Tests.Domain.Sample1
 {
+    using System;
+
     public class Person : EntityRoot
     {
         protected Person() { }
@@ -23,5 +25,7 @@ namespace ArmChair.Tests.Domain.Sample1
         }
 
         public virtual string Name { get; set; }
+
+        public virtual DateTime BirthDate { get; set; }
     }
 }

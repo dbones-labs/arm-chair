@@ -3,6 +3,8 @@ namespace ArmChair.Linq.Transform
     using System;
     using System.Collections.Generic;
     using Handlers;
+    using Handlers.BinaryHandlers;
+    using Handlers.StringHandlers;
 
     public static class HandlerRegistry
     {

@@ -1,4 +1,4 @@
-namespace ArmChair.Linq.Transform.Handlers
+namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
 {
     using System.Linq.Expressions;
 

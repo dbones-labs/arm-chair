@@ -1,4 +1,4 @@
-namespace ArmChair.Linq.Transform.Handlers
+namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
 {
     using System.Linq.Expressions;
 
@@ -7,7 +7,7 @@ namespace ArmChair.Linq.Transform.Handlers
         public override void Handle(BinaryExpression expression, VisitorContext context)
         {
             var nameValue = GetNameValue(expression);
-            var name = GetMemberName(nameValue.Member);
+            var name = GetMemberName(nameValue.Member, context);
 
             var @operator = expression.NodeType == ExpressionType.Equal
                 ? "$eq"

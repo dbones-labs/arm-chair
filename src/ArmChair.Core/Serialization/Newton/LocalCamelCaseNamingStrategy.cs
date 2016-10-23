@@ -6,11 +6,12 @@ namespace ArmChair.Serialization.Newton
 
     internal class LocalCamelCaseNamingStrategy : CamelCaseNamingStrategy
     {
+        private readonly bool _ignoreUnderscore;
         private readonly Regex _camelcaseRegex = new Regex("(^|\\.|\\$)[A-Z]");
 
-        public LocalCamelCaseNamingStrategy() : base (true, false)
+        public LocalCamelCaseNamingStrategy(bool ignoreUnderscore = false) : base (true, false)
         {
-            
+            _ignoreUnderscore = ignoreUnderscore;
         }
 
 
@@ -32,7 +33,7 @@ namespace ArmChair.Serialization.Newton
                 propertyName = propertyName.Substring(1, index - 1);
             }
 
-            if (propertyName.StartsWith("_", StringComparison.CurrentCultureIgnoreCase))
+            if (!_ignoreUnderscore && propertyName.StartsWith("_", StringComparison.CurrentCultureIgnoreCase))
             {
                 propertyName = propertyName.Substring(1, propertyName.Length - 1);
             }
