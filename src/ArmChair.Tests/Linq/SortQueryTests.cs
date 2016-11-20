@@ -10,6 +10,7 @@ namespace ArmChair.Tests.Linq
     public class SortQueryTests : QueryTestCase
     {
         [Test]
+        [Ignore("in development")]
         public void Simple_sort()
         {
             List<Animal> results;

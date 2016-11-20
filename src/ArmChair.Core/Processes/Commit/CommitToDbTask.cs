@@ -39,7 +39,7 @@ namespace ArmChair.Processes.Commit
             //do not call the db if we have no items to transact on.
             if (!items.Any())
             {
-                return items;
+                yield break;
             }
 
             var entityUpdates = new Dictionary<string, object>();
@@ -80,8 +80,10 @@ namespace ArmChair.Processes.Commit
                 _revisionAccessor.SetRevision(entity, update.Rev);
             }
 
-            return items;
-            
+            foreach (var item in items)
+            {
+                yield return item;
+            }
         }
     }
 }
