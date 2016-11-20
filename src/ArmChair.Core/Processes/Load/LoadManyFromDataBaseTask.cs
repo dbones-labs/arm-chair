@@ -48,7 +48,10 @@ namespace ArmChair.Processes.Load
                 toload[key.CouchDbId].Entity = entity;
             }
 
-            return items;
+            foreach (var item in items)
+            {
+                yield return item;
+            }
         }
     }
 }

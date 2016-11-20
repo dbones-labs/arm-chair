@@ -23,6 +23,7 @@ namespace ArmChair.Tests.Linq
         }
 
 
+        [Ignore("in development")]
         [Test]
         public void Collection_object_property()
         {
