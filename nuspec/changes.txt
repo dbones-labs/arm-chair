@@ -1,3 +1,9 @@
+0.5.x-alpha
+==============
+small change to the load pipeline, it yields the entities
+!experimental! Initial support for MongoQuery either by a defined query object and linq expression (incomplete)
+API support registering types (required for Mongo query)
+
 0.4.x
 ==============
 support for couchdb 2.0

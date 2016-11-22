@@ -24,10 +24,17 @@ its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChai
 PM> Install-Package ArmChair.Core
 ```
 
+* **In Preview/apha:** 0.5
+
 ##Compatibility
 
 * .NET 4.0 + / Mono 4.0 +
-* CouchDB 1.2 + / CouchDB 2.0 +
+* CouchDB 2.0 +
+
+
+###Backwards Compatibility
+
+CouchDB 1.2 should still work as long as you do not use any of the new functions (MongoQuery, which is in preview)
 
 ##Licence
 
