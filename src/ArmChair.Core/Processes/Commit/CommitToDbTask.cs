@@ -37,11 +37,9 @@ namespace ArmChair.Processes.Commit
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
             
             //do not call the db if we have no items to transact on.
-            if (!items.Any())
-            {
-                yield break;
-            }
+            if (!items.Any()) return items;
 
+            //setup the items for the database commit.
             var entityUpdates = new Dictionary<string, object>();
             var docRequests = new List<BulkDocRequest>();
 
@@ -70,9 +68,10 @@ namespace ArmChair.Processes.Commit
                 entityUpdates.Add(entry.Id, bulkContext.Entity);
             }
 
+            //apply the commit
             var request = new BulkDocsRequest {Docs = docRequests};
-
             var updates = _couchDb.BulkApplyChanges(request);
+
             //update any revisions!
             foreach (var update in updates)
             {
@@ -80,10 +79,7 @@ namespace ArmChair.Processes.Commit
                 _revisionAccessor.SetRevision(entity, update.Rev);
             }
 
-            foreach (var item in items)
-            {
-                yield return item;
-            }
+            return items;
         }
     }
 }

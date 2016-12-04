@@ -21,6 +21,7 @@ namespace ArmChair.Processes.Commit
     using IdManagement;
     using InSession;
     using Tasks;
+    using Tasks.BySingleItem;
     using Tracking;
 
     public class CommitPipeline
@@ -33,6 +34,7 @@ namespace ArmChair.Processes.Commit
         private readonly List<Func<CreateTaskContext, IPipeTask<CommitContext>>> _preProcessTasks = new List<Func<CreateTaskContext, IPipeTask<CommitContext>>>();
         private readonly List<Func<CreateTaskContext, IPipeTask<CommitContext>>> _postProcessTasks = new List<Func<CreateTaskContext, IPipeTask<CommitContext>>>();
 
+        private IItemIterator<CommitContext> _itemIterator = null;
 
         public CommitPipeline(
             CouchDb couchDb,
@@ -44,11 +46,28 @@ namespace ArmChair.Processes.Commit
             _revisionAccessor = revisionAccessor;
         }
 
+        /// <summary>
+        /// this is under preview.
+        /// allows the appliction to decide how the application will handle the iteration in the pipeline in some of the tasks.
+        /// </summary>
+        public void SetItemIterator(IItemIterator<CommitContext> itemIterator)
+        {
+            _itemIterator = itemIterator;
+        }
+
+        /// <summary>
+        /// register any task to be executed before commiting an item.
+        /// </summary>
+        /// <param name="createTask">func which will be used to create the task</param>
         public void RegisterPreCommitTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _preProcessTasks.Add(createTask);
         }
 
+        /// <summary>
+        /// register any task to be executed after commiting an item.
+        /// </summary>
+        /// <param name="createTask">func which will be used to create the task</param>
         public void RegisterPostCommitTask(Func<CreateTaskContext, IPipeTask<CommitContext>> createTask)
         {
             _postProcessTasks.Add(createTask);
@@ -59,13 +78,14 @@ namespace ArmChair.Processes.Commit
             var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);
 
             //setup the pipeline
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var tasks = new List<IPipeTask<CommitContext>>();
-            tasks.Add(new PreCommitFilterTrackingTask(tracking));
+            tasks.Add(new PreCommitFilterTrackingTask(tracking, _itemIterator));
             tasks.AddRange(_preProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
             tasks.Add(new CommitToDbTask(_couchDb, _revisionAccessor));
             tasks.AddRange(_postProcessTasks.Select(preLoadTask => preLoadTask(taskCtx)));
-            tasks.Add(new PostCommitSesionTask(sessionCache));
-            tasks.Add(new PostCommitTrackingTask(tracking));
+            tasks.Add(new PostCommitSesionTask(sessionCache, _itemIterator));
+            tasks.Add(new PostCommitTrackingTask(tracking, _itemIterator));
 
             var pipilineExecutor = tasks.CreatePipeline();
 
@@ -81,7 +101,6 @@ namespace ArmChair.Processes.Commit
                 return bulkCtx;
             });
             
-
             pipilineExecutor.Execute(bulkContexts);
         }
     }

@@ -13,29 +13,30 @@
 // limitations under the License.
 namespace ArmChair.Processes.Load
 {
-    using System.Collections.Generic;
     using Commands;
-    using Tasks;
+    using Tasks.BySingleItem;
 
-    public class LoadFromDataBaseMapTask : PipeItemMapTask<LoadContext>
+    /// <summary>
+    /// load a single item from the database
+    /// </summary>
+    public class LoadFromDataBaseTask : TaskOnItem<LoadContext>
     {
         private readonly CouchDb _couchDb;
 
-        public LoadFromDataBaseMapTask(CouchDb couchDb)
+        public LoadFromDataBaseTask(CouchDb couchDb)
         {
             _couchDb = couchDb;
         }
 
-        public override bool CanHandle(LoadContext item)
+        public override LoadContext Execute(LoadContext item)
         {
-            return !item.LoadedFromCache;
-        }
+            //do tno load an item which have been chach loaded
+            if (item.LoadedFromCache) return item;
 
-        public override IEnumerable<LoadContext> Execute(LoadContext item)
-        {
             var entity = _couchDb.LoadEntity(item.Key.ToString(), item.Type);
             item.Entity = entity;
-            yield return item;
+
+            return item;
         }
     }
 }

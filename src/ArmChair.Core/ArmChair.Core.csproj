@@ -110,6 +110,13 @@
     <Compile Include="Serialization\Newton\OrderEnumConverter.cs" />
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
     <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
+    <Compile Include="Tasks\BySingleItem\IItemIterator.cs" />
+    <Compile Include="Tasks\BySingleItem\ListsItemIterator.cs" />
+    <Compile Include="Tasks\BySingleItem\TaskOnItem.cs" />
+    <Compile Include="Tasks\BySingleItem\YeildingItemIterator.cs" />
+    <Compile Include="Tasks\IPipeItemTask.cs" />
+    <Compile Include="Tasks\PipeItemMapTask.cs" />
+    <Compile Include="Tasks\PipilineExecutor.cs" />
     <Compile Include="Utils\Dynamic.cs" />
     <Compile Include="Serialization\Newton\AllDocsRequestConverter.cs" />
     <Compile Include="Commands\AllDocsResponse.cs" />
@@ -166,9 +173,6 @@
     <Compile Include="Serialization\Newton\Serializer.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Tasks\PipeItemMapTask.cs" />
-    <Compile Include="Tasks\PipilineExecutor.cs" />
-    <Compile Include="Tasks\IPipeItemTask.cs" />
     <Compile Include="Tracking\ITrackingProvider.cs" />
     <Compile Include="Tracking\Shadowing\ShadowTrackingProvider.cs" />
     <Compile Include="Tracking\Shadowing\TrackingEntry.cs" />
@@ -200,7 +204,9 @@
       <Name>IQToolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tasks" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

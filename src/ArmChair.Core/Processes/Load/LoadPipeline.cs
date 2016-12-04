@@ -22,6 +22,7 @@ namespace ArmChair.Processes.Load
     using IdManagement;
     using InSession;
     using Tasks;
+    using Tasks.BySingleItem;
     using Tracking;
 
     public class LoadPipeline
@@ -35,6 +36,7 @@ namespace ArmChair.Processes.Load
         private readonly List<Func<CreateTaskContext, IPipeTask<LoadContext>>> _preLoadTasks = new List<Func<CreateTaskContext, IPipeTask<LoadContext>>>();
         private readonly List<Func<CreateTaskContext, IPipeTask<LoadContext>>> _postLoadTasks = new List<Func<CreateTaskContext, IPipeTask<LoadContext>>>();
 
+        private IItemIterator<LoadContext> _itemIterator;
 
         public LoadPipeline(CouchDb couchDb,
             IIdManager idManager,
@@ -45,6 +47,11 @@ namespace ArmChair.Processes.Load
             _idManager = idManager;
             _idAccessor = idAccessor;
             _revisionAccessor = revisionAccessor;
+        }
+
+        public void SetItemIterator(IItemIterator<LoadContext> itemIterator)
+        {
+            _itemIterator = itemIterator;
         }
 
         /// <summary>
@@ -67,7 +74,7 @@ namespace ArmChair.Processes.Load
 
         public T LoadOne<T>(object id, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
         {
-            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseMapTask(_couchDb)).FirstOrDefault();
+            return Load<T>(new[] { id }, sessionCache, tracking, new LoadFromDataBaseTask(_couchDb)).FirstOrDefault();
         }
 
         public IEnumerable<T> LoadMany<T>(IEnumerable ids, ISessionCache sessionCache, ITrackingProvider tracking) where T : class
@@ -81,12 +88,12 @@ namespace ArmChair.Processes.Load
 
             //setup the pipeline
             var tasks = new List<IPipeTask<LoadContext>>();
-            tasks.Add(new PreLoadFromSessionMapTask(sessionCache));
+            tasks.Add(new PreLoadFromSessionMapTask(sessionCache, _itemIterator));
             tasks.AddRange(_preLoadTasks.Select(task => task(taskCtx)));
             tasks.Add(loadTask);
             tasks.AddRange(_postLoadTasks.Select(task => task(taskCtx)));
-            tasks.Add(new PostSaveToSesionMapTask<LoadContext>(sessionCache));
-            tasks.Add(new PostTrackingMapTask<LoadContext>(tracking));
+            tasks.Add(new PostSaveToSesionMapTask<LoadContext>(sessionCache, _itemIterator));
+            tasks.Add(new PostTrackingMapTask<LoadContext>(tracking, _itemIterator));
 
             var pipilineExecutor = tasks.CreatePipeline();
 

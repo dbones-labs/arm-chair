@@ -14,26 +14,23 @@
 namespace ArmChair.Processes.Commit
 {
     using System;
-    using System.Collections.Generic;
     using InSession;
-    using Tasks;
+    using Tasks.BySingleItem;
     using Tracking;
 
-    public class PostCommitTrackingTask : PipeItemMapTask<CommitContext>
+    /// <summary>
+    /// update the tracking on post of commiting.
+    /// </summary>
+    public class PostCommitTrackingTask : TaskOnItem<CommitContext>
     {
         private readonly ITrackingProvider _tracking;
 
-        public PostCommitTrackingTask(ITrackingProvider tracking)
+        public PostCommitTrackingTask(ITrackingProvider tracking, IItemIterator<CommitContext> iterator = null) : base(iterator)
         {
             _tracking = tracking;
         }
 
-        public override bool CanHandle(CommitContext item)
-        {
-            return item.ActionType != ActionType.Delete;
-        }
-
-        public override IEnumerable<CommitContext> Execute(CommitContext item)
+        public override CommitContext Execute(CommitContext item)
         {
             switch (item.ActionType)
             {
@@ -50,7 +47,7 @@ namespace ArmChair.Processes.Commit
                     throw new ArgumentOutOfRangeException();
             }
 
-            yield return item;
+            return item;
         }
     }
 }

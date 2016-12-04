@@ -13,37 +13,37 @@
 // limitations under the License.
 namespace ArmChair.Processes.Commit
 {
-    using System.Collections.Generic;
     using InSession;
-    using Tasks;
+    using Tasks.BySingleItem;
 
-    public class PostCommitSesionTask : PipeItemMapTask<CommitContext>
+    /// <summary>
+    /// once an item has been commited, we will update its session context to update.
+    /// </summary>
+    public class PostCommitSesionTask : TaskOnItem<CommitContext>
     {
         private readonly ISessionCache _sessionCache;
 
-        public PostCommitSesionTask(ISessionCache sessionCache)
+        public PostCommitSesionTask(ISessionCache sessionCache, IItemIterator<CommitContext> iterator = null) : base(iterator)
         {
             _sessionCache = sessionCache;
         }
 
-        public override bool CanHandle(CommitContext item)
+        public override CommitContext Execute(CommitContext item)
         {
-            return item.ActionType != ActionType.Update;
-        }
-
-        public override IEnumerable<CommitContext> Execute(CommitContext item)
-        {
-            if (item.ActionType == ActionType.Add)
+            switch (item.ActionType)
             {
-                var entry = _sessionCache[item.Key];
-                entry.Action = ActionType.Update;
-            }
-            else
-            {
-                _sessionCache.Remove(item.Key);
+                case ActionType.Update:
+                    return item;
+                case ActionType.Add:
+                    var entry = _sessionCache[item.Key];
+                    entry.Action = ActionType.Update;
+                    break;
+                default:
+                    _sessionCache.Remove(item.Key);
+                    break;
             }
 
-            yield return item;
+            return item;
         }
     }
 }

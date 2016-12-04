@@ -5,7 +5,7 @@ var config = {
 
     outputDir : path.resolve('./output'),
     toolsDir : path.resolve('./tools'),
-    buildVersion : args.buildNumber ? '0.4.' + args.buildNumber  : '0.0.0',
+    buildVersion : args.buildNumber ? '0.5.' + args.buildNumber  : '0.0.0',
     company: 'dbones.co.uk'
 
 
@@ -22,6 +22,7 @@ config.command = {
     package: {
         //dependencyNameOverride: '//x:dependency[starts-with(@x:id, \'Boxes.\')]/@x:version'
         //configFile: null
+        version: config.buildVersion + '-alpha'
     }
 }
 
