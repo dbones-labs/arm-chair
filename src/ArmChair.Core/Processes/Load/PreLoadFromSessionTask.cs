@@ -13,40 +13,40 @@
 // limitations under the License.
 namespace ArmChair.Processes.Load
 {
-    using System.Collections.Generic;
+    using System;
     using InSession;
-    using Tasks;
+    using Tasks.BySingleItem;
 
-    public class PreLoadFromSessionMapTask : PipeItemMapTask<LoadContext>
+    public class PreLoadFromSessionMapTask : TaskOnItem<LoadContext>
     {
         private readonly ISessionCache _sessionCache;
 
-        public PreLoadFromSessionMapTask(ISessionCache sessionCache)
+        public PreLoadFromSessionMapTask(ISessionCache sessionCache, IItemIterator<LoadContext> iterator = null) : base(iterator)
         {
             _sessionCache = sessionCache;
         }
 
-        public override bool CanHandle(LoadContext item)
+        public override LoadContext Execute(LoadContext item, Action skip)
         {
-            return item.Entity == null;
-        }
+            //should not be the case
+            if (item.Entity != null) return item;
 
-        public override IEnumerable<LoadContext> Execute(LoadContext item)
-        {
             var entry = _sessionCache[item.Key];
-            if (entry == null)
-            {
-                yield return item;
-                yield break;
-            }
 
+            //not in cache
+            if (entry == null) return item;
+
+            //the item has been removed inside the session.
             if (entry.Action == ActionType.Delete)
             {
-                yield break;
+                skip();
+                return null;
             }
+
             item.Entity = entry.Instance;
             item.LoadedFromCache = true;
-            yield return item;
+
+            return item;
         }
     }
 }

@@ -20,6 +20,7 @@
         <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.dll" target="lib\net40\ArmChair.Core.dll"/>
         <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.pdb" target="lib\net40\ArmChair.Core.pdb"/>
         <file src="src\ArmChair.Core\bin\Release\ArmChair.Core.XML" target="lib\net40\ArmChair.Core.XML"/>
+        <file src="src\IQToolkit\bin\Release\IQToolkit.dll" target="lib\net40\IQToolkit.dll"/>
         <file src="nuspec\Apache License 2.0.txt" target="Apache License 2.0.txt"/>
         <file src="nuspec\changes.txt" target="changes.txt"/>
         <file src="nuspec\license.txt" target="license.txt"/>

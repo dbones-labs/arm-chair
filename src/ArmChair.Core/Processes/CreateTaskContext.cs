@@ -18,9 +18,14 @@ namespace ArmChair.Processes
     using IdManagement;
     using InSession;
 
+    /// <summary>
+    /// when an instance of a task is created, this class will be avaliable
+    /// the purpose is to supply the task with some core functionality
+    /// </summary>
     public class CreateTaskContext
     {
-        public CreateTaskContext(CouchDb couchDb,
+        public CreateTaskContext(
+            CouchDb couchDb,
             IIdManager idManager,
             IRevisionAccessor revisionAccessor,
             ISessionCache sessionCache)
@@ -31,9 +36,24 @@ namespace ArmChair.Processes
             CouchDb = couchDb;
         }
 
+        /// <summary>
+        /// couchdb commands
+        /// </summary>
         public CouchDb CouchDb { get; private set; }
+
+        /// <summary>
+        /// access to the id manager
+        /// </summary>
         public IIdManager IdManager { get; private set; }
+
+        /// <summary>
+        /// access to the revision accessor
+        /// </summary>
         public IRevisionAccessor RevisionAccessor { get; private set; }
+
+        /// <summary>
+        /// the session cache
+        /// </summary>
         public ISessionCache SessionCache { get; private set; }
     }
 }

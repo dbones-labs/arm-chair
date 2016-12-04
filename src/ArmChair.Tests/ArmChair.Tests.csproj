@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AttachingTests.cs" />
     <Compile Include="BasicTests.cs" />
+    <Compile Include="DataTestCase.cs" />
     <Compile Include="DeletingTests.cs" />
     <Compile Include="Linq\BasicTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
@@ -54,6 +55,9 @@
     <Compile Include="Linq\SubProperyQueryTests.cs" />
     <Compile Include="Linq\TypeQueryTests.cs" />
     <Compile Include="LoadingTests.cs" />
+    <Compile Include="Pipeline\CommitPipelineTests.cs" />
+    <Compile Include="Pipeline\LoadPipelineTests.cs" />
+    <Compile Include="Pipeline\QueryPipelineTests.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="SavingTests.cs" />
     <Compile Include="ShadowCopyTests.cs" />

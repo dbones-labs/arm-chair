@@ -20,6 +20,10 @@ namespace ArmChair.Processes.Load
     using IdManagement;
     using Tasks;
 
+
+    /// <summary>
+    /// load a number of items from the database using the ids.
+    /// </summary>
     public class LoadManyFromDataBaseTask : IPipeTask<LoadContext>
     {
         private readonly CouchDb _couchDb;
@@ -37,6 +41,8 @@ namespace ArmChair.Processes.Load
         public IEnumerable<LoadContext> Execute(IEnumerable<LoadContext> items)
         {
             items = items.ToList(); //ensure 1 iteration over list. (tasks to run once)
+
+            //we do not want to load items which have been loaded from the cache
             var toload = items.Where(x => !x.LoadedFromCache).ToDictionary(loadContext => loadContext.Key.CouchDbId);
             var allDocs = _couchDb.LoadAllEntities(new AllDocsRequest() {Keys = toload.Keys});
 
@@ -48,10 +54,7 @@ namespace ArmChair.Processes.Load
                 toload[key.CouchDbId].Entity = entity;
             }
 
-            foreach (var item in items)
-            {
-                yield return item;
-            }
+            return items;
         }
     }
 }

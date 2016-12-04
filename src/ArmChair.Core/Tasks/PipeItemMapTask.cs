@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair.Tasks
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -20,6 +21,7 @@ namespace ArmChair.Tasks
     /// this represents a task. these are applied normally within a Pipeline
     /// </summary>
     /// <typeparam name="T">what type the task will be executed against</typeparam>
+    [Obsolete("this will be removed in the future, plesae use TaskOnItem instead")]
     public abstract class PipeItemMapTask<T> : IPipeTask<T>
     {
         /// <summary>

@@ -36,16 +36,21 @@ namespace ArmChair.Tests.Linq
         [Test]
         public void Inherited_type_property()
         {
+            Console.WriteLine("1");
             List<Cat> results;
             List<Cat> reference;
             using (var session = Database.CreateSession())
             {
+                Console.WriteLine("2");
                 results = session.Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
                 reference = Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
+                Console.WriteLine("3");
             }
-
+            Console.WriteLine("4");
             Assert.IsTrue(results.Count == reference.Count);
+            Console.WriteLine("5");
             Assert.IsTrue(results.First().Name == reference.First().Name);
+            Console.WriteLine("6");
         }
     }
 }

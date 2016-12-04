@@ -22,7 +22,7 @@ if(config.command.package.configFile != null) {
     // The NuGet configuation file. If not specified, file
     // %AppData%\NuGet\NuGet.config is used as configuration file.
     //configFile: 'path/to/nuget.config'
-    defaultSettings.configFile = config.command.package;
+    defaultSettings.configFile = config.command.package.configFile;
 }
 
 var nuget = Nuget(defaultSettings);
@@ -50,8 +50,8 @@ gulp.task('package', ['get-nuget'], function(done) {
                         basePath: path.resolve('./')
                     };
 
-                    if(config.buildVersion) {
-                        arg.version = config.buildVersion;
+                    if(config.command.package.version) {
+                        arg.version = config.command.package.version;
                     }
 
                     nuget.pack(arg)

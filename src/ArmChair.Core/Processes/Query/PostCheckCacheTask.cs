@@ -1,9 +1,8 @@
 namespace ArmChair.Processes.Query
 {
-    using System.Collections.Generic;
     using InSession;
     using Load;
-    using Tasks;
+    using Tasks.BySingleItem;
 
     /// <summary>
     /// when running a query, we will load the object from the database
@@ -11,27 +10,25 @@ namespace ArmChair.Processes.Query
     /// a change to the object which we cannot lose.
     /// </summary>
     /// <typeparam name="T">type this task is operating on</typeparam>
-    public class PostCheckCacheTask<T> : PipeItemMapTask<T> where T : LoadContext
+    public class PostCheckCacheTask<T> : TaskOnItem<T> where T : LoadContext
     {
         private readonly ISessionCache _sessionCache;
 
-        public PostCheckCacheTask(ISessionCache sessionCache)
+        public PostCheckCacheTask(ISessionCache sessionCache, IItemIterator<T> itemIterator = null) : base(itemIterator)
         {
             _sessionCache = sessionCache;
         }
 
-        public override IEnumerable<T> Execute(T ctx)
+        public override T Execute(T ctx)
         {
+            //we favior the cached verson over the db in this context.
             var entry = _sessionCache[ctx.Key];
-            if (entry == null)
-            {
-                yield return ctx;
-                yield break;
-            }
+            if (entry == null) return ctx;
 
             ctx.Entity = entry.Instance;
             ctx.LoadedFromCache = true;
-            yield return ctx;
+
+            return ctx;
         }
     }
 }

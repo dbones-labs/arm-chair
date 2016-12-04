@@ -13,39 +13,33 @@
 // limitations under the License.
 namespace ArmChair.Processes.Load
 {
-    using System.Collections.Generic;
     using InSession;
-    using Tasks;
+    using Tasks.BySingleItem;
 
-    public class PostSaveToSesionMapTask<T> : PipeItemMapTask<T> where T: LoadContext
+    public class PostSaveToSesionMapTask<T> : TaskOnItem<T> where T: LoadContext
     {
         private readonly ISessionCache _sessionCache;
 
-        public PostSaveToSesionMapTask(ISessionCache sessionCache)
+        public PostSaveToSesionMapTask(ISessionCache sessionCache, IItemIterator<T> iterator = null) : base(iterator)
         {
             _sessionCache = sessionCache;
         }
 
-        public override bool CanHandle(T item)
+        public override T Execute(T item)
         {
-            return !item.LoadedFromCache;
-        }
+            if (item.LoadedFromCache) return item;
+            if (item.Entity == null) return item;
 
-        public override IEnumerable<T> Execute(T item)
-        {
-            if (item .Entity != null)
+            var sessionEntry = new SessionEntry()
             {
-                var sessionEntry = new SessionEntry()
-                {
-                    Action = ActionType.Update,
-                    Instance = item.Entity,
-                    Key = item.Key
-                };
+                Action = ActionType.Update,
+                Instance = item.Entity,
+                Key = item.Key
+            };
             
-                _sessionCache.Attach(sessionEntry);    
-            }
-            
-            yield return item;
+            _sessionCache.Attach(sessionEntry);
+
+            return item;
         }
     }
 }

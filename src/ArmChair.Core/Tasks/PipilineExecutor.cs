@@ -44,7 +44,11 @@ namespace ArmChair.Tasks
                 mapped = taskRunner.Execute(mapped);
             }
 
-            return mapped.ToList(); //execute.
+            //using(var iterator = mapped.GetEnumerator())
+            //{
+            //    while (iterator.MoveNext()) { }
+            //}
+            return mapped.ToList(); //execute
         }
     }
 }

@@ -9,6 +9,7 @@ namespace ArmChair.Processes.Query
     using InSession;
     using Load;
     using Tasks;
+    using Tasks.BySingleItem;
     using Tracking;
 
     /// <summary>
@@ -24,6 +25,8 @@ namespace ArmChair.Processes.Query
         //custom tasks
         private readonly List<Func<CreateTaskContext, IPipeTask<QueryContext>>> _postLoadTasks = new List<Func<CreateTaskContext, IPipeTask<QueryContext>>>();
 
+        private IItemIterator<QueryContext> _itemIterator;
+
         public QueryPipeline(CouchDb couchDb,
             IIdManager idManager,
             IIdAccessor idAccessor,
@@ -33,6 +36,15 @@ namespace ArmChair.Processes.Query
             _idManager = idManager;
             _idAccessor = idAccessor;
             _revisionAccessor = revisionAccessor;
+        }
+
+        /// <summary>
+        /// this is under preview.
+        /// allows the appliction to decide how the application will handle the iteration in the pipeline in some of the tasks.
+        /// </summary>
+        public void SetItemIterator(IItemIterator<QueryContext> itemIterator)
+        {
+            _itemIterator = itemIterator;
         }
 
         /// <summary>
@@ -67,7 +79,6 @@ namespace ArmChair.Processes.Query
                 Query = query,
                 Type = type
             };
-
 
             var results = pipilineExecutor.Execute(new [] {ctx});
             return results.Select(x => x.Entity).Where(x => x != null).Cast<T>();

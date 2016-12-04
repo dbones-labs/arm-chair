@@ -13,13 +13,15 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
-    using System.Linq;
     using System.Net;
     using System.Threading;
     using Http;
     using NUnit.Framework;
 
 
+    /// <summary>
+    /// base for all tests should be this class
+    /// </summary>
     [TestFixture]
     public abstract class TestCase
     {

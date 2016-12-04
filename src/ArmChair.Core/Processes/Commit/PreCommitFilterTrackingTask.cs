@@ -13,32 +13,32 @@
 // limitations under the License.
 namespace ArmChair.Processes.Commit
 {
-    using System.Collections.Generic;
+    using System;
     using InSession;
-    using Tasks;
+    using Tasks.BySingleItem;
     using Tracking;
 
-    public class PreCommitFilterTrackingTask : PipeItemMapTask<CommitContext>
+    /// <summary>
+    /// filter out update items which have no changes.
+    /// </summary>
+    public class PreCommitFilterTrackingTask : TaskOnItem<CommitContext>
     {
         private readonly ITrackingProvider _tracking;
 
-        public PreCommitFilterTrackingTask(ITrackingProvider tracking)
+        public PreCommitFilterTrackingTask(ITrackingProvider tracking, IItemIterator<CommitContext> iterator = null) : base(iterator)
         {
             _tracking = tracking;
         }
 
-        public override bool CanHandle(CommitContext item)
+        public override CommitContext Execute(CommitContext item, Action skip)
         {
-            return item.ActionType == ActionType.Update;
-        }
+            //figure out if there is a change that we want to persist
+            if (item.ActionType != ActionType.Update) return item;
+            if (_tracking.HasChanges(item.Entity)) return item;
 
-        public override IEnumerable<CommitContext> Execute(CommitContext item)
-        {
-            //filter out update items which have no changes.
-            if (_tracking.HasChanges(item.Entity))
-            {
-                yield return item;
-            }
+            //item has no change.
+            skip();
+            return null;
         }
     }
 }

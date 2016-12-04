@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../ArmChair.Core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../ArmChair.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../ArmChair.Tests.Domain" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../IQToolkit" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Core/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Core/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Tests.Domain/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Tests.Domain/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ArmChair.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../IQToolkit/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../IQToolkit/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

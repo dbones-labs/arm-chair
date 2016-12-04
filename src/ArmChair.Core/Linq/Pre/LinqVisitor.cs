@@ -1,6 +1,5 @@
 namespace ArmChair.Linq.Pre
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -34,15 +33,12 @@ namespace ArmChair.Linq.Pre
             //mainly interested in the left, also handle in reverse order
             var arg = node.Arguments[0];
             Visit(arg);
-            Console.WriteLine(node.Method.Name);
 
             //found a subQuery, for couchdb to handle, the rest will be in proc.
             if (_indexQueryDefined || _ctx.PreviousSubPatterns.Any(x => x.IndexQueryCompleted(_ctx)))
             {
                 if (_ctx.LinqQuery.ParentQuery == null)
                 {
-                    Console.WriteLine($"here {node.Method.Name}");
-
                     _ctx.LinqQuery.ParentQuery = new Query(node, _ctx.LinqQuery.FullQuery);
                 }
                 return node;

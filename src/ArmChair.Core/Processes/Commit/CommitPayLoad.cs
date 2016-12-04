@@ -13,8 +13,10 @@
 // limitations under the License.
 namespace ArmChair.Processes.Commit
 {
+    using System;
     using System.Collections.Generic;
 
+    [Obsolete("to be removed", true)]
     public class CommitPayLoad
     {
         public IEnumerable<object> Deletes { get; set; }

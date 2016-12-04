@@ -43,6 +43,7 @@ namespace ArmChair.Processes.Query
             {
                 var id = _idAccessor.GetId(entity);
                 var key = _idManager.GetFromId(entity.GetType(), id);
+
                 yield return new QueryContext
                 {
                     Query = q,
