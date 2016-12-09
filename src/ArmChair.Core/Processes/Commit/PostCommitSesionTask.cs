@@ -17,7 +17,7 @@ namespace ArmChair.Processes.Commit
     using Tasks.BySingleItem;
 
     /// <summary>
-    /// once an item has been commited, we will update its session context to update.
+    /// once an item has been commited, we will update its action type.
     /// </summary>
     public class PostCommitSesionTask : TaskOnItem<CommitContext>
     {
