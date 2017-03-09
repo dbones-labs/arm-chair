@@ -22,16 +22,6 @@ namespace ArmChair.Tests.Linq
     public class BasicTests : TestCase
     {
         [Test]
-        public void First_default_where_name_is_not_in_db()
-        {
-            using (var session = Database.CreateSession())
-            {
-                var person = session.Query<Person>().FirstOrDefault(x => x.Name == "Dave");
-                Assert.IsNull(person);
-            }
-        }
-
-        [Test]
         public void Single_where_name_equals()
         {
 

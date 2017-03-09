@@ -11,41 +11,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Tests
+namespace ArmChair.Tests.Core
 {
-    using Domain;
     using Domain.Sample1;
     using NUnit.Framework;
 
-    public class DeletingTests : TestCase
+    public class BasicTests : TestCase
     {
         [Test]
-        public void Simple_delete()
+        public void Save_into_database()
         {
-            string id;
+            string authorId;
+
             using (var session = Database.CreateSession())
             {
                 var author = new Person("dave");
                 session.Add(author);
-                id = author.Id;
+
+                authorId = author.Id;
+
                 session.Commit();
             }
 
-
             using (var session = Database.CreateSession())
             {
-                var author = session.GetById<Person>(id);
-                session.Remove(author);
-                
-                session.Commit();
-            }
+                var author = session.GetById<Person>(authorId);
 
-
-            using (var session = Database.CreateSession())
-            {
-                var author = session.GetById<Person>(id);
-
-                Assert.IsNull(author);
+                Assert.AreEqual(author.Name, "dave");
             }
         }
     }

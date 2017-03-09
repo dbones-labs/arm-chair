@@ -22,6 +22,9 @@ namespace ArmChair
 
         public string Index { get; set; }
 
+        /// <summary>
+        /// the sorts to apply to this query, note an index is required to use a sort.
+        /// </summary>
         public IList<IDictionary<string, Order>> Sort { get; set; }
     }
 }
