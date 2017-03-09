@@ -91,7 +91,7 @@ namespace ArmChair.Linq
                 Selector = query,
                 Skip = linqQuery.Paging.Skip,
                 Limit = linqQuery.Paging.Take,
-                Sort = orders
+                Sort = orders.Count == 0 ? null : orders 
             };
 
             var collection = _session.Query<T>(mongoQuery);

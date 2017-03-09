@@ -81,9 +81,12 @@
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\AndOrVisitorHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\BinaryHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\EqualityHandler.cs" />
+    <Compile Include="Linq\Transform\Handlers\CollectionHandlers\StringContainsHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\HandlerBase.cs" />
     <Compile Include="Linq\Transform\Handlers\IHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\LessAndGreaterThanHandler.cs" />
+    <Compile Include="Linq\Transform\Handlers\InNotInHandlers\InHandler.cs" />
+    <Compile Include="Linq\Transform\Handlers\InNotInHandlers\NotInHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\MethodHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\NameValue.cs" />
     <Compile Include="Linq\Transform\Handlers\NotHandler.cs" />
@@ -91,11 +94,14 @@
     <Compile Include="Linq\Transform\Handlers\StringHandlers\StringEndsWithHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\StringHandlers\StringStartsWithHandler.cs" />
     <Compile Include="Linq\Transform\MongoQueryTransformVisitor.cs" />
+    <Compile Include="Linq\Transform\OrderByHandler.cs" />
     <Compile Include="Linq\Transform\VisitorContext.cs" />
     <Compile Include="Linq\Paging.cs" />
     <Compile Include="Linq\QueryProvider.cs" />
     <Compile Include="Linq\ReflectionHelper.cs" />
     <Compile Include="Linq\StringExtensions.cs" />
+    <Compile Include="MongoQuery.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Processes\Commit\CommitContext.cs" />
     <Compile Include="Processes\Commit\CommitPipeline.cs" />
     <Compile Include="Processes\Commit\CommitToDbTask.cs" />
@@ -110,6 +116,7 @@
     <Compile Include="Serialization\Newton\OrderEnumConverter.cs" />
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
     <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
+    <Compile Include="SessionExtensions.cs" />
     <Compile Include="Tasks\BySingleItem\IItemIterator.cs" />
     <Compile Include="Tasks\BySingleItem\ListsItemIterator.cs" />
     <Compile Include="Tasks\BySingleItem\TaskOnItem.cs" />
@@ -204,9 +211,7 @@
       <Name>IQToolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tasks" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
