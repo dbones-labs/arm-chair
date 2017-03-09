@@ -34,6 +34,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.4.1\lib\net40\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -43,25 +47,27 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttachingTests.cs" />
-    <Compile Include="BasicTests.cs" />
+    <Compile Include="Core\AttachingTests.cs" />
+    <Compile Include="Core\BasicTests.cs" />
     <Compile Include="DataTestCase.cs" />
-    <Compile Include="DeletingTests.cs" />
+    <Compile Include="Core\DeletingTests.cs" />
     <Compile Include="Linq\BasicTests.cs" />
     <Compile Include="Linq\CollectionQueryTests.cs" />
+    <Compile Include="Linq\FirstTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
-    <Compile Include="Linq\QueryTestCase.cs" />
+    <Compile Include="Mongo\BasicTests.cs" />
+    <Compile Include="QueryTestCase.cs" />
     <Compile Include="Linq\SortQueryTests.cs" />
     <Compile Include="Linq\SpecialFieldQueryTests.cs" />
     <Compile Include="Linq\SubProperyQueryTests.cs" />
     <Compile Include="Linq\TypeQueryTests.cs" />
-    <Compile Include="LoadingTests.cs" />
+    <Compile Include="Core\LoadingTests.cs" />
     <Compile Include="Pipeline\CommitPipelineTests.cs" />
     <Compile Include="Pipeline\LoadPipelineTests.cs" />
     <Compile Include="Pipeline\QueryPipelineTests.cs" />
     <Compile Include="TestCase.cs" />
-    <Compile Include="SavingTests.cs" />
-    <Compile Include="ShadowCopyTests.cs" />
+    <Compile Include="Core\SavingTests.cs" />
+    <Compile Include="Core\ShadowCopyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +83,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

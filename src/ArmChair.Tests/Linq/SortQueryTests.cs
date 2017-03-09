@@ -10,10 +10,10 @@ namespace ArmChair.Tests.Linq
     /// <summary>
     /// Todo: setup indexes before we can test.
     /// </summary>
+    [Ignore("require setting up of indexes")]
     public class SortQueryTests : QueryTestCase
     {
         [Test]
-        [Ignore("in development")]
         public void Simple_sort()
         {
             List<Animal> results;
@@ -47,25 +47,6 @@ namespace ArmChair.Tests.Linq
             Assert.IsTrue(results.First().Name == reference.First().Name);
             Assert.IsTrue(results.Skip(1).First().Name == reference.Skip(1).First().Name);
         }
-
-
-        //public void Inner_property_sort()
-        //{
-        //    Func<IEnumerable<Book>, List<Animal>> filter =
-        //        items => items.OrderBy(x => x.).ToList();
-
-        //    List<Animal> results;
-        //    List<Animal> reference;
-        //    using (var session = Database.CreateSession())
-        //    {
-        //        results = filter(session.Query<Animal>());
-        //        reference = filter(Query<Animal>());
-        //    }
-
-        //    Assert.IsTrue(results.Count == reference.Count);
-        //    Assert.IsTrue(results.First().Name == reference.First().Name);
-        //    Assert.IsTrue(results.Skip(1).First().Name == reference.Skip(1).First().Name);
-        //}
 
 
         [Test]

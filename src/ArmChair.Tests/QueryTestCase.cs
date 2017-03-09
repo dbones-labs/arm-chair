@@ -1,4 +1,4 @@
-namespace ArmChair.Tests.Linq
+namespace ArmChair.Tests
 {
     using System.Linq;
     using Domain;
