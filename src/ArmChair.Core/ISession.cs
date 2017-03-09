@@ -67,6 +67,8 @@ namespace ArmChair
 
         /// <summary>
         /// execute a mongo query against CouchDb, note this is under preview
+        /// 
+        /// to use sorting you will need to add an index.
         /// </summary>
         /// <typeparam name="T">the object type which is being queried</typeparam>
         /// <param name="query">the mongo query to execute</param>
@@ -75,88 +77,12 @@ namespace ArmChair
 
         /// <summary>
         /// basic support for linq over mongo queries, note this is under preview
+        /// 
+        /// to use OrderBy (sorting) you will need to add an index.
         /// </summary>
         /// <typeparam name="T">the object type whichs to filter on</typeparam>
         /// <returns>all items which satisfy the query</returns>
         IQueryable<T> Query<T>(string index = null) where T : class;
 
     }
-
-
-    public static class SessionExtensions
-    {
-        /// <summary>
-        /// add a range of instances to the session
-        /// </summary>
-        /// <typeparam name="T">the instance type</typeparam>
-        /// <param name="session">the session to use</param>
-        /// <param name="instances">a colletion of objects</param>
-        public static void AddRange<T>(this ISession session, IEnumerable<T> instances) where T: class
-        {
-            foreach (var instance in instances)
-            {
-                session.Add(instance);
-            }
-        }
-
-
-        /// <summary>
-        /// attach a range of instances to the session
-        /// </summary>
-        /// <typeparam name="T">the instance type</typeparam>
-        /// <param name="session">the session to use</param>
-        /// <param name="instances">a colletion of objects</param>
-        public static void AttachRange<T>(this ISession session, IEnumerable<T> instances) where T : class
-        {
-            foreach (var instance in instances)
-            {
-                session.Attach(instance);
-            }
-        }
-
-        /// <summary>
-        /// remove a range of instances from the the database
-        /// </summary>
-        /// <typeparam name="T">the instance type</typeparam>
-        /// <param name="session">the session to use</param>
-        /// <param name="instances">a colletion of objects</param>
-        public static void RemoveRange<T>(this ISession session, IEnumerable<T> instances) where T : class
-        {
-            foreach (var instance in instances)
-            {
-                session.Remove(instance);
-            }
-        }
-    }
-
-    public class MongoQuery
-    {
-        /// <summary>
-        /// JSON object describing criteria used to select documents. More information provided in the section on selector syntax.
-        /// </summary>
-        public IDictionary<string, object> Selector { get; set; }
-
-        /// <summary>
-        /// Maximum number of results returned. Default is 25. Optional
-        /// </summary>
-        public long? Limit { get; set; }
-
-        /// <summary>
-        /// Skip the first ‘n’ results, where ‘n’ is the value specified. Optional
-        /// </summary>
-        public long? Skip { get; set; }
-
-
-        public string Index { get; set; }
-
-        public IList<IDictionary<string, Order>> Sort { get; set; }
-    }
-
-
-    public enum Order
-    {
-        Asc,
-        Desc
-    }
-
 }

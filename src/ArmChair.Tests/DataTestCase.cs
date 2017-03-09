@@ -39,6 +39,7 @@ namespace ArmChair.Tests
                 var max = new Person("max") { Id = "p5", BirthDate = new DateTime(1972, 1, 1) };
 
                 var book = new Book("using couchdb", dave) { Id = "b1" };
+                book.AddEdition(new Edition("2nd", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(33) });
                 book.AddEdition(new Edition("1st", EditionType.Electronic) { ReleaseDate = DateTime.Now });
                 book.AddEdition(new Edition("1st", EditionType.HardBack) { ReleaseDate = DateTime.Now.AddDays(3) });
                 book.AddEdition(new Edition("preview", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-10) });

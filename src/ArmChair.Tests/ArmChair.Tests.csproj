@@ -48,6 +48,7 @@
     <Compile Include="DataTestCase.cs" />
     <Compile Include="DeletingTests.cs" />
     <Compile Include="Linq\BasicTests.cs" />
+    <Compile Include="Linq\CollectionQueryTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
     <Compile Include="Linq\QueryTestCase.cs" />
     <Compile Include="Linq\SortQueryTests.cs" />

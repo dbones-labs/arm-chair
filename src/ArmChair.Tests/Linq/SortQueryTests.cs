@@ -7,6 +7,9 @@ namespace ArmChair.Tests.Linq
     using Domain.Sample2;
     using NUnit.Framework;
 
+    /// <summary>
+    /// Todo: setup indexes before we can test.
+    /// </summary>
     public class SortQueryTests : QueryTestCase
     {
         [Test]

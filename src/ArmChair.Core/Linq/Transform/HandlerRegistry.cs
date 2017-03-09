@@ -4,8 +4,13 @@ namespace ArmChair.Linq.Transform
     using System.Collections.Generic;
     using Handlers;
     using Handlers.BinaryHandlers;
+    using Handlers.CollectionHandlers;
+    using Handlers.InNotInHandlers;
     using Handlers.StringHandlers;
 
+    /// <summary>
+    /// regisrty of all the handlers used to convert the linq where clauses into mongo json object.
+    /// </summary>
     public static class HandlerRegistry
     {
         public static readonly IDictionary<Type, List<IHandler>> Handlers = new Dictionary<Type, List<IHandler>>();
@@ -21,6 +26,11 @@ namespace ArmChair.Linq.Transform
             Register<StringContainsHandler>();
             Register<StringStartsWithHandler>();
             Register<StringEndsWithHandler>();
+
+            Register<AnyHandler>();
+
+            Register<InHandler>();
+            Register<NotInHandler>();
         }
 
         public static void Register<T>() where T : IHandler, new()

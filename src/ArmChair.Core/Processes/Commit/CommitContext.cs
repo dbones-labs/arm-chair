@@ -17,7 +17,7 @@ namespace ArmChair.Processes.Commit
     using InSession;
     using Utils;
 
-    public class CommitContext : Dynamic
+    public class CommitContext : Dynamic 
     {
         public Key Key { get; set; }
         public object Entity { get; set; }

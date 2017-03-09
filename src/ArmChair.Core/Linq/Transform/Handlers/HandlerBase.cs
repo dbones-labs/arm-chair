@@ -2,7 +2,6 @@ namespace ArmChair.Linq.Transform.Handlers
 {
     using System;
     using System.Linq.Expressions;
-    using Utils;
 
     public abstract class HandlerBase<T> : IHandler<T> where T : Expression
     {
