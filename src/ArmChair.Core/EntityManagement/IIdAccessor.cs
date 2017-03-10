@@ -14,7 +14,6 @@
 namespace ArmChair.EntityManagement
 {
     using System;
-    using System.Linq.Expressions;
     using System.Reflection;
     using Utils;
 
@@ -33,13 +32,6 @@ namespace ArmChair.EntityManagement
         /// The scanning patten to be used to autoscan for the Id field
         /// </summary>
         void SetUpIdPattern(Func<Type, string> pattern);
-        
-        /// <summary>
-        /// Set the Id directly against a Type
-        /// </summary>
-        /// <typeparam name="T">the tpye which to set the Id against</typeparam>
-        /// <param name="field">Id Field</param>
-        void SetUpId<T>(FieldInfo field);
 
         /// <summary>
         /// Set the Id directly against a Type
@@ -48,19 +40,7 @@ namespace ArmChair.EntityManagement
         /// <param name="field">Id Field</param>
         void SetUpId(Type type, FieldInfo field);
 
-        /// <summary>
-        /// Set the Id directly against a Type
-        /// </summary>
-        /// <typeparam name="T">the tpye which to set the Id against</typeparam>
-        /// <param name="fieldName">name of the Id field</param>
-        void SetUpId<T>(string fieldName);
-
-        /// <summary>
-        /// Set the Id directly against a Type
-        /// </summary>
-        /// <typeparam name="T">the tpye which to set the Id against</typeparam>
-        /// <param name="property">The Id property, this will then use the Auto back field</param>
-        void SetUpId<T>(Expression<Func<T, object>> property);
+        
         
         /// <summary>
         /// Gets the Id for an instance

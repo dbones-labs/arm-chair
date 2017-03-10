@@ -53,14 +53,14 @@ namespace ArmChair.EntityManagement.Config
 
         public void Id(Expression<Func<T, object>> property)
         {
-            string name = ((MemberExpression)((UnaryExpression)property.Body).Operand).Member.Name;
+            string name = ((MemberExpression)property.Body).Member.Name;
             string backingFieldName = GetPropertyBackingFieldName(name);
             Id(backingFieldName);
         }
 
         public void Revision(Expression<Func<T, object>> property)
         {
-            string name = ((MemberExpression)((UnaryExpression)property.Body).Operand).Member.Name;
+            string name = ((MemberExpression)property.Body).Member.Name;
             string backingFieldName = GetPropertyBackingFieldName(name);
             Revision(backingFieldName);
         }
