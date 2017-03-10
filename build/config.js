@@ -22,7 +22,7 @@ config.command = {
     package: {
         //dependencyNameOverride: '//x:dependency[starts-with(@x:id, \'Boxes.\')]/@x:version'
         //configFile: null
-        version: config.buildVersion + '-alpha'
+        version: config.buildVersion
     }
 }
 

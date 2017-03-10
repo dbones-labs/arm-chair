@@ -7,6 +7,7 @@ gulp.task('compile', function() {
         //.pipe(msbuild());
 		.pipe(msbuild({
             //targets: ['Clean', 'Release'],
+            verbosity: "minimal",
 			errorOnFail: true,
             stdout: true,
             logCommand: true,
