@@ -55,6 +55,7 @@
     <Compile Include="Linq\CollectionQueryTests.cs" />
     <Compile Include="Linq\FirstTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
+    <Compile Include="Mapping\PersonMap.cs" />
     <Compile Include="Mongo\BasicTests.cs" />
     <Compile Include="QueryTestCase.cs" />
     <Compile Include="Linq\SortQueryTests.cs" />

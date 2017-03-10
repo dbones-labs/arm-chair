@@ -14,7 +14,6 @@
 namespace ArmChair.EntityManagement
 {
     using System;
-    using System.Linq.Expressions;
     using System.Reflection;
     using Utils;
 
@@ -29,6 +28,9 @@ namespace ArmChair.EntityManagement
         /// </summary>
         void AllowAutoScanningForRevision();
 
+        /// <summary>
+        /// disable autoscanning for a revision field.
+        /// </summary>
         void DisableAutoScanningForRevision();
 
         /// <summary>
@@ -39,25 +41,9 @@ namespace ArmChair.EntityManagement
         /// <summary>
         /// Set the Revision directly against a Type
         /// </summary>
-        /// <typeparam name="T">the tpye which to set the Revision against</typeparam>
-        /// <param name="field">Revision Field</param>
-        void SetUpRevision<T>(FieldInfo field);
-
-        /// <summary>
-        /// Set the Revision directly against a Type
-        /// </summary>
-        /// <typeparam name="T">the tpye which to set the Revision against</typeparam>
-        /// <param name="fieldName">name of the Revision field</param>
-        void SetUpRevision<T>(string fieldName);
-
+        /// <param name="field">The Revision field</param>
+        /// <param name="type">the type which to set the Revision against</param>
         void SetUpRevision(Type type, FieldInfo field);
-
-        /// <summary>
-        /// Set the Revision directly against a Type
-        /// </summary>
-        /// <typeparam name="T">the tpye which to set the Revision against</typeparam>
-        /// <param name="property">The Revision property, this will then use the Auto back field</param>
-        void SetUpRevision<T>(Expression<Func<T, object>> property);
 
         /// <summary>
         /// Gets the Revision for an instance

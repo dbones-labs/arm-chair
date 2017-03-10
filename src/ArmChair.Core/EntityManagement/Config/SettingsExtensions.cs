@@ -18,6 +18,9 @@ namespace ArmChair.EntityManagement.Config
 
     public static class SettingsExtensions
     {
+        /// <summary>
+        /// <see cref="ITypeManager.Register"/>
+        /// </summary>
         public static void Register(this Settings settings, IEnumerable<Type> types)
         {
             foreach (var type in types)
@@ -26,6 +29,11 @@ namespace ArmChair.EntityManagement.Config
             }
         }
 
+        /// <summary>
+        /// <see cref="ITypeManager.Register"/>, 
+        /// if you are using default conventions, then use the <see cref="Register(ArmChair.Settings,System.Collections.Generic.IEnumerable{System.Type})"/> instead.
+        /// note when using the class maps you can provide additional information about a class.
+        /// </summary>
         public static void Register(this Settings settings, IEnumerable<ClassMap> classMaps)
         {
             foreach (var map in classMaps)
