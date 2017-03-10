@@ -1,10 +1,9 @@
-0.5.x-alpha
+0.5.x
 ==============
-!under-review!
 Initial support for MongoQuery either by a 
-    defined query object
-    Linq expression / Query<T> (in progress)
-API support registering types (required for Mongo query)
+    defined query object or JSON.
+    Linq expression / Query<T> (partial support)
+API support registering types (required for Linq query)
 Small changes in the pipelines, Load, Commit (backwards compatible)
 
 0.4.x

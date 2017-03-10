@@ -31,7 +31,7 @@ gulp.task('test', ['get-nunit'], function () {
 			result: 'test-results.xml',
 
 			// Suppress XML result output.
-			noresult: false,
+			//noresult: false,
 
 			workers: 1,
 
@@ -42,7 +42,7 @@ gulp.task('test', ['get-nunit'], function () {
 			//labels: true//,
 
 			//// Set internal trace level.
-			trace: 'Info'
+			trace: 'Verbose'
 
 			// Framework version to be used for tests.
 			//framework: 'net-4.0'

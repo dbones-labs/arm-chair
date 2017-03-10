@@ -2,7 +2,7 @@
     <metadata>
         <id>ArmChair.Core</id>
         <version>0.0.0</version>
-        <title>ArmChair Core</title>
+        <title>ArmChair</title>
         <authors>ArmChair Contrib Team</authors>
         <owners>dbones.co.uk</owners>
         <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -13,7 +13,7 @@
         <summary>ArmChair is a .NET Client for CouchDB</summary>
         <copyright>Copyright dbones.co.uk</copyright>
         <language>en-US</language>
-        <tags>UOW CouchDB Document Database Client</tags>
+        <tags>UOW CouchDB Document Database Client Linq</tags>
         <dependencies><group><dependency id="Newtonsoft.Json" version="9.0.1"/></group></dependencies>
     </metadata>
     <files>
