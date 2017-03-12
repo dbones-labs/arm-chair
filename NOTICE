@@ -1,12 +1,16 @@
-=======================================================
-==  NOTICE file for use with the Apache License, Version 2.0,            ==
-==  in this case for ArmChair.Core distribution.                                   ==
-=======================================================
+================================================================
+==  NOTICE file for use with the Apache License, Version 2.0, ==
+==  in this case for ArmChair.Core distribution.              ==
+================================================================
 
 ArmChair.Core
 Apache 2
-Copyright 2013-2014 dbones.co.uk.
+Copyright (c) dbones.co.uk.
 
 Newtonsoft.Json
 MIT
 Copyright (c) 2007 James Newton-King
+
+IQToolKit
+MS-PL
+Copyright (c) Microsoft
