@@ -1,7 +1,7 @@
 namespace ArmChair.Http
 {
     using System;
-    using System.Web;
+    using System.Net;
 
     /// <summary>
     /// A name/value pair.
@@ -17,8 +17,8 @@ namespace ArmChair.Http
         /// </summary>
         public Parameter()
         {
-            EncodingFunc = HttpUtility.UrlEncode;
-            DecodingFunc = HttpUtility.UrlDecode;
+            EncodingFunc = WebUtility.UrlEncode;
+            DecodingFunc = WebUtility.UrlDecode;
         }
 
         /// <summary>

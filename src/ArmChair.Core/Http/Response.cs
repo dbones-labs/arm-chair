@@ -17,11 +17,13 @@ namespace ArmChair.Http
     using System;
     using System.IO;
     using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Text;
 
     public class Response : IResponse
     {
-        protected readonly HttpWebResponse _httpResponse;
+        protected readonly HttpResponseMessage _httpResponse;
         protected string _body;
 
         /// <summary>
@@ -29,16 +31,16 @@ namespace ArmChair.Http
         /// </summary>
         /// <param name="response">the http responce, whcih will be wrappered in here</param>
         /// <param name="contentReader">the content reader to read the http body</param>
-        public Response(HttpWebResponse httpResponse)
+        public Response(HttpResponseMessage httpResponse)
         {
             if (httpResponse == null) throw new ArgumentNullException(nameof(httpResponse));
 
             _httpResponse = httpResponse;
-            BaseContent = httpResponse.GetResponseStream();
+            BaseContent = httpResponse.Content.ReadAsStreamAsync().Result;
 
-            if (!string.IsNullOrWhiteSpace(httpResponse.CharacterSet))
+            if (!string.IsNullOrWhiteSpace(httpResponse.Content.Headers.ContentType.CharSet))
             {
-                var encoding = Encoding.GetEncoding(httpResponse.CharacterSet);
+                var encoding = Encoding.GetEncoding(httpResponse.Content.Headers.ContentType.CharSet);
                 Content = new StreamReader(BaseContent, encoding);
             }
             else
@@ -47,19 +49,17 @@ namespace ArmChair.Http
             }
 
             Status = httpResponse.StatusCode;
-            NumberOfBytes = httpResponse.ContentLength;
-            Headers = httpResponse.Headers;
-            Cookies = httpResponse.Cookies;
+            NumberOfBytes = httpResponse.Content.Headers.ContentLength;
+            Headers = httpResponse.Content.Headers;
         }
 
-        public virtual HttpWebResponse InternalResponse => _httpResponse;
-        public virtual CookieCollection Cookies { get; set; }
-        public virtual WebHeaderCollection Headers { get; protected set; }
+        public virtual HttpResponseMessage InternalResponse => _httpResponse;
+        public virtual HttpContentHeaders Headers { get; protected set; }
         public virtual HttpStatusCode Status { get; protected set; }
         public virtual StreamReader Content { get; protected set; }
         public virtual Stream BaseContent { get; protected set; }
 
-        public virtual long NumberOfBytes { get; protected set; }
+        public virtual long? NumberOfBytes { get; protected set; }
 
         public virtual string GetBody()
         {

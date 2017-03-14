@@ -15,7 +15,7 @@ namespace ArmChair
         public long? Limit { get; set; }
 
         /// <summary>
-        /// Skip the first ‘n’ results, where ‘n’ is the value specified. Optional
+        /// Skip the first n results, where n is the value specified. Optional
         /// </summary>
         public long? Skip { get; set; }
 

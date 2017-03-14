@@ -15,7 +15,6 @@ namespace ArmChair.Utils
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Reflection;
 
     public static class TypeExtensions
@@ -35,9 +34,9 @@ namespace ArmChair.Utils
                     return TypeHierarchies[type];
 
                 var types = new List<Type>();
-                if (type.BaseType != null)
+                if (type.GetTypeInfo().BaseType != null)
                 {
-                    types.AddRange(type.BaseType.GetAllTypes());
+                    types.AddRange(type.GetTypeInfo().BaseType.GetAllTypes());
                 }
 
                 types.Add(type);

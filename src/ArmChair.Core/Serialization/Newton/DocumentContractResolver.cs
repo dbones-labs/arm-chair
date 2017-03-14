@@ -89,7 +89,7 @@ namespace ArmChair.Serialization.Newton
 
         protected override JsonContract CreateContract(Type objectType)
         {
-            if (!objectType.IsClass || typeof(IEnumerable).IsAssignableFrom(objectType))
+            if (!objectType.GetTypeInfo().IsClass || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(objectType))
             {
                 return base.CreateContract(objectType);
             }

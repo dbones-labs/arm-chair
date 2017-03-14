@@ -13,10 +13,12 @@
 // limitations under the License.
 namespace ArmChair.Http
 {
+    using System;
     using System.Net;
+    using System.Net.Http;
 
     /// <summary>
-    /// RFC 2109
+    /// RFC 2109 - cookie authentication.
     /// </summary>
     public class CookieAuthentication : IAuthentication
     {
@@ -36,23 +38,22 @@ namespace ArmChair.Http
         {
 
             var connection = new Connection(serverUrl);
-            var request = new FormRequest("/_session", HttpVerbType.Post);
+            var request = new FormRequest("/_session", HttpMethod.Post);
             request.AddBodyParameter("name", userName);
             request.AddBodyParameter("password", password);
 
-            connection.Execute(request, response =>
+            using(var response = connection.Execute(request))
             {
                 if (response.Status == HttpStatusCode.OK)
                 {
-                    _authSession = response.Cookies["AuthSession"];
+                    _authSession = connection.Cookies.GetCookies(new Uri(serverUrl))["AuthSession"];
                 }
-
-            });
+            }
         }
 
-        public virtual void Apply(IConnection connection, IRequest request)
+        public virtual void Apply(IConnection conn)
         {
-            request.AddCookie(_authSession);
+            conn.SetupConfig(config => config.CookieContainer.Add(new Uri(_authSession.Path), _authSession));
         }
     }
 }

@@ -126,7 +126,7 @@ namespace ArmChair.EntityManagement
             return type
                 .GetTypeMeta()
                 .Fields
-                .FirstOrDefault(x => idPatterns.Any(pattern => string.Compare(x.Name, pattern, StringComparison.InvariantCultureIgnoreCase) == 0));
+                .FirstOrDefault(x => idPatterns.Any(pattern => string.Compare(x.Name, pattern, StringComparison.OrdinalIgnoreCase) == 0));
         }
 
     }

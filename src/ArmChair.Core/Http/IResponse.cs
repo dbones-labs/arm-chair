@@ -16,6 +16,7 @@ namespace ArmChair.Http
     using System;
     using System.IO;
     using System.Net;
+    using System.Net.Http.Headers;
 
     /// <summary>
     /// Http response
@@ -41,16 +42,11 @@ namespace ArmChair.Http
         /// <summary>
         /// the size of the response
         /// </summary>
-        long NumberOfBytes { get; }
-
-        /// <summary>
-        /// cookies
-        /// </summary>
-        CookieCollection Cookies { get; set; }
+        long? NumberOfBytes { get; }
 
         /// <summary>
         /// headers
         /// </summary>
-        WebHeaderCollection Headers { get; }
+        HttpContentHeaders Headers { get; }
     }
 }

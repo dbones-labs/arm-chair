@@ -16,6 +16,7 @@ namespace ArmChair.Serialization.Newton
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Commands;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -49,7 +50,7 @@ namespace ArmChair.Serialization.Newton
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IEnumerable<BulkDocResponse>).IsAssignableFrom(objectType);
+            return typeof(IEnumerable<BulkDocResponse>).GetTypeInfo().IsAssignableFrom(objectType);
         }
     }
 }

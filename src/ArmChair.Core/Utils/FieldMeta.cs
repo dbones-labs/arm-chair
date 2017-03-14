@@ -14,7 +14,6 @@
 namespace ArmChair.Utils
 {
     using System;
-    using System.Configuration;
     using System.Reflection;
 
     /// <summary>
@@ -99,7 +98,7 @@ namespace ArmChair.Utils
         {
             if (IsReadOnly)
             {
-                throw new SettingsPropertyIsReadOnlyException(Name);
+                throw new Exception($"{Name} is read-only");
             }
             _setter(instance, value);
         }

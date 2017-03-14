@@ -4,6 +4,7 @@ namespace ArmChair.Linq
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reflection;
     using EntityManagement;
     using IQToolkit;
     using Pre;
@@ -44,7 +45,7 @@ namespace ArmChair.Linq
             var linqQuery = LinqVisitor.Eval(expression);
 
             //get the type constraint
-            var types = _sessionContext.TypeManager.Implementation(typeof(T)).Select(x => $"{x.FullName}, {x.Assembly.GetName().Name}");
+            var types = _sessionContext.TypeManager.Implementation(typeof(T)).Select(x => $"{x.FullName}, {x.GetTypeInfo().Assembly.GetName().Name}");
             var typesQuery = new QueryObject { { "\\$type", new QueryObject { { "$in", types } } } };
 
             var clauses = new List<IDictionary<string, object>>();

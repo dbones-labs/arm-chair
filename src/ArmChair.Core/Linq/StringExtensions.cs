@@ -9,7 +9,7 @@ namespace ArmChair.Linq
     {
         public static bool ComparedTo(this string str, string compairedWith)
         {
-            return string.Compare(str, compairedWith, StringComparison.InvariantCultureIgnoreCase) == 0;
+            return string.Compare(str, compairedWith, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

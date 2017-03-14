@@ -15,6 +15,7 @@ namespace ArmChair.Utils.Copying
 {
     using System;
     using System.Collections;
+    using System.Reflection;
 
     /// <summary>
     /// copy over a collection
@@ -25,8 +26,8 @@ namespace ArmChair.Utils.Copying
 
         public CollectionCopyToTarget(Type type)
         {
-            var genericArguments = type.GetGenericArguments();
-            _getValue = genericArguments[0].IsValueType
+            var genericArguments = type.GetTypeInfo().GetGenericArguments();
+            _getValue = genericArguments[0].GetTypeInfo().IsValueType
                 ? (Func<object, object>)(source => source)
                 : (Func<object, object>)(source => Copier.Copy(source));
         }

@@ -16,6 +16,7 @@ namespace ArmChair.Utils.Copying
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Reflection;
 
     /// <summary>
     /// stores infomation about copying
@@ -62,13 +63,13 @@ namespace ArmChair.Utils.Copying
                 }
 
                 //copying a collection of somesort
-                if (typeof(IDictionary).IsAssignableFrom(_source))
+                if (typeof(IDictionary).GetTypeInfo().IsAssignableFrom(_source))
                 {
                     AddTargetToCopy(new DictionaryCopyToTarget(_source));
                     return;
                 }
 
-                if (typeof(IList).IsAssignableFrom(_source))
+                if (typeof(IList).GetTypeInfo().IsAssignableFrom(_source))
                 {
                     AddTargetToCopy(new CollectionCopyToTarget(_source));
                     return;
@@ -80,7 +81,7 @@ namespace ArmChair.Utils.Copying
                 {
                     var fieldType = field.Type;
 
-                    if (fieldType.IsValueType || fieldType == typeof(string))
+                    if (fieldType.GetTypeInfo().IsValueType || fieldType == typeof(string))
                     {
                         AddTargetToCopy(new ValueCopyToTarget(field));
                     }

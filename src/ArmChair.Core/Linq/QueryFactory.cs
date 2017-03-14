@@ -4,7 +4,7 @@ namespace ArmChair.Linq
     using IQToolkit;
 
     /// <summary>
-    /// 
+    /// this will create a linq query object
     /// </summary>
     public class QueryFactory
     {

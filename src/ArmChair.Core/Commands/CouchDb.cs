@@ -16,6 +16,8 @@ namespace ArmChair.Commands
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
+    using System.Text;
     using Http;
     using Serialization;
 
@@ -56,7 +58,7 @@ namespace ArmChair.Commands
         /// <returns>returns the document in its POCO form</returns>
         public virtual object LoadEntity(string key, Type objecType)
         {
-            var request = new Request("/:db/:key", HttpVerbType.Get);
+            var request = new Request("/:db/:key", HttpMethod.Get);
             request.AddUrlSegment("db", _name);
             request.AddUrlSegment("key", key);
 
@@ -80,10 +82,10 @@ namespace ArmChair.Commands
         public virtual AllDocsResponse LoadAllEntities(AllDocsRequest keys)
         {
             var requestJson = _serializer.Serialize(keys);
-            var request = new Request("/:db/_all_docs", HttpVerbType.Post);
+            var request = new Request("/:db/_all_docs", HttpMethod.Post);
             request.AddUrlSegment("db", _name);
             request.AddParameter("include_docs", "true"); //load entire content.
-            request.AddContent(writer => writer.Write(requestJson), HttpContentType.Json);
+            request.AddContent(() => new StringContent(requestJson), ContentType.Json);
 
             using (var response = _connection.Execute(request))
             {
@@ -100,9 +102,9 @@ namespace ArmChair.Commands
         public virtual IEnumerable<BulkDocResponse> BulkApplyChanges(BulkDocsRequest updates)
         {
             var json = _serializer.Serialize(updates);
-            var request = new Request("/:db/_bulk_docs", HttpVerbType.Post);
+            var request = new Request("/:db/_bulk_docs", HttpMethod.Post);
             request.AddUrlSegment("db", _name);
-            request.AddContent(writer => writer.Write(json), HttpContentType.Json);
+            request.AddContent(()=> new StringContent(json), ContentType.Json);
 
             using (var response = _connection.Execute(request))
             {
@@ -120,16 +122,15 @@ namespace ArmChair.Commands
         {
             //use_index 
             var json = _querySerializer.Serialize(query);
-            var request = new Request("/:db/_find", HttpVerbType.Post);
+            var request = new Request("/:db/_find", HttpMethod.Post);
             request.AddUrlSegment("db", _name);
-            request.AddContent(writer => writer.Write(json), HttpContentType.Json);
+            request.AddContent(()=> new StringContent(json), ContentType.Json);
 
             using (var response = _connection.Execute(request))
             {
                 var content = response.GetBody();
                 return _serializer.Deserialize<MongoQueryResponse>(content);
             }
-
         }
     }
 }

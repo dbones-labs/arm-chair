@@ -25,6 +25,7 @@ namespace ArmChair.Utils
     public class TypeMeta
     {
         private readonly Type _type;
+        private readonly TypeInfo _typeInfo;
         private readonly IEnumerable<Type> _allTypes;
         private readonly IDictionary<string, FieldMeta> _valueFields = new Dictionary<string, FieldMeta>();
         private readonly IDictionary<string, FieldMeta> _allFields = new Dictionary<string, FieldMeta>();
@@ -40,16 +41,17 @@ namespace ArmChair.Utils
             //Need to test the inherited field getter/setter
             //try and process all this once
             _type = type;
+            _typeInfo = type.GetTypeInfo();
             _allTypes = type.GetAllTypes();
             var fields = _allTypes
                 .Where(t => t != typeof(object))
-                .SelectMany(t => t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
+                .SelectMany(t => t.GetTypeInfo().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
 
-            _isAbstract = _type.IsAbstract;
+            _isAbstract = _typeInfo.IsAbstract;
             if (!IsAbstract)
             {
                 //look only at the direct type
-                var ctor = _type.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                var ctor = _typeInfo.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                         .FirstOrDefault(x => !x.GetParameters().Any());
 
                 if (ctor != null)
@@ -63,7 +65,7 @@ namespace ArmChair.Utils
 
             foreach (var meta in fields.Select(field => new FieldMeta(field)))
             {
-                if (meta.Type.IsValueType || meta.Type == typeof(string))
+                if (meta.Type.GetTypeInfo().IsValueType || meta.Type == typeof(string))
                 {
                     _valueFields.Add(meta.Name, meta);
                 }
