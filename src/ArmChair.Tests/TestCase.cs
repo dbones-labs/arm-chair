@@ -13,7 +13,9 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
+    using System.Diagnostics;
     using System.Net;
+    using System.Net.Http;
     using System.Threading;
     using Http;
     using NUnit.Framework;
@@ -28,12 +30,14 @@ namespace ArmChair.Tests
         protected Database Database;
         protected string DbName = "auto_testing";
         protected string DbLocation = "http://document:5984";
-        protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8888) : null;
-
+        protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8081) : null;
+        //127.0.0.1:8081
+        //8888
 
         public virtual Database CreateDatabase()
         {
-            var conn = new Connection(DbLocation) {Proxy = Proxy};
+            var conn = new Connection(DbLocation);
+            conn.SetupConfig(cfg => cfg.Proxy = Proxy);
             return new Database(DbName, conn);
         }
 
@@ -63,25 +67,28 @@ namespace ArmChair.Tests
             EnsureDbIsDeleted();
 
             //create a test db
-            var conn = new Connection(DbLocation) { Proxy = Proxy };
-            var createDb = new Request("/:db", HttpVerbType.Put);
+            var conn = new Connection(DbLocation);
+            var createDb = new Request("/:db", HttpMethod.Put);
             createDb.AddUrlSegment("db", DbName);
-            createDb.SetContentType(HttpContentType.Json);
-            conn.Execute(createDb, response => { });
+            createDb.SetContentType(ContentType.Json);
+            using (var response = conn.Execute(createDb))
+            {
+                Debug.WriteLine(response.Status);
+            };
 
             var wait = true;
-            var confirmDb = new Request("/:db", HttpVerbType.Get);
+            var confirmDb = new Request("/:db", HttpMethod.Get);
             confirmDb.AddUrlSegment("db", DbName);
-            confirmDb.SetContentType(HttpContentType.Json);
+            confirmDb.SetContentType(ContentType.Json);
 
             EventallyRun();
 
             while (wait)
             {
-                conn.Execute(confirmDb, response =>
+                using(var response = conn.Execute(confirmDb))
                 {
                     wait = response.Status != HttpStatusCode.OK;
-                });
+                }
             }
 
             Database = CreateDatabase();
@@ -109,26 +116,26 @@ namespace ArmChair.Tests
         private void EnsureDbIsDeleted()
         {
             //delete a test db
-            var conn = new Connection(DbLocation) { Proxy = Proxy };
+            var conn = new Connection(DbLocation);
 
             bool needToDelete = true;
 
             while (needToDelete)
             {
-                var checkDb = new Request("/:db", HttpVerbType.Get);
+                var checkDb = new Request("/:db", HttpMethod.Get);
                 checkDb.AddUrlSegment("db", DbName);
-                checkDb.SetContentType(HttpContentType.Json);
-                conn.Execute(checkDb, response =>
+                checkDb.SetContentType(ContentType.Json);
+                using(var response = conn.Execute(checkDb))
                 {
                     needToDelete = response.Status == HttpStatusCode.OK;
-                });
+                };
 
                 if (needToDelete)
                 {
-                    var deleteDb = new Request("/:db", HttpVerbType.Delete);
+                    var deleteDb = new Request("/:db", HttpMethod.Delete);
                     deleteDb.AddUrlSegment("db", DbName);
-                    deleteDb.SetContentType(HttpContentType.Json);
-                    conn.Execute(deleteDb, response => { });
+                    deleteDb.SetContentType(ContentType.Json);
+                    using (var response = conn.Execute(deleteDb)) { };
                 }
             }
 

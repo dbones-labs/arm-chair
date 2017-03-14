@@ -15,6 +15,7 @@ namespace ArmChair.Utils.Comparing
 {
     using System.Collections;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// compaires 2 instances
@@ -45,7 +46,7 @@ namespace ArmChair.Utils.Comparing
             if (leftType != rightType) return false;
 
             //the == and Equals() should have sufficed for a value type
-            if (leftType.Type.IsValueType || left is string) return false;
+            if (leftType.Type.GetTypeInfo().IsValueType || left is string) return false;
 
             if (left is IDictionary)
             {

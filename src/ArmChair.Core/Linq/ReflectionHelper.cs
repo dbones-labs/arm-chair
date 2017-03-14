@@ -26,7 +26,7 @@ namespace ArmChair.Linq
         public IEnumerable<MethodInfo> GetSupportedMethods(Expression<Func<T, object>> expression, bool includeAllOverrides = true)
         {
             var methodName = ((MethodCallExpression)((UnaryExpression)expression.Body).Operand).Method.Name;
-            var methods = _type.GetMethods().Where(x => x.Name == methodName);
+            var methods = _type.GetTypeInfo().GetMethods().Where(x => x.Name == methodName);
             return methods;
         }
     }

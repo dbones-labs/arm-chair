@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArmChair.Tests</RootNamespace>
     <AssemblyName>ArmChair.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AttachingTests.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Core\DeletingTests.cs" />
     <Compile Include="Linq\BasicTests.cs" />
     <Compile Include="Linq\CollectionQueryTests.cs" />
+    <Compile Include="Linq\DateTests.cs" />
     <Compile Include="Linq\FirstTests.cs" />
     <Compile Include="Linq\SessionTests.cs" />
     <Compile Include="Mapping\PersonMap.cs" />

@@ -65,10 +65,10 @@ namespace ArmChair.Linq.Transform
             return Handle(node, base.VisitDefault);
         }
 
-        protected override Expression VisitDynamic(DynamicExpression node)
-        {
-            return Handle(node, base.VisitDynamic);
-        }
+//        protected override Expression VisitDynamic(DynamicExpression node)
+//        {
+//            return Handle(node, base.VisitDynamic);
+//        }
 
         protected override Expression VisitExtension(Expression node)
         {

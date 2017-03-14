@@ -15,6 +15,8 @@ namespace ArmChair.Http
 {
     using System;
     using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
 
     /// <summary>
     /// HTTP connection, which requests are excuted against.
@@ -27,14 +29,6 @@ namespace ArmChair.Http
         IAuthentication Authentication { get; set; }
 
         /// <summary>
-        /// set the proxy to use for this connection.
-        /// </summary>
-        /// <remarks>
-        /// setting it to null will make the connection faster.
-        /// </remarks>
-        IWebProxy Proxy { get; set; }
-
-        /// <summary>
         /// the URL to be used for this connection
         /// </summary>
         string BaseUrl { get; }
@@ -43,13 +37,13 @@ namespace ArmChair.Http
         /// Execute a command against this connection/endpoint.
         /// </summary>
         /// <param name="request">request to execute.</param>
-        /// <param name="responseHandler">handler of the response</param>
-        void Execute(IRequest request, Action<IResponse> responseHandler);
-
-        /// <summary>
-        /// Execute a command against this connection/endpoint.
-        /// </summary>
-        /// <param name="request">request to execute.</param>
         IResponse Execute(IRequest request);
+
+        void SetupConfig(Action<HttpClientHandler> config);
+
+        void SetupHeaders(Action<HttpRequestHeaders> defaultHeaders);
+
+        CookieContainer Cookies { get; }
+
     }
 }

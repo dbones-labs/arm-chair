@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArmChair</RootNamespace>
     <AssemblyName>ArmChair.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +54,7 @@
     <Compile Include="EntityManagement\IRevisionAccessor.cs" />
     <Compile Include="EntityManagement\ITypeManager.cs" />
     <Compile Include="EntityManagement\RevisionAccessor.cs" />
+    <Compile Include="Http\ContentType.cs" />
     <Compile Include="Http\Parameter.cs" />
     <Compile Include="InSession\ISessionCache.cs" />
     <Compile Include="Linq\Pre\Handlers\AllSubPatternHandler.cs" />
@@ -77,6 +79,11 @@
     <Compile Include="Linq\QueryFactory.cs" />
     <Compile Include="Linq\QueryObject.cs" />
     <Compile Include="Linq\SessionContext.cs" />
+    <Compile Include="Linq\ToolKit\PartialEvaluator.cs" />
+    <Compile Include="Linq\ToolKit\Query.cs" />
+    <Compile Include="Linq\ToolKit\QueryProvider.cs" />
+    <Compile Include="Linq\ToolKit\ReflectionExtensions.cs" />
+    <Compile Include="Linq\ToolKit\TypeHelper.cs" />
     <Compile Include="Linq\Transform\HandlerRegistry.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\AndOrVisitorHandler.cs" />
     <Compile Include="Linq\Transform\Handlers\BinaryHandlers\BinaryHandler.cs" />
@@ -206,12 +213,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IQToolkit\IQToolkit.csproj">
-      <Project>{0da62a7c-3b40-456f-a4b2-b3e19ed4080e}</Project>
-      <Name>IQToolkit</Name>
-    </ProjectReference>
+    <Content Include="Linq\ToolKit\license.txt" />
+    <Content Include="Linq\ToolKit\readme.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

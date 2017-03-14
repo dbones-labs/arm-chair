@@ -14,11 +14,12 @@
 namespace ArmChair.Http
 {
     using System;
+    using System.Net.Http.Headers;
     using System.Text;
 
 
     /// <summary>
-    /// RFC 2617
+    /// RFC 2617 - basic authentication.
     /// </summary>
     public class BasicAuthentication : IAuthentication
     {
@@ -30,17 +31,15 @@ namespace ArmChair.Http
         /// <param name="password">password</param>
         public BasicAuthentication(string userName, string password)
         {
-            var encoded = Convert.ToBase64String(Encoding.Default.GetBytes(userName + ":" + password));
-            _authHeader = "Basic " + encoded;
+            _authHeader = Convert.ToBase64String(Encoding.ASCII.GetBytes(userName + ":" + password));
         }
 
         /// <summary>
         /// applies security to the request.
         /// </summary>
-        /// <param name="request">the request to apply security too</param>
-        public virtual void Apply(IConnection connection, IRequest request)
+        public virtual void Apply(IConnection connection)
         {
-            request.AddHeader("Authorization", _authHeader);
+            connection.SetupHeaders(headers => headers.Authorization = new AuthenticationHeaderValue("Basic", _authHeader));
         }
     }
 }

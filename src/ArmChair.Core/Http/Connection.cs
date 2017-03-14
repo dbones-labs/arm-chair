@@ -11,13 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair.Http
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
 
     public class Connection : IConnection
     {
+        private readonly List<Action<HttpClientHandler>> _configHandlers = new List<Action<HttpClientHandler>>();
+        private readonly List<Action<HttpRequestHeaders>> _headerHandlers = new List<Action<HttpRequestHeaders>>();
+        readonly HttpClientHandler _config;
+
         public string BaseUrl { get; protected set; }
 
         /// <summary>
@@ -27,41 +35,56 @@ namespace ArmChair.Http
         public Connection(string baseUrl)
         {
             BaseUrl = baseUrl;
+
+            _config = new HttpClientHandler()
+            {
+                AutomaticDecompression =
+                    DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.None,
+                //MaxConnectionsPerServer = 100,
+            };
         }
 
         public virtual IAuthentication Authentication { get; set; }
 
-        public virtual IWebProxy Proxy { get; set; }
-
-        public virtual void Execute(IRequest request, Action<IResponse> responseHandler)
-        {
-            try
-            {
-                Authentication?.Apply(this, request);
-                using (var response = request.Execute(BaseUrl, Proxy))
-                {
-                    responseHandler(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new RequestException(request, ex);
-            }
-
-        }
 
         public virtual IResponse Execute(IRequest request)
         {
             try
             {
-                Authentication?.Apply(this, request);
-                return request.Execute(BaseUrl, Proxy);
+                //apply once
+                foreach (var configHandler in _configHandlers)
+                {
+                    configHandler(_config);
+                }
+                _configHandlers.Clear();
+
+                var conn = new HttpClient(_config);
+                conn.BaseAddress = new Uri(BaseUrl);
+
+                foreach (var headerHandler in _headerHandlers)
+                {
+                    headerHandler(conn.DefaultRequestHeaders);
+                }
+
+                Authentication?.Apply(this);
+                return request.Execute(conn);
             }
             catch (Exception ex)
             {
                 throw new RequestException(request, ex);
             }
+        }
 
+        public CookieContainer Cookies => _config.CookieContainer;
+
+        public void SetupConfig(Action<HttpClientHandler> config)
+        {
+            _configHandlers.Add(config);
+        }
+
+        public void SetupHeaders(Action<HttpRequestHeaders> defaultHeaders)
+        {
+            _headerHandlers.Add(defaultHeaders);
         }
     }
 }

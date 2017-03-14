@@ -17,7 +17,9 @@ namespace ArmChair.Http
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
 
     /// <summary>
     /// A HTTP form request
@@ -26,11 +28,11 @@ namespace ArmChair.Http
     {
         protected List<Parameter> _formParams = new List<Parameter>();
 
-        public FormRequest(string appendUrlToBase, HttpVerbType verbType = HttpVerbType.Post)
-            : base(appendUrlToBase, verbType)
+        public FormRequest(string appendUrlToBase, HttpMethod verbType)
+            : base(appendUrlToBase,  verbType)
         {
-            SetContentType(HttpContentType.Form);
-            if (verbType == HttpVerbType.Get)
+            SetContentType(ContentType.Form);
+            if (verbType == HttpMethod.Get)
             {
                 throw new NotSupportedException("cannot use Get verb");
             }
@@ -41,21 +43,22 @@ namespace ArmChair.Http
         /// </summary>
         public virtual IEnumerable<Parameter> BodyParameters => _formParams;
 
-        public override IResponse Execute(string baseUrl, IWebProxy proxy = null)
+        public override IResponse Execute(HttpClient client)
         {
             if (_formParams.Any())
             {
                 var values = _formParams.Select(x => $"{x.Name}={x.EncodedValue}");
-                _writeContent = writer => writer.Write(string.Join("&", values));
+                _writeContent = () => new StringContent(string.Join("&", values));
             }
 
-            return base.Execute(baseUrl, proxy);
+            return base.Execute(client);
         }
 
-        public override void AddContent(Action<StreamWriter> writeConent, HttpContentType contentType)
+        public override void AddContent(Func<HttpContent> writeConent, MediaTypeHeaderValue contentType = null)
         {
             throw new NotImplementedException("use AddBodyParameter");
         }
+
 
         /// <summary>
         /// Add a body parameter (uses no encoder, string will be passed through)

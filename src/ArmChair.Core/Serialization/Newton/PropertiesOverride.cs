@@ -59,7 +59,7 @@ namespace ArmChair.Serialization.Newton
             {
                 bool flag = index + 1 < chArray.Length;
                 if (index <= 0 || !flag || Char.IsUpper(chArray[index + 1]))
-                    chArray[index] = Char.ToLower(chArray[index], CultureInfo.InvariantCulture);
+                    chArray[index] = Char.ToLower(chArray[index]);
                 else
                     break;
             }

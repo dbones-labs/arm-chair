@@ -36,7 +36,7 @@ namespace ArmChair.Linq.Transform.Handlers.CollectionHandlers
             }
 
             var prop = val0.Member as PropertyInfo;
-            return prop != null && typeof(IEnumerable).IsAssignableFrom(prop.PropertyType);
+            return prop != null && typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(prop.PropertyType);
         }
     }
 }
