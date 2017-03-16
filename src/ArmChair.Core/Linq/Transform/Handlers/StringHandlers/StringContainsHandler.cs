@@ -15,7 +15,7 @@ namespace ArmChair.Linq.Transform.Handlers.StringHandlers
 
             var name = GetMemberName((MemberExpression)expression.Object, context);
 
-            var regex = new QueryObject { { "$regex", $"/{cValue}/" } };
+            var regex = new QueryObject { { "$regex", cValue.Value } };
             var query = new QueryObject { { name, regex } };
 
             context.SetResult(query);

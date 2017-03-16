@@ -19,7 +19,6 @@ namespace ArmChair
     using IdManagement;
     using Linq;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
     using Processes.Commit;
     using Processes.Load;

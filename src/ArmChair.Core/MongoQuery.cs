@@ -27,4 +27,38 @@ namespace ArmChair
         /// </summary>
         public IList<IDictionary<string, Order>> Sort { get; set; }
     }
+
+
+    public class IndexEntry
+    {
+        public IndexEntry()
+        {
+            Index = new Index();
+        }
+
+        public string Name { get; set; }
+        public string DesignDocument { get; set; }
+        public Index Index { get; set; }
+    }
+
+    public class Index
+    {
+        public Index()
+        {
+            Fields = new List<IDictionary<string, Order>>();
+        }
+
+        public IList<IDictionary<string,Order>> Fields { get; set; }
+
+        public void Add(string name, Order sort)
+        {
+            Fields.Add(new Dictionary<string, Order>(){
+            {
+                name, sort
+            }});
+        }
+    }
+
+
+
 }

@@ -10,18 +10,22 @@ namespace ArmChair.Tests.Linq
     /// <summary>
     /// Todo: setup indexes before we can test.
     /// </summary>
-    [Ignore("require setting up of indexes")]
+    //[Ignore("require setting up of indexes")]
     public class SortQueryTests : QueryTestCase
     {
         [Test]
         public void Simple_sort()
         {
+            var idx = new IndexEntry();
+            idx.Index.Add("name", Order.Asc);
+            Database.CreateIndex(idx);
+
             List<Animal> results;
             List<Animal> reference;
             using (var session = Database.CreateSession())
             {
-                results = session.Query<Animal>().OrderBy(x => x.Name).ToList();
-                reference = Query<Animal>().OrderBy(x => x.Name).ToList();
+                results = session.Query<Animal>().Where(x=> x.Name.Contains("o")).OrderBy(x => x.Name).ToList();
+                reference = Query<Animal>().Where(x=> x.Name.Contains("o")).OrderBy(x => x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);
@@ -32,15 +36,16 @@ namespace ArmChair.Tests.Linq
         [Test]
         public void Simple_sort_desc()
         {
-            Func<IEnumerable<Animal>, List<Animal>> filter =
-                items => items.OrderByDescending(x => x.Name).ToList();
+            var idx = new IndexEntry();
+            idx.Index.Add("name", Order.Asc);
+            Database.CreateIndex(idx);
 
             List<Animal> results;
             List<Animal> reference;
             using (var session = Database.CreateSession())
             {
-                results = filter(session.Query<Animal>());
-                reference = filter(Query<Animal>());
+                results = session.Query<Animal>().OrderByDescending(x=>x.Name).ToList();
+                reference = Query<Animal>().OrderByDescending(x=>x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);
@@ -52,15 +57,17 @@ namespace ArmChair.Tests.Linq
         [Test]
         public void Multiple_sorts()
         {
-            Func<IEnumerable<Person>, List<Person>> filter =
-                items => items.OrderBy(x => x.BirthDate).ThenBy(x => x.Name).ToList();
+            var idx = new IndexEntry();
+            idx.Index.Add("birthDate", Order.Asc);
+            idx.Index.Add("name", Order.Asc);
+            Database.CreateIndex(idx);
 
             List<Person> results;
             List<Person> reference;
             using (var session = Database.CreateSession())
             {
-                results = filter(session.Query<Person>());
-                reference = filter(Query<Person>());
+                results = session.Query<Person>().OrderBy(x => x.BirthDate).ThenBy(x => x.Name).ToList();
+                reference = Query<Person>().OrderBy(x => x.BirthDate).ThenBy(x => x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);
@@ -73,15 +80,18 @@ namespace ArmChair.Tests.Linq
         [Test]
         public void Multiple_sorts_desc()
         {
-            Func<IEnumerable<Person>, List<Person>> filter =
-                items => items.OrderBy(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
+            var idx = new IndexEntry();
+            idx.Index.Add("birthDate", Order.Desc);
+            idx.Index.Add("name", Order.Desc);
+            Database.CreateIndex(idx);
+
 
             List<Person> results;
             List<Person> reference;
             using (var session = Database.CreateSession())
             {
-                results = filter(session.Query<Person>());
-                reference = filter(Query<Person>());
+                results = session.Query<Person>().OrderBy(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
+                reference = Query<Person>().OrderBy(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);
@@ -92,6 +102,7 @@ namespace ArmChair.Tests.Linq
 
 
         [Test]
+        [Ignore("under dev")]
         public void Multiple_sorts_desc2()
         {
             Func<IEnumerable<Person>, List<Person>> filter =

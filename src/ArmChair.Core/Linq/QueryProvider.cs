@@ -58,7 +58,17 @@ namespace ArmChair.Linq
                 var partial = MongoQueryTransformVisitor.Eval(whereClause, _sessionContext);
                 clauses.Add(partial);
             }
-            
+
+            //add a token selector which is direcly linked to the sort.
+            var handler = new OrderByHandler(_sessionContext);
+            if (linqQuery.Ordering.Any())
+            {
+                var order = linqQuery.Ordering.First();
+                var name = handler.GetMemberName((MemberExpression)((Expression<Func<T,string>>)((UnaryExpression)order.Expression).Operand).Body);
+                var sortSelector = new QueryObject { { name, new QueryObject { { "$gt", null } } } };
+                clauses.Add(sortSelector);
+            }
+
             //either take the single where clause or "and" them all together
             IDictionary<string, object> query;
             if (clauses.Count == 1)
@@ -74,7 +84,6 @@ namespace ArmChair.Linq
             }
 
             //sorting / orderby
-            var handler = new OrderByHandler(_sessionContext);
             _sessionContext.QueryPart = QueryPart.OrderBy;
             var orders = new List<IDictionary<string, Order>>();
             foreach (var orderBy in linqQuery.Ordering)
