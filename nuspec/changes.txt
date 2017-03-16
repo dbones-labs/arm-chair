@@ -1,3 +1,18 @@
+0.6.x
+==============
+!! Breaking Change !!
+.NET 4.0 dropped
+
+Initial .NET standard support work:
+    moved to .NET 4.5 (not core yet, aiming for 1.1, but it does compile on 1.6).
+    updated internal Http to use HttpClient.
+    updated reflection code to be complaint.
+integrated IQ Tool Kit, retaining the NOTICE and licence on those files.
+initial support to create index's.
+Supported more of the Linq interface
+    Support for Sort(s)
+    
+
 0.5.x
 ==============
 Initial support for MongoQuery either by a 
