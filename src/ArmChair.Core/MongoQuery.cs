@@ -50,7 +50,7 @@ namespace ArmChair
 
         public IList<IDictionary<string,Order>> Fields { get; set; }
 
-        public void Add(string name, Order sort)
+        public void Add(string name, Order sort = Order.Asc)
         {
             Fields.Add(new Dictionary<string, Order>(){
             {

@@ -10,7 +10,6 @@ namespace ArmChair.Tests.Linq
     /// <summary>
     /// Todo: setup indexes before we can test.
     /// </summary>
-    //[Ignore("require setting up of indexes")]
     public class SortQueryTests : QueryTestCase
     {
         [Test]
@@ -37,7 +36,7 @@ namespace ArmChair.Tests.Linq
         public void Simple_sort_desc()
         {
             var idx = new IndexEntry();
-            idx.Index.Add("name", Order.Asc);
+            idx.Index.Add("name");
             Database.CreateIndex(idx);
 
             List<Animal> results;
@@ -58,8 +57,8 @@ namespace ArmChair.Tests.Linq
         public void Multiple_sorts()
         {
             var idx = new IndexEntry();
-            idx.Index.Add("birthDate", Order.Asc);
-            idx.Index.Add("name", Order.Asc);
+            idx.Index.Add("birthDate");
+            idx.Index.Add("name");
             Database.CreateIndex(idx);
 
             List<Person> results;
@@ -81,8 +80,8 @@ namespace ArmChair.Tests.Linq
         public void Multiple_sorts_desc()
         {
             var idx = new IndexEntry();
-            idx.Index.Add("birthDate", Order.Desc);
-            idx.Index.Add("name", Order.Desc);
+            idx.Index.Add("birthDate");
+            idx.Index.Add("name");
             Database.CreateIndex(idx);
 
 
@@ -90,8 +89,8 @@ namespace ArmChair.Tests.Linq
             List<Person> reference;
             using (var session = Database.CreateSession())
             {
-                results = session.Query<Person>().OrderBy(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
-                reference = Query<Person>().OrderBy(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
+                results = session.Query<Person>().OrderByDescending(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
+                reference = Query<Person>().OrderByDescending(x => x.BirthDate).ThenByDescending(x => x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);
@@ -102,18 +101,21 @@ namespace ArmChair.Tests.Linq
 
 
         [Test]
-        [Ignore("under dev")]
+        [Ignore("Couchdb: Sorts currently only support a single direction for all fields.")]
         public void Multiple_sorts_desc2()
         {
-            Func<IEnumerable<Person>, List<Person>> filter =
-                items => items.OrderByDescending(x => x.BirthDate).ThenBy(x => x.Name).ToList();
+            var idx = new IndexEntry();
+            idx.Index.Add("birthDate");
+            idx.Index.Add("name", Order.Desc);
+            Database.CreateIndex(idx);
+
 
             List<Person> results;
             List<Person> reference;
             using (var session = Database.CreateSession())
             {
-                results = filter(session.Query<Person>());
-                reference = filter(Query<Person>());
+                results = session.Query<Person>().OrderByDescending(x => x.BirthDate).ThenBy(x => x.Name).ToList();
+                reference = Query<Person>().OrderByDescending(x => x.BirthDate).ThenBy(x => x.Name).ToList();
             }
 
             Assert.IsTrue(results.Count == reference.Count);

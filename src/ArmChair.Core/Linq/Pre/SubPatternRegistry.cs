@@ -18,6 +18,7 @@
                 new AnySubPatternHandler(),
                 new FirstSubPatternHandler(),
                 new OrderBySubPatternHandler(),
+                new ThenBySubPatternHandler(),
                 new SkipSubPatternHandler(),
                 new SingleSubPatternHandler(),
                 new TakeSubPatternHandler(),

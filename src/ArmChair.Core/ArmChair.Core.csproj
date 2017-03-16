@@ -67,6 +67,7 @@
     <Compile Include="Linq\Pre\Handlers\SkipSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\SubPatternHandlerBase.cs" />
     <Compile Include="Linq\Pre\Handlers\TakeSubPatternHandler.cs" />
+    <Compile Include="Linq\Pre\Handlers\ThenBySubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\WhereSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\LinqQuery.cs" />
     <Compile Include="Linq\Pre\LinqVisitor.cs" />
