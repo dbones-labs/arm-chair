@@ -27,6 +27,16 @@ namespace ArmChair.Linq.Pre.Handlers
             };
 
         }
+
+        protected SubPatternHandlerBase(params string[] methods)
+        {
+            Supported = exp =>
+            {
+                var name = exp.Method.Name;
+                return methods.Any(name.ComparedTo);
+            };
+
+        }
         
         public bool CanHandle(ProcessingLinqContext ctx)
         {

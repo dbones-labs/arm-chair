@@ -59,19 +59,9 @@ namespace ArmChair.Linq
                 clauses.Add(partial);
             }
 
-            //add a token selector which is direcly linked to the sort.
-            var handler = new OrderByHandler(_sessionContext);
-            if (linqQuery.Ordering.Any())
-            {
-                var order = linqQuery.Ordering.First();
-                var name = handler.GetMemberName((MemberExpression)((Expression<Func<T,string>>)((UnaryExpression)order.Expression).Operand).Body);
-                var sortSelector = new QueryObject { { name, new QueryObject { { "$gt", null } } } };
-                clauses.Add(sortSelector);
-            }
-
             //either take the single where clause or "and" them all together
             IDictionary<string, object> query;
-            if (clauses.Count == 1)
+            if (clauses.Count == 1 && !linqQuery.Ordering.Any())
             {
                 query = clauses.First();
             }
@@ -85,14 +75,19 @@ namespace ArmChair.Linq
 
             //sorting / orderby
             _sessionContext.QueryPart = QueryPart.OrderBy;
+            var handler = new OrderByHandler(_sessionContext);
             var orders = new List<IDictionary<string, Order>>();
             foreach (var orderBy in linqQuery.Ordering)
             {
                 IDictionary<string, Order> order = new Dictionary<string, Order>();
-                var name = handler.GetMemberName(((MemberExpression)((Expression<Func<T,string>>)((UnaryExpression)orderBy.Expression).Operand).Body));
+                var name = handler.GetMemberName((MemberExpression)((LambdaExpression)((UnaryExpression)orderBy.Expression).Operand).Body);
                 var or = orderBy.Direction == OrderByDirection.Asc ? Order.Asc : Order.Desc;
                 order.Add(name, or);
                 orders.Add(order);
+
+                //add the name to the selector.
+                var sortSelector = new QueryObject { { name, new QueryObject { { "$gt", null } } } };
+                clauses.Add(sortSelector);
             }
 
             var mongoQuery = new MongoQuery()
