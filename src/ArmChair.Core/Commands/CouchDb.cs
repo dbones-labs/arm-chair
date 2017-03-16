@@ -17,7 +17,6 @@ namespace ArmChair.Commands
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
     using Http;
     using Serialization;
 
@@ -114,7 +113,7 @@ namespace ArmChair.Commands
         }
 
         /// <summary>
-        /// apply
+        /// executes a mongo query
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -130,6 +129,25 @@ namespace ArmChair.Commands
             {
                 var content = response.GetBody();
                 return _serializer.Deserialize<MongoQueryResponse>(content);
+            }
+        }
+
+        /// <summary>
+        /// Creates an index on the server.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual CreateIndexResponse CreateIndex(CreateIndexRequest index)
+        {
+            var json = _querySerializer.Serialize(index);
+            var request = new Request("/:db/_index", HttpMethod.Post);
+            request.AddUrlSegment("db", _name);
+            request.AddContent(()=> new StringContent(json), ContentType.Json);
+
+            using (var response = _connection.Execute(request))
+            {
+                var content = response.GetBody();
+                return _serializer.Deserialize<CreateIndexResponse>(content);
             }
         }
     }

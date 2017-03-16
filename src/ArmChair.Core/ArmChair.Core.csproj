@@ -46,6 +46,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CreateIndexRequest.cs" />
     <Compile Include="Commands\MongoQueryRequest.cs" />
     <Compile Include="Commands\MongoQueryResponse.cs" />
     <Compile Include="Database.cs" />

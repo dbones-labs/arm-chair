@@ -11,8 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Commands;
     using Http;
     using InSession;
     using Tracking.Shadowing;
@@ -53,12 +58,36 @@ namespace ArmChair
                 Settings.LoadPipeline,
                 Settings.QueryPipeline,
                 Settings.CommitPipeline,
-                Settings.QueryFactory, 
-                Settings.IdManager, 
-                Settings.IdAccessor, 
-                tracker, 
+                Settings.QueryFactory,
+                Settings.IdManager,
+                Settings.IdAccessor,
+                tracker,
                 sessionCache);
             return session;
+        }
+
+        public virtual void CreateIndex(IndexEntry index)
+        {
+            if (index == null) throw new ArgumentNullException(nameof(index));
+
+            var request = new CreateIndexRequest
+            {
+                Ddoc = index.DesignDocument,
+                Name = index.Name,
+            };
+            foreach (var field in index.Index.Fields)
+            {
+                var actualEntry = field.First();
+                request.Index.Fields.Add(new Dictionary<string, string>()
+                {
+                    {
+                        actualEntry.Key,
+                        actualEntry.Value == Order.Asc ? "asc" : "desc"
+                    }
+                });
+            }
+
+            var response = Settings.CouchDb.CreateIndex(request);
         }
     }
 }
