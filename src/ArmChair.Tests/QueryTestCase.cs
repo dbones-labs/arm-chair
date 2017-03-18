@@ -16,7 +16,7 @@ namespace ArmChair.Tests
         public virtual void SetupMaps()
         {
             var types = typeof(Person).Assembly.GetTypes().Where(x => typeof(EntityRoot).IsAssignableFrom(x)).ToList();
-            Database.Settings.Register(types);
+            Database.Register(types);
         }
 
     }

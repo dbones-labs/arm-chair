@@ -11,21 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.EntityManagement.Config
+namespace ArmChair
 {
     using System;
     using System.Collections.Generic;
+    using EntityManagement;
+    using EntityManagement.Config;
 
-    public static class SettingsExtensions
+    public static class DatabaseExtensions
     {
         /// <summary>
         /// <see cref="ITypeManager.Register"/>
         /// </summary>
-        public static void Register(this Settings settings, IEnumerable<Type> types)
+        public static void Register(this Database database, IEnumerable<Type> types)
         {
             foreach (var type in types)
             {
-                settings.TypeManager.Register(type);
+                database.Settings.TypeManager.Register(type);
             }
         }
 
@@ -34,13 +36,21 @@ namespace ArmChair.EntityManagement.Config
         /// if you are using default conventions, then use the <see cref="Register(ArmChair.Settings,System.Collections.Generic.IEnumerable{System.Type})"/> instead.
         /// note when using the class maps you can provide additional information about a class.
         /// </summary>
-        public static void Register(this Settings settings, IEnumerable<ClassMap> classMaps)
+        public static void Register(this Database database, IEnumerable<ClassMap> classMaps)
         {
             foreach (var map in classMaps)
             {
-                settings.TypeManager.Register(map.Type);
-                if (map.IdField != null) settings.IdAccessor.SetUpId(map.Type, map.IdField);
-                if (map.RevisionField != null) settings.RevisionAccessor.SetUpRevision(map.Type, map.RevisionField);
+                database.Settings.TypeManager.Register(map.Type);
+
+                //register class level info
+                if (map.IdField != null) database.Settings.IdAccessor.SetUpId(map.Type, map.IdField);
+                if (map.RevisionField != null) database.Settings.RevisionAccessor.SetUpRevision(map.Type, map.RevisionField);
+
+                //register indexes.
+                foreach (var index in map.Indexes)
+                {
+                    database.Index.Create(index);
+                }
             }
         }
 

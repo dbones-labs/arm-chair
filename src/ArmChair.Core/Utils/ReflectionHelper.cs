@@ -1,10 +1,30 @@
-namespace ArmChair.Linq
+namespace ArmChair.Utils
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+
+    public class ReflectionHelper
+    {
+        public virtual string GetMemberName(
+            MemberExpression memberExpression,
+            Func<Type, string, string> getActualName = null)
+        {
+            var prefixExpression = memberExpression.Expression as MemberExpression;
+            var name = memberExpression.Member.Name;
+
+            //note this should be at the root level
+            if (prefixExpression == null)
+            {
+                return getActualName == null ? name : getActualName(memberExpression.Member.DeclaringType, name);
+            }
+            //as we are not at the root level, we should not need to see if there is an id field,
+            var prefix = GetMemberName(prefixExpression);
+            return string.Join(".", prefix, name);
+        }
+    }
 
     /// <summary>
     /// 

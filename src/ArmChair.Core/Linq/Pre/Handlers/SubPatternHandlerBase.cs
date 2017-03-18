@@ -4,6 +4,7 @@ namespace ArmChair.Linq.Pre.Handlers
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using Utils;
 
     public abstract class SubPatternHandlerBase : ISubPatternHandler
     {

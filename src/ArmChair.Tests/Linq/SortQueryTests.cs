@@ -1,6 +1,5 @@
 namespace ArmChair.Tests.Linq
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
@@ -17,7 +16,7 @@ namespace ArmChair.Tests.Linq
         {
             var idx = new IndexEntry();
             idx.Index.Add("name", Order.Asc);
-            Database.CreateIndex(idx);
+            Database.Index.Create(idx);
 
             List<Animal> results;
             List<Animal> reference;
@@ -37,7 +36,7 @@ namespace ArmChair.Tests.Linq
         {
             var idx = new IndexEntry();
             idx.Index.Add("name");
-            Database.CreateIndex(idx);
+            Database.Index.Create(idx);
 
             List<Animal> results;
             List<Animal> reference;
@@ -56,10 +55,12 @@ namespace ArmChair.Tests.Linq
         [Test]
         public void Multiple_sorts()
         {
-            var idx = new IndexEntry();
-            idx.Index.Add("birthDate");
-            idx.Index.Add("name");
-            Database.CreateIndex(idx);
+            Database.Index.Create<Person>(idx =>
+            {
+                idx.Field(p => p.BirthDate);
+                idx.Field(p => p.Name);
+            });
+
 
             List<Person> results;
             List<Person> reference;
@@ -80,9 +81,9 @@ namespace ArmChair.Tests.Linq
         public void Multiple_sorts_desc()
         {
             var idx = new IndexEntry();
-            idx.Index.Add("birthDate");
-            idx.Index.Add("name");
-            Database.CreateIndex(idx);
+            idx.Field("birthDate");
+            idx.Field("name");
+            Database.Index.Create(idx);
 
 
             List<Person> results;
@@ -107,7 +108,7 @@ namespace ArmChair.Tests.Linq
             var idx = new IndexEntry();
             idx.Index.Add("birthDate");
             idx.Index.Add("name", Order.Desc);
-            Database.CreateIndex(idx);
+            Database.Index.Create(idx);
 
 
             List<Person> results;

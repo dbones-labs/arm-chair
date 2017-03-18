@@ -51,12 +51,14 @@
     <Compile Include="Commands\MongoQueryResponse.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="EntityManagement\Config\ClassMap.cs" />
-    <Compile Include="EntityManagement\Config\SettingsExtensions.cs" />
     <Compile Include="EntityManagement\IRevisionAccessor.cs" />
     <Compile Include="EntityManagement\ITypeManager.cs" />
     <Compile Include="EntityManagement\RevisionAccessor.cs" />
     <Compile Include="Http\ContentType.cs" />
     <Compile Include="Http\Parameter.cs" />
+    <Compile Include="Indexing.cs" />
+    <Compile Include="Indexing\Index.cs" />
+    <Compile Include="Indexing\IndexEntry.cs" />
     <Compile Include="InSession\ISessionCache.cs" />
     <Compile Include="Linq\Pre\Handlers\AllSubPatternHandler.cs" />
     <Compile Include="Linq\Pre\Handlers\AnySubPatternHandler.cs" />
@@ -107,7 +109,6 @@
     <Compile Include="Linq\Transform\VisitorContext.cs" />
     <Compile Include="Linq\Paging.cs" />
     <Compile Include="Linq\QueryProvider.cs" />
-    <Compile Include="Linq\ReflectionHelper.cs" />
     <Compile Include="Linq\StringExtensions.cs" />
     <Compile Include="MongoQuery.cs" />
     <Compile Include="Order.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
     <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
     <Compile Include="SessionExtensions.cs" />
+    <Compile Include="DatabaseExtensions.cs" />
     <Compile Include="Tasks\BySingleItem\IItemIterator.cs" />
     <Compile Include="Tasks\BySingleItem\ListsItemIterator.cs" />
     <Compile Include="Tasks\BySingleItem\TaskOnItem.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="Utils\Copying\ValueCopyToTarget.cs" />
     <Compile Include="Utils\FieldMeta.cs" />
     <Compile Include="Utils\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="Utils\ShortGuid.cs" />
     <Compile Include="Utils\TypeExtensions.cs" />
     <Compile Include="Utils\TypeMeta.cs" />
