@@ -13,11 +13,13 @@
 // limitations under the License.
 namespace ArmChair
 {
+    using System;
     using Tasks;
     using System.Collections.Generic;
 
     public static class Extenstions
     {
+        [Obsolete("use $ syntax")]
         public static string Format(this string str, params object[] parameters)
         {
             return string.Format(str, parameters);

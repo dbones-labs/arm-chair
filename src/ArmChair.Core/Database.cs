@@ -14,10 +14,6 @@
 
 namespace ArmChair
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Commands;
     using Http;
     using InSession;
     using Tracking.Shadowing;
@@ -27,6 +23,8 @@ namespace ArmChair
     /// </summary>
     public class Database
     {
+        private Indexing _index;
+
         /// <summary>
         /// Create the instance of the database
         /// </summary>
@@ -35,6 +33,7 @@ namespace ArmChair
         public Database(string databaseName, Connection connection)
         {
             Settings = new Settings(databaseName, connection);
+            _index = new Indexing(Settings.CouchDb);
         }
 
         /// <summary>
@@ -66,28 +65,7 @@ namespace ArmChair
             return session;
         }
 
-        public virtual void CreateIndex(IndexEntry index)
-        {
-            if (index == null) throw new ArgumentNullException(nameof(index));
+        public Indexing Index => _index;
 
-            var request = new CreateIndexRequest
-            {
-                Ddoc = index.DesignDocument,
-                Name = index.Name,
-            };
-            foreach (var field in index.Index.Fields)
-            {
-                var actualEntry = field.First();
-                request.Index.Fields.Add(new Dictionary<string, string>()
-                {
-                    {
-                        actualEntry.Key,
-                        actualEntry.Value == Order.Asc ? "asc" : "desc"
-                    }
-                });
-            }
-
-            var response = Settings.CouchDb.CreateIndex(request);
-        }
     }
 }

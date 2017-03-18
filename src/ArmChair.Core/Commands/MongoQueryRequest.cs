@@ -1,7 +1,9 @@
 ﻿namespace ArmChair.Commands
 {
+    //TODO: remove attributes which tie this class to newtonsoft
+    //http://stackoverflow.com/a/26307686/47642
     using System.Collections.Generic;
-    using Newtonsoft.Json; //TODO: remove attributes which tie this class to newtonsoft
+    using Newtonsoft.Json;
 
     /// <summary>
     /// a mongo query request.
@@ -28,7 +30,6 @@
         /// list of fields to return.
         /// </summary>
         public IList<string> Fields { get; set; }
-
 
         /// <summary>
         /// apply sorting to the query, plesae ensure there is an index which can be used.

@@ -11,15 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair.Tests.Mapping
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
     using EntityManagement.Config;
     using NUnit.Framework;
-    using ArmChair.EntityManagement;
+    using EntityManagement;
 
     public class PersonMap : ClassMap<Person>
     {
@@ -27,6 +27,10 @@ namespace ArmChair.Tests.Mapping
         {
             Id(x => x.Id);
             Revision(x => x.Rev);
+
+            Index(idx => { idx.Field(x => x.Name); });
+
+            Index(idx => { idx.Field(x => x.BirthDate); });
         }
     }
 
@@ -55,7 +59,7 @@ namespace ArmChair.Tests.Mapping
             //note this mappings are the only types which armchair will know about
             //that is when it queries, note that by convention it will still save any
             //document.
-            Database.Settings.Register(new ClassMap[] { new CustomThingMap(), new PersonMap() });
+            Database.Register(new ClassMap[] {new CustomThingMap(), new PersonMap()});
 
             using (var session = Database.CreateSession())
             {
@@ -69,13 +73,13 @@ namespace ArmChair.Tests.Mapping
                 results = session.Query<object>().ToList();
             }
 
-            Assert.AreEqual(results.Count, Query<Person>().Count()+1);
+            Assert.AreEqual(results.Count, Query<Person>().Count() + 1);
         }
 
         [Test]
         public void Register_type()
         {
-            Database.Settings.Register(new []{ typeof(Person), typeof(CustomThing) });
+            Database.Register(new[] {typeof(Person), typeof(CustomThing)});
 
             //as we are not using a class map
             Database.Settings.IdAccessor.SetUpId<CustomThing>(x => x.EpicId);
@@ -83,7 +87,7 @@ namespace ArmChair.Tests.Mapping
 
             using (var session = Database.CreateSession())
             {
-                session.Add(new CustomThing() { Name = "hmmmmmm" });
+                session.Add(new CustomThing() {Name = "hmmmmmm"});
                 session.Commit();
             }
 
@@ -93,7 +97,7 @@ namespace ArmChair.Tests.Mapping
                 results = session.Query<object>().ToList();
             }
 
-            Assert.AreEqual(results.Count, Query<Person>().Count() +1 );
+            Assert.AreEqual(results.Count, Query<Person>().Count() + 1);
         }
     }
 }

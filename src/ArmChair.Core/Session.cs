@@ -20,7 +20,6 @@ namespace ArmChair
     using EntityManagement;
     using IdManagement;
     using InSession;
-    using IQToolkit;
     using Linq;
     using Processes.Commit  ;
     using Processes.Load;

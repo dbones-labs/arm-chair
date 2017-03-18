@@ -1,11 +1,16 @@
 namespace ArmChair
 {
     using System.Collections.Generic;
+    using Linq;
 
+    /// <summary>
+    /// a query using the mongo query syntax
+    /// </summary>
     public class MongoQuery
     {
         /// <summary>
-        /// JSON object describing criteria used to select documents. More information provided in the section on selector syntax.
+        /// JSON object, or <see cref="QueryObject"/>, describing criteria used to select documents. More information
+        /// provided in the section on selector syntax.
         /// </summary>
         public IDictionary<string, object> Selector { get; set; }
 
@@ -27,38 +32,4 @@ namespace ArmChair
         /// </summary>
         public IList<IDictionary<string, Order>> Sort { get; set; }
     }
-
-
-    public class IndexEntry
-    {
-        public IndexEntry()
-        {
-            Index = new Index();
-        }
-
-        public string Name { get; set; }
-        public string DesignDocument { get; set; }
-        public Index Index { get; set; }
-    }
-
-    public class Index
-    {
-        public Index()
-        {
-            Fields = new List<IDictionary<string, Order>>();
-        }
-
-        public IList<IDictionary<string,Order>> Fields { get; set; }
-
-        public void Add(string name, Order sort = Order.Asc)
-        {
-            Fields.Add(new Dictionary<string, Order>(){
-            {
-                name, sort
-            }});
-        }
-    }
-
-
-
 }
