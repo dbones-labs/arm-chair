@@ -1,6 +1,5 @@
 namespace ArmChair.Linq
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -19,9 +18,9 @@ namespace ArmChair.Linq
     {
         private readonly SessionContext _sessionContext;
         private readonly ISession _session;
-        private readonly string _index;
+        private readonly IEnumerable<string> _index;
 
-        public QueryProvider(ITypeManager typeManager, IIdAccessor idAccessor, ISession session, string index = null)
+        public QueryProvider(ITypeManager typeManager, IIdAccessor idAccessor, ISession session, IEnumerable<string> index = null)
         {
             _sessionContext = new SessionContext()
             {
@@ -90,9 +89,15 @@ namespace ArmChair.Linq
                 clauses.Add(sortSelector);
             }
 
+            object index = null;
+            if (_index != null && _index.Any())
+            {
+                index = _index.Count() == 1 ? (object)_index.First() : (object)_index;
+            }
+
             var mongoQuery = new MongoQuery()
             {
-                Index = _index,
+                Index = index,
                 Selector = query,
                 Skip = linqQuery.Paging.Skip,
                 Limit = linqQuery.Paging.Take,
@@ -113,7 +118,6 @@ namespace ArmChair.Linq
             var result = Expression.Lambda(exp).Compile().DynamicInvoke();
             return result;
         }
-
 
     }
 }

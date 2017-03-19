@@ -68,7 +68,7 @@ namespace ArmChair
         /// <summary>
         /// execute a mongo query against CouchDb, note this is under preview
         /// 
-        /// to use sorting you will need to add an index.
+        /// to use sorting you will need to add an ddoc.
         /// </summary>
         /// <typeparam name="T">the object type which is being queried</typeparam>
         /// <param name="query">the mongo query to execute</param>
@@ -78,11 +78,11 @@ namespace ArmChair
         /// <summary>
         /// basic support for linq over mongo queries, note this is under preview
         /// 
-        /// to use OrderBy (sorting) you will need to add an index.
+        /// to use OrderBy (sorting) you will need to add an ddoc.
         /// </summary>
         /// <typeparam name="T">the object type whichs to filter on</typeparam>
         /// <returns>all items which satisfy the query</returns>
-        IQueryable<T> Query<T>(string index = null) where T : class;
+        IQueryable<T> Query<T>(string ddoc = null, string index = null) where T : class;
 
     }
 }

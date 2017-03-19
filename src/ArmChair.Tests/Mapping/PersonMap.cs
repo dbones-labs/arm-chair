@@ -30,7 +30,11 @@ namespace ArmChair.Tests.Mapping
 
             Index(idx => { idx.Field(x => x.Name); });
 
-            Index(idx => { idx.Field(x => x.BirthDate); });
+            Index(idx =>
+            {
+                idx.Field(x => x.BirthDate);
+                idx.Field(x => x.Name);
+            });
         }
     }
 

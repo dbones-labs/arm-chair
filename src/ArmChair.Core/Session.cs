@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair
 {
     using System;
@@ -21,7 +22,7 @@ namespace ArmChair
     using IdManagement;
     using InSession;
     using Linq;
-    using Processes.Commit  ;
+    using Processes.Commit;
     using Processes.Load;
     using Processes.Query;
     using Tracking;
@@ -47,7 +48,7 @@ namespace ArmChair
             IIdAccessor idAccessor,
             ITrackingProvider tracking,
             ISessionCache sessionCache
-            )
+        )
         {
             _sessionCache = sessionCache;
             _loadPipeline = loadPipeline;
@@ -147,9 +148,21 @@ namespace ArmChair
             return result;
         }
 
-        public virtual IQueryable<T> Query<T>(string index = null) where T : class
+        public virtual IQueryable<T> Query<T>(string ddoc = null, string index = null) where T : class
         {
-            return _queryFactory.Create<T>(this, index);
+            List<string> idx = null;
+            if (!string.IsNullOrEmpty(ddoc))
+            {
+                idx = new List<string>();
+                idx.Add(ddoc);
+
+                if (!string.IsNullOrEmpty(index))
+                {
+                    idx.Add(index);
+                }
+            }
+
+            return _queryFactory.Create<T>(this, idx);
         }
     }
 }

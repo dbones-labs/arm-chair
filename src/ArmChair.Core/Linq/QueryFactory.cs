@@ -1,5 +1,6 @@
 namespace ArmChair.Linq
 {
+    using System.Collections.Generic;
     using EntityManagement;
     using IQToolkit;
 
@@ -19,7 +20,7 @@ namespace ArmChair.Linq
             _idAccessor = idAccessor;
         }
 
-        public Query<T> Create<T>(ISession session, string index = null) where T : class
+        public Query<T> Create<T>(ISession session, IEnumerable<string> index = null) where T : class
         {
             return new Query<T>(new QueryProvider<T>(_typeManager, _idAccessor,  session, index));
         }
