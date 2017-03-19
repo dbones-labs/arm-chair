@@ -25,7 +25,10 @@ namespace ArmChair
         public long? Skip { get; set; }
 
 
-        public string Index { get; set; }
+        /// <summary>
+        /// [design document] [index name]
+        /// </summary>
+        public object Index { get; set; }
 
         /// <summary>
         /// the sorts to apply to this query, note an index is required to use a sort.
