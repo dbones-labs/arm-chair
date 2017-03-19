@@ -11,6 +11,6 @@ gulp.task('compile', function() {
 			errorOnFail: true,
             stdout: true,
             logCommand: true,
-            toolsVersion:14.0
+            toolsVersion:15.0
         }));
 });
