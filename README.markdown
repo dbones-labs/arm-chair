@@ -1,4 +1,4 @@
-#ArmChair.Core
+# ArmChair.Core
 =======
 
 **CouchDB + .NET + Unit-Of-Work = ArmChair.**
@@ -11,50 +11,52 @@ ArmChair has been built from the ground up with the following goals:
 * Customisable - Add support for your IDs, Tracking, Serialization etc.
 * Use of an Indexing Service - Search by IDs, where the initial search can be executed on ElasticSearch / Solr / Lucene
 
-##Other Features
+## Other Features
 
 * Mongo Query Support
 * Linq Support (Partial)
 
-##Documentation
+## Documentation
 
 its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChair.Default.aspx
 
 ##Nuget
 
-* **Current version:** 0.5.x
-* **Released:** March 2017
+* **Current version:** 0.7.x
+* **Released:** August 2017
 
+MOVED TO
 ```
 PM> Install-Package ArmChair.Core
 ```
 
-* **in development version:** 0.6.x
-
-##Compatibility
+## Compatibility
 
 * .NET 4.5 + (Mono latest)
+* .NET Core
+* .NET Standard 1.1 and 1.6 +
 * CouchDB 2.0 +
 
-###Backwards Compatibility
+### Backwards Compatibility
 
 * .NET 4.0 - last supported in release 0.5.x
 * CouchDB 1.2 - Except the Mongo Query features
 
-##Licence
+## Licence
 
 Apache 2.0 licensed.
 
-##Building from source
+## Building from source
 
-to build the project you will need to install *node* and *gulp*
+To build this project you will need dotnet core
 
 ```
-npm install
-gulp build-all [--buildNumber 123]
+dotnet resstore
+dotnet msbuild /target:Build /p:Configuration=Release /p:BuildNumber=37
 ```
 
 the buildNumber is optional, if not included it will set the patch number to 0.
 
-####Note
+#### Note
+
 *Please ensure that you test the usage of this library, before using this in your production system.*
