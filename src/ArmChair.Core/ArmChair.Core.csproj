@@ -13,8 +13,11 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>$(BuildVersion)</Version>
-		<AssemblyVersion>$(BuildVersion)</AssemblyVersion>
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+    <Version>0.7.$(BuildNumber)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Authors>Armchair Contrib Team</Authors>
     <Description>ArmChair is a .NET Client for CouchDB</Description>
     <Copyright>Copyright (c) David Rundle</Copyright>
@@ -24,7 +27,6 @@
 
   <PropertyGroup>
     <PackageId>ArmChair</PackageId>
-    <PackageVersion>0.0.0</PackageVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>UOW CouchDB Document Database Client Linq NoSql</PackageTags>
     <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
@@ -32,7 +34,6 @@
     <PackageIconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/armchair/armChair128.png</PackageIconUrl>
     <RepositoryUrl>https://bitbucket.org/dboneslabs/arm-chair</RepositoryUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <PackageVersion>$(BuildVersion)</PackageVersion>
 		<IncludeSymbols>true</IncludeSymbols>
 		<IncludeSource>false</IncludeSource>
   </PropertyGroup>

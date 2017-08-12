@@ -1,3 +1,9 @@
+0.7.x
+=============
+.NET Standard 1.1 (compatible with .NET 4.5 +)
+.NET Standard 1.6 (compatible with .NET Core)
+
+
 0.6.x
 ==============
 !! Breaking Change !!
