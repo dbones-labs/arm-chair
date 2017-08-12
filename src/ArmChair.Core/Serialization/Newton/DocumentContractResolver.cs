@@ -34,7 +34,7 @@ namespace ArmChair.Serialization.Newton
         /// <summary>
         /// create an instance of the contract resolver to handle Counch DB documents 
         /// </summary>
-        public DocumentContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) : base(true)
+        public DocumentContractResolver(IIdAccessor idAccessor, IRevisionAccessor revisionAccessor) : base()
         {
             _baseOverride = new BaseOverride(idAccessor, revisionAccessor);
 
@@ -89,7 +89,8 @@ namespace ArmChair.Serialization.Newton
 
         protected override JsonContract CreateContract(Type objectType)
         {
-            if (!objectType.GetTypeInfo().IsClass || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(objectType))
+            if (!objectType.GetTypeInfo().IsClass 
+                || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo()))
             {
                 return base.CreateContract(objectType);
             }

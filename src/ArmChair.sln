@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Core", "ArmChair.Core\ArmChair.Core.csproj", "{E11B204F-16D8-4578-9743-9D12ED2DAD53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Tests", "ArmChair.Tests\ArmChair.Tests.csproj", "{931C97FA-7EB3-422A-86E4-94768D2F18FA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmChair.Tests.Domain", "ArmChair.Tests.Domain\ArmChair.Tests.Domain.csproj", "{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{931C97FA-7EB3-422A-86E4-94768D2F18FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{931C97FA-7EB3-422A-86E4-94768D2F18FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{931C97FA-7EB3-422A-86E4-94768D2F18FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8A9A96F-6BE2-4B77-BA16-0F02A65A3D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
