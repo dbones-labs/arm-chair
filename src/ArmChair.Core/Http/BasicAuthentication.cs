@@ -31,7 +31,7 @@ namespace ArmChair.Http
         /// <param name="password">password</param>
         public BasicAuthentication(string userName, string password)
         {
-            _authHeader = Convert.ToBase64String(Encoding.ASCII.GetBytes(userName + ":" + password));
+            _authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(userName + ":" + password));
         }
 
         /// <summary>
