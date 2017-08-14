@@ -25,7 +25,6 @@ its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChai
 * **Current version:** 0.7.x
 * **Released:** August 2017
 
-MOVED TO
 ```
 PM> Install-Package ArmChair.Core
 ```
@@ -36,11 +35,6 @@ PM> Install-Package ArmChair.Core
 * .NET Core
 * .NET Standard 1.1 and 1.6 +
 * CouchDB 2.0 +
-
-### Backwards Compatibility
-
-* .NET 4.0 - last supported in release 0.5.x
-* CouchDB 1.2 - Except the Mongo Query features
 
 ## Licence
 
@@ -53,6 +47,7 @@ To build this project you will need dotnet core
 ```
 dotnet resstore
 dotnet msbuild /target:Build /p:Configuration=Release /p:BuildNumber=37
+dotnet test
 ```
 
 the buildNumber is optional, if not included it will set the patch number to 0.
