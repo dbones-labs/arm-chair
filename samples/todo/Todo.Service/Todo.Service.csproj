@@ -8,7 +8,7 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ArmChair.Core" Version="0.7.6-alpha" />
+    <PackageReference Include="ArmChair.Core" Version="0.7.8-beta" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.2.1" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />

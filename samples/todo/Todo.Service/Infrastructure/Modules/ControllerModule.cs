@@ -17,13 +17,9 @@
                 .AsSelf()
                 .As<Controller>()
                 .As<ControllerBase>()
-                .InstancePerDependency()
-                .EnableClassInterceptors()
-                .InterceptedBy(typeof(TransactionInterceptor))
-                .OnActivating(t =>
-                {
-                    Debug.Write("asdsad");
-                });
+                .InstancePerDependency();
+            //.EnableClassInterceptors()
+            //.InterceptedBy(typeof(TransactionInterceptor));
         }
     }
 }

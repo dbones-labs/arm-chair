@@ -49,7 +49,7 @@
         }
 
 
-        [Route("prority")]
+        [Route("priority")]
         [HttpGet]
         public virtual async Task<CollectionResource<TodoResource>> Get([FromQuery] ByPriorityQueryString queryString)
         {

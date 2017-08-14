@@ -80,5 +80,6 @@ namespace ArmChair.Tests.Core
 
             Assert.Pass();
         }
+
     }
 }

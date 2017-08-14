@@ -48,10 +48,10 @@ namespace ArmChair.Utils
                 FriendlyName = Name.Substring(1, Name.Length - 1);
             }
 
-            if (!fieldInfo.IsInitOnly)
-            {
+            //if (!fieldInfo.IsInitOnly)
+            //{
                 _setter = fieldInfo.CreateFieldSet();
-            }
+            //}
         }
 
         /// <summary>
@@ -96,10 +96,6 @@ namespace ArmChair.Utils
         /// <param name="value">the new vaule</param>
         public void SetFieldValueOf(object instance, object value)
         {
-            if (IsReadOnly)
-            {
-                throw new Exception($"{Name} is read-only");
-            }
             _setter(instance, value);
         }
     }

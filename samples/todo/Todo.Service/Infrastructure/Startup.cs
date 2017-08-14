@@ -36,7 +36,7 @@
         {
             // Add services to the collection.
             //http://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
-            services.AddMvc().AddControllersAsServices(); ;
+            services.AddMvc();//.AddControllersAsServices();
             services.AddMediatR();
             //services.AddAutoMapper(setup=> {}, DependencyContext.Default);
 
@@ -49,7 +49,7 @@
 
             builder.RegisterModule<MappingModule>();
             builder.RegisterModule(new DataAccessModule(Configuration));
-            builder.RegisterModule<AspectsModule>();
+            builder.RegisterModule<BehaviorModule>();
             builder.RegisterModule<ControllerModule>();
 
             ApplicationContainer = builder.Build();

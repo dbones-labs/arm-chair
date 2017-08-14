@@ -16,6 +16,7 @@ namespace ArmChair.Tests.Core
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
+    using Domain.Sample3;
     using NUnit.Framework;
 
     public class LoadingTests : TestCase
@@ -81,6 +82,26 @@ namespace ArmChair.Tests.Core
                 var people = session.GetByIds<Person>(ids);
                 Assert.IsFalse(people.Any());
             }
+        }
+
+        [Test]
+        public void Hydrate_values_into_readonly_fields()
+        {
+            var expected = new TodoTask("this is a test", PriorityLevel.High);
+            using (var session = Database.CreateSession())
+            {
+                session.Add(expected);
+                session.Commit();
+            }
+
+            TodoTask actual;
+            using (var session = Database.CreateSession())
+            {
+                actual = session.GetById<TodoTask>(expected.Id);
+            }
+
+            Assert.AreEqual(actual.Description, expected.Description);
+            Assert.AreEqual(actual.Created, expected.Created); //this value is a readonly
         }
     }
 }

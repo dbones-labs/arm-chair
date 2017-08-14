@@ -17,7 +17,7 @@ namespace Todo.Service.Infrastructure.Mapping
             var http = webServerConfig.IsSslEnabled ? "https://" : "http://";
             var domain = webServerConfig.Domain;
             var port = webServerConfig.Port == 80 ? "" : $":{webServerConfig.Port}";
-            baseUrl = $"{http}{domain}{port}";
+            baseUrl = $"{http}{domain}{port}/api/v1/tasks";
             
             CreateMap<Task, TodoResource>()
                 .ForMember(dest => dest.Links, opt => opt.MapFrom(src => GetLinksFromTask(src)))
@@ -33,7 +33,7 @@ namespace Todo.Service.Infrastructure.Mapping
         protected IDictionary<string, string> GetLinksFromTask(Task task)
         {
             var result = new Dictionary<string,string>();
-            result.Add("collection", $"{baseUrl}/tasks");
+            result.Add("collection", $"{baseUrl}/");
             return result;
         }
         
@@ -41,9 +41,9 @@ namespace Todo.Service.Infrastructure.Mapping
         protected IDictionary<string, string> GetActionsFromTask(Task task)
         {
             var result = new Dictionary<string,string>();
-            if (!task.IsComplete) result.Add("update", $"{baseUrl}/tasks/{task.Id}");
-            if (!task.IsComplete) result.Add("complete", $"{baseUrl}/tasks/{task.Id}/complete");
-            result.Add("remove", $"{baseUrl}/tasks/{task.Id}");
+            if (!task.IsComplete) result.Add("update", $"{baseUrl}/{task.Id}");
+            if (!task.IsComplete) result.Add("complete", $"{baseUrl}/{task.Id}/complete");
+            result.Add("remove", $"{baseUrl}/{task.Id}");
             return result;
         }
         
@@ -51,9 +51,9 @@ namespace Todo.Service.Infrastructure.Mapping
         protected IDictionary<string, string> GetCollectionLinksFromTask(IEnumerable<Task> task)
         {
             var result = new Dictionary<string,string>();
-            result.Add("self", $"{baseUrl}/tasks");
-            result.Add("filterByActive", $"{baseUrl}/tasks/active");
-            result.Add("filterByPriority", $"{baseUrl}/tasks/priority");
+            result.Add("self", $"{baseUrl}/");
+            result.Add("filterByActive", $"{baseUrl}/active");
+            result.Add("filterByPriority", $"{baseUrl}/priority");
             return result;
         }
         
@@ -61,8 +61,8 @@ namespace Todo.Service.Infrastructure.Mapping
         protected IDictionary<string, string> GetCollectionActionsFromTask(IEnumerable<Task> task)
         {
             var result = new Dictionary<string,string>();
-            result.Add("createTodoTask", $"{baseUrl}/tasks");
-            result.Add("prune", $"{baseUrl}tasks/prune");
+            result.Add("createTodoTask", $"{baseUrl}/");
+            result.Add("prune", $"{baseUrl}/prune");
             return result;
         }
     }
