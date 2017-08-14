@@ -25,13 +25,13 @@
         
         public IEnumerable<Task> Handle(TasksByPriority message)
         {
-            var query = _session.Query<Task>()
-                .Where(x=> x.Priority == message.Priority);
-
-            return query
+            var results = _session.Query<Task>()
+                .Where(x=> x.Priority == message.Priority)
                 .Skip(message.Skip)
                 .Take(message.Take)
                 .ToList();
+
+            return results;
         }
     }
 }
