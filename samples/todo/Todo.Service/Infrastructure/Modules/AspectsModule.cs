@@ -2,7 +2,7 @@
 {
     using Aspects;
     using Autofac;
-    
+
     public class AspectsModule : Module
     {
         protected override void Load(ContainerBuilder builder)
