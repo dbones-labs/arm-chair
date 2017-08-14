@@ -26,7 +26,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>ArmChair</PackageId>
+    <PackageId>ArmChair.Core</PackageId>
+    <PackageTitle>ArmChair</PackageTitle>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>UOW CouchDB Document Database Client Linq NoSql</PackageTags>
     <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
@@ -34,17 +35,23 @@
     <PackageIconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/armchair/armChair128.png</PackageIconUrl>
     <RepositoryUrl>https://bitbucket.org/dboneslabs/arm-chair</RepositoryUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
-		<IncludeSymbols>true</IncludeSymbols>
-		<IncludeSource>false</IncludeSource>
+	<IncludeSymbols>true</IncludeSymbols>
+	<IncludeSource>false</IncludeSource>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\nuspec\changes.txt" />
+    <Content Include="..\..\nuspec\changes.txt">
+      <PackagePath></PackagePath>
+    </Content>
     <Content Include="..\..\nuspec\license.txt">
       <PackagePath></PackagePath>
     </Content>
-    <Content Include="..\..\nuspec\notice.txt" />
-    <Content Include="..\..\nuspec\readme.txt" />
+    <Content Include="..\..\nuspec\notice.txt">
+      <PackagePath></PackagePath>
+    </Content>
+    <Content Include="..\..\nuspec\readme.txt">
+      <PackagePath></PackagePath>
+    </Content>
   </ItemGroup>
 
 </Project>

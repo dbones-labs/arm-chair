@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair
 {
+    using System.Threading;
     using Commands;
     using EntityManagement;
     using Http;
@@ -25,6 +26,7 @@ namespace ArmChair
     using Processes.Query;
     using Serialization;
     using Serialization.Newton;
+    using Utils.Hashing;
 
     public class Settings
     {
@@ -59,6 +61,8 @@ namespace ArmChair
             LoadPipeline = new LoadPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
             CommitPipeline = new CommitPipeline(CouchDb, IdManager, RevisionAccessor);
             QueryPipeline = new QueryPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
+
+            Hash = new ToLowerPassThroughHash();
         }
 
 
@@ -68,6 +72,7 @@ namespace ArmChair
         public ISerializer Serializer { get; private set; }
         public ISerializer QuerySerializer { get; private set; }
         public ITypeManager TypeManager { get; private set; }
+        public IHash Hash { get; set; }
 
         public LoadPipeline LoadPipeline { get; private set; }
         public CommitPipeline CommitPipeline { get; private set; }
