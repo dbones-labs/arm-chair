@@ -31,6 +31,8 @@ namespace ArmChair.Linq.Transform
 
             Register<InHandler>();
             Register<NotInHandler>();
+
+            Register<BooleanEqualityHandler>();
         }
 
         public static void Register<T>() where T : IHandler, new()
