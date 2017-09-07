@@ -6,6 +6,7 @@
     using AutoMapper;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Cors.Infrastructure;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,12 @@
             services.AddMvc();//.AddControllersAsServices();
             services.AddMediatR();
             //services.AddAutoMapper(setup=> {}, DependencyContext.Default);
-
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                policyBuilder =>
+                {
+                    policyBuilder.AllowAnyOrigin();
+                }));
+            
             // Create the container builder.
             var builder = new ContainerBuilder();
 
@@ -69,6 +75,7 @@
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
 
             //clean up the container on app stop.
