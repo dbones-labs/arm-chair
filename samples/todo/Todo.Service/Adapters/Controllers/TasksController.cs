@@ -1,15 +1,13 @@
 ﻿namespace Todo.Service.Adapters.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using AutoMapper;
     using Dto.Resources;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
-    using TodoTask = Models.Task;
-    using TodoResource = Todo.Service.Dto.Resources.TodoResource;
+    using TodoResource = Dto.Resources.TodoResource;
 
     [Route("api/v1/[controller]")]
     public class TasksController : Controller

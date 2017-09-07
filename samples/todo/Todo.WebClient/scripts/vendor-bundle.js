@@ -24151,6 +24151,18 @@ define('aurelia-templating-binding',['exports', 'aurelia-logging', 'aurelia-bind
   }
 });
 define('text',{});
+
+define("todomvc-common", [],function(){});
+
+define("todomvc-common", [],function(){});
+
+define('text!todomvc-common/base.css', ['module'], function(module) { module.exports = "hr {\n\tmargin: 20px 0;\n\tborder: 0;\n\tborder-top: 1px dashed #c5c5c5;\n\tborder-bottom: 1px dashed #f7f7f7;\n}\n\n.learn a {\n\tfont-weight: normal;\n\ttext-decoration: none;\n\tcolor: #b83f45;\n}\n\n.learn a:hover {\n\ttext-decoration: underline;\n\tcolor: #787e7e;\n}\n\n.learn h3,\n.learn h4,\n.learn h5 {\n\tmargin: 10px 0;\n\tfont-weight: 500;\n\tline-height: 1.2;\n\tcolor: #000;\n}\n\n.learn h3 {\n\tfont-size: 24px;\n}\n\n.learn h4 {\n\tfont-size: 18px;\n}\n\n.learn h5 {\n\tmargin-bottom: 0;\n\tfont-size: 14px;\n}\n\n.learn ul {\n\tpadding: 0;\n\tmargin: 0 0 30px 25px;\n}\n\n.learn li {\n\tline-height: 20px;\n}\n\n.learn p {\n\tfont-size: 15px;\n\tfont-weight: 300;\n\tline-height: 1.3;\n\tmargin-top: 0;\n\tmargin-bottom: 0;\n}\n\n#issue-count {\n\tdisplay: none;\n}\n\n.quote {\n\tborder: none;\n\tmargin: 20px 0 60px 0;\n}\n\n.quote p {\n\tfont-style: italic;\n}\n\n.quote p:before {\n\tcontent: '“';\n\tfont-size: 50px;\n\topacity: .15;\n\tposition: absolute;\n\ttop: -20px;\n\tleft: 3px;\n}\n\n.quote p:after {\n\tcontent: '”';\n\tfont-size: 50px;\n\topacity: .15;\n\tposition: absolute;\n\tbottom: -42px;\n\tright: 3px;\n}\n\n.quote footer {\n\tposition: absolute;\n\tbottom: -40px;\n\tright: 0;\n}\n\n.quote footer img {\n\tborder-radius: 3px;\n}\n\n.quote footer a {\n\tmargin-left: 5px;\n\tvertical-align: middle;\n}\n\n.speech-bubble {\n\tposition: relative;\n\tpadding: 10px;\n\tbackground: rgba(0, 0, 0, .04);\n\tborder-radius: 5px;\n}\n\n.speech-bubble:after {\n\tcontent: '';\n\tposition: absolute;\n\ttop: 100%;\n\tright: 30px;\n\tborder: 13px solid transparent;\n\tborder-top-color: rgba(0, 0, 0, .04);\n}\n\n.learn-bar > .learn {\n\tposition: absolute;\n\twidth: 272px;\n\ttop: 8px;\n\tleft: -300px;\n\tpadding: 10px;\n\tborder-radius: 5px;\n\tbackground-color: rgba(255, 255, 255, .6);\n\ttransition-property: left;\n\ttransition-duration: 500ms;\n}\n\n@media (min-width: 899px) {\n\t.learn-bar {\n\t\twidth: auto;\n\t\tpadding-left: 300px;\n\t}\n\n\t.learn-bar > .learn {\n\t\tleft: 8px;\n\t}\n}\n"; });
+
+define("todomvc-app-css", [],function(){});
+
+define("todomvc-app-css", [],function(){});
+
+define('text!todomvc-app-css/index.css', ['module'], function(module) { module.exports = "html,\nbody {\n\tmargin: 0;\n\tpadding: 0;\n}\n\nbutton {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n\tbackground: none;\n\tfont-size: 100%;\n\tvertical-align: baseline;\n\tfont-family: inherit;\n\tfont-weight: inherit;\n\tcolor: inherit;\n\t-webkit-appearance: none;\n\tappearance: none;\n\t-webkit-font-smoothing: antialiased;\n\t-moz-osx-font-smoothing: grayscale;\n}\n\nbody {\n\tfont: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;\n\tline-height: 1.4em;\n\tbackground: #f5f5f5;\n\tcolor: #4d4d4d;\n\tmin-width: 230px;\n\tmax-width: 550px;\n\tmargin: 0 auto;\n\t-webkit-font-smoothing: antialiased;\n\t-moz-osx-font-smoothing: grayscale;\n\tfont-weight: 300;\n}\n\n:focus {\n\toutline: 0;\n}\n\n.hidden {\n\tdisplay: none;\n}\n\n.todoapp {\n\tbackground: #fff;\n\tmargin: 130px 0 40px 0;\n\tposition: relative;\n\tbox-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),\n\t            0 25px 50px 0 rgba(0, 0, 0, 0.1);\n}\n\n.todoapp input::-webkit-input-placeholder {\n\tfont-style: italic;\n\tfont-weight: 300;\n\tcolor: #e6e6e6;\n}\n\n.todoapp input::-moz-placeholder {\n\tfont-style: italic;\n\tfont-weight: 300;\n\tcolor: #e6e6e6;\n}\n\n.todoapp input::input-placeholder {\n\tfont-style: italic;\n\tfont-weight: 300;\n\tcolor: #e6e6e6;\n}\n\n.todoapp h1 {\n\tposition: absolute;\n\ttop: -155px;\n\twidth: 100%;\n\tfont-size: 100px;\n\tfont-weight: 100;\n\ttext-align: center;\n\tcolor: rgba(175, 47, 47, 0.15);\n\t-webkit-text-rendering: optimizeLegibility;\n\t-moz-text-rendering: optimizeLegibility;\n\ttext-rendering: optimizeLegibility;\n}\n\n.new-todo,\n.edit {\n\tposition: relative;\n\tmargin: 0;\n\twidth: 100%;\n\tfont-size: 24px;\n\tfont-family: inherit;\n\tfont-weight: inherit;\n\tline-height: 1.4em;\n\tborder: 0;\n\tcolor: inherit;\n\tpadding: 6px;\n\tborder: 1px solid #999;\n\tbox-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);\n\tbox-sizing: border-box;\n\t-webkit-font-smoothing: antialiased;\n\t-moz-osx-font-smoothing: grayscale;\n}\n\n.new-todo {\n\tpadding: 16px 16px 16px 60px;\n\tborder: none;\n\tbackground: rgba(0, 0, 0, 0.003);\n\tbox-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);\n}\n\n.main {\n\tposition: relative;\n\tz-index: 2;\n\tborder-top: 1px solid #e6e6e6;\n}\n\n.toggle-all {\n\ttext-align: center;\n\tborder: none; /* Mobile Safari */\n\topacity: 0;\n\tposition: absolute;\n}\n\n.toggle-all + label {\n\twidth: 60px;\n\theight: 34px;\n\tfont-size: 0;\n\tposition: absolute;\n\ttop: -52px;\n\tleft: -13px;\n\t-webkit-transform: rotate(90deg);\n\ttransform: rotate(90deg);\n}\n\n.toggle-all + label:before {\n\tcontent: '❯';\n\tfont-size: 22px;\n\tcolor: #e6e6e6;\n\tpadding: 10px 27px 10px 27px;\n}\n\n.toggle-all:checked + label:before {\n\tcolor: #737373;\n}\n\n.todo-list {\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style: none;\n}\n\n.todo-list li {\n\tposition: relative;\n\tfont-size: 24px;\n\tborder-bottom: 1px solid #ededed;\n}\n\n.todo-list li:last-child {\n\tborder-bottom: none;\n}\n\n.todo-list li.editing {\n\tborder-bottom: none;\n\tpadding: 0;\n}\n\n.todo-list li.editing .edit {\n\tdisplay: block;\n\twidth: 506px;\n\tpadding: 12px 16px;\n\tmargin: 0 0 0 43px;\n}\n\n.todo-list li.editing .view {\n\tdisplay: none;\n}\n\n.todo-list li .toggle {\n\ttext-align: center;\n\twidth: 40px;\n\t/* auto, since non-WebKit browsers doesn't support input styling */\n\theight: auto;\n\tposition: absolute;\n\ttop: 0;\n\tbottom: 0;\n\tmargin: auto 0;\n\tborder: none; /* Mobile Safari */\n\t-webkit-appearance: none;\n\tappearance: none;\n}\n\n.todo-list li .toggle {\n\topacity: 0;\n}\n\n.todo-list li .toggle + label {\n\t/*\n\t\tFirefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433\n\t\tIE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/\n\t*/\n\tbackground-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');\n\tbackground-repeat: no-repeat;\n\tbackground-position: center left;\n}\n\n.todo-list li .toggle:checked + label {\n\tbackground-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');\n}\n\n.todo-list li label {\n\tword-break: break-all;\n\tpadding: 15px 15px 15px 60px;\n\tdisplay: block;\n\tline-height: 1.2;\n\ttransition: color 0.4s;\n}\n\n.todo-list li.completed label {\n\tcolor: #d9d9d9;\n\ttext-decoration: line-through;\n}\n\n.todo-list li .destroy {\n\tdisplay: none;\n\tposition: absolute;\n\ttop: 0;\n\tright: 10px;\n\tbottom: 0;\n\twidth: 40px;\n\theight: 40px;\n\tmargin: auto 0;\n\tfont-size: 30px;\n\tcolor: #cc9a9a;\n\tmargin-bottom: 11px;\n\ttransition: color 0.2s ease-out;\n}\n\n.todo-list li .destroy:hover {\n\tcolor: #af5b5e;\n}\n\n.todo-list li .destroy:after {\n\tcontent: '×';\n}\n\n.todo-list li:hover .destroy {\n\tdisplay: block;\n}\n\n.todo-list li .edit {\n\tdisplay: none;\n}\n\n.todo-list li.editing:last-child {\n\tmargin-bottom: -1px;\n}\n\n.footer {\n\tcolor: #777;\n\tpadding: 10px 15px;\n\theight: 20px;\n\ttext-align: center;\n\tborder-top: 1px solid #e6e6e6;\n}\n\n.footer:before {\n\tcontent: '';\n\tposition: absolute;\n\tright: 0;\n\tbottom: 0;\n\tleft: 0;\n\theight: 50px;\n\toverflow: hidden;\n\tbox-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),\n\t            0 8px 0 -3px #f6f6f6,\n\t            0 9px 1px -3px rgba(0, 0, 0, 0.2),\n\t            0 16px 0 -6px #f6f6f6,\n\t            0 17px 2px -6px rgba(0, 0, 0, 0.2);\n}\n\n.todo-count {\n\tfloat: left;\n\ttext-align: left;\n}\n\n.todo-count strong {\n\tfont-weight: 300;\n}\n\n.filters {\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style: none;\n\tposition: absolute;\n\tright: 0;\n\tleft: 0;\n}\n\n.filters li {\n\tdisplay: inline;\n}\n\n.filters li a {\n\tcolor: inherit;\n\tmargin: 3px;\n\tpadding: 3px 7px;\n\ttext-decoration: none;\n\tborder: 1px solid transparent;\n\tborder-radius: 3px;\n}\n\n.filters li a:hover {\n\tborder-color: rgba(175, 47, 47, 0.1);\n}\n\n.filters li a.selected {\n\tborder-color: rgba(175, 47, 47, 0.2);\n}\n\n.clear-completed,\nhtml .clear-completed:active {\n\tfloat: right;\n\tposition: relative;\n\tline-height: 20px;\n\ttext-decoration: none;\n\tcursor: pointer;\n}\n\n.clear-completed:hover {\n\ttext-decoration: underline;\n}\n\n.info {\n\tmargin: 65px auto 0;\n\tcolor: #bfbfbf;\n\tfont-size: 10px;\n\ttext-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);\n\ttext-align: center;\n}\n\n.info p {\n\tline-height: 1;\n}\n\n.info a {\n\tcolor: inherit;\n\ttext-decoration: none;\n\tfont-weight: 400;\n}\n\n.info a:hover {\n\ttext-decoration: underline;\n}\n\n/*\n\tHack to remove background from Mobile Safari.\n\tCan't use it globally since it destroys checkboxes in Firefox\n*/\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n\t.toggle-all,\n\t.todo-list li .toggle {\n\t\tbackground: none;\n\t}\n\n\t.todo-list li .toggle {\n\t\theight: 40px;\n\t}\n}\n\n@media (max-width: 430px) {\n\t.footer {\n\t\theight: 50px;\n\t}\n\n\t.filters {\n\t\tbottom: 10px;\n\t}\n}\n"; });
 define('aurelia-templating-resources/aurelia-templating-resources',['exports', 'aurelia-pal', './compose', './if', './with', './repeat', './show', './hide', './sanitize-html', './replaceable', './focus', 'aurelia-templating', './css-resource', './html-sanitizer', './attr-binding-behavior', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './self-binding-behavior', './signal-binding-behavior', './binding-signaler', './update-trigger-binding-behavior', './abstract-repeater', './repeat-strategy-locator', './html-resource-plugin', './null-repeat-strategy', './array-repeat-strategy', './map-repeat-strategy', './set-repeat-strategy', './number-repeat-strategy', './repeat-utilities', './analyze-view-factory', './aurelia-hide-style'], function (exports, _aureliaPal, _compose, _if, _with, _repeat, _show, _hide, _sanitizeHtml, _replaceable, _focus, _aureliaTemplating, _cssResource, _htmlSanitizer, _attrBindingBehavior, _bindingModeBehaviors, _throttleBindingBehavior, _debounceBindingBehavior, _selfBindingBehavior, _signalBindingBehavior, _bindingSignaler, _updateTriggerBindingBehavior, _abstractRepeater, _repeatStrategyLocator, _htmlResourcePlugin, _nullRepeatStrategy, _arrayRepeatStrategy, _mapRepeatStrategy, _setRepeatStrategy, _numberRepeatStrategy, _repeatUtilities, _analyzeViewFactory, _aureliaHideStyle) {
   'use strict';
 
@@ -27366,4 +27378,1950 @@ define('aurelia-testing/wait',['exports'], function (exports) {
     }, options);
   }
 });
-function _aureliaConfigureModuleLoader(){requirejs.config({"baseUrl":"src/","paths":{"aurelia-binding":"..\\node_modules\\aurelia-binding\\dist\\amd\\aurelia-binding","aurelia-bootstrapper":"..\\node_modules\\aurelia-bootstrapper\\dist\\amd\\aurelia-bootstrapper","aurelia-event-aggregator":"..\\node_modules\\aurelia-event-aggregator\\dist\\amd\\aurelia-event-aggregator","aurelia-dependency-injection":"..\\node_modules\\aurelia-dependency-injection\\dist\\amd\\aurelia-dependency-injection","aurelia-framework":"..\\node_modules\\aurelia-framework\\dist\\amd\\aurelia-framework","aurelia-history":"..\\node_modules\\aurelia-history\\dist\\amd\\aurelia-history","aurelia-history-browser":"..\\node_modules\\aurelia-history-browser\\dist\\amd\\aurelia-history-browser","aurelia-loader":"..\\node_modules\\aurelia-loader\\dist\\amd\\aurelia-loader","aurelia-loader-default":"..\\node_modules\\aurelia-loader-default\\dist\\amd\\aurelia-loader-default","aurelia-logging":"..\\node_modules\\aurelia-logging\\dist\\amd\\aurelia-logging","aurelia-logging-console":"..\\node_modules\\aurelia-logging-console\\dist\\amd\\aurelia-logging-console","aurelia-metadata":"..\\node_modules\\aurelia-metadata\\dist\\amd\\aurelia-metadata","aurelia-pal":"..\\node_modules\\aurelia-pal\\dist\\amd\\aurelia-pal","aurelia-pal-browser":"..\\node_modules\\aurelia-pal-browser\\dist\\amd\\aurelia-pal-browser","aurelia-path":"..\\node_modules\\aurelia-path\\dist\\amd\\aurelia-path","aurelia-polyfills":"..\\node_modules\\aurelia-polyfills\\dist\\amd\\aurelia-polyfills","aurelia-route-recognizer":"..\\node_modules\\aurelia-route-recognizer\\dist\\amd\\aurelia-route-recognizer","aurelia-router":"..\\node_modules\\aurelia-router\\dist\\amd\\aurelia-router","aurelia-task-queue":"..\\node_modules\\aurelia-task-queue\\dist\\amd\\aurelia-task-queue","aurelia-templating-binding":"..\\node_modules\\aurelia-templating-binding\\dist\\amd\\aurelia-templating-binding","aurelia-templating":"..\\node_modules\\aurelia-templating\\dist\\amd\\aurelia-templating","text":"..\\node_modules\\text\\text","app-bundle":"../scripts/app-bundle"},"packages":[{"name":"aurelia-templating-resources","location":"../node_modules/aurelia-templating-resources/dist/amd","main":"aurelia-templating-resources"},{"name":"aurelia-templating-router","location":"../node_modules/aurelia-templating-router/dist/amd","main":"aurelia-templating-router"},{"name":"aurelia-testing","location":"../node_modules/aurelia-testing/dist/amd","main":"aurelia-testing"}],"stubModules":["text"],"shim":{},"bundles":{"app-bundle":["app","environment","main","resources/index"]}})}
+define('aurelia-fetch-client/aurelia-fetch-client',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.json = json;
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  };
+
+  
+
+  function json(body) {
+    return new Blob([JSON.stringify(body !== undefined ? body : {})], { type: 'application/json' });
+  }
+
+  var HttpClientConfiguration = exports.HttpClientConfiguration = function () {
+    function HttpClientConfiguration() {
+      
+
+      this.baseUrl = '';
+      this.defaults = {};
+      this.interceptors = [];
+    }
+
+    HttpClientConfiguration.prototype.withBaseUrl = function withBaseUrl(baseUrl) {
+      this.baseUrl = baseUrl;
+      return this;
+    };
+
+    HttpClientConfiguration.prototype.withDefaults = function withDefaults(defaults) {
+      this.defaults = defaults;
+      return this;
+    };
+
+    HttpClientConfiguration.prototype.withInterceptor = function withInterceptor(interceptor) {
+      this.interceptors.push(interceptor);
+      return this;
+    };
+
+    HttpClientConfiguration.prototype.useStandardConfiguration = function useStandardConfiguration() {
+      var standardConfig = { credentials: 'same-origin' };
+      Object.assign(this.defaults, standardConfig, this.defaults);
+      return this.rejectErrorResponses();
+    };
+
+    HttpClientConfiguration.prototype.rejectErrorResponses = function rejectErrorResponses() {
+      return this.withInterceptor({ response: rejectOnError });
+    };
+
+    return HttpClientConfiguration;
+  }();
+
+  function rejectOnError(response) {
+    if (!response.ok) {
+      throw response;
+    }
+
+    return response;
+  }
+
+  var HttpClient = exports.HttpClient = function () {
+    function HttpClient() {
+      
+
+      this.activeRequestCount = 0;
+      this.isRequesting = false;
+      this.isConfigured = false;
+      this.baseUrl = '';
+      this.defaults = null;
+      this.interceptors = [];
+
+      if (typeof fetch === 'undefined') {
+        throw new Error('HttpClient requires a Fetch API implementation, but the current environment doesn\'t support it. You may need to load a polyfill such as https://github.com/github/fetch.');
+      }
+    }
+
+    HttpClient.prototype.configure = function configure(config) {
+      var normalizedConfig = void 0;
+
+      if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
+        normalizedConfig = { defaults: config };
+      } else if (typeof config === 'function') {
+        normalizedConfig = new HttpClientConfiguration();
+        normalizedConfig.baseUrl = this.baseUrl;
+        normalizedConfig.defaults = Object.assign({}, this.defaults);
+        normalizedConfig.interceptors = this.interceptors;
+
+        var c = config(normalizedConfig);
+        if (HttpClientConfiguration.prototype.isPrototypeOf(c)) {
+          normalizedConfig = c;
+        }
+      } else {
+        throw new Error('invalid config');
+      }
+
+      var defaults = normalizedConfig.defaults;
+      if (defaults && Headers.prototype.isPrototypeOf(defaults.headers)) {
+        throw new Error('Default headers must be a plain object.');
+      }
+
+      this.baseUrl = normalizedConfig.baseUrl;
+      this.defaults = defaults;
+      this.interceptors = normalizedConfig.interceptors || [];
+      this.isConfigured = true;
+
+      return this;
+    };
+
+    HttpClient.prototype.fetch = function (_fetch) {
+      function fetch(_x, _x2) {
+        return _fetch.apply(this, arguments);
+      }
+
+      fetch.toString = function () {
+        return _fetch.toString();
+      };
+
+      return fetch;
+    }(function (input, init) {
+      var _this = this;
+
+      trackRequestStart.call(this);
+
+      var request = Promise.resolve().then(function () {
+        return buildRequest.call(_this, input, init, _this.defaults);
+      });
+      var promise = processRequest(request, this.interceptors).then(function (result) {
+        var response = null;
+
+        if (Response.prototype.isPrototypeOf(result)) {
+          response = result;
+        } else if (Request.prototype.isPrototypeOf(result)) {
+          request = Promise.resolve(result);
+          response = fetch(result);
+        } else {
+          throw new Error('An invalid result was returned by the interceptor chain. Expected a Request or Response instance, but got [' + result + ']');
+        }
+
+        return request.then(function (_request) {
+          return processResponse(response, _this.interceptors, _request);
+        });
+      });
+
+      return trackRequestEndWith.call(this, promise);
+    });
+
+    return HttpClient;
+  }();
+
+  var absoluteUrlRegexp = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
+
+  function trackRequestStart() {
+    this.isRequesting = !! ++this.activeRequestCount;
+  }
+
+  function trackRequestEnd() {
+    this.isRequesting = !! --this.activeRequestCount;
+  }
+
+  function trackRequestEndWith(promise) {
+    var handle = trackRequestEnd.bind(this);
+    promise.then(handle, handle);
+    return promise;
+  }
+
+  function parseHeaderValues(headers) {
+    var parsedHeaders = {};
+    for (var name in headers || {}) {
+      if (headers.hasOwnProperty(name)) {
+        parsedHeaders[name] = typeof headers[name] === 'function' ? headers[name]() : headers[name];
+      }
+    }
+    return parsedHeaders;
+  }
+
+  function buildRequest(input, init) {
+    var defaults = this.defaults || {};
+    var request = void 0;
+    var body = void 0;
+    var requestContentType = void 0;
+
+    var parsedDefaultHeaders = parseHeaderValues(defaults.headers);
+    if (Request.prototype.isPrototypeOf(input)) {
+      request = input;
+      requestContentType = new Headers(request.headers).get('Content-Type');
+    } else {
+      init || (init = {});
+      body = init.body;
+      var bodyObj = body ? { body: body } : null;
+      var requestInit = Object.assign({}, defaults, { headers: {} }, init, bodyObj);
+      requestContentType = new Headers(requestInit.headers).get('Content-Type');
+      request = new Request(getRequestUrl(this.baseUrl, input), requestInit);
+    }
+    if (!requestContentType && new Headers(parsedDefaultHeaders).has('content-type')) {
+      request.headers.set('Content-Type', new Headers(parsedDefaultHeaders).get('content-type'));
+    }
+    setDefaultHeaders(request.headers, parsedDefaultHeaders);
+    if (body && Blob.prototype.isPrototypeOf(body) && body.type) {
+      request.headers.set('Content-Type', body.type);
+    }
+    return request;
+  }
+
+  function getRequestUrl(baseUrl, url) {
+    if (absoluteUrlRegexp.test(url)) {
+      return url;
+    }
+
+    return (baseUrl || '') + url;
+  }
+
+  function setDefaultHeaders(headers, defaultHeaders) {
+    for (var name in defaultHeaders || {}) {
+      if (defaultHeaders.hasOwnProperty(name) && !headers.has(name)) {
+        headers.set(name, defaultHeaders[name]);
+      }
+    }
+  }
+
+  function processRequest(request, interceptors) {
+    return applyInterceptors(request, interceptors, 'request', 'requestError');
+  }
+
+  function processResponse(response, interceptors, request) {
+    return applyInterceptors(response, interceptors, 'response', 'responseError', request);
+  }
+
+  function applyInterceptors(input, interceptors, successName, errorName) {
+    for (var _len = arguments.length, interceptorArgs = Array(_len > 4 ? _len - 4 : 0), _key = 4; _key < _len; _key++) {
+      interceptorArgs[_key - 4] = arguments[_key];
+    }
+
+    return (interceptors || []).reduce(function (chain, interceptor) {
+      var successHandler = interceptor[successName];
+      var errorHandler = interceptor[errorName];
+
+      return chain.then(successHandler && function (value) {
+        return successHandler.call.apply(successHandler, [interceptor, value].concat(interceptorArgs));
+      } || identity, errorHandler && function (reason) {
+        return errorHandler.call.apply(errorHandler, [interceptor, reason].concat(interceptorArgs));
+      } || thrower);
+    }, Promise.resolve(input));
+  }
+
+  function identity(x) {
+    return x;
+  }
+
+  function thrower(x) {
+    throw x;
+  }
+});;define('aurelia-fetch-client', ['aurelia-fetch-client/aurelia-fetch-client'], function (main) { return main; });
+
+/*!
+ * TypeScript / Javascript AutoMapper Library v1.8.2
+ * https://github.com/loedeman/AutoMapper
+ *
+ * Copyright 2015-2017 Interest IT / Bert Loedeman and other contributors
+ * Released under the MIT license
+ *
+ * Date: 2017-05-29T16:00:00.000Z
+ */
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define('automapper-ts',[], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.Automapper = factory();
+  }
+}(this, function() {
+/// <reference path="AutoMapperEnumerations.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * AutoMapper helper functions
+     */
+    var AutoMapperHelper = (function () {
+        function AutoMapperHelper() {
+        }
+        AutoMapperHelper.getClassName = function (classType) {
+            if (classType && classType.name) {
+                return classType.name;
+            }
+            // source: http://stackoverflow.com/a/13914278/702357
+            if (classType && classType.constructor) {
+                var className = classType.toString();
+                if (className) {
+                    // classType.toString() is "function classType (...) { ... }"
+                    var matchParts = className.match(/function\s*(\w+)/);
+                    if (matchParts && matchParts.length === 2) {
+                        return matchParts[1];
+                    }
+                }
+                // for browsers which have name property in the constructor
+                // of the object, such as chrome
+                if (classType.constructor.name) {
+                    return classType.constructor.name;
+                }
+                if (classType.constructor.toString()) {
+                    var str = classType.constructor.toString();
+                    var regExpMatchArray = void 0;
+                    if (str.charAt(0) === '[') {
+                        // executed if the return of object.constructor.toString() is "[object objectClass]"
+                        regExpMatchArray = str.match(/\[\w+\s*(\w+)\]/);
+                    }
+                    else {
+                        // executed if the return of object.constructor.toString() is "function objectClass () {}"
+                        // (IE and Firefox)
+                        regExpMatchArray = str.match(/function\s*(\w+)/);
+                    }
+                    if (regExpMatchArray && regExpMatchArray.length === 2) {
+                        return regExpMatchArray[1];
+                    }
+                }
+            }
+            throw new Error("Unable to extract class name from type '" + classType + "'");
+        };
+        AutoMapperHelper.getFunctionParameters = function (functionStr) {
+            var stripComments = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+            var argumentNames = /([^\s,]+)/g;
+            var functionString = functionStr.replace(stripComments, '');
+            var functionParameterNames = functionString.slice(functionString.indexOf('(') + 1, functionString.indexOf(')')).match(argumentNames);
+            if (functionParameterNames === null) {
+                functionParameterNames = new Array();
+            }
+            return functionParameterNames;
+        };
+        AutoMapperHelper.handleCurrying = function (func, args, closure) {
+            var argumentsStillToCome = func.length - args.length;
+            // saved accumulator array
+            // NOTE BL this does not deep copy array objects, only the array itself; should side effects occur, please report (or refactor).
+            var argumentsCopy = Array.prototype.slice.apply(args);
+            function accumulator(moreArgs, alreadyProvidedArgs, stillToCome) {
+                var previousAlreadyProvidedArgs = alreadyProvidedArgs.slice(0); // to reset
+                var previousStillToCome = stillToCome; // to reset
+                for (var i = 0; i < moreArgs.length; i++, stillToCome--) {
+                    alreadyProvidedArgs[alreadyProvidedArgs.length] = moreArgs[i];
+                }
+                if (stillToCome - moreArgs.length <= 0) {
+                    var functionCallResult = func.apply(closure, alreadyProvidedArgs);
+                    // reset vars, so curried function can be applied to new params.
+                    alreadyProvidedArgs = previousAlreadyProvidedArgs;
+                    stillToCome = previousStillToCome;
+                    return functionCallResult;
+                }
+                else {
+                    return function () {
+                        // arguments are params, so closure bussiness is avoided.
+                        return accumulator(arguments, alreadyProvidedArgs.slice(0), stillToCome);
+                    };
+                }
+            }
+            return accumulator([], argumentsCopy, argumentsStillToCome);
+        };
+        AutoMapperHelper.getMappingMetadataFromTransformationFunction = function (destination, func, sourceMapping) {
+            if (typeof func !== 'function') {
+                return {
+                    destination: destination,
+                    source: destination,
+                    transformation: AutoMapperHelper.getDestinationTransformation(func, false, sourceMapping, false),
+                    sourceMapping: sourceMapping,
+                    condition: null,
+                    ignore: false,
+                    async: false
+                };
+            }
+            var functionStr = func.toString();
+            var parameterNames = AutoMapperHelper.getFunctionParameters(functionStr);
+            var optsParamName = parameterNames.length >= 1 ? parameterNames[0] : '';
+            var source = sourceMapping
+                ? destination
+                : AutoMapperHelper.getMapFromString(functionStr, destination, optsParamName);
+            var metadata = {
+                destination: destination,
+                source: source,
+                transformation: AutoMapperHelper.getDestinationTransformation(func, true, sourceMapping, parameterNames.length === 2),
+                sourceMapping: sourceMapping,
+                condition: null,
+                ignore: AutoMapperHelper.getIgnoreFromString(functionStr, destination),
+                async: parameterNames.length === 2
+            };
+            // calling the member options function when used asynchronous would be too 'dangerous'.
+            if (!metadata.async && AutoMapperHelper.getFunctionCallIndex(functionStr, 'condition', optsParamName) >= 0) {
+                metadata.condition = AutoMapperHelper.getConditionFromFunction(func, source);
+            }
+            return metadata;
+        };
+        AutoMapperHelper.getDestinationTransformation = function (func, isFunction, sourceMapping, async) {
+            if (!isFunction) {
+                return {
+                    transformationType: AutoMapperJs.DestinationTransformationType.Constant,
+                    constant: func
+                };
+            }
+            var transformation;
+            if (sourceMapping) {
+                if (async) {
+                    transformation = {
+                        transformationType: AutoMapperJs.DestinationTransformationType.AsyncSourceMemberOptions,
+                        asyncSourceMemberConfigurationOptionsFunc: func
+                    };
+                }
+                else {
+                    transformation = {
+                        transformationType: AutoMapperJs.DestinationTransformationType.SourceMemberOptions,
+                        sourceMemberConfigurationOptionsFunc: func
+                    };
+                }
+            }
+            else {
+                if (async) {
+                    transformation = {
+                        transformationType: AutoMapperJs.DestinationTransformationType.AsyncMemberOptions,
+                        asyncMemberConfigurationOptionsFunc: func
+                    };
+                }
+                else {
+                    transformation = {
+                        transformationType: AutoMapperJs.DestinationTransformationType.MemberOptions,
+                        memberConfigurationOptionsFunc: func
+                    };
+                }
+            }
+            return transformation;
+        };
+        AutoMapperHelper.getIgnoreFromString = function (functionString, optionsParameterName) {
+            var indexOfIgnore = AutoMapperHelper.getFunctionCallIndex(functionString, 'ignore', optionsParameterName);
+            if (indexOfIgnore < 0) {
+                return false;
+            }
+            var indexOfMapFromStart = functionString.indexOf('(', indexOfIgnore) + 1;
+            var indexOfMapFromEnd = functionString.indexOf(')', indexOfMapFromStart);
+            if (indexOfMapFromStart < 0 || indexOfMapFromEnd < 0) {
+                return false;
+            }
+            var ignoreString = functionString.substring(indexOfMapFromStart, indexOfMapFromEnd).replace(/\r/g, '').replace(/\n/g, '').trim();
+            return ignoreString === null || ignoreString === ''
+                ? true // <optionsParameterName>.ignore()
+                : false; // <optionsParameterName>.ignore(<ignoreString> -> unexpected content)
+        };
+        AutoMapperHelper.getMapFromString = function (functionString, defaultValue, optionsParameterName) {
+            var indexOfMapFrom = AutoMapperHelper.getFunctionCallIndex(functionString, 'mapFrom', optionsParameterName);
+            if (indexOfMapFrom < 0) {
+                return defaultValue;
+            }
+            var indexOfMapFromStart = functionString.indexOf('(', indexOfMapFrom) + 1;
+            var indexOfMapFromEnd = functionString.indexOf(')', indexOfMapFromStart);
+            if (indexOfMapFromStart < 0 || indexOfMapFromEnd < 0) {
+                return defaultValue;
+            }
+            var mapFromString = functionString.substring(indexOfMapFromStart, indexOfMapFromEnd).replace(/'/g, '').replace(/"/g, '').trim();
+            return mapFromString === null || mapFromString === ''
+                ? defaultValue
+                : mapFromString;
+        };
+        AutoMapperHelper.getFunctionCallIndex = function (functionString, functionToLookFor, optionsParameterName) {
+            var indexOfFunctionCall = functionString.indexOf(optionsParameterName + '.' + functionToLookFor);
+            if (indexOfFunctionCall < 0) {
+                indexOfFunctionCall = functionString.indexOf('.' + functionToLookFor);
+            }
+            return indexOfFunctionCall;
+        };
+        AutoMapperHelper.getConditionFromFunction = function (func, sourceProperty) {
+            // Since we are calling the valueOrFunction function to determine whether to ignore or map from another property, we
+            // want to prevent the call to be error prone when the end user uses the '(opts)=> opts.sourceObject.sourcePropertyName'
+            // syntax. We don't actually have a source object when creating a mapping; therefore, we 'stub' a source object for the
+            // function call.
+            var sourceObject = {};
+            sourceObject[sourceProperty] = {};
+            var condition;
+            // calling the function will result in calling our stubbed ignore() and mapFrom() functions if used inside the function.
+            var configFuncOptions = {
+                ignore: function () {
+                    // do nothing
+                },
+                condition: function (predicate) {
+                    condition = predicate;
+                },
+                mapFrom: function (sourcePropertyName) {
+                    // do nothing
+                },
+                sourceObject: sourceObject,
+                sourcePropertyName: sourceProperty,
+                intermediatePropertyValue: {}
+            };
+            try {
+                func(configFuncOptions);
+            }
+            catch (exc) {
+                // do not handle by default.
+            }
+            return condition;
+        };
+        return AutoMapperHelper;
+    }());
+    AutoMapperJs.AutoMapperHelper = AutoMapperHelper;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=AutoMapperHelper.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+/// <reference path="AutoMapperHelper.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * AutoMapper configuration validator.
+     */
+    var AutoMapperValidator = (function () {
+        function AutoMapperValidator() {
+        }
+        /**
+         * Validates mapping configuration by dry-running. Since JS does not
+         * fully support typing, it only checks if properties match on both
+         * sides. The function needs IMapping.sourceTypeClass and
+         * IMapping.destinationTypeClass to function.
+         * @param {boolean} strictMode Whether or not to fail when properties
+         *                             sourceTypeClass or destinationTypeClass
+         *                             are unavailable.
+         */
+        AutoMapperValidator.assertConfigurationIsValid = function (mappings, strictMode) {
+            for (var key in mappings) {
+                if (!mappings.hasOwnProperty(key)) {
+                    continue;
+                }
+                AutoMapperValidator.assertMappingConfiguration(mappings[key], strictMode);
+            }
+        };
+        AutoMapperValidator.assertMappingConfiguration = function (mapping, strictMode) {
+            var mappingKey = mapping.sourceKey + "=>" + mapping.destinationKey;
+            var sourceType = mapping.sourceTypeClass;
+            var destinationType = mapping.destinationTypeClass;
+            var sourceClassName = sourceType ? AutoMapperJs.AutoMapperHelper.getClassName(sourceType) : undefined;
+            var destinationClassName = destinationType ? AutoMapperJs.AutoMapperHelper.getClassName(destinationType) : undefined;
+            if (!sourceType || !destinationType) {
+                if (strictMode === false) {
+                    return;
+                }
+                throw new Error("Mapping '" + mappingKey + "' cannot be validated, since mapping.sourceType or mapping.destinationType are unspecified.");
+            }
+            var tryHandle = function (errorMessage) {
+                if (errorMessage) {
+                    throw new Error("Mapping '" + mappingKey + "' is invalid: " + errorMessage + " (source: '" + sourceClassName + "', destination: '" + destinationClassName + "').");
+                }
+            };
+            var validatedMembers = new Array();
+            var srcObj = new sourceType();
+            var dstObj = new destinationType();
+            // walk member mappings
+            for (var _i = 0, _a = mapping.properties; _i < _a.length; _i++) {
+                var property = _a[_i];
+                tryHandle(AutoMapperValidator.validatePropertyMapping(property, property.name, srcObj, dstObj));
+                validatedMembers.push(property.name);
+            }
+            // walk source members
+            for (var srcMember in srcObj) {
+                if (!srcObj.hasOwnProperty(srcMember)) {
+                    continue;
+                }
+                if (validatedMembers.indexOf(srcMember) >= 0) {
+                    // already validated
+                    continue;
+                }
+                tryHandle(AutoMapperValidator.validateProperty(srcMember, dstObj));
+                validatedMembers.push(srcMember);
+            }
+            // walk destination members
+            for (var dstMember in dstObj) {
+                if (!dstObj.hasOwnProperty(dstMember)) {
+                    continue;
+                }
+                if (validatedMembers.indexOf(dstMember) >= 0) {
+                    // already validated
+                    continue;
+                }
+                tryHandle("Destination member '" + dstMember + "' does not exist on source type");
+            }
+            // /* tslint:disable */
+            // console.error(key);
+            // /* tslint:enable */
+        };
+        AutoMapperValidator.validatePropertyMapping = function (propertyMapping, member, srcObj, dstObj) {
+            // awkward way of locating sourceMapping ;) ...
+            var destinationProperty = AutoMapperValidator.getDestinationProperty(propertyMapping.destinationPropertyName, propertyMapping);
+            return destinationProperty.sourceMapping
+                ? AutoMapperValidator.validateSourcePropertyMapping(propertyMapping, destinationProperty, member, srcObj, dstObj)
+                : AutoMapperValidator.validateDestinationPropertyMapping(propertyMapping, destinationProperty, member, srcObj, dstObj);
+        };
+        AutoMapperValidator.validateSourcePropertyMapping = function (ropertyMapping, destinationProperty, member, srcObj, dstObj) {
+            // a member for which configuration is provided, should exist.
+            if (!srcObj.hasOwnProperty(member)) {
+                return "Source member '" + member + "' is configured, but does not exist on source type";
+            }
+            // an ignored source member should not exist on the destination type.
+            if (destinationProperty.ignore) {
+                if (dstObj.hasOwnProperty(member)) {
+                    return "Source member '" + member + "' is ignored, but does exist on destination type";
+                }
+                return undefined;
+            }
+            // a mapped source member should exist on the destination type.
+            if (!dstObj.hasOwnProperty(member)) {
+                return "Source member '" + member + "' is configured to be mapped, but does not exist on destination type";
+            }
+            //var dstMember = propertyMapping.destinationProperty;
+            return undefined;
+        };
+        AutoMapperValidator.validateDestinationPropertyMapping = function (propertyMapping, destinationProperty, member, srcObj, dstObj) {
+            // a member for which configuration is provided, should exist.
+            if (!dstObj.hasOwnProperty(destinationProperty.name)) {
+                return "Destination member '" + destinationProperty.destinationPropertyName + "' is configured, but does not exist on destination type";
+            }
+            // an ignored destination member should not exist on the source type.
+            if (destinationProperty.ignore) {
+                if (srcObj.hasOwnProperty(member)) {
+                    return "Destination member '" + member + "' is ignored, but does exist on source type";
+                }
+                return undefined;
+            }
+            // a mapped destination member should exist on the source type.
+            if (!srcObj.hasOwnProperty(member)) {
+                return "Destination member '" + member + "' is configured to be mapped, but does not exist on source type";
+            }
+            //var dstMember = propertyMapping.destinationProperty;
+            return undefined;
+        };
+        AutoMapperValidator.validateProperty = function (srcMember, dstObj) {
+            if (!dstObj.hasOwnProperty(srcMember)) {
+                return "Source member '" + srcMember + "' is configured to be mapped, but does not exist on destination type";
+            }
+            return undefined;
+        };
+        AutoMapperValidator.getDestinationProperty = function (destinationPropertyName, existingSource) {
+            if (existingSource.destination) {
+                return existingSource.destination;
+            }
+            if (existingSource.children) {
+                for (var _i = 0, _a = existingSource.children; _i < _a.length; _i++) {
+                    var child = _a[_i];
+                    var destination = this.getDestinationProperty(destinationPropertyName, child);
+                    if (destination) {
+                        return destination;
+                    }
+                }
+            }
+            return null;
+        };
+        return AutoMapperValidator;
+    }());
+    AutoMapperJs.AutoMapperValidator = AutoMapperValidator;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=AutoMapperValidator.js.map
+
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    var DestinationTransformationType;
+    (function (DestinationTransformationType) {
+        DestinationTransformationType[DestinationTransformationType["Constant"] = 1] = "Constant";
+        DestinationTransformationType[DestinationTransformationType["MemberOptions"] = 2] = "MemberOptions";
+        DestinationTransformationType[DestinationTransformationType["AsyncMemberOptions"] = 4] = "AsyncMemberOptions";
+        DestinationTransformationType[DestinationTransformationType["SourceMemberOptions"] = 8] = "SourceMemberOptions";
+        DestinationTransformationType[DestinationTransformationType["AsyncSourceMemberOptions"] = 16] = "AsyncSourceMemberOptions";
+    })(DestinationTransformationType = AutoMapperJs.DestinationTransformationType || (AutoMapperJs.DestinationTransformationType = {}));
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=AutoMapperEnumerations.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+/// <reference path="TypeConverter.ts" />
+/// <reference path="AutoMapperHelper.ts" />
+/// <reference path="AutoMapperValidator.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * AutoMapper implementation, for both creating maps and performing maps. Comparable usage and functionality to the original
+     * .NET AutoMapper library is the pursuit of this implementation.
+     */
+    var AutoMapperBase = (function () {
+        function AutoMapperBase() {
+        }
+        AutoMapperBase.prototype.getMapping = function (mappings, sourceKey, destinationKey) {
+            var srcKey = this.getKey(sourceKey);
+            var dstKey = this.getKey(destinationKey);
+            var mapping = mappings[srcKey + dstKey];
+            if (!mapping) {
+                throw new Error("Could not find map object with a source of " + srcKey + " and a destination of " + dstKey);
+            }
+            return mapping;
+        };
+        AutoMapperBase.prototype.getKey = function (keyStringOrType) {
+            if (typeof keyStringOrType === 'string') {
+                return keyStringOrType;
+            }
+            else {
+                return AutoMapperJs.AutoMapperHelper.getClassName(keyStringOrType);
+            }
+        };
+        AutoMapperBase.prototype.isArray = function (sourceObject) {
+            return sourceObject instanceof Array;
+        };
+        AutoMapperBase.prototype.handleArray = function (mapping, sourceArray, itemFunc) {
+            var arrayLength = sourceArray.length;
+            var destinationArray = new Array(sourceArray.length);
+            for (var index = 0; index < arrayLength; index++) {
+                var sourceObject = sourceArray[index];
+                var destinationObject = void 0;
+                if (sourceObject === null || sourceObject === undefined) {
+                    destinationObject = sourceObject;
+                }
+                else {
+                    destinationObject = this.createDestinationObject(mapping.destinationTypeClass);
+                    itemFunc(sourceObject, destinationObject);
+                }
+                destinationArray[index] = destinationObject;
+            }
+            return destinationArray;
+        };
+        AutoMapperBase.prototype.handleItem = function (mapping, sourceObject, destinationObject, propertyFunction) {
+            // var sourceProperties: string[] = [];
+            var atLeastOnePropertyMapped = false;
+            // handle mapped properties ...
+            for (var _i = 0, _a = mapping.properties; _i < _a.length; _i++) {
+                var property = _a[_i];
+                // sourceProperties.push(property.name);
+                atLeastOnePropertyMapped = true;
+                propertyFunction(property.name);
+            }
+            // .. and, after that, handle unmapped properties
+            for (var sourcePropertyName in sourceObject) {
+                if (!sourceObject.hasOwnProperty(sourcePropertyName)) {
+                    continue;
+                }
+                if (destinationObject[sourcePropertyName]) {
+                    // ... but, if the destination property already exists, don't map again (probably a mapFrom situation).
+                    continue;
+                }
+                // if (sourceProperties.indexOf(sourcePropertyName) >= 0) {
+                //     continue;
+                // }
+                atLeastOnePropertyMapped = true;
+                propertyFunction(sourcePropertyName);
+            }
+            // return null/undefined sourceObject if no properties added
+            if (!atLeastOnePropertyMapped && (sourceObject === null || sourceObject === undefined)) {
+                return sourceObject;
+            }
+            return destinationObject;
+        };
+        AutoMapperBase.prototype.handleProperty = function (mapping, sourceObject, sourcePropertyName, destinationObject, transformFunction, autoMappingCallbackFunction) {
+            // TODO Property mappings are already located before
+            // TODO handleProperty seems only to be called when processing a mapped property.
+            var propertyMappings = this.getPropertyMappings(mapping.properties, sourcePropertyName);
+            if (propertyMappings.length > 0) {
+                for (var _i = 0, propertyMappings_1 = propertyMappings; _i < propertyMappings_1.length; _i++) {
+                    var propertyMapping = propertyMappings_1[_i];
+                    this.processMappedProperty(mapping, propertyMapping, sourceObject, sourcePropertyName, transformFunction);
+                }
+            }
+            else {
+                this.handlePropertyWithAutoMapping(mapping, sourceObject, sourcePropertyName, destinationObject, autoMappingCallbackFunction);
+            }
+        };
+        AutoMapperBase.prototype.setPropertyValue = function (mapping, destinationProperty, destinationObject, destinationPropertyValue) {
+            if (mapping.forAllMemberMappings.length > 0) {
+                for (var _i = 0, _a = mapping.forAllMemberMappings; _i < _a.length; _i++) {
+                    var forAllMemberMapping = _a[_i];
+                    forAllMemberMapping(destinationObject, destinationProperty.name, destinationPropertyValue);
+                }
+            }
+            else {
+                destinationObject[destinationProperty.name] = destinationPropertyValue;
+            }
+        };
+        AutoMapperBase.prototype.setPropertyValueByName = function (mapping, destinationObject, destinationProperty, destinationPropertyValue) {
+            if (mapping.forAllMemberMappings.length > 0) {
+                for (var _i = 0, _a = mapping.forAllMemberMappings; _i < _a.length; _i++) {
+                    var forAllMemberMapping = _a[_i];
+                    forAllMemberMapping(destinationObject, destinationProperty, destinationPropertyValue);
+                }
+            }
+            else {
+                destinationObject[destinationProperty] = destinationPropertyValue;
+            }
+        };
+        AutoMapperBase.prototype.createDestinationObject = function (destinationType) {
+            // create empty destination object.
+            return destinationType
+                ? new destinationType()
+                : {};
+        };
+        AutoMapperBase.prototype.shouldProcessDestination = function (destination, sourceObject) {
+            if (destination.ignore) {
+                // ignore ignored properties
+                return false;
+            }
+            if (destination.conditionFunction) {
+                // check for condition function, and, if there is ...
+                if (destination.conditionFunction(sourceObject) === false) {
+                    // ... return when the condition is not met.
+                    return false;
+                }
+            }
+            return true;
+        };
+        // protected throwMappingException(propertyMapping: IProperty, message: string): void {
+        //     throw new Error(`Cannot map '${propertyMapping.sourcePropertyName}' to '${propertyMapping.destinationPropertyName}' => ${message}`);
+        // }
+        AutoMapperBase.prototype.handlePropertyWithAutoMapping = function (mapping, sourceObject, sourcePropertyName, destinationObject, autoMappingCallbackFunction) {
+            // no forMember mapping exists, auto map properties, except for the situation where ignoreAllNonExisting is specified.
+            if (mapping.ignoreAllNonExisting) {
+                return;
+            }
+            if (mapping.destinationTypeClass && Object.keys(destinationObject).indexOf(sourcePropertyName) < 0) {
+                return;
+            }
+            var objectValue = null;
+            var isNestedObject = false;
+            if (typeof destinationObject[sourcePropertyName] === 'object' && destinationObject[sourcePropertyName]) {
+                isNestedObject = (destinationObject[sourcePropertyName].constructor.name !== 'Object');
+                if (isNestedObject) {
+                    this
+                        .createMap(sourceObject[sourcePropertyName].constructor.name, destinationObject[sourcePropertyName].constructor.name)
+                        .convertToType(destinationObject[sourcePropertyName].constructor);
+                    objectValue = this.map(sourceObject[sourcePropertyName].constructor.name, destinationObject[sourcePropertyName].constructor.name, sourceObject[sourcePropertyName]);
+                }
+            }
+            // use profile mapping when specified; otherwise, specify source property name as destination property name.
+            var destinationPropertyName = this.getDestinationPropertyName(mapping.profile, sourcePropertyName);
+            var destinationPropertyValue = this.getDestinationPropertyValue(sourceObject, sourcePropertyName, objectValue, isNestedObject);
+            this.setPropertyValueByName(mapping, destinationObject, destinationPropertyName, destinationPropertyValue);
+            if (autoMappingCallbackFunction) {
+                autoMappingCallbackFunction(destinationPropertyValue);
+            }
+        };
+        AutoMapperBase.prototype.getDestinationPropertyValue = function (sourceObject, sourcePropertyName, objectValue, isNestedObject) {
+            if (isNestedObject) {
+                return objectValue;
+            }
+            return sourceObject ? sourceObject[sourcePropertyName] : null;
+        };
+        AutoMapperBase.prototype.getDestinationPropertyName = function (profile, sourcePropertyName) {
+            if (!profile) {
+                return sourcePropertyName;
+            }
+            // TODO BL no support yet for INamingConvention.splittingCharacter
+            try {
+                // First, split the source property name based on the splitting expression.
+                // TODO BL Caching of RegExp splitting!
+                var sourcePropertyNameParts = sourcePropertyName.split(profile.sourceMemberNamingConvention.splittingExpression);
+                // NOTE BL For some reason, splitting by (my ;)) RegExp results in empty strings in the array; remove them.
+                for (var index = sourcePropertyNameParts.length - 1; index >= 0; index--) {
+                    if (sourcePropertyNameParts[index] === '') {
+                        sourcePropertyNameParts.splice(index, 1);
+                    }
+                }
+                return profile.destinationMemberNamingConvention.transformPropertyName(sourcePropertyNameParts);
+            }
+            catch (error) {
+                return sourcePropertyName;
+            }
+        };
+        AutoMapperBase.prototype.getPropertyMappings = function (properties, sourcePropertyName) {
+            var result = [];
+            for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+                var property = properties_1[_i];
+                if (property.name === sourcePropertyName) {
+                    result.push(property);
+                }
+            }
+            return result;
+        };
+        AutoMapperBase.prototype.processMappedProperty = function (mapping, propertyMapping, sourceObject, sourcePropertyName, transformFunction) {
+            if (propertyMapping.children && propertyMapping.children.length > 0) {
+                // always pass child source object, even if source object does not exist =>
+                // constant transformations should always pass.
+                var childSourceObject = sourceObject ? sourceObject[propertyMapping.name] : null;
+                for (var _i = 0, _a = propertyMapping.children; _i < _a.length; _i++) {
+                    var child = _a[_i];
+                    this.processMappedProperty(mapping, child, childSourceObject, child.name, transformFunction);
+                    return;
+                }
+            }
+            var destination = propertyMapping.destination;
+            // if (!propertyMapping.destination) {
+            //     // it makes no sense to handle a property without destination(s).
+            //     this.throwMappingException(propertyMapping, 'no destination object');
+            // }
+            var configurationOptions = this.createMemberConfigurationOptions(sourceObject, sourcePropertyName);
+            transformFunction(destination, configurationOptions);
+        };
+        AutoMapperBase.prototype.createMemberConfigurationOptions = function (sourceObject, sourcePropertyName) {
+            var memberConfigurationOptions = {
+                mapFrom: function (sourcePropertyName) {
+                    // no action required, just here as a stub to prevent calling a non-existing 'opts.mapFrom(...)' function.
+                },
+                condition: function (predicate) {
+                    // no action required, just here as a stub to prevent calling a non-existing 'opts.condition(...)' function.
+                },
+                ignore: function () {
+                    // no action required, just here as a stub to prevent calling a non-existing 'opts.ignore()' function.
+                },
+                sourceObject: sourceObject,
+                sourcePropertyName: sourcePropertyName,
+                intermediatePropertyValue: sourceObject ? sourceObject[sourcePropertyName] : sourceObject
+            };
+            return memberConfigurationOptions;
+        };
+        return AutoMapperBase;
+    }());
+    AutoMapperJs.AutoMapperBase = AutoMapperBase;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=AutoMapperBase.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+/// <reference path="AutoMapper.ts" />
+/// <reference path="TypeConverter.ts" />
+/// <reference path="AutoMapperHelper.ts" />
+/// <reference path="AutoMapperValidator.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * AsyncAutoMapper implementation, for asynchronous mapping support when using AutoMapper.
+     */
+    var AsyncAutoMapper = (function (_super) {
+        __extends(AsyncAutoMapper, _super);
+        function AsyncAutoMapper() {
+            var _this = _super.call(this) || this;
+            AsyncAutoMapper.asyncInstance = _this;
+            return _this;
+        }
+        AsyncAutoMapper.prototype.createMap = function (sourceKeyOrType, destinationKeyOrType) {
+            throw new Error('Method AsyncAutoMapper.createMap is not implemented.');
+        };
+        AsyncAutoMapper.prototype.createMapForMember = function (mapping, property) {
+            var _this = this;
+            mapping.async = true;
+            mapping.mapItemFunction = function (m, srcObj, dstObj, cb) { return _this.mapItem(m, srcObj, dstObj, cb); };
+            // property.async = true;
+            // property.conversionValuesAndFunctions.push(func);
+        };
+        AsyncAutoMapper.prototype.createMapConvertUsing = function (mapping, converterFunction) {
+            var _this = this;
+            mapping.async = true;
+            mapping.typeConverterFunction = converterFunction;
+            mapping.mapItemFunction = function (m, srcObj, dstObj, cb) { return _this.mapItemUsingTypeConverter(m, srcObj, dstObj, cb); };
+        };
+        AsyncAutoMapper.prototype.map = function (mappings, sourceKey, destinationKey, sourceObject, callback) {
+            var _this = this;
+            switch (arguments.length) {
+                case 5:
+                    this.mapWithMapping(_super.prototype.getMapping.call(this, mappings, sourceKey, destinationKey), sourceObject, callback);
+                    return;
+                // provide performance optimized (preloading) currying support.
+                case 4:
+                    return function (cb) { return _this.mapWithMapping(_super.prototype.getMapping.call(_this, mappings, sourceKey, destinationKey), sourceObject, cb); };
+                case 3:
+                    return function (srcObj, cb) { return _this.mapWithMapping(_super.prototype.getMapping.call(_this, mappings, sourceKey, destinationKey), srcObj, cb); };
+                case 2:
+                    return function (dstKey, srcObj, cb) { return _this.map(mappings, sourceKey, dstKey, srcObj, cb); };
+                default:
+                    throw new Error('The AsyncAutoMapper.map function expects between 2 and 5 parameters, you provided ' + arguments.length + '.');
+            }
+        };
+        AsyncAutoMapper.prototype.mapWithMapping = function (mapping, sourceObject, callback) {
+            if (_super.prototype.isArray.call(this, sourceObject)) {
+                this.mapArray(mapping, sourceObject, callback);
+                return;
+            }
+            return mapping.mapItemFunction(mapping, sourceObject, _super.prototype.createDestinationObject.call(this, mapping.destinationTypeClass), callback);
+        };
+        /**
+         * Execute a mapping from the source array to a new destination array with explicit mapping configuration and supplied mapping options (using createMap).
+         * @param mapping The mapping configuration for the current mapping keys/types.
+         * @param sourceArray The source array to map.
+         * @returns {Array<any>} Destination array.
+         */
+        AsyncAutoMapper.prototype.mapArray = function (mapping, sourceArray, callback) {
+            var callbacksToGo = 0;
+            var destinationArray = _super.prototype.handleArray.call(this, mapping, sourceArray, function (sourceObject, destinationObject) {
+                callbacksToGo++;
+                mapping.mapItemFunction(mapping, sourceObject, destinationObject, function (result) {
+                    callbacksToGo--;
+                });
+            });
+            var waitForCallbackToSend = function () {
+                if (callbacksToGo === 0) {
+                    callback(destinationArray);
+                }
+                else {
+                    setTimeout(function () {
+                        waitForCallbackToSend();
+                    }, 10 * callbacksToGo);
+                }
+            };
+            waitForCallbackToSend();
+        };
+        AsyncAutoMapper.prototype.mapItemUsingTypeConverter = function (mapping, sourceObject, destinationObject, callback) {
+            var resolutionContext = {
+                sourceValue: sourceObject,
+                destinationValue: destinationObject
+            };
+            mapping.typeConverterFunction(resolutionContext, callback);
+        };
+        /**
+         * Execute a mapping from the source object to a new destination object with explicit mapping configuration and supplied mapping options (using createMap).
+         * @param mapping The mapping configuration for the current mapping keys/types.
+         * @param sourceObject The source object to map.
+         * @param destinationObject The destination object to map to.
+         * @param callback The callback to call after async mapping has been executed.
+         */
+        AsyncAutoMapper.prototype.mapItem = function (mapping, sourceObject, destinationObject, callback) {
+            var _this = this;
+            var callbacksToGo = 0;
+            _super.prototype.handleItem.call(this, mapping, sourceObject, destinationObject, function (sourceProperty) {
+                callbacksToGo++;
+                _this.mapProperty(mapping, sourceObject, sourceProperty, destinationObject, function (result) {
+                    callbacksToGo--;
+                });
+            });
+            var waitForCallbackToSend = function () {
+                if (callbacksToGo === 0) {
+                    callback(destinationObject);
+                }
+                else {
+                    setTimeout(function () {
+                        waitForCallbackToSend();
+                    }, 10 * callbacksToGo);
+                }
+            };
+            waitForCallbackToSend();
+        };
+        /**
+         * Execute a mapping from the source object property to the destination object property with explicit mapping configuration and supplied mapping options.
+         * @param mapping The mapping configuration for the current mapping keys/types.
+         * @param sourceObject The source object to map.
+         * @param sourcePropertyName The source property to map.
+         * @param destinationObject The destination object to map to.
+         * @param callback The callback to call after async property mapping has been executed.
+         */
+        AsyncAutoMapper.prototype.mapProperty = function (mapping, sourceObject, sourceProperty, destinationObject, callback) {
+            var _this = this;
+            _super.prototype.handleProperty.call(this, mapping, sourceObject, sourceProperty, destinationObject, function (destinationProperty, options) {
+                _this.transform(mapping, sourceObject, destinationProperty, destinationObject, options, function (destinationPropertyValue, success) {
+                    callback(destinationPropertyValue);
+                });
+            }, function (destinationPropertyValue) {
+                callback(destinationPropertyValue);
+            });
+        };
+        AsyncAutoMapper.prototype.transform = function (mapping, sourceObject, destinationProperty, destinationObject, options, callback) {
+            var _this = this;
+            var childDestinationProperty = destinationProperty.child;
+            if (childDestinationProperty) {
+                var childDestinationObject = destinationObject[destinationProperty.name];
+                if (!childDestinationObject) {
+                    // no child source object? create.
+                    childDestinationObject = {};
+                }
+                // transform child by recursively calling the transform function.
+                this.transform(mapping, sourceObject, childDestinationProperty, childDestinationObject, options, function (callbackValue, success) {
+                    if (success) {
+                        // only set child destination object when transformation has been successful.
+                        destinationObject[destinationProperty.name] = childDestinationObject;
+                    }
+                    callback(options.intermediatePropertyValue, success);
+                });
+                return;
+            }
+            if (!_super.prototype.shouldProcessDestination.call(this, destinationProperty, sourceObject)) {
+                callback(undefined /* opts.intermediatePropertyValue */, false);
+                return;
+            }
+            // actually transform destination property.
+            this.processTransformations(destinationProperty, destinationProperty.transformations, options, function (callbackValue, success) {
+                if (success) {
+                    _super.prototype.setPropertyValue.call(_this, mapping, destinationProperty, destinationObject, options.intermediatePropertyValue);
+                }
+                callback(options.intermediatePropertyValue, success);
+            });
+        };
+        AsyncAutoMapper.prototype.processTransformations = function (property, transformations, options, callback) {
+            var _this = this;
+            if (transformations.length === 0) {
+                callback(options.intermediatePropertyValue, true);
+                return;
+            }
+            var transformation = transformations[0];
+            this.processTransformation(property, transformation, options, function (callbackValue, success) {
+                if (!success) {
+                    callback(options.intermediatePropertyValue, false);
+                    return;
+                }
+                _this.processTransformations(property, transformations.slice(1), options, callback);
+            });
+        };
+        AsyncAutoMapper.prototype.processTransformation = function (property, transformation, options, callback) {
+            switch (transformation.transformationType) {
+                case AutoMapperJs.DestinationTransformationType.Constant:
+                    options.intermediatePropertyValue = transformation.constant;
+                    callback(options.intermediatePropertyValue, true);
+                    return;
+                case AutoMapperJs.DestinationTransformationType.MemberOptions: {
+                    var result = transformation.memberConfigurationOptionsFunc(options);
+                    if (typeof result !== 'undefined') {
+                        options.intermediatePropertyValue = result;
+                    }
+                    else if (!options.sourceObject) {
+                        callback(options.intermediatePropertyValue, false);
+                        return;
+                    }
+                    callback(options.intermediatePropertyValue, true);
+                    return;
+                }
+                case AutoMapperJs.DestinationTransformationType.SourceMemberOptions: {
+                    var result = transformation.sourceMemberConfigurationOptionsFunc(options);
+                    if (typeof result !== 'undefined') {
+                        options.intermediatePropertyValue = result;
+                    }
+                    else if (!options.sourceObject) {
+                        callback(options.intermediatePropertyValue, false);
+                        return;
+                    }
+                    callback(options.intermediatePropertyValue, true);
+                    return;
+                }
+                case AutoMapperJs.DestinationTransformationType.AsyncMemberOptions:
+                    transformation.asyncMemberConfigurationOptionsFunc(options, function (result) {
+                        if (typeof result !== 'undefined') {
+                            options.intermediatePropertyValue = result;
+                        }
+                        callback(options.intermediatePropertyValue, true);
+                        return;
+                    });
+                    return;
+                case AutoMapperJs.DestinationTransformationType.AsyncSourceMemberOptions:
+                    transformation.asyncSourceMemberConfigurationOptionsFunc(options, function (result) {
+                        if (typeof result !== 'undefined') {
+                            options.intermediatePropertyValue = result;
+                        }
+                        callback(options.intermediatePropertyValue, true);
+                        return;
+                    });
+                    return;
+                default:
+                    // TODO: this.throwMappingException(property, `AutoMapper.handlePropertyMappings: Unexpected transformation type ${transformation}`);
+                    callback(options.intermediatePropertyValue, false);
+                    return;
+            }
+        };
+        return AsyncAutoMapper;
+    }(AutoMapperJs.AutoMapperBase));
+    AsyncAutoMapper.asyncInstance = new AsyncAutoMapper();
+    AutoMapperJs.AsyncAutoMapper = AsyncAutoMapper;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=AsyncAutoMapper.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+/// <reference path="AutoMapperEnumerations.ts" />
+/// <reference path="AutoMapperBase.ts" />
+/// <reference path="AsyncAutoMapper.ts" />
+/// <reference path="TypeConverter.ts" />
+/// <reference path="AutoMapperHelper.ts" />
+/// <reference path="AutoMapperValidator.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    var AutoMapper = (function (_super) {
+        __extends(AutoMapper, _super);
+        /**
+         * This class is intended to be a Singleton. Preferrably use getInstance()
+         * function instead of using the constructor directly from code.
+         */
+        function AutoMapper() {
+            var _this = _super.call(this) || this;
+            if (AutoMapper._instance) {
+                return AutoMapper._instance;
+            }
+            else {
+                AutoMapper._instance = _this;
+                _this._profiles = {};
+                _this._mappings = {};
+                _this._asyncMapper = new AutoMapperJs.AsyncAutoMapper();
+            }
+            return _this;
+        }
+        AutoMapper.getInstance = function () {
+            return AutoMapper._instance;
+        };
+        /**
+         * Initializes the mapper with the supplied configuration.
+         * @param {(config: IConfiguration) => void} configFunction Configuration function to call.
+         */
+        AutoMapper.prototype.initialize = function (configFunction) {
+            var that = this;
+            var configuration = {
+                addProfile: function (profile) {
+                    profile.configure();
+                    that._profiles[profile.profileName] = profile;
+                },
+                createMap: function (sourceKey, destinationKey) {
+                    // pass through using arguments to keep createMap's currying support fully functional.
+                    return that.createMap.apply(that, arguments);
+                }
+            };
+            configFunction(configuration);
+        };
+        /**
+         * Create a mapping profile.
+         * @param {string} sourceKey The map source key.
+         * @param {string} destinationKey The map destination key.
+         * @returns {Core.ICreateMapFluentFunctions}
+         */
+        AutoMapper.prototype.createMap = function (sourceKeyOrType, destinationKeyOrType) {
+            // provide currying support.
+            if (arguments.length < 2) {
+                return AutoMapperJs.AutoMapperHelper.handleCurrying(this.createMap, arguments, this);
+            }
+            var mapping = this.createMappingObjectForGivenKeys(sourceKeyOrType, destinationKeyOrType);
+            return this.createMapGetFluentApiFunctions(mapping);
+        };
+        /**
+         * Execute a mapping from the source object to a new destination object with explicit mapping configuration and supplied mapping options (using createMap).
+         * @param sourceKey Source key, for instance the source type name.
+         * @param destinationKey Destination key, for instance the destination type name.
+         * @param sourceObject The source object to map.
+         * @returns {any} Destination object.
+         */
+        AutoMapper.prototype.map = function (sourceKeyOrType, destinationKeyOrType, sourceObject) {
+            var _this = this;
+            if (arguments.length === 3) {
+                return this.mapInternal(_super.prototype.getMapping.call(this, this._mappings, sourceKeyOrType, destinationKeyOrType), sourceObject);
+            }
+            // provide performance optimized (preloading) currying support.
+            if (arguments.length === 2) {
+                return function (srcObj) { return _this.mapInternal(_super.prototype.getMapping.call(_this, _this._mappings, sourceKeyOrType, destinationKeyOrType), srcObj); };
+            }
+            if (arguments.length === 1) {
+                return function (dstKey, srcObj) { return _this.map(sourceKeyOrType, dstKey, srcObj); };
+            }
+            return function (srcKey, dstKey, srcObj) { return _this.map(srcKey, dstKey, srcObj); };
+        };
+        /**
+         * Execute an asynchronous mapping from the source object to a new destination object with explicit mapping configuration and supplied mapping options (using createMap).
+         * @param sourceKey Source key, for instance the source type name.
+         * @param destinationKey Destination key, for instance the destination type name.
+         * @param sourceObject The source object to map.
+         * @param {IMapCallback} callback The callback to call when asynchronous mapping is complete.
+         */
+        AutoMapper.prototype.mapAsync = function (sourceKeyOrType, destinationKeyOrType, sourceObject, callback) {
+            switch (arguments.length) {
+                case 4:
+                    return this._asyncMapper.map(this._mappings, sourceKeyOrType, destinationKeyOrType, sourceObject, callback);
+                case 3:
+                    return this._asyncMapper.map(this._mappings, sourceKeyOrType, destinationKeyOrType, sourceObject);
+                case 2:
+                    return this._asyncMapper.map(this._mappings, sourceKeyOrType, destinationKeyOrType);
+                case 1:
+                    return this._asyncMapper.map(this._mappings, sourceKeyOrType);
+                default:
+                    throw new Error('The mapAsync function expects between 1 and 4 parameters, you provided ' + arguments.length + '.');
+            }
+        };
+        /**
+         * Validates mapping configuration by dry-running. Since JS does not fully support typing, it only checks if properties match on both
+         * sides. The function needs IMapping.sourceTypeClass and IMapping.destinationTypeClass to function.
+         * @param {boolean} strictMode Whether or not to fail when properties sourceTypeClass or destinationTypeClass are unavailable.
+         */
+        AutoMapper.prototype.assertConfigurationIsValid = function (strictMode) {
+            if (strictMode === void 0) { strictMode = true; }
+            AutoMapperJs.AutoMapperValidator.assertConfigurationIsValid(this._mappings, strictMode);
+        };
+        AutoMapper.prototype.createMapForAllMembers = function (mapping, fluentFunc, func) {
+            mapping.forAllMemberMappings.push(func);
+            return fluentFunc;
+        };
+        AutoMapper.prototype.createMapIgnoreAllNonExisting = function (mapping, fluentFunc) {
+            mapping.ignoreAllNonExisting = true;
+            return fluentFunc;
+        };
+        AutoMapper.prototype.createMapConvertToType = function (mapping, fluentFunc, typeClass) {
+            if (mapping.destinationTypeClass) {
+                throw new Error('Destination type class can only be set once.');
+            }
+            mapping.destinationTypeClass = typeClass;
+            return fluentFunc;
+        };
+        AutoMapper.prototype.createMapConvertUsing = function (mapping, tcClassOrFunc) {
+            var _this = this;
+            var configureSynchronousConverterFunction = function (converterFunc) {
+                if (!converterFunc || AutoMapperJs.AutoMapperHelper.getFunctionParameters(converterFunc.toString()).length !== 1) {
+                    throw new Error('The function provided does not provide exactly one (resolutionContext) parameter.');
+                }
+                mapping.typeConverterFunction = converterFunc;
+                mapping.mapItemFunction = function (m, srcObj, dstObj) { return _this.mapItemUsingTypeConverter(m, srcObj, dstObj); };
+            };
+            try {
+                // check if sync: TypeConverter instance
+                if (tcClassOrFunc instanceof AutoMapperJs.TypeConverter) {
+                    configureSynchronousConverterFunction(tcClassOrFunc.convert);
+                    return;
+                }
+                var functionParameters = AutoMapperJs.AutoMapperHelper.getFunctionParameters(tcClassOrFunc.toString());
+                switch (functionParameters.length) {
+                    case 0:
+                        // check if sync: TypeConverter class definition
+                        var typeConverter;
+                        try {
+                            typeConverter = new tcClassOrFunc();
+                        }
+                        catch (e) {
+                            // Obviously, typeConverterClassOrFunction is not a TypeConverter class definition
+                        }
+                        if (typeConverter instanceof AutoMapperJs.TypeConverter) {
+                            configureSynchronousConverterFunction(typeConverter.convert);
+                            return;
+                        }
+                        break;
+                    case 1:
+                        // sync: function with resolutionContext parameter
+                        configureSynchronousConverterFunction(tcClassOrFunc);
+                        return;
+                    case 2:
+                        // check if async: function with resolutionContext and callback parameters
+                        this._asyncMapper.createMapConvertUsing(mapping, tcClassOrFunc);
+                        return;
+                }
+                // okay, just try feeding the function to the configure function anyway...
+                configureSynchronousConverterFunction(tcClassOrFunc);
+            }
+            catch (e) {
+                throw new Error("The value provided for typeConverterClassOrFunction is invalid. " + e);
+            }
+        };
+        AutoMapper.prototype.createMapWithProfile = function (mapping, profileName) {
+            // check if given profile exists
+            var profile = this._profiles[profileName];
+            if (typeof profile === 'undefined' || profile.profileName !== profileName) {
+                throw new Error("Could not find profile with profile name '" + profileName + "'.");
+            }
+            mapping.profile = profile;
+            // merge mappings
+            this.createMapWithProfileMergeMappings(mapping, profileName);
+        };
+        AutoMapper.prototype.createMapWithProfileMergeMappings = function (mapping, profileName) {
+            var profileMappingKey = profileName + "=>" + mapping.sourceKey + profileName + "=>" + mapping.destinationKey;
+            var profileMapping = this._mappings[profileMappingKey];
+            if (!profileMapping) {
+                return;
+            }
+            // append forAllMemberMappings calls to the original array.
+            if (profileMapping.forAllMemberMappings.length > 0) {
+                (_a = mapping.forAllMemberMappings).push.apply(_a, profileMapping.forAllMemberMappings);
+            }
+            // overwrite original type converter function
+            if (profileMapping.typeConverterFunction) {
+                mapping.typeConverterFunction = profileMapping.typeConverterFunction;
+                mapping.mapItemFunction = profileMapping.mapItemFunction;
+            }
+            // overwrite original type converter function
+            if (profileMapping.destinationTypeClass) {
+                mapping.destinationTypeClass = profileMapping.destinationTypeClass;
+            }
+            // walk through all the profile's property mappings
+            for (var _i = 0, _b = profileMapping.properties; _i < _b.length; _i++) {
+                var property = _b[_i];
+                // TODO Awkward way of locating sourceMapping ;) ...
+                var sourceMapping = this.getDestinationProperty(property.destinationPropertyName, property).sourceMapping;
+                if (!this.mergeSourceProperty(property, mapping.properties, sourceMapping)) {
+                    mapping.properties.push(property);
+                }
+            }
+            var _a;
+        };
+        AutoMapper.prototype.mapInternal = function (mapping, sourceObject) {
+            if (mapping.async) {
+                throw new Error('Impossible to use asynchronous mapping using automapper.map(); use automapper.mapAsync() instead.');
+            }
+            if (_super.prototype.isArray.call(this, sourceObject)) {
+                return this.mapArray(mapping, sourceObject);
+            }
+            return mapping.mapItemFunction(mapping, sourceObject, _super.prototype.createDestinationObject.call(this, mapping.destinationTypeClass));
+        };
+        AutoMapper.prototype.mapArray = function (mapping, sourceArray) {
+            var destinationArray = _super.prototype.handleArray.call(this, mapping, sourceArray, function (sourceObject, destinationObject) {
+                mapping.mapItemFunction(mapping, sourceObject, destinationObject);
+            });
+            return destinationArray;
+        };
+        AutoMapper.prototype.mapItem = function (mapping, sourceObject, destinationObject) {
+            var _this = this;
+            destinationObject = _super.prototype.handleItem.call(this, mapping, sourceObject, destinationObject, function (propertyName) {
+                _this.mapProperty(mapping, sourceObject, destinationObject, propertyName);
+            });
+            return destinationObject;
+        };
+        AutoMapper.prototype.mapItemUsingTypeConverter = function (mapping, sourceObject, destinationObject, arrayIndex) {
+            var resolutionContext = {
+                sourceValue: sourceObject,
+                destinationValue: destinationObject
+            };
+            return mapping.typeConverterFunction(resolutionContext);
+        };
+        AutoMapper.prototype.mapProperty = function (mapping, sourceObject, destinationObject, sourceProperty) {
+            var _this = this;
+            _super.prototype.handleProperty.call(this, mapping, sourceObject, sourceProperty, destinationObject, function (destinationProperty, options) {
+                return _this.transform(mapping, sourceObject, destinationProperty, destinationObject, options);
+            });
+        };
+        AutoMapper.prototype.transform = function (mapping, sourceObject, destinationProperty, destinationObject, options) {
+            var childDestinationProperty = destinationProperty.child;
+            if (childDestinationProperty) {
+                var childDestinationObject = destinationObject[destinationProperty.name];
+                if (!childDestinationObject) {
+                    // no child source object? create.
+                    childDestinationObject = {};
+                }
+                // transform child by recursively calling the transform function.
+                var transformed = this.transform(mapping, sourceObject, childDestinationProperty, childDestinationObject, options /*, callback*/);
+                if (transformed) {
+                    // only set child destination object when transformation has been successful.
+                    destinationObject[destinationProperty.name] = childDestinationObject;
+                }
+                return transformed;
+            }
+            if (!_super.prototype.shouldProcessDestination.call(this, destinationProperty, sourceObject)) {
+                return false;
+            }
+            // actually transform destination property.
+            for (var _i = 0, _a = destinationProperty.transformations; _i < _a.length; _i++) {
+                var transformation = _a[_i];
+                if (!this.processTransformation(destinationProperty, transformation, options)) {
+                    return false;
+                }
+            }
+            _super.prototype.setPropertyValue.call(this, mapping, destinationProperty, destinationObject, options.intermediatePropertyValue);
+            return true;
+        };
+        AutoMapper.prototype.processTransformation = function (property, transformation, options) {
+            switch (transformation.transformationType) {
+                case AutoMapperJs.DestinationTransformationType.Constant:
+                    options.intermediatePropertyValue = transformation.constant;
+                    return true;
+                case AutoMapperJs.DestinationTransformationType.MemberOptions: {
+                    var result = transformation.memberConfigurationOptionsFunc(options);
+                    if (typeof result !== 'undefined') {
+                        options.intermediatePropertyValue = result;
+                    }
+                    else if (!options.sourceObject) {
+                        return false;
+                    }
+                    return true;
+                }
+                case AutoMapperJs.DestinationTransformationType.SourceMemberOptions: {
+                    var result = transformation.sourceMemberConfigurationOptionsFunc(options);
+                    if (typeof result !== 'undefined') {
+                        options.intermediatePropertyValue = result;
+                    }
+                    else if (!options.sourceObject) {
+                        return false;
+                    }
+                    return true;
+                }
+                default:
+                    // this.throwMappingException(property, `AutoMapper.handlePropertyMappings: Unexpected transformation type ${transformation.transformationType}`);
+                    return false;
+            }
+        };
+        AutoMapper.prototype.createMappingObjectForGivenKeys = function (srcKeyOrType, dstKeyOrType) {
+            var _this = this;
+            var mapping = {
+                sourceKey: _super.prototype.getKey.call(this, srcKeyOrType),
+                destinationKey: _super.prototype.getKey.call(this, dstKeyOrType),
+                forAllMemberMappings: new Array(),
+                properties: [],
+                typeConverterFunction: undefined,
+                mapItemFunction: function (m, srcObj, dstObj) { return _this.mapItem(m, srcObj, dstObj); },
+                sourceTypeClass: (typeof srcKeyOrType === 'string' ? undefined : srcKeyOrType),
+                destinationTypeClass: (typeof dstKeyOrType === 'string' ? undefined : dstKeyOrType),
+                profile: undefined,
+                async: false
+            };
+            this._mappings[mapping.sourceKey + mapping.destinationKey] = mapping;
+            return mapping;
+        };
+        AutoMapper.prototype.createMapGetFluentApiFunctions = function (mapping) {
+            var _this = this;
+            // create a fluent interface / method chaining (e.g. automapper.createMap().forMember().forMember() ...)
+            var fluentFunc = {
+                forMember: function (prop, valFunc) {
+                    return _this.createMapForMember({ mapping: mapping, propertyName: prop, transformation: valFunc, sourceMapping: false, fluentFunctions: fluentFunc });
+                },
+                forSourceMember: function (prop, cfgFunc) {
+                    return _this.createMapForMember({ mapping: mapping, propertyName: prop, transformation: cfgFunc, sourceMapping: true, fluentFunctions: fluentFunc });
+                },
+                forAllMembers: function (func) {
+                    return _this.createMapForAllMembers(mapping, fluentFunc, func);
+                },
+                ignoreAllNonExisting: function () { return _this.createMapIgnoreAllNonExisting(mapping, fluentFunc); },
+                convertToType: function (type) { return _this.createMapConvertToType(mapping, fluentFunc, type); },
+                convertUsing: function (tcClassOrFunc) {
+                    return _this.createMapConvertUsing(mapping, tcClassOrFunc);
+                },
+                withProfile: function (profile) { return _this.createMapWithProfile(mapping, profile); }
+            };
+            return fluentFunc;
+        };
+        AutoMapper.prototype.createMapForMember = function (parameters) {
+            var mapping = parameters.mapping, propertyName = parameters.propertyName, transformation = parameters.transformation, sourceMapping = parameters.sourceMapping, fluentFunctions = parameters.fluentFunctions;
+            // extract source/destination property names
+            var metadata = AutoMapperJs.AutoMapperHelper.getMappingMetadataFromTransformationFunction(propertyName, transformation, sourceMapping);
+            this.validateForMemberParameters(metadata);
+            var source = metadata.source, destination = metadata.destination;
+            // create property (regardless of current existance)
+            var property = this.createSourceProperty(metadata, null);
+            // merge with existing property or add property
+            if (!this.mergeSourceProperty(property, mapping.properties, sourceMapping)) {
+                mapping.properties.push(property);
+            }
+            if (metadata.async) {
+                this._asyncMapper.createMapForMember(mapping, this.findProperty(property.name, mapping.properties));
+            }
+            return fluentFunctions;
+        };
+        AutoMapper.prototype.validateForMemberParameters = function (metadata) {
+            if (!metadata.sourceMapping) {
+                return;
+            }
+            // validate forSourceMember parameters
+            if (metadata.transformation.transformationType === AutoMapperJs.DestinationTransformationType.Constant) {
+                throw new Error('Configuration of forSourceMember has to be a function with one (sync) or two (async) options parameters.');
+            }
+        };
+        AutoMapper.prototype.createSourceProperty = function (metadata, parent) {
+            var level = !parent ? 0 : parent.level + 1;
+            var sourceNameParts = metadata.source.split('.');
+            var source = {
+                name: sourceNameParts[level],
+                sourcePropertyName: metadata.source,
+                destinationPropertyName: metadata.destination,
+                parent: parent,
+                level: level,
+                children: [],
+                destination: null
+            };
+            if ((level + 1) < sourceNameParts.length) {
+                // recursively add child source properties ...
+                var child = this.createSourceProperty(metadata, source);
+                if (child) {
+                    source.children.push(child);
+                }
+                source.destination = null;
+            }
+            else {
+                // ... or (!) add destination
+                source.destination = this.createDestinationProperty(metadata, null);
+            }
+            return source;
+        };
+        AutoMapper.prototype.createDestinationProperty = function (metadata, parent) {
+            var level = !parent ? 0 : parent.level + 1;
+            var destinationNameParts = metadata.destination.split('.');
+            var destination = {
+                name: destinationNameParts[level],
+                sourcePropertyName: metadata.source,
+                destinationPropertyName: metadata.destination,
+                parent: parent,
+                level: level,
+                child: null,
+                transformations: [],
+                conditionFunction: null,
+                ignore: false,
+                sourceMapping: false
+            };
+            if ((level + 1) < destinationNameParts.length) {
+                // recursively add child destination properties
+                destination.child = this.createDestinationProperty(metadata, destination);
+            }
+            else {
+                // add/merge properties
+                destination.sourceMapping = metadata.sourceMapping;
+                destination.conditionFunction = metadata.condition;
+                destination.ignore = metadata.ignore;
+                destination.transformations.push(metadata.transformation);
+            }
+            return destination;
+        };
+        AutoMapper.prototype.mergeSourceProperty = function (property, existingProperties, sourceMapping) {
+            // find source property
+            var existing = sourceMapping
+                ? this.findProperty(property.name, existingProperties)
+                : this.matchSourcePropertyByDestination(property, existingProperties);
+            if (!existing) {
+                return false;
+            }
+            if (property.destination) {
+                if (existing.children.length > 0) {
+                    var existingDestination = this.getDestinationProperty(existing.destinationPropertyName, existing);
+                    // existing is (further) nested => rebase and/or merge
+                    if (this.handleMapFromProperties(property, existing)) {
+                        // merge and rebase existing destination to current source level
+                        if (!this.mergeDestinationProperty(property.destination, existingDestination)) {
+                            return false;
+                        }
+                        existing.destination = existingDestination;
+                        existing.children = [];
+                        return true;
+                    }
+                    // merge property.destination with existing mapFrom() destination (don't care about nesting depth here)
+                    return this.mergeDestinationProperty(property.destination, existingDestination);
+                }
+                // both are at same level => simple merge.
+                if (!this.mergeDestinationProperty(property.destination, existing.destination)) {
+                    return false;
+                }
+                this.handleMapFromProperties(property, existing);
+                return true;
+            }
+            // new source is (further) nested (has children).
+            if (existing.children.length > 0) {
+                // both have further nesting, delegate merging child(ren) by recursively calling this function.
+                for (var _i = 0, _a = property.children; _i < _a.length; _i++) {
+                    var child = _a[_i];
+                    if (!this.mergeSourceProperty(child, existing.children, sourceMapping)) {
+                        return false;
+                    }
+                }
+                if (property.destinationPropertyName !== property.sourcePropertyName) {
+                    // this is a mapFrom() registration. It is handled using the nested source properties,
+                    // we only are responsible for syncing the name properties.
+                    existing.name = property.name;
+                    existing.sourcePropertyName = property.sourcePropertyName;
+                }
+                return true;
+            }
+            // existing is not (further) nested. this is always a mapFrom() situation.
+            // if (property.sourcePropertyName !== existing.sourcePropertyName) {
+            var newDestination = this.getDestinationProperty(existing.destinationPropertyName, property);
+            if (property.destinationPropertyName !== property.sourcePropertyName) {
+                // this is a mapFrom() registration. In that case:
+                // 1) merge destinations, 2) add source child and 3) move destination to (youngest) child
+                // NOTE special mergeDestinationProperty call => we use the new destination as 'target',
+                //      because that will save us trouble overwriting ;)...
+                if (!this.mergeDestinationProperty(existing.destination, newDestination, true)) {
+                    return false;
+                }
+                existing.children = property.children;
+                existing.name = property.name;
+                existing.sourcePropertyName = property.sourcePropertyName;
+                existing.destination = null;
+                // TODO Should never be necessary (test): existing.destinationPropertyName = property.destinationPropertyName;
+                return true;
+            }
+            // ... nope, it is a destination which has previously been registered using mapFrom. just merge
+            return this.mergeDestinationProperty(newDestination, existing.destination);
+            // }
+        };
+        /**
+         * handle property naming when the current property to merge is a mapFrom property
+         */
+        AutoMapper.prototype.handleMapFromProperties = function (property, existingProperty) {
+            if (property.destinationPropertyName === property.sourcePropertyName ||
+                property.sourcePropertyName === existingProperty.sourcePropertyName) {
+                return false;
+            }
+            // only overwrite name when a mapFrom situation applies
+            existingProperty.name = property.name;
+            existingProperty.sourcePropertyName = property.sourcePropertyName;
+            // TODO Should never be necessary (test) => existingProperty.destinationPropertyName = property.destinationPropertyName;
+            return true;
+        };
+        AutoMapper.prototype.getDestinationProperty = function (destinationPropertyName, existingSource) {
+            if (existingSource.destination) {
+                return existingSource.destination;
+            }
+            for (var _i = 0, _a = existingSource.children; _i < _a.length; _i++) {
+                var child = _a[_i];
+                var destination = this.getDestinationProperty(destinationPropertyName, child);
+                if (destination) {
+                    return destination;
+                }
+            }
+            return null;
+        };
+        AutoMapper.prototype.mergeDestinationProperty = function (destination, existingDestination, swapTransformations) {
+            if (swapTransformations === void 0) { swapTransformations = false; }
+            if (destination.child) {
+                if (existingDestination.child) {
+                    // both have further nesting, delegate merging children by recursively calling this function.
+                    if (!this.mergeDestinationProperty(destination.child, existingDestination.child, swapTransformations)) {
+                        return false;
+                    }
+                    this.handleMapFromProperties(destination, existingDestination);
+                    return true;
+                }
+                // the current destination is not (further) nested. a destination property registration has one of both:
+                // a) children or b) transformations. returning false will cause creating a duplicate source property entry instead.
+                return false;
+            }
+            if (existingDestination.sourceMapping !== destination.sourceMapping &&
+                existingDestination.sourcePropertyName !== destination.sourcePropertyName) {
+                // unable to perform mapFrom() on a property which is being registered using forSourceMember.
+                return false; // TODO: Unpredictable? Idea: throw new Error('Unable to perform mapFrom() on a property which is being registered using forSourceMember.');
+            }
+            // merge destination properties
+            if (destination.sourceMapping) {
+                // only set source mapping when not yet set to true, once source mapped is source mapped forever.
+                // TODO Verify edge cases!
+                existingDestination.sourceMapping = destination.sourceMapping;
+            }
+            if (destination.ignore) {
+                // only set ignore when not yet set, once ignored is ignored forever.
+                existingDestination.ignore = destination.ignore;
+            }
+            if (destination.conditionFunction) {
+                // overwrite condition function by the latest one specified.
+                existingDestination.conditionFunction = destination.conditionFunction;
+            }
+            var transformations = [];
+            if (swapTransformations) {
+                for (var _i = 0, _a = destination.transformations; _i < _a.length; _i++) {
+                    var transformation = _a[_i];
+                    transformations.push(transformation);
+                }
+                for (var _b = 0, _c = existingDestination.transformations; _b < _c.length; _b++) {
+                    var transformation = _c[_b];
+                    transformations.push(transformation);
+                }
+            }
+            else {
+                for (var _d = 0, _e = existingDestination.transformations; _d < _e.length; _d++) {
+                    var transformation = _e[_d];
+                    transformations.push(transformation);
+                }
+                for (var _f = 0, _g = destination.transformations; _f < _g.length; _f++) {
+                    var transformation = _g[_f];
+                    transformations.push(transformation);
+                }
+            }
+            existingDestination.transformations = transformations;
+            this.handleMapFromProperties(destination, existingDestination);
+            return true;
+        };
+        AutoMapper.prototype.matchSourcePropertyByDestination = function (source, properties) {
+            if (!properties) {
+                return null;
+            }
+            for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+                var property = properties_1[_i];
+                if (property.destinationPropertyName === source.destinationPropertyName) {
+                    return property;
+                }
+            }
+            return null;
+        };
+        AutoMapper.prototype.findProperty = function (name, properties) {
+            if (!properties) {
+                return null;
+            }
+            for (var _i = 0, properties_2 = properties; _i < properties_2.length; _i++) {
+                var property = properties_2[_i];
+                if (property.name === name) {
+                    return property;
+                }
+            }
+            return null;
+        };
+        return AutoMapper;
+    }(AutoMapperJs.AutoMapperBase));
+    AutoMapper._instance = new AutoMapper();
+    AutoMapperJs.AutoMapper = AutoMapper;
+})(AutoMapperJs || (AutoMapperJs = {}));
+// Add AutoMapper to the application's global scope. Of course, you could still use Core.AutoMapper.getInstance() as well.
+var automapper = (function (app) {
+    app.automapper = AutoMapperJs.AutoMapper.getInstance();
+    return app.automapper;
+})(this);
+
+//# sourceMappingURL=AutoMapper.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+/// <reference path="../../src/ts/AutoMapper.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * Converts source type to destination type instead of normal member mapping
+     */
+    var Profile = (function () {
+        function Profile() {
+        }
+        /**
+         * Implement this method in a derived class and call the CreateMap method to associate that map with this profile.
+         * Avoid calling the AutoMapper class / automapper instance from this method.
+         */
+        Profile.prototype.configure = function () {
+            // do nothing
+        };
+        /**
+         * Create a mapping profile.
+         * @param {string} sourceKey The map source key.
+         * @param {string} destinationKey The map destination key.
+         * @returns {Core.ICreateMapFluentFunctions}
+         */
+        Profile.prototype.createMap = function (sourceKey, destinationKey) {
+            var argsCopy = Array.prototype.slice.apply(arguments);
+            for (var index = 0, length = argsCopy.length; index < length; index++) {
+                if (argsCopy[index]) {
+                    // prefix sourceKey and destinationKey with 'profileName=>'
+                    argsCopy[index] = this.profileName + "=>" + argsCopy[index];
+                }
+            }
+            // pass through using arguments to keep createMap's currying support fully functional.
+            return automapper.createMap.apply(automapper, argsCopy);
+        };
+        return Profile;
+    }());
+    AutoMapperJs.Profile = Profile;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=Profile.js.map
+
+/// <reference path="../../dist/automapper-interfaces.d.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    /**
+     * Converts source type to destination type instead of normal member mapping
+     */
+    var TypeConverter = (function () {
+        function TypeConverter() {
+        }
+        /**
+         * Performs conversion from source to destination type.
+         * @param {IResolutionContext} resolutionContext Resolution context.
+         * @returns {any} Destination object.
+         */
+        TypeConverter.prototype.convert = function (resolutionContext) {
+            // NOTE BL Unfortunately, TypeScript/JavaScript do not support abstract base classes.
+            //         This is just one way around, please convince me about a better solution.
+            throw new Error('The TypeConverter.convert method is abstract. Use a TypeConverter extension class instead.');
+        };
+        return TypeConverter;
+    }());
+    AutoMapperJs.TypeConverter = TypeConverter;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=TypeConverter.js.map
+
+/// <reference path="../../../dist/automapper-interfaces.d.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    var CamelCaseNamingConvention = (function () {
+        function CamelCaseNamingConvention() {
+            this.splittingExpression = /(^[a-z]+(?=$|[A-Z]{1}[a-z0-9]+)|[A-Z]?[a-z0-9]+)/;
+            this.separatorCharacter = '';
+        }
+        CamelCaseNamingConvention.prototype.transformPropertyName = function (sourcePropertyNameParts) {
+            // Transform the splitted parts.
+            var result = '';
+            for (var index = 0, length = sourcePropertyNameParts.length; index < length; index++) {
+                if (index === 0) {
+                    result += sourcePropertyNameParts[index].charAt(0).toLowerCase() +
+                        sourcePropertyNameParts[index].substr(1);
+                }
+                else {
+                    result += sourcePropertyNameParts[index].charAt(0).toUpperCase() +
+                        sourcePropertyNameParts[index].substr(1);
+                }
+            }
+            return result;
+        };
+        return CamelCaseNamingConvention;
+    }());
+    AutoMapperJs.CamelCaseNamingConvention = CamelCaseNamingConvention;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=CamelCaseNamingConvention.js.map
+
+/// <reference path="../../../dist/automapper-interfaces.d.ts" />
+var AutoMapperJs;
+(function (AutoMapperJs) {
+    'use strict';
+    var PascalCaseNamingConvention = (function () {
+        function PascalCaseNamingConvention() {
+            this.splittingExpression = /(^[A-Z]+(?=$|[A-Z]{1}[a-z0-9]+)|[A-Z]?[a-z0-9]+)/;
+            this.separatorCharacter = '';
+        }
+        PascalCaseNamingConvention.prototype.transformPropertyName = function (sourcePropertyNameParts) {
+            // Transform the splitted parts.
+            var result = '';
+            for (var index = 0, length = sourcePropertyNameParts.length; index < length; index++) {
+                result += sourcePropertyNameParts[index].charAt(0).toUpperCase() +
+                    sourcePropertyNameParts[index].substr(1);
+                //if (index < (length - 1)) {
+                //    this.separatorCharacter;
+                //}
+            }
+            return result;
+        };
+        return PascalCaseNamingConvention;
+    }());
+    AutoMapperJs.PascalCaseNamingConvention = PascalCaseNamingConvention;
+})(AutoMapperJs || (AutoMapperJs = {}));
+
+//# sourceMappingURL=PascalCaseNamingConvention.js.map
+
+return automapper;
+}));
+
+//# sourceMappingURL=automapper.js.map
+
+function _aureliaConfigureModuleLoader(){requirejs.config({"baseUrl":"src/","paths":{"todomvc-common":"../node_modules/todomvc-common","todomvc-app-css":"../node_modules/todomvc-app-css","aurelia-binding":"..\\node_modules\\aurelia-binding\\dist\\amd\\aurelia-binding","aurelia-dependency-injection":"..\\node_modules\\aurelia-dependency-injection\\dist\\amd\\aurelia-dependency-injection","aurelia-bootstrapper":"..\\node_modules\\aurelia-bootstrapper\\dist\\amd\\aurelia-bootstrapper","aurelia-event-aggregator":"..\\node_modules\\aurelia-event-aggregator\\dist\\amd\\aurelia-event-aggregator","aurelia-framework":"..\\node_modules\\aurelia-framework\\dist\\amd\\aurelia-framework","aurelia-history":"..\\node_modules\\aurelia-history\\dist\\amd\\aurelia-history","aurelia-loader":"..\\node_modules\\aurelia-loader\\dist\\amd\\aurelia-loader","aurelia-logging":"..\\node_modules\\aurelia-logging\\dist\\amd\\aurelia-logging","aurelia-loader-default":"..\\node_modules\\aurelia-loader-default\\dist\\amd\\aurelia-loader-default","aurelia-metadata":"..\\node_modules\\aurelia-metadata\\dist\\amd\\aurelia-metadata","aurelia-pal":"..\\node_modules\\aurelia-pal\\dist\\amd\\aurelia-pal","aurelia-path":"..\\node_modules\\aurelia-path\\dist\\amd\\aurelia-path","aurelia-polyfills":"..\\node_modules\\aurelia-polyfills\\dist\\amd\\aurelia-polyfills","aurelia-route-recognizer":"..\\node_modules\\aurelia-route-recognizer\\dist\\amd\\aurelia-route-recognizer","aurelia-router":"..\\node_modules\\aurelia-router\\dist\\amd\\aurelia-router","aurelia-task-queue":"..\\node_modules\\aurelia-task-queue\\dist\\amd\\aurelia-task-queue","aurelia-templating":"..\\node_modules\\aurelia-templating\\dist\\amd\\aurelia-templating","aurelia-history-browser":"..\\node_modules\\aurelia-history-browser\\dist\\amd\\aurelia-history-browser","aurelia-logging-console":"..\\node_modules\\aurelia-logging-console\\dist\\amd\\aurelia-logging-console","text":"..\\node_modules\\text\\text","automapper-ts":"..\\node_modules\\automapper-ts\\dist\\automapper","aurelia-pal-browser":"..\\node_modules\\aurelia-pal-browser\\dist\\amd\\aurelia-pal-browser","aurelia-templating-binding":"..\\node_modules\\aurelia-templating-binding\\dist\\amd\\aurelia-templating-binding","app-bundle":"../scripts/app-bundle"},"packages":[{"name":"aurelia-fetch-client","location":"../node_modules/aurelia-fetch-client/dist/amd","main":"aurelia-fetch-client"},{"name":"aurelia-templating-resources","location":"../node_modules/aurelia-templating-resources/dist/amd","main":"aurelia-templating-resources"},{"name":"aurelia-testing","location":"../node_modules/aurelia-testing/dist/amd","main":"aurelia-testing"},{"name":"aurelia-templating-router","location":"../node_modules/aurelia-templating-router/dist/amd","main":"aurelia-templating-router"}],"stubModules":["text"],"shim":{},"bundles":{"app-bundle":["app","environment","main","shell","models/index","models/priority","models/todo","resources/index","services/todo-service","utils/mapper","resources/elements/todo-item"]}})}
+//# sourceMappingURL=vendor-bundle.js.map

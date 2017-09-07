@@ -26,7 +26,7 @@
         {
             var query = _session.Query<Task>()
                 .Where(x => x.LastUpdated < DateTime.UtcNow.AddDays(-1))
-                .Where(x => x.IsComplete == true);
+                .Where(x => x.IsComplete);
 
             return query
                 .Skip(message.Skip)
