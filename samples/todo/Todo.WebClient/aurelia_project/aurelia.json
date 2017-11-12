@@ -148,7 +148,15 @@
             "path": "../node_modules/aurelia-fetch-client/dist/amd",
             "resources": []
           },
-          "automapper-ts"
+          {
+            "name": "@dboneslabs/mpr",
+            "path": "../node_modules/@dboneslabs/mpr",
+            "deps": ["reflect-metadata"]
+          },
+          {
+            "name": "reflect-metadata",
+            "path": "../node_modules/reflect-metadata"
+          }
         ]
       }
     ]

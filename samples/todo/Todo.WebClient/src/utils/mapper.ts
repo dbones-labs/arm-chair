@@ -1,104 +1,76 @@
 import { singleton } from 'aurelia-framework';
 import { Todo } from '../models/todo';
-import 'automapper-ts';
+import { MapperFactory } from '@dboneslabs/mpr/mapper-factory';
+import { Setup } from '@dboneslabs/mpr/initializing/setup';
+import { Builder } from '@dboneslabs/mpr/initializing/builders/builder';
+import { Types } from '@dboneslabs/mpr/core/types';
+import { Mapper as Mpr } from '@dboneslabs/mpr/mapper';
+import { TypeConverter } from '@dboneslabs/mpr/core/type-converter';
+import { MappingContext } from '@dboneslabs/mpr/core/mapping-context';
 
-//import * as automapper from 'automapper-ts';
+export class DtoTypes {
+    static todo = "Todo.Service.Dto.Resources.TodoResource, Todo.Service";
+    static todoCollection = "Todo.Service.Dto.Resources.CollectionResource`1[[Todo.Service.Dto.Resources.TodoResource, Todo.Service]], Todo.Service";
+}
+
+
+class TodoSetup implements Setup {
+    configure(builder: Builder): void {
+
+        //add types
+        builder.addType(Todo).scanForAttributes()
+
+        builder.addType(DtoTypes.todo)
+            .addProperty('id', Types.string)
+            .addProperty('description', Types.string)
+            .addProperty('isComplete', Types.boolean)
+            .addProperty('creaated', Types.date)
+            .addProperty('priority', Types.number);
+
+        builder.addType(DtoTypes.todoCollection)
+            .addProperty("data", Types.AsArray(DtoTypes.todo));
+
+        //add maps
+        builder.createMap(DtoTypes.todo, Todo);
+
+        builder.createMap<Todo, any>(Todo, DtoTypes.todo)
+            .forMember("$type", opts => opts.using(src => DtoTypes.todo));
+
+        builder.createMap<any, Todo[]>(DtoTypes.todoCollection, Types.asArray(Todo))
+            .withSource(src => src.data, opt => opt.flattern());
+    }
+
+}
+
 
 @singleton()
 export class Mapper {
 
-    constructor() 
-    {
-        automapper.initialize((config) => {
-            config.addProfile(new MappingProfile());
+    private _mapper: Mpr;
+
+    constructor() {
+        let factory = new MapperFactory();
+        factory.addSetup(new TodoSetup());
+        this._mapper = factory.createMapper();
+    }
+
+    map(source: any, targetType: string): any {
+        return this._mapper.map(source, targetType);
+    }
+
+}
+
+
+/*
+class TodoResourceCollectionTodoModelCollectionConverter implements TypeConverter {
+    sourceType: string = DtoTypes.todoCollection;
+    destinationType: string = Types.AsArray((<any>Todo).$$type);
+    execute(context: MappingContext): void {
+        let data: any[] = context.source.data;
+        context.destination = data.map(item => {
+            return context.mapper.map(item, (<any>Todo).$$type);
         });
-        new TodoSetup().setup(automapper);       
-    }
-
-    map(sourceType: string, targetType: string, source: any): any {
-        return automapper.map(sourceType, targetType, source);
     }
 
 }
-
-
-class TodoSetup  {
-    
-    setup(mapper) {
-
-        mapper.createMap('todoResource', 'todo')
-            .convertToType(Todo)
-            .withProfile('default');
-        
-        mapper.createMap('todo', 'todoResource')
- //           .forMember('destination', (opts: AutoMapperJs.IMemberConfigurationOptions) => { opts.mapFrom('destination'); })
- //           .forMember('isComplete', (opts: AutoMapperJs.IMemberConfigurationOptions) => { opts.mapFrom('isComplete'); })
- //           .forMember('created', (opts: AutoMapperJs.IMemberConfigurationOptions) => { opts.mapFrom('created'); })
- //           .forMember('priority', (opts: AutoMapperJs.IMemberConfigurationOptions) => { opts.mapFrom('priority'); })
-            ;
-
-        mapper.createMap('todoResources', 'todos')
-            .convertUsing(ctx => {
-                let src = <any[]>(ctx.sourceValue.data);
-                let dest = [];
-        
-                src.forEach(item=> {
-                    let destIem = automapper.map('todoResource', 'todo', src);
-                    dest.push(destIem);
-                });
-        
-                return dest;
-            });
-
-    }
-
-}
-
-class TodoResourceCollection  {
-    public convert(ctx: any): any {
-
-        let src = <any[]>(ctx.sourceValue.data);
-        let dest = [];
-
-        src.forEach(item=> {
-            let destIem = automapper.map('todoResource', 'todo', src);
-            dest.push(destIem);
-        });
-
-        return dest;
-    }
-}
-
-class MappingProfile  {
-    public sourceMemberNamingConvention = new CamelCaseNamingConvention();
-    public destinationMemberNamingConvention = new CamelCaseNamingConvention();
-
-    public profileName = 'default';
-
-    public configure(): void {
-        this.sourceMemberNamingConvention = new CamelCaseNamingConvention();
-        this.destinationMemberNamingConvention = new CamelCaseNamingConvention();
-    }
-}
-
-export class CamelCaseNamingConvention  {
-    public splittingExpression = /(^[a-z]+(?=$|[A-Z]{1}[a-z0-9]+)|[A-Z]?[a-z0-9]+)/;
-    public separatorCharacter = '';
-
-    public transformPropertyName(sourcePropertyNameParts: string[]): string {
-        // Transform the splitted parts.
-        var result: string = '';
-
-        for (var index = 0, length = sourcePropertyNameParts.length; index < length; index++) {
-             if (index === 0) {
-                result += sourcePropertyNameParts[index].charAt(0).toLowerCase() +
-                        sourcePropertyNameParts[index].substr(1);
-            } else {
-            result += sourcePropertyNameParts[index].charAt(0).toUpperCase() +
-                      sourcePropertyNameParts[index].substr(1);
-            }
-        }
-
-        return result;
-    }
-}
+*/

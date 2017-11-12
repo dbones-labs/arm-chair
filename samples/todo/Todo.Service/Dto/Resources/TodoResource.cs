@@ -13,6 +13,6 @@ namespace Todo.Service.Dto.Resources
 
         public DateTime Created { get; set; }
 
-        public PriorityLevel Type { get; set; }
+        public PriorityLevel Priority { get; set; }
     }
 }

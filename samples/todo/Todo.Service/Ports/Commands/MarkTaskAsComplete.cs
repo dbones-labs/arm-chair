@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
     using ArmChair;
     using Infrastructure.Exceptions;
     using MediatR;
