@@ -59,6 +59,7 @@ namespace ArmChair.Tests
 
                 var booking = new KennelBooking() { Animal = leeloo, Start = DateTime.Now, End = DateTime.Now.AddDays(2), Id = "bk1" };
 
+                //domain 3
                 var todo1 = new TodoTask("write an armchair example", PriorityLevel.Medium) {Id = "t1" };
                 var todo2 = new TodoTask("inital convert armchair to support .net core", PriorityLevel.High) {Id = "t2", IsComplete = true };
 

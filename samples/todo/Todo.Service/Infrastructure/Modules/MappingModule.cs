@@ -15,7 +15,7 @@
             //need to look at this again
             //https://lostechies.com/jimmybogard/2016/07/20/integrating-automapper-with-asp-net-core-di/
 
-            //for now the
+            //for now the follwing will work
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(x => typeof(Profile).IsAssignableFrom(x))

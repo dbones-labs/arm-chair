@@ -1,10 +1,8 @@
 ﻿namespace Todo.Service.Ports.Commands
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using ArmChair;
     using MediatR;
-    using Models;
 
     public class PuneStaleTasks : IRequest
     {

@@ -8,6 +8,7 @@ namespace IQToolkit
     using System.Linq.Expressions;
     using System.Reflection;
 
+
     /// <summary>
     /// Rewrites an expression tree so that locally isolatable sub-expressions are evaluated and converted into ConstantExpression nodes.
     /// </summary>
@@ -120,56 +121,59 @@ namespace IQToolkit
             }
         }
 
-        /// <summary>
-        /// Performs bottom-up analysis to determine which nodes can possibly
-        /// be part of an evaluated sub-tree.
-        /// </summary>
-        class Nominator : ExpressionVisitor
+        
+    }
+
+    /// <summary>
+    /// Performs bottom-up analysis to determine which nodes can possibly
+    /// be part of an evaluated sub-tree.
+    /// </summary>
+    class Nominator : ExpressionVisitor
+    {
+        readonly Func<Expression, bool> _fnCanBeEvaluated;
+        readonly HashSet<Expression> _candidates;
+        bool _cannotBeEvaluated;
+
+        private Nominator(Func<Expression, bool> fnCanBeEvaluated)
         {
-            Func<Expression, bool> fnCanBeEvaluated;
-            HashSet<Expression> candidates;
-            bool cannotBeEvaluated;
+            _candidates = new HashSet<Expression>();
+            _fnCanBeEvaluated = fnCanBeEvaluated;
+        }
 
-            private Nominator(Func<Expression, bool> fnCanBeEvaluated)
-            {
-                this.candidates = new HashSet<Expression>();
-                this.fnCanBeEvaluated = fnCanBeEvaluated;
-            }
+        internal static HashSet<Expression> Nominate(Func<Expression, bool> fnCanBeEvaluated, Expression expression)
+        {
+            Nominator nominator = new Nominator(fnCanBeEvaluated);
+            nominator.Visit(expression);
+            return nominator._candidates;
+        }
 
-            internal static HashSet<Expression> Nominate(Func<Expression, bool> fnCanBeEvaluated, Expression expression)
-            {
-                Nominator nominator = new Nominator(fnCanBeEvaluated);
-                nominator.Visit(expression);
-                return nominator.candidates;
-            }
+        protected override Expression VisitConstant(ConstantExpression c)
+        {
+            return base.VisitConstant(c);
+        }
 
-            protected override Expression VisitConstant(ConstantExpression c)
-            {
-                return base.VisitConstant(c);
-            }
+        public override Expression Visit(Expression expression)
+        {
+            if (expression == null) return expression;
 
-            public override Expression Visit(Expression expression)
+            bool saveCannotBeEvaluated = _cannotBeEvaluated;
+            _cannotBeEvaluated = false;
+            base.Visit(expression);
+
+            if (!_cannotBeEvaluated)
             {
-                if (expression != null)
+                if (_fnCanBeEvaluated(expression))
                 {
-                    bool saveCannotBeEvaluated = this.cannotBeEvaluated;
-                    this.cannotBeEvaluated = false;
-                    base.Visit(expression);
-                    if (!this.cannotBeEvaluated)
-                    {
-                        if (this.fnCanBeEvaluated(expression))
-                        {
-                            this.candidates.Add(expression);
-                        }
-                        else
-                        {
-                            this.cannotBeEvaluated = true;
-                        }
-                    }
-                    this.cannotBeEvaluated |= saveCannotBeEvaluated;
+                    _candidates.Add(expression);
                 }
-                return expression;
+                else
+                {
+                    _cannotBeEvaluated = true;
+                }
             }
+
+            _cannotBeEvaluated |= saveCannotBeEvaluated;
+            return expression;
         }
     }
 }

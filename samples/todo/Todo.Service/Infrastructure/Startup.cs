@@ -3,16 +3,14 @@
     using System;
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
-    using AutoMapper;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Cors.Infrastructure;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.DependencyModel;
     using Microsoft.Extensions.Logging;
     using Modules;
+    using Newtonsoft.Json;
 
     public class Startup
     {
@@ -37,9 +35,15 @@
         {
             // Add services to the collection.
             //http://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
-            services.AddMvc();//.AddControllersAsServices();
+            services.AddMvc().AddJsonOptions(opts =>
+            {
+                opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
+                opts.SerializerSettings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
+            }); //.AddControllersAsServices();
+
             services.AddMediatR();
             //services.AddAutoMapper(setup=> {}, DependencyContext.Default);
+
             services.AddCors(options => options.AddPolicy("AllowAllOrigins",
                 policyBuilder =>
                 {

@@ -1,5 +1,6 @@
 import { TodoService } from './services/todo-service';
 import { autoinject } from 'aurelia-framework';
+import { Todo } from './models/index';
 
 @autoinject()
 export class App {
@@ -15,4 +16,14 @@ export class App {
     created() {
         this._todoService.getTodoItems();
     }
+
+    addItem(description: string) {
+        this._todoService.createTodo(description);
+    }
+
+    removeItem(todo: Todo) {
+        this._todoService.remove(todo);
+    }
+
+
 }

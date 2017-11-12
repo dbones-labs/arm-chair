@@ -18,6 +18,12 @@ define('app',["require", "exports", "./services/todo-service", "aurelia-framewor
         App.prototype.created = function () {
             this._todoService.getTodoItems();
         };
+        App.prototype.addItem = function (description) {
+            this._todoService.createTodo(description);
+        };
+        App.prototype.removeItem = function (todo) {
+            this._todoService.remove(todo);
+        };
         App = __decorate([
             aurelia_framework_1.autoinject(),
             __metadata("design:paramtypes", [todo_service_1.TodoService])
@@ -109,14 +115,45 @@ define('models/priority',["require", "exports"], function (require, exports) {
     })(Priority = exports.Priority || (exports.Priority = {}));
 });
 
-define('models/todo',["require", "exports", "./priority"], function (require, exports, priority_1) {
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('models/todo',["require", "exports", "./priority", "@dboneslabs/mpr/annotations/map-class", "@dboneslabs/mpr/annotations/map-property"], function (require, exports, priority_1, map_class_1, map_property_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Todo = (function () {
         function Todo() {
             this.priority = priority_1.Priority.Medium;
         }
-        Todo.type = "todo";
+        __decorate([
+            map_property_1.mapProperty(),
+            __metadata("design:type", String)
+        ], Todo.prototype, "id", void 0);
+        __decorate([
+            map_property_1.mapProperty(),
+            __metadata("design:type", String)
+        ], Todo.prototype, "description", void 0);
+        __decorate([
+            map_property_1.mapProperty(),
+            __metadata("design:type", Boolean)
+        ], Todo.prototype, "isComplete", void 0);
+        __decorate([
+            map_property_1.mapProperty(),
+            __metadata("design:type", Date)
+        ], Todo.prototype, "created", void 0);
+        __decorate([
+            map_property_1.mapProperty(),
+            __metadata("design:type", Number)
+        ], Todo.prototype, "priority", void 0);
+        Todo = __decorate([
+            map_class_1.mapClass("models.todo")
+        ], Todo);
         return Todo;
     }());
     exports.Todo = Todo;
@@ -141,7 +178,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/todo-service',["require", "exports", "aurelia-fetch-client", "../models/todo", "../models/priority", "aurelia-framework", "../environment", "../utils/mapper", "aurelia-framework"], function (require, exports, aurelia_fetch_client_1, todo_1, priority_1, aurelia_framework_1, environment_1, mapper_1, aurelia_framework_2) {
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+define('services/todo-service',["require", "exports", "aurelia-fetch-client", "../models/todo", "../models/priority", "aurelia-framework", "../environment", "../utils/mapper", "aurelia-framework", "@dboneslabs/mpr/core/types"], function (require, exports, aurelia_fetch_client_1, todo_1, priority_1, aurelia_framework_1, environment_1, mapper_1, aurelia_framework_2, types_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var log = aurelia_framework_2.LogManager.getLogger('todo-service');
@@ -156,39 +228,57 @@ define('services/todo-service',["require", "exports", "aurelia-fetch-client", ".
             });
         }
         TodoService.prototype.createTodo = function (description, priority) {
-            var _this = this;
             if (priority === void 0) { priority = priority_1.Priority.Medium; }
-            var task = new todo_1.Todo();
-            task.priority = priority;
-            task.description = description;
-            this._http.fetch('/tasks', {
-                method: 'post',
-                body: aurelia_fetch_client_1.json(task)
-            })
-                .then(function (response) { return response.json(); })
-                .then(function (data) {
-                log.debug(data);
-                return data;
-            })
-                .then(function (data) {
-                debugger;
-                _this.getTodoItems();
+            return __awaiter(this, void 0, void 0, function () {
+                var task;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            task = new todo_1.Todo();
+                            task.priority = priority;
+                            task.description = description;
+                            return [4, this._http.fetch('/tasks', {
+                                    method: 'post',
+                                    body: aurelia_fetch_client_1.json(task)
+                                }).then(function (response) { return response.json(); })];
+                        case 1:
+                            _a.sent();
+                            this.getTodoItems();
+                            return [2];
+                    }
+                });
             });
         };
         TodoService.prototype.getTodoItems = function () {
-            var _this = this;
-            this._http.fetch('/tasks', {
-                method: 'get'
-            })
-                .then(function (response) { return response.json(); })
-                .then(function (data) {
-                log.debug(data);
-                return data;
-            })
-                .then(function (data) {
-                debugger;
-                var items = _this._mapper.map('todoResources', 'todos', data);
-                _this.setItems(items);
+            return __awaiter(this, void 0, void 0, function () {
+                var data, items;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4, this._http.fetch('/tasks', {
+                                method: 'get'
+                            }).then(function (response) { return response.json(); })];
+                        case 1:
+                            data = _a.sent();
+                            items = this._mapper.map(data, types_1.Types.asArray(todo_1.Todo));
+                            this.setItems(items);
+                            return [2];
+                    }
+                });
+            });
+        };
+        TodoService.prototype.remove = function (todo) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4, this._http.fetch("/tasks" + todo.id, {
+                                method: 'delete'
+                            })];
+                        case 1:
+                            _a.sent();
+                            this.getTodoItems();
+                            return [2];
+                    }
+                });
             });
         };
         TodoService.prototype.setItems = function (items) {
@@ -217,18 +307,46 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('utils/mapper',["require", "exports", "aurelia-framework", "../models/todo", "automapper-ts"], function (require, exports, aurelia_framework_1, todo_1) {
+define('utils/mapper',["require", "exports", "aurelia-framework", "../models/todo", "@dboneslabs/mpr/mapper-factory", "@dboneslabs/mpr/core/types"], function (require, exports, aurelia_framework_1, todo_1, mapper_factory_1, types_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var DtoTypes = (function () {
+        function DtoTypes() {
+        }
+        DtoTypes.todo = "Todo.Service.Dto.Resources.TodoResource, Todo.Service";
+        DtoTypes.todoCollection = "Todo.Service.Dto.Resources.CollectionResource`1[[Todo.Service.Dto.Resources.TodoResource, Todo.Service]], Todo.Service";
+        return DtoTypes;
+    }());
+    exports.DtoTypes = DtoTypes;
+    var TodoSetup = (function () {
+        function TodoSetup() {
+        }
+        TodoSetup.prototype.configure = function (builder) {
+            builder.addType(todo_1.Todo).scanForAttributes();
+            builder.addType(DtoTypes.todo)
+                .addProperty('id', types_1.Types.string)
+                .addProperty('description', types_1.Types.string)
+                .addProperty('isComplete', types_1.Types.boolean)
+                .addProperty('creaated', types_1.Types.date)
+                .addProperty('priority', types_1.Types.number);
+            builder.addType(DtoTypes.todoCollection)
+                .addProperty("data", types_1.Types.AsArray(DtoTypes.todo));
+            builder.createMap(DtoTypes.todo, todo_1.Todo);
+            builder.createMap(todo_1.Todo, DtoTypes.todo)
+                .forMember("$type", function (opts) { return opts.using(function (src) { return DtoTypes.todo; }); });
+            builder.createMap(DtoTypes.todoCollection, types_1.Types.asArray(todo_1.Todo))
+                .withSource(function (src) { return src.data; }, function (opt) { return opt.flattern(); });
+        };
+        return TodoSetup;
+    }());
     var Mapper = (function () {
         function Mapper() {
-            automapper.initialize(function (config) {
-                config.addProfile(new MappingProfile());
-            });
-            new TodoSetup().setup(automapper);
+            var factory = new mapper_factory_1.MapperFactory();
+            factory.addSetup(new TodoSetup());
+            this._mapper = factory.createMapper();
         }
-        Mapper.prototype.map = function (sourceType, targetType, source) {
-            return automapper.map(sourceType, targetType, source);
+        Mapper.prototype.map = function (source, targetType) {
+            return this._mapper.map(source, targetType);
         };
         Mapper = __decorate([
             aurelia_framework_1.singleton(),
@@ -237,75 +355,6 @@ define('utils/mapper',["require", "exports", "aurelia-framework", "../models/tod
         return Mapper;
     }());
     exports.Mapper = Mapper;
-    var TodoSetup = (function () {
-        function TodoSetup() {
-        }
-        TodoSetup.prototype.setup = function (mapper) {
-            mapper.createMap('todoResource', 'todo')
-                .convertToType(todo_1.Todo)
-                .withProfile('default');
-            mapper.createMap('todo', 'todoResource');
-            mapper.createMap('todoResources', 'todos')
-                .convertUsing(function (ctx) {
-                var src = (ctx.sourceValue.data);
-                var dest = [];
-                src.forEach(function (item) {
-                    var destIem = automapper.map('todoResource', 'todo', src);
-                    dest.push(destIem);
-                });
-                return dest;
-            });
-        };
-        return TodoSetup;
-    }());
-    var TodoResourceCollection = (function () {
-        function TodoResourceCollection() {
-        }
-        TodoResourceCollection.prototype.convert = function (ctx) {
-            var src = (ctx.sourceValue.data);
-            var dest = [];
-            src.forEach(function (item) {
-                var destIem = automapper.map('todoResource', 'todo', src);
-                dest.push(destIem);
-            });
-            return dest;
-        };
-        return TodoResourceCollection;
-    }());
-    var MappingProfile = (function () {
-        function MappingProfile() {
-            this.sourceMemberNamingConvention = new CamelCaseNamingConvention();
-            this.destinationMemberNamingConvention = new CamelCaseNamingConvention();
-            this.profileName = 'default';
-        }
-        MappingProfile.prototype.configure = function () {
-            this.sourceMemberNamingConvention = new CamelCaseNamingConvention();
-            this.destinationMemberNamingConvention = new CamelCaseNamingConvention();
-        };
-        return MappingProfile;
-    }());
-    var CamelCaseNamingConvention = (function () {
-        function CamelCaseNamingConvention() {
-            this.splittingExpression = /(^[a-z]+(?=$|[A-Z]{1}[a-z0-9]+)|[A-Z]?[a-z0-9]+)/;
-            this.separatorCharacter = '';
-        }
-        CamelCaseNamingConvention.prototype.transformPropertyName = function (sourcePropertyNameParts) {
-            var result = '';
-            for (var index = 0, length = sourcePropertyNameParts.length; index < length; index++) {
-                if (index === 0) {
-                    result += sourcePropertyNameParts[index].charAt(0).toLowerCase() +
-                        sourcePropertyNameParts[index].substr(1);
-                }
-                else {
-                    result += sourcePropertyNameParts[index].charAt(0).toUpperCase() +
-                        sourcePropertyNameParts[index].substr(1);
-                }
-            }
-            return result;
-        };
-        return CamelCaseNamingConvention;
-    }());
-    exports.CamelCaseNamingConvention = CamelCaseNamingConvention;
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -317,7 +366,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('resources/elements/todo-item',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+define('resources/elements/todo-item',["require", "exports", "aurelia-framework", "../../models/index"], function (require, exports, aurelia_framework_1, index_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ENTER_KEY = 13;
@@ -327,536 +376,1011 @@ define('resources/elements/todo-item',["require", "exports", "aurelia-framework"
         }
         __decorate([
             aurelia_framework_1.bindable,
-            __metadata("design:type", String)
-        ], TodoItem.prototype, "description", void 0);
+            __metadata("design:type", index_1.Todo)
+        ], TodoItem.prototype, "todo", void 0);
         return TodoItem;
     }());
     exports.TodoItem = TodoItem;
 });
 
+define('@dboneslabs/mpr/annotations/map-class',['require','exports','module','./reflect'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const reflect_1 = require("./reflect");
+function mapClass(typeName) {
+    return (target) => {
+        let type = reflect_1.ReflectMetadata.getTypeData(target);
+        let t2 = classDecorator(target, typeName);
+        type = type
+            || reflect_1.ReflectMetadata.getTypeData(t2)
+            || {};
+        type.type = target;
+        type.proxiedType = t2;
+        type.name = typeName;
+        reflect_1.ReflectMetadata.setTypeData(target, type);
+        reflect_1.ReflectMetadata.setTypeData(t2, type);
+        return t2;
+    };
+}
+exports.mapClass = mapClass;
+function classDecorator(constructor, typeName) {
+    return _a = class extends constructor {
+            constructor() {
+                super(...arguments);
+                this.$type = typeName;
+            }
+        },
+        _a.$$type = typeName,
+        _a;
+    var _a;
+}
 
-
-define("utils/automapper/automapper", [],function(){});
-
-define(["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Person = (function () {
-        function Person() {
-        }
-        return Person;
-    }());
-    var test = (function () {
-        function test() {
-        }
-        test.prototype.testm = function () {
-            var mapperFactor = new MapperFactor();
-            mapperFactor
-                .addSetup(new MapSetup())
-                .setConfiguration(function (cfg) {
-            });
-            var mapper = mapperFactor.createMapper();
-            var anonPerson = {
-                name: "test",
-                _type: "personResource"
-            };
-            var person = mapper.map(anonPerson, 'model.Person');
-        };
-        return test;
-    }());
-    var MapSetup = (function () {
-        function MapSetup() {
-        }
-        MapSetup.prototype.configure = function (builder) {
-            builder.addType('model.person', Person);
-            builder.addType('personResource');
-            builder.createMap('model.person', 'personResource')
-                .forMemberSimple('name', function (opts) { return opts.mapFrom('name'); })
-                .forMemberSimple('age', function (opts) { return opts.using(function () { return 5; }); })
-                .forMemberSimple('test', function (opt) { return opt.ignore(); })
-                .forMember('model.person', 'name', function (opt) { return opt.mapFrom(function (s) { return s.hello; }, 'hello'); })
-                .forSource('meh', function (opt) { return opt.ignore(); });
-        };
-        return MapSetup;
-    }());
-    var JsMapper = (function () {
-        function JsMapper(config, maps, typeMetas) {
-            var _this = this;
-            this._maps = new Dictionary();
-            this._typeMetas = new Dictionary();
-            this._config = config;
-            maps.forEach(function (map) {
-                var key = map.source + '=>' + map.target;
-                _this._maps.set(key, map);
-            });
-            typeMetas.forEach(function (meta) {
-                _this._typeMetas.set(meta.name, meta);
-            });
-        }
-        JsMapper.prototype.map = function (source, destinationType) {
-            return this.execute(source, null, destinationType);
-        };
-        JsMapper.prototype.mapTo = function (source, destination) {
-            return this.execute(source, destination, null);
-        };
-        JsMapper.prototype.execute = function (source, destination, destinationType) {
-            if (destination == null && destinationType == null)
-                throw new Error('destination type and instance is null, supply one of them');
-            if (source == null)
-                return null;
-            var destinationProvided = destination != null;
-            var srcIsAnArray = Array.isArray(source);
-            var destinationIsAnArray = (destinationProvided && Array.isArray(destination)) || destinationType.includes('[]');
-            if (srcIsAnArray && destinationIsAnArray) {
-                return this.mapArray(source, destination, destinationType);
-            }
-            var sourceTypeProperty = this._config.typeStrategy.getTypeProperty(source);
-            var sourceType = source[sourceTypeProperty];
-            if (destinationType == null) {
-                var destinationTypeProperty = this._config.typeStrategy.getTypeProperty(destination);
-                destinationType = destination[destinationTypeProperty];
-            }
-            var key = sourceType + '=>' + destinationType;
-            var map = this._maps.get(key);
-            var destinationTypeMeta = this._typeMetas.get(destinationType);
-            var sourceTypeMeta = this._typeMetas.get(sourceType);
-            var mapped = this.mapSingle({
-                typeMap: map,
-                source: source,
-                sourceType: sourceType,
-                sourceTypeMeta: sourceTypeMeta,
-                destination: destination,
-                destinationType: destinationType,
-                destinationTypeMeta: sourceTypeMeta,
-            });
-            return mapped;
-        };
-        JsMapper.prototype.mapArray = function (source, destination, destinationType) {
-            var _this = this;
-            if (source == null)
-                throw new Error('source is null');
-            if ((destination == null || destination.length == 0) && destinationType == null)
-                throw new Error('destination type and instance is null, supply one of them');
-            if (source.length == 0)
-                return [];
-            var sourceTypeProperty = this._config.typeStrategy.getTypeProperty(source[0]);
-            var sourceType = source[sourceTypeProperty];
-            if (destinationType == null) {
-                destinationType = this._config.typeStrategy.getTypeProperty(destination[0]);
-            }
-            else {
-                destinationType = destinationType.replace('[]', '');
-            }
-            var key = sourceType + '=>' + destinationType;
-            var map = this._maps.get(key);
-            var destinationTypeMeta = this._typeMetas.get(destinationType);
-            var sourceTypeMeta = this._typeMetas.get(sourceType);
-            if (destination == null)
-                destination = [];
-            var temp = new Dictionary();
-            destination.forEach(function (item) {
-                var id = item[destinationTypeMeta.id];
-                temp.set(id.toString(), item);
-            });
-            destination.length = 0;
-            source.forEach(function (srcItem) {
-                var id = srcItem[sourceTypeMeta.id];
-                var dest = temp.get(id);
-                var mapped = _this.mapSingle({
-                    typeMap: map,
-                    source: srcItem,
-                    sourceType: sourceType,
-                    sourceTypeMeta: sourceTypeMeta,
-                    destination: dest,
-                    destinationType: destinationType,
-                    destinationTypeMeta: sourceTypeMeta,
-                });
-                destination.push(mapped);
-            });
-            return destination;
-        };
-        JsMapper.prototype.mapSingle = function (ctx) {
-            var src = ctx.source;
-            var dest = ctx.destination;
-            if (dest == null) {
-                dest = ctx.destinationTypeMeta.ctor.createInstance();
-            }
-            var sourcePropeties = ctx.sourceTypeMeta.properties;
-            var destPropeties = ctx.destinationTypeMeta.properties;
-            var propMaps = ctx.typeMap.propertyMaps;
-            var anonNotSetup = destPropeties.keys.length == 0
-                && ctx.typeMap.sourcePropertyMaps.length != sourcePropeties.keys.length;
-            var possibleMissingMaps = destPropeties.keys.length != propMaps.length;
-            if ((anonNotSetup)) {
-                var newValues = this._config.anonPropertyScanner.listProperties(ctx.destinationTypeMeta, ctx.typeMap, ctx.sourceTypeMeta);
-                newValues.forEach(function (property) {
-                    ctx.destinationTypeMeta.addProperty(property);
-                });
-            }
-            if (possibleMissingMaps) {
-                var tempMaps_1 = new Dictionary();
-                ctx.typeMap.propertyMaps.forEach(function (map) {
-                    tempMaps_1.set(map.destinationName, map);
-                });
-                ctx.destinationTypeMeta.properties.keys.forEach(function (property) {
-                    if (tempMaps_1.get(property) != null)
-                        return;
-                    var propertyMap = new PropertyMap();
-                    var src = ctx.sourceTypeMeta.properties.get(property);
-                    if (src == null) {
-                        propertyMap.ignoreDestination = true;
-                    }
-                    else {
-                        propertyMap.sourceName = property;
-                        propertyMap.sourceGetter = function (instance) { return instance[src]; };
-                    }
-                    ctx.typeMap.propertyMaps.push(propertyMap);
-                });
-            }
-            ctx.typeMap.propertyMaps.forEach(function (map) {
-                var src = map.sourceGetter(ctx.source);
-                if (src == null)
-                    continue;
-                if (map.sourceType == null) {
-                    var sType = typeof ctx.source;
-                    var isObject = sType === 'object';
-                    var isArray = Array.isArray(src);
-                    if (isArray) {
-                        map.destinationType =
-                        ;
-                    }
-                }
-            });
-        };
-        return JsMapper;
-    }());
-    exports.JsMapper = JsMapper;
-    var MapperFactor = (function () {
-        function MapperFactor() {
-            this._builder = new Builder();
-            this._config = new Configuration();
-        }
-        MapperFactor.prototype.addSetup = function (setup) {
-            setup.configure(this._builder);
-            return this;
-        };
-        MapperFactor.prototype.setConfiguration = function (setupConfig) {
-            setupConfig(this._config);
-        };
-        MapperFactor.prototype.createMapper = function () {
-            return new JsMapper(this._config, this._builder.mappings, this._builder.typeMetas);
-        };
-        return MapperFactor;
-    }());
-    exports.MapperFactor = MapperFactor;
-    var Configuration = (function () {
-        function Configuration() {
-            this.idStrategy = new DefaultIdStrategy();
-            this.typeStrategy = new DefaultTypeStrategy();
-            this.anonPropertyScanner = new DefaultAnonPropertyScanner();
-            this.propertyScanner = new DefaultPropertyScanner();
-        }
-        return Configuration;
-    }());
-    exports.Configuration = Configuration;
-    var Builder = (function () {
-        function Builder() {
-            this.mappings = [];
-            this.typeMetas = [];
-        }
-        Builder.prototype.createMap = function (sourceType, destinationType) {
-            var classMap = new TypeMap(sourceType, destinationType);
-            var config = new FluentClassMapping(classMap);
-            this.mappings.push(classMap);
-            return config;
-        };
-        ;
-        Builder.prototype.addType = function (typeName, type) {
-            if (type === void 0) { type = null; }
-            var meta = new TypeMeta(typeName);
-            if (type != null) {
-                meta.setType(type);
-            }
-            this.typeMetas.push(meta);
-        };
-        return Builder;
-    }());
-    exports.Builder = Builder;
-    var FluentClassMapping = (function () {
-        function FluentClassMapping(mapping) {
-            this._classMapping = mapping;
-            this._classMapping;
-        }
-        FluentClassMapping.prototype.forMemberSimple = function (destinationProperty, opts) {
-            var result = this.forMember(null, destinationProperty, opts);
-            return result;
-        };
-        FluentClassMapping.prototype.forMember = function (destinationType, destinationProperty, opts) {
-            var propertyMap = new PropertyMap();
-            propertyMap.destinationName = destinationProperty;
-            if (typeof destinationType === 'string') {
-                var dt = destinationType;
-                if (dt.endsWith('[]')) {
-                    propertyMap.destinationType = PropertyType.array;
-                    propertyMap.destinationTypeName = dt.replace('[]', '');
-                }
-                else {
-                    propertyMap.destinationTypeName = dt;
-                    propertyMap.destinationType = PropertyType.object;
-                }
-            }
-            else {
-                propertyMap.destinationType = PropertyType.value;
-                propertyMap.destinationTypeName = 'valueType';
-            }
-            propertyMap.destinationSetter = function (instance, value) {
-                instance[destinationProperty] = value;
-            };
-            var options = new MapFromOptions(propertyMap);
-            opts(options);
-            this._classMapping.propertyMaps.push(propertyMap);
-            return this;
-        };
-        FluentClassMapping.prototype.forSource = function (member, opts) {
-            var propertyMap = new PropertyMap();
-            var options = new MapFromOptions(propertyMap);
-            opts(options);
-            this._classMapping.sourcePropertyMaps.push(propertyMap);
-            return this;
-        };
-        return FluentClassMapping;
-    }());
-    exports.FluentClassMapping = FluentClassMapping;
-    var TypeMap = (function () {
-        function TypeMap(source, target) {
-            this.propertyMaps = [];
-            this.sourcePropertyMaps = [];
-            this.source = source;
-            this.target = target;
-        }
-        return TypeMap;
-    }());
-    var PropertyMap = (function () {
-        function PropertyMap() {
-            this.isCreatedByMapper = false;
-            this.ignoreSource = false;
-            this.ignoreDestination = false;
-        }
-        return PropertyMap;
-    }());
-    var PropertyType;
-    (function (PropertyType) {
-        PropertyType[PropertyType["value"] = 0] = "value";
-        PropertyType[PropertyType["object"] = 1] = "object";
-        PropertyType[PropertyType["array"] = 2] = "array";
-    })(PropertyType || (PropertyType = {}));
-    var MapFromOptions = (function () {
-        function MapFromOptions(propertyMap) {
-            this._propertyMap = propertyMap;
-        }
-        MapFromOptions.prototype.mapFrom = function (source, sourceName) {
-            if (sourceName === void 0) { sourceName = null; }
-            if (typeof source === 'string') {
-                this._propertyMap.sourceGetter = function (instance) {
-                    return instance[source];
-                };
-                this._propertyMap.sourceName = source;
-            }
-            else {
-                this._propertyMap.sourceGetter = source;
-                this._propertyMap.sourceName = sourceName;
-            }
-        };
-        MapFromOptions.prototype.using = function (func) {
-            this._propertyMap.sourceGetter = function (instance) {
-                return func();
-            };
-        };
-        MapFromOptions.prototype.ignore = function () {
-            this._propertyMap.ignoreDestination = true;
-        };
-        return MapFromOptions;
-    }());
-    exports.MapFromOptions = MapFromOptions;
-    var MapSourceOptions = (function () {
-        function MapSourceOptions(propertyMap) {
-            this._propertyMap = propertyMap;
-        }
-        MapSourceOptions.prototype.ignore = function () {
-            this._propertyMap.ignoreSource = true;
-        };
-        return MapSourceOptions;
-    }());
-    exports.MapSourceOptions = MapSourceOptions;
-    var AnonCtor = (function () {
-        function AnonCtor() {
-        }
-        AnonCtor.prototype.createInstance = function () {
-            return {};
-        };
-        return AnonCtor;
-    }());
-    var TypeCtor = (function () {
-        function TypeCtor(ctor) {
-            this._ctor = ctor;
-        }
-        TypeCtor.prototype.createInstance = function () {
-            return this._ctor();
-        };
-        return TypeCtor;
-    }());
-    var DefaultTypeStrategy = (function () {
-        function DefaultTypeStrategy() {
-        }
-        DefaultTypeStrategy.prototype.getTypeProperty = function (instance) {
-            var typeName = null;
-            typeName = instance['$type'];
-            if (typeName != null)
-                return typeName;
-            typeName = instance['_type'];
-            if (typeName != null)
-                return typeName;
-        };
-        return DefaultTypeStrategy;
-    }());
-    var CamelCaseNamingConvention = (function () {
-        function CamelCaseNamingConvention() {
-        }
-        CamelCaseNamingConvention.prototype.convertToTarget = function (name) {
-            return this.camelize(name);
-        };
-        CamelCaseNamingConvention.prototype.convertToCommon = function (name) {
-            return this.camelize(name);
-        };
-        CamelCaseNamingConvention.prototype.camelize = function (str) {
-            return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
-                return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
-            });
-        };
-        return CamelCaseNamingConvention;
-    }());
-    var DefaultPropertyScanner = (function () {
-        function DefaultPropertyScanner() {
-        }
-        DefaultPropertyScanner.prototype.listProperties = function (instance) {
-            var properties = Object.keys(instance);
-            var result = [];
-            properties.forEach(function (property) {
-                if (typeof property === "function")
-                    return;
-                if (property.indexOf('_') === 0)
-                    return;
-                if (property.indexOf('$') === 0)
-                    return;
-                result.push(property);
-            });
-            return result;
-        };
-        return DefaultPropertyScanner;
-    }());
-    var DefaultAnonPropertyScanner = (function () {
-        function DefaultAnonPropertyScanner() {
-        }
-        DefaultAnonPropertyScanner.prototype.listProperties = function (destionationTypeMeta, typeMap, sourceTypeMeta) {
-            var result = [];
-            var known = new Dictionary();
-            destionationTypeMeta.properties.keys.forEach(function (knownItem) {
-                known.set(knownItem, knownItem);
-            });
-            var source = new Dictionary();
-            sourceTypeMeta.properties.keys.forEach(function (sourceItem) {
-                source.set(sourceItem, sourceItem);
-            });
-            var destinationMapped = new Dictionary();
-            typeMap.propertyMaps.forEach(function (map) {
-                var key = map.destinationName;
-                if (!map.ignoreDestination && known.get(key) == null) {
-                    result.push(known.get(key));
-                    source.remove(map.sourceName);
-                }
-            });
-            typeMap.sourcePropertyMaps.forEach(function (map) {
-                var key = map.sourceName;
-                if (map.ignoreSource && source.get(key) != null)
-                    source.remove(key);
-            });
-            source.keys.forEach(function (item) {
-                result.push(source.get(item));
-            });
-            return result;
-        };
-        return DefaultAnonPropertyScanner;
-    }());
-    var DefaultIdStrategy = (function () {
-        function DefaultIdStrategy() {
-        }
-        DefaultIdStrategy.prototype.getIdProperty = function (typeName, instance, properties) {
-            var parts = typeName.split('.');
-            var tName = parts[parts.length - 1].toLowerCase();
-            var idName = null;
-            properties.forEach(function (property) {
-                var p = property.toLowerCase();
-                if (idName != null)
-                    return;
-                if (p == 'id') {
-                    idName = property;
-                    return;
-                }
-                if (p.startsWith(tName) && p.endsWith('id')) {
-                    idName = property;
-                    return;
-                }
-            });
-            return idName;
-        };
-        return DefaultIdStrategy;
-    }());
-    var TypeMeta = (function () {
-        function TypeMeta(typeName) {
-            this.properties = new Dictionary();
-            this.allPropertiesKnown = false;
-            this.namingConvention = new CamelCaseNamingConvention();
-            this.isAnon = false;
-            this.ctor = new AnonCtor();
-            this.name = name;
-        }
-        TypeMeta.prototype.setType = function (type) {
-            this.isAnon = false;
-            this.ctor = new TypeCtor(type);
-            this.actualType = type;
-        };
-        TypeMeta.prototype.addProperty = function (name) {
-            var value = this.namingConvention.convertToTarget(name);
-            this.properties.set(name, value);
-        };
-        return TypeMeta;
-    }());
-    var Dictionary = (function () {
-        function Dictionary() {
-            this.state = {};
-        }
-        Object.defineProperty(Dictionary.prototype, "keys", {
-            get: function () {
-                return Object.keys(this.state);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Dictionary.prototype.set = function (key, value) {
-            this.state[key] = value;
-        };
-        Dictionary.prototype.get = function (key) {
-            var ret = this.state[key];
-            return ret;
-        };
-        Dictionary.prototype.remove = function (key) {
-            delete this.state[key];
-        };
-        return Dictionary;
-    }());
 });
 
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <section class=\"todoapp\">\n    <header class=\"header\">\n      <h1>todos</h1>\n      <input class=\"new-todo\" placeholder=\"What needs to be done?\" autofocus>\n    </header>\n    <!-- This section should be hidden by default and shown when there are todos -->\n    <section class=\"main\">\n      <input id=\"toggle-all\" class=\"toggle-all\" type=\"checkbox\">\n      <label for=\"toggle-all\">Mark all as complete</label>\n      <ul class=\"todo-list\">\n        <!-- These are here just to show the structure of the list items -->\n        <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->\n        <li class=\"completed\">\n          <div class=\"view\">\n            <input class=\"toggle\" type=\"checkbox\" checked>\n            <label>Taste JavaScript</label>\n            <button class=\"destroy\"></button>\n          </div>\n          <input class=\"edit\" value=\"Create a TodoMVC template\">\n        </li>\n        <li>\n          <todo-item></todo-item>\n        </li>\n\n      </ul>\n    </section>\n    <!-- This footer should hidden by default and shown when there are todos -->\n    <footer class=\"footer\">\n      <!-- This should be `0 items left` by default -->\n      <span class=\"todo-count\"><strong>0</strong> item left</span>\n      <!-- Remove this if you don't implement routing -->\n      <ul class=\"filters\">\n        <li>\n          <a class=\"selected\" href=\"#/\">All</a>\n        </li>\n        <li>\n          <a href=\"#/active\">Active</a>\n        </li>\n        <li>\n          <a href=\"#/completed\">Completed</a>\n        </li>\n      </ul>\n      <!-- Hidden if no completed items are left ↓ -->\n      <button class=\"clear-completed\">Clear completed</button>\n    </footer>\n  </section>\n  <footer class=\"info\">\n    <p>Using ArmChair</p>\n    <!-- Remove the below line ↓ -->\n    <p>Source: <a href=\"https://bitbucket.org/dboneslabs/arm-chair\">Git Repo on BitBucket</a></p>\n    <p>Package: <a href=\"https://www.nuget.org/packages/ArmChair.Core\">.NET Core Package on nuget</a></p>\n    <p>Created by: <a href=\"http://dbones.co.uk\">dbones</a></p>\n  </footer>\n</template>"; });
+define('@dboneslabs/mpr/annotations/reflect',['require','exports','module','reflect-metadata','./annotation-keys'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
+const annotation_keys_1 = require("./annotation-keys");
+
+const getMetaData = Reflect.getMetadata || Reflect.getOwnMetadata;
+
+class ReflectMetadata {
+    static setTypeData(type, value) {
+        Reflect.defineMetadata(annotation_keys_1.AnnotationKeys.mapAnnotation, value, type);
+    }
+    static getTypeData(type) {
+        return getMetaData(annotation_keys_1.AnnotationKeys.mapAnnotation, type);
+    }
+    static getPropertyData(type, key) {
+        return getMetaData("design:type", type, key);
+    }
+}
+exports.ReflectMetadata = ReflectMetadata;
+
+});
+
+define('@dboneslabs/mpr/annotations/annotation-keys',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class AnnotationKeys {
+}
+AnnotationKeys.mapAnnotation = "mpr.Annotation";
+exports.AnnotationKeys = AnnotationKeys;
+
+});
+
+define('@dboneslabs/mpr/annotations/map-property',['require','exports','module','./reflect'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const reflect_1 = require("./reflect");
+function mapProperty(type) {
+    return (target, key) => {
+        let t = reflect_1.ReflectMetadata.getTypeData(target.constructor)
+            || {
+                properties: {}
+            };
+        let metaData = reflect_1.ReflectMetadata.getPropertyData(target, key);
+        let metaType = metaData.name.toLowerCase();
+        let typeName = type == null || typeof type == "string" ? type : type.$$type;
+        typeName = typeName != null ? typeName : metaData.$$type;
+        if (metaType == "array") {
+            typeName = typeName == null ? "object[]" : `${typeName}[]`;
+        }
+        if (typeName == null) {
+            typeName = metaType;
+        }
+        t.properties[key] = {
+            metaData: metaData,
+            metaType: metaType,
+            suppliedType: type,
+            typeName: typeName,
+            name: key
+        };
+        return reflect_1.ReflectMetadata.setTypeData(target.constructor, t);
+    };
+}
+exports.mapProperty = mapProperty;
+
+});
+
+define('@dboneslabs/mpr/mapper-factory',['require','exports','module','./js-mapper','./configuration','./strategies/map-compiler','./initializing/builders/builder'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const js_mapper_1 = require("./js-mapper");
+const configuration_1 = require("./configuration");
+const map_compiler_1 = require("./strategies/map-compiler");
+const builder_1 = require("./initializing/builders/builder");
+class MapperFactory {
+    constructor() {
+        this._config = new configuration_1.Configuration();
+        this.mapCompiler = new map_compiler_1.DefaultMapCompiler();
+        this._builder = new builder_1.Builder(this._config);
+    }
+    addSetup(setup) {
+        setup.configure(this._builder);
+        return this;
+    }
+    setConfiguration(setupConfig) {
+        setupConfig(this._config);
+        return this;
+    }
+    createMapper() {
+        let converters = this._builder.mappings.map(mapping => {
+            return this.mapCompiler.Build(mapping, this._builder.typeMetas, this._config);
+        });
+        this._config.typeConverters.forEach(converter => {
+            converters.push(converter);
+        });
+        return new js_mapper_1.JsMapper(this._config, converters);
+    }
+}
+exports.MapperFactory = MapperFactory;
+
+});
+
+define('@dboneslabs/mpr/js-mapper',['require','exports','module','./core/mapping-context','./strategies/type-reflection'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mapping_context_1 = require("./core/mapping-context");
+const type_reflection_1 = require("./strategies/type-reflection");
+class JsMapper {
+    constructor(configuration, typeConverters) {
+        this._configuration = configuration;
+        this._typeConverterLocator = configuration.typeConverterLocator;
+        this._typeReflection = new type_reflection_1.DefaultTypeReflection();
+        typeConverters.forEach(converter => {
+            this._typeConverterLocator.Add(converter);
+        });
+    }
+    map(source, destinationType) {
+        if (source == null)
+            return source;
+        if (destinationType == null)
+            throw new Error("destinationType is null");
+        if (typeof destinationType != "string") {
+            destinationType = destinationType.$$type;
+        }
+        let sourceType = this._typeReflection.getType(source, this._configuration.typeStrategy);
+        let mapLookup = this._typeConverterLocator.GetMapLookup(sourceType, destinationType);
+        let ctx = this.createContext(source, null, mapLookup);
+        this.mapIt(ctx);
+        return ctx.destination;
+    }
+    mapTo(source, destination) {
+        if (source == null)
+            return;
+        if (destination == null)
+            throw new Error("destination is null");
+        let sourceType = this._typeReflection.getType(source, this._configuration.typeStrategy);
+        let destinationType = this._typeReflection.getType(source, this._configuration.typeStrategy);
+        let mapLookup = this._typeConverterLocator.GetMapLookup(sourceType, destinationType);
+        let ctx = this.createContext(source, destination, mapLookup);
+        this.mapIt(ctx);
+    }
+    mapIt(context) {
+        let mapLookup = context.mapInformation;
+        let converter = this._typeConverterLocator.GetConverter(mapLookup);
+        if (converter == null)
+            throw new Error(`mapping not supported, ${mapLookup.source}->${mapLookup.destination}`);
+        converter.execute(context);
+        return context.destination;
+    }
+    createContext(source, destination, mapInformation) {
+        let ctx = new mapping_context_1.MappingContext();
+        ctx.destination = destination;
+        ctx.source = source;
+        ctx.mapper = this;
+        ctx.mapInformation = mapInformation;
+        return ctx;
+    }
+}
+exports.JsMapper = JsMapper;
+
+});
+
+define('@dboneslabs/mpr/core/mapping-context',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class MappingContext {
+}
+exports.MappingContext = MappingContext;
+
+});
+
+define('@dboneslabs/mpr/strategies/type-reflection',['require','exports','module','../dictionary','../core/types'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const dictionary_1 = require("../dictionary");
+const types_1 = require("../core/types");
+class DefaultTypeReflection {
+    constructor() {
+        this._types = new dictionary_1.Dictionary();
+        this._types.set("[object Date]", types_1.Types.date);
+        this._types.set("[object String]", types_1.Types.string);
+        this._types.set("[object Number]", types_1.Types.number);
+        this._types.set("[object Boolean]", types_1.Types.boolean);
+        this._types.set("[object Object]", types_1.Types.object);
+        this._types.set("[object Array]", types_1.Types.objectArray);
+    }
+    getType(instance, typeStrategy) {
+        let typeName = Object.prototype.toString.call(instance);
+        let candiateType = this._types.get(typeName);
+        if (candiateType != types_1.Types.object)
+            return candiateType;
+        let strongType = typeStrategy.getTypeFromTypeProperty(instance);
+        return strongType == null ? candiateType : strongType;
+    }
+}
+exports.DefaultTypeReflection = DefaultTypeReflection;
+
+});
+
+define('@dboneslabs/mpr/dictionary',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Dictionary {
+    constructor() {
+        this.state = {};
+    }
+    get keys() {
+        return Object.keys(this.state);
+    }
+    set(key, value) {
+        this.state[key] = value;
+    }
+    get(key) {
+        let ret = this.state[key];
+        return ret;
+    }
+    remove(key) {
+        delete this.state[key];
+    }
+}
+exports.Dictionary = Dictionary;
+
+});
+
+define('@dboneslabs/mpr/core/types',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Types {
+    static asArray(type) {
+        return typeof type == "string" ? `${type}[]` : `${type.$$type}[]`;
+    }
+    static AsArray(type) {
+        return this.asArray(type);
+    }
+}
+Types.string = "string";
+Types.boolean = "boolean";
+Types.number = "number";
+Types.date = "date";
+Types.objectArray = "object[]";
+Types.object = "object";
+Types.value = "value";
+exports.Types = Types;
+
+});
+
+define('@dboneslabs/mpr/configuration',['require','exports','module','./core/type-converter-locator','./strategies/type-strategy','./strategies/naming-convention','./core/converters','./annotations/extract-metadata'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const type_converter_locator_1 = require("./core/type-converter-locator");
+const type_strategy_1 = require("./strategies/type-strategy");
+const naming_convention_1 = require("./strategies/naming-convention");
+const converters_1 = require("./core/converters");
+const extract_metadata_1 = require("./annotations/extract-metadata");
+class Configuration {
+    constructor() {
+        this.typeStrategy = new type_strategy_1.DefaultTypeStrategy();
+        this.namingConvention = new naming_convention_1.CamelCaseNamingConvention();
+        this.typeConverterLocator = new type_converter_locator_1.DefaultTypeConverterLocator();
+        this.typeConverters = new converters_1.Converts().getConverters();
+        this.extractMetadata = new extract_metadata_1.ExtractMetadata();
+    }
+}
+exports.Configuration = Configuration;
+
+});
+
+define('@dboneslabs/mpr/core/type-converter-locator',['require','exports','module','./map-information','../dictionary','./types'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const map_information_1 = require("./map-information");
+const dictionary_1 = require("../dictionary");
+const types_1 = require("./types");
+class DefaultTypeConverterLocator {
+    constructor() {
+        this.nameExp = new RegExp("([\\.A-Za-z0-9\\-\\*]*)(\\[\\]){0,1}");
+        this._mapsBySrcToDest = new dictionary_1.Dictionary();
+    }
+    Add(typeConverter) {
+        let key = this.createKey(typeConverter.sourceType, typeConverter.destinationType);
+        this._mapsBySrcToDest.set(key, typeConverter);
+    }
+    GetConverter(lookup) {
+        let key = this.createKey(lookup.source.getName(), lookup.destination.getName());
+        let converter = this._mapsBySrcToDest.get(key);
+        if (converter != null)
+            return converter;
+        if (lookup.source.isArray == true && lookup.destination.isArray == true) {
+            key = this.createKey(types_1.Types.objectArray, types_1.Types.objectArray);
+            let converter = this._mapsBySrcToDest.get(key);
+            if (converter != null)
+                return converter;
+        }
+        throw new Error(`sorry key not supported ${key}`);
+    }
+    GetMapLookup(sourceType, destinationType) {
+        let source = this.getMapComponent(sourceType);
+        let destination = this.getMapComponent(destinationType);
+        return new map_information_1.MapInformation(source, destination);
+    }
+    createKey(source, destination) {
+        return `${source}->${destination}`;
+    }
+    getMapComponent(type) {
+        let captures = this.nameExp.exec(type);
+        let map = new map_information_1.MapComponent();
+        map.type = captures[1];
+        map.isArray = captures[2] != null;
+        return map;
+    }
+}
+exports.DefaultTypeConverterLocator = DefaultTypeConverterLocator;
+
+});
+
+define('@dboneslabs/mpr/core/map-information',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class MapInformation {
+    constructor(src, dest) {
+        this.source = src;
+        this.destination = dest;
+    }
+}
+exports.MapInformation = MapInformation;
+class MapComponent {
+    constructor() {
+        this.isArray = false;
+    }
+    getName() {
+        return (this.isArray)
+            ? `${this.type}[]`
+            : this.type;
+    }
+}
+exports.MapComponent = MapComponent;
+
+});
+
+define('@dboneslabs/mpr/strategies/type-strategy',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class DefaultTypeStrategy {
+    getTypeFromTypeProperty(instance) {
+        let typeName = null;
+        typeName = instance['$type'];
+        if (typeName != null)
+            return typeName;
+        typeName = instance['_type'];
+        if (typeName != null)
+            return typeName;
+        return null;
+    }
+}
+exports.DefaultTypeStrategy = DefaultTypeStrategy;
+class DollarTypeStrategy {
+    getTypeFromTypeProperty(instance) {
+        let typeName = instance['$type'];
+        return typeName;
+    }
+}
+exports.DollarTypeStrategy = DollarTypeStrategy;
+class UnderscoreTypeStrategy {
+    getTypeFromTypeProperty(instance) {
+        let typeName = instance['_type'];
+        return typeName;
+    }
+}
+exports.UnderscoreTypeStrategy = UnderscoreTypeStrategy;
+
+});
+
+define('@dboneslabs/mpr/strategies/naming-convention',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class CamelCaseNamingConvention {
+    convert(name) {
+        return this.camelize(name);
+    }
+    camelize(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
+            return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+        });
+    }
+}
+exports.CamelCaseNamingConvention = CamelCaseNamingConvention;
+
+});
+
+define('@dboneslabs/mpr/core/converters',['require','exports','module','./types'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("./types");
+class Converts {
+    getConverters() {
+        return [
+            new ArrayConverter(),
+            new ValueArrayConverter(),
+            new StringToStringConverter(),
+            new NumberToNumberConverter(),
+            new NumberToStringConverter(),
+            new StringToNumberConverter(),
+            new DateToDateConverter(),
+            new StringToDateConverter(),
+            new DateToStringConverter(),
+            new BooleanToBooleanConverter(),
+            new BooleanToStringConverter(),
+            new StringToBooleanConverter(),
+            new BooleanToNumberConverter(),
+            new NumberToBooleanConverter(),
+            new ValueToValueConverter()
+        ];
+    }
+}
+exports.Converts = Converts;
+class ArrayConverter {
+    constructor() {
+        this.sourceType = types_1.Types.objectArray;
+        this.destinationType = types_1.Types.objectArray;
+    }
+    execute(ctx) {
+        if (ctx.destination == null)
+            ctx.destination = [];
+        ctx.source.forEach(item => {
+            let value = ctx.mapper.map(item, ctx.mapInformation.destination.type);
+            ctx.destination.push(value);
+        });
+        return ctx.destination;
+    }
+}
+class ValueArrayConverter {
+    constructor() {
+        this.sourceType = 'value[]';
+        this.destinationType = 'value[]';
+    }
+    execute(ctx) {
+        if (ctx.destination == null)
+            ctx.destination = [];
+        ctx.source.forEach(item => {
+            let value = ctx.mapper.map(item, types_1.Types.value);
+            ctx.destination.push(value);
+        });
+        return ctx.destination;
+    }
+}
+class ValueToValueConverter {
+    constructor() {
+        this.sourceType = types_1.Types.value;
+        this.destinationType = types_1.Types.value;
+    }
+    execute(context) {
+        context.destination = context.source;
+    }
+}
+class StringToStringConverter {
+    constructor() {
+        this.sourceType = types_1.Types.string;
+        this.destinationType = types_1.Types.string;
+    }
+    execute(ctx) {
+        ctx.destination = ctx.source;
+    }
+}
+class NumberToNumberConverter {
+    constructor() {
+        this.sourceType = types_1.Types.number;
+        this.destinationType = types_1.Types.number;
+    }
+    execute(ctx) {
+        ctx.destination = ctx.source;
+    }
+}
+class StringToNumberConverter {
+    constructor() {
+        this.sourceType = types_1.Types.string;
+        this.destinationType = types_1.Types.number;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = parseInt(ctx.source);
+    }
+}
+class NumberToStringConverter {
+    constructor() {
+        this.sourceType = types_1.Types.number;
+        this.destinationType = types_1.Types.string;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source.toString();
+    }
+}
+class DateToDateConverter {
+    constructor() {
+        this.sourceType = types_1.Types.date;
+        this.destinationType = types_1.Types.date;
+    }
+    execute(ctx) {
+        ctx.destination = new Date((ctx.source).getTime());
+    }
+}
+class DateToStringConverter {
+    constructor() {
+        this.sourceType = types_1.Types.date;
+        this.destinationType = types_1.Types.string;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = (ctx.source).toISOString();
+    }
+}
+class StringToDateConverter {
+    constructor() {
+        this.sourceType = types_1.Types.string;
+        this.destinationType = types_1.Types.date;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = new Date(ctx.source);
+    }
+}
+class BooleanToBooleanConverter {
+    constructor() {
+        this.sourceType = types_1.Types.boolean;
+        this.destinationType = types_1.Types.boolean;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source;
+    }
+}
+class StringToBooleanConverter {
+    constructor() {
+        this.sourceType = types_1.Types.string;
+        this.destinationType = types_1.Types.boolean;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source == "true";
+    }
+}
+class BooleanToStringConverter {
+    constructor() {
+        this.sourceType = types_1.Types.boolean;
+        this.destinationType = types_1.Types.string;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source ? "true" : "false";
+    }
+}
+class BooleanToNumberConverter {
+    constructor() {
+        this.sourceType = types_1.Types.boolean;
+        this.destinationType = types_1.Types.number;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source ? 1 : 0;
+    }
+}
+class NumberToBooleanConverter {
+    constructor() {
+        this.sourceType = types_1.Types.number;
+        this.destinationType = types_1.Types.boolean;
+    }
+    execute(ctx) {
+        if (ctx.source == null)
+            ctx.destination = null;
+        else
+            ctx.destination = ctx.source == 1;
+    }
+}
+
+});
+
+define('@dboneslabs/mpr/annotations/extract-metadata',['require','exports','module','./reflect'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const reflect_1 = require("./reflect");
+class ExtractMetadata {
+    getProperties(type) {
+        let results = [];
+        let t = reflect_1.ReflectMetadata.getTypeData(type);
+        Object.keys(t.properties).forEach(key => {
+            results.push(t.properties[key]);
+        });
+        return results;
+    }
+}
+exports.ExtractMetadata = ExtractMetadata;
+
+});
+
+define('@dboneslabs/mpr/strategies/map-compiler',['require','exports','module','./type-reflection','../core/default-type-converter','../core/mapping-context','../core/map-information','./ctor-strategy'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const type_reflection_1 = require("./type-reflection");
+const default_type_converter_1 = require("../core/default-type-converter");
+const mapping_context_1 = require("../core/mapping-context");
+const map_information_1 = require("../core/map-information");
+const ctor_strategy_1 = require("./ctor-strategy");
+class DefaultMapCompiler {
+    Build(map, typeMetas, config) {
+        if (map.converter != null)
+            return map.converter;
+        let info = config.typeConverterLocator.GetMapLookup(map.source || "", map.destination || "");
+        let destinationMeta = typeMetas.get(map.destination);
+        let sourceMeta = typeMetas.get(map.source);
+        let setters = {};
+        if (!info.source.isArray && !info.destination.isArray) {
+            this.automapProperties(sourceMeta, destinationMeta, setters);
+        }
+        map.propertyMaps.forEach(map => {
+            if (map.destinationName == null)
+                return;
+            let destinationName = map.destinationName;
+            if (map.ignoreDestination) {
+                delete setters[destinationName];
+                return;
+            }
+            let destPropertyMeta = destinationMeta.properties.get(destinationName);
+            setters[destinationName] = ((ctx) => {
+                let source = map.sourceGetter(ctx.source);
+                let result = ctx.mapper.map(source, destPropertyMeta.mapComponent.getName());
+                map.destinationSetter(ctx.destination, result);
+            });
+        });
+        let settersArray = Object.keys(setters).map(property => {
+            return setters[property];
+        });
+        map.sourcePropertyMaps.forEach(map => {
+            if (map.destinationName != null)
+                return;
+            if (!map.flatternSourceToDestination)
+                return;
+            let typeReflector = new type_reflection_1.DefaultTypeReflection();
+            let setter = ((ctx) => {
+                let source = map.sourceGetter(ctx.source);
+                let sourceType = typeReflector.getType(source, config.typeStrategy);
+                let childInfo = config.typeConverterLocator.GetMapLookup(sourceType, map.destinationType);
+                let context = new mapping_context_1.MappingContext();
+                context.source = source;
+                context.mapInformation = childInfo;
+                context.destination = ctx.destination;
+                context.mapper = ctx.mapper;
+                ctx.mapper.mapIt(context);
+                ctx.destination = context.destination;
+            });
+            settersArray.push(setter);
+        });
+        let ctor = info.destination.isArray ? new ctor_strategy_1.ArrayCtor() : destinationMeta.ctor;
+        return new default_type_converter_1.DefaultTypeConverter(info.source.getName(), info.destination.getName(), ctor, settersArray);
+    }
+    automapProperties(sourceMeta, destinationMeta, setters) {
+        destinationMeta.propertiesKeyedOnCamelCase.keys.forEach(propertyName => {
+            let destProperty = destinationMeta.propertiesKeyedOnCamelCase.get(propertyName);
+            let srcProperty = sourceMeta.propertiesKeyedOnCamelCase.get(propertyName);
+            if (srcProperty == null)
+                return;
+            setters[destProperty.name] = ((ctx) => {
+                var info = new map_information_1.MapInformation(srcProperty.mapComponent, destProperty.mapComponent);
+                var innerCtx = new mapping_context_1.MappingContext();
+                innerCtx.source = ctx.source[srcProperty.name];
+                innerCtx.destination = ctx.destination == null ? null : ctx.destination[destProperty.name];
+                innerCtx.mapInformation = info;
+                innerCtx.mapper = ctx.mapper;
+                if (innerCtx.source === undefined)
+                    return;
+                ctx.mapper.mapIt(innerCtx);
+                ctx.destination[destProperty.name] = innerCtx.destination;
+            });
+        });
+    }
+}
+exports.DefaultMapCompiler = DefaultMapCompiler;
+
+});
+
+define('@dboneslabs/mpr/core/default-type-converter',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class DefaultTypeConverter {
+    constructor(sourceType, destinationType, ctor, setters) {
+        this.sourceType = sourceType;
+        this.destinationType = destinationType;
+        this.setters = setters;
+        this.ctor = ctor;
+    }
+    execute(context) {
+        if (context.destination == null)
+            context.destination = this.ctor.createInstance();
+        this.setters.forEach(setter => {
+            let ctx = context;
+            try {
+                setter(ctx);
+            }
+            catch (error) {
+                throw new Error(`failed to map ${this.sourceType} => ${this.destinationType}, innerException: ${error}`);
+            }
+        });
+    }
+}
+exports.DefaultTypeConverter = DefaultTypeConverter;
+
+});
+
+define('@dboneslabs/mpr/strategies/ctor-strategy',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class AnonCtor {
+    createInstance() {
+        return {};
+    }
+}
+exports.AnonCtor = AnonCtor;
+class ArrayCtor {
+    createInstance() {
+        return [];
+    }
+}
+exports.ArrayCtor = ArrayCtor;
+class TypeCtor {
+    constructor(ctor) {
+        this._ctor = ctor;
+    }
+    createInstance() {
+        return new this._ctor();
+    }
+}
+exports.TypeCtor = TypeCtor;
+
+});
+
+define('@dboneslabs/mpr/initializing/builders/builder',['require','exports','module','../fluent-type-mapping','../mappings/type-map','../../dictionary','../metas/type-meta','../builders/property-builder'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fluent_type_mapping_1 = require("../fluent-type-mapping");
+const type_map_1 = require("../mappings/type-map");
+const dictionary_1 = require("../../dictionary");
+const type_meta_1 = require("../metas/type-meta");
+const property_builder_1 = require("../builders/property-builder");
+class Builder {
+    constructor(configuration) {
+        this.mappings = [];
+        this.typeMetas = new dictionary_1.Dictionary();
+        this._configuration = configuration;
+    }
+    addType(typeName, type = null) {
+        if (typeof typeName != "string") {
+            type = typeName;
+            typeName = typeName.$$type;
+        }
+        let meta = new type_meta_1.TypeMeta(typeName);
+        if (type != null) {
+            meta.setType(type);
+        }
+        this.typeMetas.set(meta.name, meta);
+        this.createMap(meta.name, meta.name);
+        return new property_builder_1.PropertyBuilder(meta, this._configuration);
+    }
+    createMap(sourceType, destinationType) {
+        if (typeof sourceType != "string") {
+            sourceType = sourceType.$$type;
+        }
+        if (typeof destinationType != "string") {
+            destinationType = destinationType.$$type;
+        }
+        let map = new type_map_1.TypeMap(sourceType, destinationType);
+        let config = new fluent_type_mapping_1.FluentTypeMapping(map);
+        this.mappings.push(map);
+        return config;
+    }
+}
+exports.Builder = Builder;
+
+});
+
+define('@dboneslabs/mpr/initializing/fluent-type-mapping',['require','exports','module','./mappings/property-map','./map-from-options','./map-source-options'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const property_map_1 = require("./mappings/property-map");
+const map_from_options_1 = require("./map-from-options");
+const map_source_options_1 = require("./map-source-options");
+class FluentTypeMapping {
+    constructor(mapping) {
+        this._typeMapping = mapping;
+    }
+    forMember(destinationProperty, opts) {
+        let propertyMap = new property_map_1.PropertyMap();
+        propertyMap.destinationName = destinationProperty;
+        propertyMap.destinationSetter = (instance, value) => instance[propertyMap.destinationName] = value;
+        let options = new map_from_options_1.MapFromOptions(propertyMap);
+        opts(options);
+        this._typeMapping.propertyMaps.push(propertyMap);
+        return this;
+    }
+    withSource(sourceProperty, opts) {
+        let propertyMap = new property_map_1.PropertyMap();
+        propertyMap.sourceGetter = (typeof sourceProperty == "string")
+            ? (instance) => instance[sourceProperty]
+            : sourceProperty;
+        propertyMap.destinationType = this._typeMapping.destination;
+        let options = new map_source_options_1.MapSourceOptions(propertyMap);
+        opts(options);
+        this._typeMapping.sourcePropertyMaps.push(propertyMap);
+        return this;
+    }
+    using(typeConverter) {
+        this._typeMapping.converter = typeConverter;
+    }
+}
+exports.FluentTypeMapping = FluentTypeMapping;
+
+});
+
+define('@dboneslabs/mpr/initializing/mappings/property-map',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class PropertyMap {
+    constructor() {
+        this.flatternSourceToDestination = false;
+        this.ignoreDestination = false;
+    }
+}
+exports.PropertyMap = PropertyMap;
+
+});
+
+define('@dboneslabs/mpr/initializing/map-from-options',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class MapFromOptions {
+    constructor(propertyMap) {
+        this._propertyMap = propertyMap;
+    }
+    mapFrom(source, sourceName = null) {
+        if (typeof source === 'string') {
+            this._propertyMap.sourceGetter = (instance) => {
+                return instance[source];
+            };
+            this._propertyMap.sourceName = source;
+        }
+        else {
+            this._propertyMap.sourceGetter = source;
+            this._propertyMap.sourceName = sourceName;
+        }
+    }
+    using(func) {
+        this._propertyMap.sourceGetter = (instance) => {
+            return func(instance);
+        };
+    }
+    ignore() {
+        this._propertyMap.ignoreDestination = true;
+    }
+}
+exports.MapFromOptions = MapFromOptions;
+
+});
+
+define('@dboneslabs/mpr/initializing/map-source-options',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class MapSourceOptions {
+    constructor(propertyMap) {
+        this._propertyMap = propertyMap;
+    }
+    flattern() {
+        this._propertyMap.flatternSourceToDestination = true;
+    }
+}
+exports.MapSourceOptions = MapSourceOptions;
+
+});
+
+define('@dboneslabs/mpr/initializing/mappings/type-map',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class TypeMap {
+    constructor(source, destination) {
+        this.propertyMaps = [];
+        this.sourcePropertyMaps = [];
+        if (source == null || source == '')
+            throw new Error('source must be provided');
+        if (destination == null || destination == '')
+            throw new Error('destination must be provided');
+        this.source = source;
+        this.destination = destination;
+    }
+}
+exports.TypeMap = TypeMap;
+
+});
+
+define('@dboneslabs/mpr/initializing/metas/type-meta',['require','exports','module','../../dictionary','./property-meta','../../strategies/ctor-strategy','../../core/map-information','../../core/types'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const dictionary_1 = require("../../dictionary");
+const property_meta_1 = require("./property-meta");
+const ctor_strategy_1 = require("../../strategies/ctor-strategy");
+const map_information_1 = require("../../core/map-information");
+const types_1 = require("../../core/types");
+class TypeMeta {
+    constructor(typeName) {
+        this.isAnon = true;
+        this.properties = new dictionary_1.Dictionary();
+        this.propertiesKeyedOnCamelCase = new dictionary_1.Dictionary();
+        this.ctor = new ctor_strategy_1.AnonCtor();
+        this.name = typeName;
+    }
+    get hasId() {
+        return this.id != null;
+    }
+    setType(type) {
+        this.isAnon = false;
+        this.ctor = new ctor_strategy_1.TypeCtor(type);
+        this.actualType = type;
+    }
+    addProperty(name, processedName, type = types_1.Types.value) {
+        let property = new property_meta_1.PropertyMeta();
+        property.name = name;
+        property.type = type;
+        property.processedName = processedName;
+        let mapComponent = new map_information_1.MapComponent();
+        if (type.indexOf('[]') > -1) {
+            type = type.replace('[]', '');
+            mapComponent.isArray = true;
+        }
+        mapComponent.type = type;
+        property.mapComponent = mapComponent;
+        this.properties.set(name, property);
+        this.propertiesKeyedOnCamelCase.set(processedName, property);
+    }
+}
+exports.TypeMeta = TypeMeta;
+
+});
+
+define('@dboneslabs/mpr/initializing/metas/property-meta',['require','exports','module'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class PropertyMeta {
+}
+exports.PropertyMeta = PropertyMeta;
+
+});
+
+define('@dboneslabs/mpr/initializing/builders/property-builder',['require','exports','module','../../core/types'],function (require, exports, module) {"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("../../core/types");
+class PropertyBuilder {
+    constructor(typeMeta, configuration) {
+        this._typeMeta = typeMeta;
+        this._configuration = configuration;
+    }
+    addProperty(name, type = types_1.Types.value) {
+        var processedName = this._configuration.namingConvention.convert(name);
+        this._typeMeta.addProperty(name, processedName, type);
+        return this;
+    }
+    scanForAttributes() {
+        let type = this._typeMeta.actualType;
+        if (type == null)
+            throw new Error("you need to set a type to scan");
+        this._configuration.extractMetadata.getProperties(type).forEach(property => {
+            this.addProperty(property.name, property.typeName);
+        });
+        return this;
+    }
+}
+exports.PropertyBuilder = PropertyBuilder;
+
+});
+
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <section class=\"todoapp\">\n    <header class=\"header\">\n      <h1>todos</h1>\n      <input class=\"new-todo\" placeholder=\"What needs to be done?\" autofocus>\n    </header>\n    <!-- This section should be hidden by default and shown when there are todos -->\n    <section class=\"main\">\n      <input id=\"toggle-all\" class=\"toggle-all\" type=\"checkbox\">\n      <label for=\"toggle-all\">Mark all as complete</label>\n      <ul class=\"todo-list\">\n        <!-- These are here just to show the structure of the list items -->\n        <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->\n        <li class=\"completed\">\n          <div class=\"view\">\n            <input class=\"toggle\" type=\"checkbox\" checked>\n            <label>Taste JavaScript</label>\n            <button class=\"destroy\"></button>\n          </div>\n          <input class=\"edit\" value=\"Create a TodoMVC template\">\n        </li>\n        <li repeat.for=\"todo of todoItems\">\n          <div class=\"view\">\n            <input class=\"toggle\" type=\"checkbox\">\n            <label>${todo.description}</label>\n            <button class=\"destroy\"></button>\n        </div>\n          <input class=\"edit\" value=\"Rule the web\">\n        </li>\n\n      </ul>\n    </section>\n    <!-- This footer should hidden by default and shown when there are todos -->\n    <footer class=\"footer\">\n      <!-- This should be `0 items left` by default -->\n      <span class=\"todo-count\"><strong>0</strong> item left</span>\n      <!-- Remove this if you don't implement routing -->\n      <ul class=\"filters\">\n        <li>\n          <a class=\"selected\" href=\"#/\">All</a>\n        </li>\n        <li>\n          <a href=\"#/active\">Active</a>\n        </li>\n        <li>\n          <a href=\"#/completed\">Completed</a>\n        </li>\n      </ul>\n      <!-- Hidden if no completed items are left ↓ -->\n      <button class=\"clear-completed\">Clear completed</button>\n    </footer>\n  </section>\n  <footer class=\"info\">\n    <p>Using ArmChair</p>\n    <!-- Remove the below line ↓ -->\n    <p>Source: <a href=\"https://bitbucket.org/dboneslabs/arm-chair\">Git Repo on BitBucket</a></p>\n    <p>Package: <a href=\"https://www.nuget.org/packages/ArmChair.Core\">.NET Core Package on nuget</a></p>\n    <p>Created by: <a href=\"http://dbones.co.uk\">dbones</a></p>\n  </footer>\n</template>"; });
 define('text!shell.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"todomvc-common/base.css\"></require>\r\n    <require from=\"todomvc-app-css/index.css\"></require>\r\n\r\n    <router-view></router-view>\r\n</template>"; });
 define('text!resources/elements/todo-item.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"view\">\r\n        <input class=\"toggle\" type=\"checkbox\">\r\n        <label>Buy a unicorn asdsa</label>\r\n        <button class=\"destroy\"></button>\r\n    </div>\r\n    <input class=\"edit\" value=\"Rule the web\">\r\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
