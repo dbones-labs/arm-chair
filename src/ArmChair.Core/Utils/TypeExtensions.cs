@@ -68,6 +68,26 @@ namespace ArmChair.Utils
 
         public static Type GetUnderlyingType(this MemberInfo member)
         {
+ #if NETSTANDARD1_1
+            var fieldInfo = member as FieldInfo;
+            if (fieldInfo != null) return fieldInfo.FieldType;
+            
+            var propertyInfo = member as PropertyInfo;
+            if (propertyInfo != null) return propertyInfo.PropertyType;
+
+            var methodInfo = member as MethodInfo;
+            if (methodInfo != null) return methodInfo.ReturnType;
+
+            var eventInfo = member as EventInfo;
+            if (eventInfo != null) return eventInfo.EventHandlerType;
+            
+            throw new ArgumentException
+            (
+                "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
+            );
+#endif
+
+#if NETSTANDARD1_6
             switch (member.MemberType)
             {
                 case MemberTypes.Event:
@@ -84,7 +104,28 @@ namespace ArmChair.Utils
                      "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
                     );
             }
+#endif
         }
+
+#if NETSTANDARD1_1
+        public static Type[] GetGenericArguments(this Type type)
+        {
+            var info = type.GetTypeInfo();
+            return info.GetGenericArguments();
+        }
+        
+        public static Type[] GetGenericArguments(this TypeInfo info)
+        {
+            return info.IsGenericTypeDefinition 
+                ? info.GenericTypeParameters 
+                : info.GenericTypeArguments;
+        }
+
+        public static IEnumerable<MethodInfo> GetMethods(this TypeInfo info)
+        {
+            return info.DeclaredMethods;
+        }
+ #endif
 
         public static string ToCamelCase(this string s)
         {

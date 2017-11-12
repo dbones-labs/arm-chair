@@ -18,7 +18,7 @@ namespace ArmChair.Tests.Linq
                 results = session.Query<Person>().ToList();
             }
 
-            Assert.IsTrue(results.Count == Query<Person>().Count());
+            Assert.AreEqual(results.Count, Query<Person>().Count());
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace ArmChair.Tests.Linq
                 results = session.Query<object>().ToList();
             }
 
-            Assert.IsTrue(results.Count == ReferenceItems.Count);
+            Assert.AreEqual(results.Count, ReferenceItems.Count);
         }
 
         [Test]
@@ -40,8 +40,8 @@ namespace ArmChair.Tests.Linq
             List<Cat> reference;
             using (var session = Database.CreateSession())
             {
-                results = session.Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
-                reference = Query<Cat>().Where(x => x.RequiresHeatPad == true).ToList();
+                results = session.Query<Cat>().Where(x => x.RequiresHeatPad).ToList();
+                reference = Query<Cat>().Where(x => x.RequiresHeatPad).ToList();
             }
             Assert.IsTrue(results.Count == reference.Count);
             Assert.IsTrue(results.First().Name == reference.First().Name);

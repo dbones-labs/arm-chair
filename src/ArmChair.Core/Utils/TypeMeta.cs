@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair.Utils
 {
     using System;
@@ -42,16 +43,29 @@ namespace ArmChair.Utils
             //try and process all this once
             _type = type;
             _typeInfo = type.GetTypeInfo();
+
+
             _allTypes = type.GetAllTypes();
             var fields = _allTypes
                 .Where(t => t != typeof(object))
+#if NETSTANDARD1_1
+                .SelectMany(t => t.GetTypeInfo().DeclaredFields)
+                .Where(x => !x.IsStatic);
+#endif
+#if NETSTANDARD1_6
                 .SelectMany(t => t.GetTypeInfo().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
-
+#endif
             _isAbstract = _typeInfo.IsAbstract;
             if (!IsAbstract)
             {
                 //look only at the direct type
-                var ctor = _typeInfo.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                var ctor =
+#if NETSTANDARD1_1
+                    _typeInfo.DeclaredConstructors.Where(x => !x.IsStatic)
+#endif
+#if NETSTANDARD1_6
+                    _typeInfo.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+#endif
                         .FirstOrDefault(x => !x.GetParameters().Any());
 
                 if (ctor != null)
@@ -60,7 +74,6 @@ namespace ArmChair.Utils
                     var lambda = Expression.Lambda<Func<object>>(Expression.New(ctor));
                     _ctor = lambda.Compile();
                 }
-
             }
 
             foreach (var meta in fields.Select(field => new FieldMeta(field)))
@@ -71,7 +84,6 @@ namespace ArmChair.Utils
                 }
                 _allFields.Add(meta.Name, meta);
             }
-
         }
 
         /// <summary>

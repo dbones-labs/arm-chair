@@ -24,6 +24,7 @@ namespace ArmChair.Utils.Copying
     public class CopyMeta
     {
         private readonly Type _source;
+        private readonly TypeInfo _sourceInfo;
         private bool _compiled;
         private Func<object> _ctor;
         private readonly object _lock = new object();
@@ -37,6 +38,7 @@ namespace ArmChair.Utils.Copying
         public CopyMeta(Type source)
         {
             _source = source;
+            _sourceInfo = _source.GetTypeInfo();
         }
 
         /// <summary>
@@ -63,13 +65,13 @@ namespace ArmChair.Utils.Copying
                 }
 
                 //copying a collection of somesort
-                if (typeof(IDictionary).GetTypeInfo().IsAssignableFrom(_source))
+                if (typeof(IDictionary).GetTypeInfo().IsAssignableFrom(_sourceInfo))
                 {
                     AddTargetToCopy(new DictionaryCopyToTarget(_source));
                     return;
                 }
 
-                if (typeof(IList).GetTypeInfo().IsAssignableFrom(_source))
+                if (typeof(IList).GetTypeInfo().IsAssignableFrom(_sourceInfo))
                 {
                     AddTargetToCopy(new CollectionCopyToTarget(_source));
                     return;

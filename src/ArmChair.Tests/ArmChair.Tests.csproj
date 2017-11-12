@@ -1,98 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{931C97FA-7EB3-422A-86E4-94768D2F18FA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArmChair.Tests</RootNamespace>
-    <AssemblyName>ArmChair.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net40\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AttachingTests.cs" />
-    <Compile Include="Core\BasicTests.cs" />
-    <Compile Include="DataTestCase.cs" />
-    <Compile Include="Core\DeletingTests.cs" />
-    <Compile Include="Linq\BasicTests.cs" />
-    <Compile Include="Linq\CollectionQueryTests.cs" />
-    <Compile Include="Linq\DateTests.cs" />
-    <Compile Include="Linq\FirstTests.cs" />
-    <Compile Include="Linq\SessionTests.cs" />
-    <Compile Include="Mapping\PersonMap.cs" />
-    <Compile Include="Mongo\BasicTests.cs" />
-    <Compile Include="QueryTestCase.cs" />
-    <Compile Include="Linq\SortQueryTests.cs" />
-    <Compile Include="Linq\SpecialFieldQueryTests.cs" />
-    <Compile Include="Linq\SubProperyQueryTests.cs" />
-    <Compile Include="Linq\TypeQueryTests.cs" />
-    <Compile Include="Core\LoadingTests.cs" />
-    <Compile Include="Pipeline\CommitPipelineTests.cs" />
-    <Compile Include="Pipeline\LoadPipelineTests.cs" />
-    <Compile Include="Pipeline\QueryPipelineTests.cs" />
-    <Compile Include="TestCase.cs" />
-    <Compile Include="Core\SavingTests.cs" />
-    <Compile Include="Core\ShadowCopyTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\ArmChair.Core\ArmChair.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArmChair.Core\ArmChair.Core.csproj">
-      <Project>{e11b204f-16d8-4578-9743-9d12ed2dad53}</Project>
-      <Name>ArmChair.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArmChair.Tests.Domain\ArmChair.Tests.Domain.csproj">
-      <Project>{c8a9a96f-6be2-4b77-ba16-0f02a65a3d3f}</Project>
-      <Name>ArmChair.Tests.Domain</Name>
-    </ProjectReference>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

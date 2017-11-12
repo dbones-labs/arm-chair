@@ -6,6 +6,7 @@ namespace ArmChair.Tests
     using Domain;
     using Domain.Sample1;
     using Domain.Sample2;
+    using Domain.Sample3;
 
     /// <summary>
     /// provides some known data in the database.
@@ -58,6 +59,10 @@ namespace ArmChair.Tests
 
                 var booking = new KennelBooking() { Animal = leeloo, Start = DateTime.Now, End = DateTime.Now.AddDays(2), Id = "bk1" };
 
+                //domain 3
+                var todo1 = new TodoTask("write an armchair example", PriorityLevel.Medium) {Id = "t1" };
+                var todo2 = new TodoTask("inital convert armchair to support .net core", PriorityLevel.High) {Id = "t2", IsComplete = true };
+
                 ReferenceItems.Add(dave);
                 ReferenceItems.Add(chan);
                 ReferenceItems.Add(pam);
@@ -70,6 +75,8 @@ namespace ArmChair.Tests
                 ReferenceItems.Add(bonnie);
                 ReferenceItems.Add(starfire);
                 ReferenceItems.Add(booking);
+                ReferenceItems.Add(todo1);
+                ReferenceItems.Add(todo2);
 
                 session.AddRange(ReferenceItems.Cast<EntityRoot>());
                 session.Commit();

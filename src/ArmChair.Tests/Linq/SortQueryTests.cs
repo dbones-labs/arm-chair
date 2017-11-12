@@ -4,6 +4,8 @@ namespace ArmChair.Tests.Linq
     using System.Linq;
     using Domain.Sample1;
     using Domain.Sample2;
+    using Domain.Sample3;
+    using Mapping;
     using NUnit.Framework;
 
     /// <summary>
@@ -50,6 +52,44 @@ namespace ArmChair.Tests.Linq
             Assert.IsTrue(results.First().Name == reference.First().Name);
             Assert.IsTrue(results.Skip(1).First().Name == reference.Skip(1).First().Name);
         }
+
+
+        [Test]
+        public void Enum_sort()
+        {
+            Database.Register(new []{ new TaskClassMap() });
+
+            List<TodoTask> results;
+            List<TodoTask> reference;
+            using (var session = Database.CreateSession())
+            {
+                results = session.Query<TodoTask>().OrderBy(x => x.Priority).ToList();
+                reference = Query<TodoTask>().OrderBy(x => x.Priority).ToList();
+            }
+
+            Assert.IsTrue(results.Count == reference.Count);
+            Assert.IsTrue(results.First().Description == reference.First().Description);
+            Assert.IsTrue(results.Skip(1).First().Description == reference.Skip(1).First().Description);
+        }
+
+        [Test]
+        public void Enum_sort_descending()
+        {
+            Database.Register(new[] { new TaskClassMap() });
+
+            List<TodoTask> results;
+            List<TodoTask> reference;
+            using (var session = Database.CreateSession())
+            {
+                results = session.Query<TodoTask>().OrderByDescending(x => x.Priority).ToList();
+                reference = Query<TodoTask>().OrderByDescending(x => x.Priority).ToList();
+            }
+
+            Assert.IsTrue(results.Count == reference.Count);
+            Assert.IsTrue(results.First().Description == reference.First().Description);
+            Assert.IsTrue(results.Skip(1).First().Description == reference.Skip(1).First().Description);
+        }
+
 
 
         [Test]

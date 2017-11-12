@@ -41,6 +41,7 @@ namespace ArmChair.Linq
         {
             //preprocess
             expression = PartialEvaluator.Eval(expression);
+            //expression = EnumParameterEvaluator.Eval(expression);
             var linqQuery = LinqVisitor.Eval(expression);
 
             //get the type constraint

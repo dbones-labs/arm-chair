@@ -15,6 +15,7 @@ namespace ArmChair.Utils
 {
     using System.Linq.Expressions;
     using System.Reflection;
+    using System.Reflection.Emit;
 
     public static class ExpressionExtensions
     {
@@ -33,6 +34,11 @@ namespace ArmChair.Utils
 
         public static CallSet CreateFieldSet(this FieldInfo field)
         {
+            if (field.IsInitOnly)
+            {
+                return IlCreateFieldSet(field);
+            }
+
             ParameterExpression target = Expression.Parameter(typeof(object), "target");
             ParameterExpression value = Expression.Parameter(typeof(object), "value");
 
@@ -44,5 +50,27 @@ namespace ArmChair.Utils
 
             return lambda.Compile();
         }
+
+        private static CallSet IlCreateFieldSet(FieldInfo field)
+        {
+            //this will set a readonly field.
+            DynamicMethod dmethod = new DynamicMethod(
+                ShortGuid.NewGuid(), 
+                typeof(void),
+                new[] { typeof(object), typeof(object) }, 
+                field.DeclaringType.GetTypeInfo().Module, 
+                true);
+            var il = dmethod.GetILGenerator();
+
+            il.Emit(OpCodes.Ldarg_0); //get instance
+            il.Emit(OpCodes.Ldarg_1); //get the value
+            il.Emit(OpCodes.Stfld, field); //set the field
+            il.Emit(OpCodes.Ret);
+           
+            var setField = (CallSet)dmethod.CreateDelegate(typeof(CallSet));
+            return setField;
+        }
+
     }
+
 }

@@ -10,6 +10,27 @@ namespace IQToolkit
     {
         public static object GetValue(this MemberInfo member, object instance)
         {
+
+#if NETSTANDARD1_1
+            {
+                var fieldInfo = member as FieldInfo;
+                if (fieldInfo != null)
+                {
+                    return fieldInfo.GetValue(instance);
+                }
+            }
+            
+            {
+                var propertyInfo = member as PropertyInfo;
+                if (propertyInfo != null)
+                {
+                    return propertyInfo.GetValue(instance);
+                }
+            }
+            throw new Exception($"sorry this member is not supported: {member.Name}");
+#endif
+            
+#if NETSTANDARD1_6
             switch (member.MemberType)
             {
                 case MemberTypes.Property:
@@ -19,10 +40,34 @@ namespace IQToolkit
                 default:
                     throw new InvalidOperationException();
             }
+#endif
         }
 
         public static void SetValue(this MemberInfo member, object instance, object value)
         {
+
+#if NETSTANDARD1_1
+            {
+                var fieldInfo = member as FieldInfo;
+                if (fieldInfo != null)
+                {
+                    fieldInfo.SetValue(instance, value);
+                    return;
+                }
+            }
+            
+            {
+                var propertyInfo = member as PropertyInfo;
+                if (propertyInfo != null)
+                {
+                    propertyInfo.SetValue(instance, value);
+                    return;
+                }
+            }
+            throw new Exception($"sorry this member is not supported: {member.Name}");
+#endif
+            
+#if NETSTANDARD1_6           
             switch (member.MemberType)
             {
                 case MemberTypes.Property:
@@ -36,6 +81,7 @@ namespace IQToolkit
                 default:
                     throw new InvalidOperationException();
             }
+#endif
         }
     }
 }
