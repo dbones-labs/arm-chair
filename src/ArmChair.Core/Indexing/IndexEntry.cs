@@ -1,9 +1,7 @@
 namespace ArmChair
 {
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
     using Utils;
 
     public class IndexEntry
@@ -37,10 +35,18 @@ namespace ArmChair
         {
             Index.Add(name, sort);
         }
+
+        protected internal virtual Type Type { get; set; }
+
     }
 
     public class IndexEntry<T> : IndexEntry
     {
+        public IndexEntry() : base()
+        {
+            Type = typeof(T);
+        }
+
         private ReflectionHelper _helper = new ReflectionHelper();
 
         public IndexEntry<T> Field(Expression<Func<T, object>> property, Order sort = Order.Asc)
@@ -53,22 +59,5 @@ namespace ArmChair
             return this;
         }
 
-        protected internal virtual void Compile()
-        {
-            if (string.IsNullOrEmpty(DesignDocument))
-            {
-                DesignDocument = typeof(T).GetTypeInfo().FullName;
-            }
-            if (string.IsNullOrEmpty(Name))
-            {
-                var entries = Index.Fields.Select(x =>
-                {
-                    var entry = x.First();
-                    return $"{entry.Key},{entry.Value}";
-                });
-
-                Name = string.Join(",", entries).GetHashCode().ToString();
-            }
-        }
     }
 }

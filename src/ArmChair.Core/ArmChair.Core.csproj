@@ -1,232 +1,58 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E11B204F-16D8-4578-9743-9D12ED2DAD53}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>netstandard1.1;netstandard1.6</TargetFrameworks>
     <RootNamespace>ArmChair</RootNamespace>
-    <AssemblyName>ArmChair.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ArmChair.Core.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+    <Version>0.8.$(BuildNumber)</Version>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ArmChair.Core.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup>
+    <Authors>Armchair Contrib Team</Authors>
+    <Description>ArmChair is a .NET Client for CouchDB</Description>
+    <Copyright>Copyright (c) David Rundle</Copyright>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CurrentYear>$([System.DateTime]::Now.ToString("yyyy"))</CurrentYear>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ArmChair.Core</PackageId>
+    <PackageTitle>ArmChair</PackageTitle>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>UOW CouchDB Document Database Client Linq NoSql</PackageTags>
+    <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>http://docs.dbones.co.uk/armchair.MainPage.ashx</PackageProjectUrl>
+    <PackageIconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/armchair/armChair128.png</PackageIconUrl>
+    <RepositoryUrl>https://bitbucket.org/dboneslabs/arm-chair</RepositoryUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+	<IncludeSymbols>true</IncludeSymbols>
+	<IncludeSource>false</IncludeSource>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Web" />
+    <Content Include="..\..\nuspec\changes.txt">
+      <PackagePath></PackagePath>
+    </Content>
+    <Content Include="..\..\nuspec\license.txt">
+      <PackagePath></PackagePath>
+    </Content>
+    <Content Include="..\..\nuspec\notice.txt">
+      <PackagePath></PackagePath>
+    </Content>
+    <Content Include="..\..\nuspec\readme.txt">
+      <PackagePath></PackagePath>
+    </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Commands\CreateIndexRequest.cs" />
-    <Compile Include="Commands\MongoQueryRequest.cs" />
-    <Compile Include="Commands\MongoQueryResponse.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="EntityManagement\Config\ClassMap.cs" />
-    <Compile Include="EntityManagement\IRevisionAccessor.cs" />
-    <Compile Include="EntityManagement\ITypeManager.cs" />
-    <Compile Include="EntityManagement\RevisionAccessor.cs" />
-    <Compile Include="Http\ContentType.cs" />
-    <Compile Include="Http\Parameter.cs" />
-    <Compile Include="Indexing.cs" />
-    <Compile Include="Indexing\Index.cs" />
-    <Compile Include="Indexing\IndexEntry.cs" />
-    <Compile Include="InSession\ISessionCache.cs" />
-    <Compile Include="Linq\Pre\Handlers\AllSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\AnySubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\FirstSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\ISubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\OrderBySubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\SingleSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\SkipSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\SubPatternHandlerBase.cs" />
-    <Compile Include="Linq\Pre\Handlers\TakeSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\ThenBySubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\Handlers\WhereSubPatternHandler.cs" />
-    <Compile Include="Linq\Pre\LinqQuery.cs" />
-    <Compile Include="Linq\Pre\LinqVisitor.cs" />
-    <Compile Include="Linq\Pre\Method.cs" />
-    <Compile Include="Linq\Pre\OrderBy.cs" />
-    <Compile Include="Linq\Pre\OrderByDirection.cs" />
-    <Compile Include="Linq\Pre\ProcessingLinqContext.cs" />
-    <Compile Include="Linq\Pre\Query.cs" />
-    <Compile Include="Linq\Pre\ReplaceSourceVisitor.cs" />
-    <Compile Include="Linq\Pre\SubPatternRegistry.cs" />
-    <Compile Include="Linq\QueryFactory.cs" />
-    <Compile Include="Linq\QueryObject.cs" />
-    <Compile Include="Linq\SessionContext.cs" />
-    <Compile Include="Linq\ToolKit\PartialEvaluator.cs" />
-    <Compile Include="Linq\ToolKit\Query.cs" />
-    <Compile Include="Linq\ToolKit\QueryProvider.cs" />
-    <Compile Include="Linq\ToolKit\ReflectionExtensions.cs" />
-    <Compile Include="Linq\ToolKit\TypeHelper.cs" />
-    <Compile Include="Linq\Transform\HandlerRegistry.cs" />
-    <Compile Include="Linq\Transform\Handlers\BinaryHandlers\AndOrVisitorHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\BinaryHandlers\BinaryHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\BinaryHandlers\EqualityHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\CollectionHandlers\StringContainsHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\HandlerBase.cs" />
-    <Compile Include="Linq\Transform\Handlers\IHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\BinaryHandlers\LessAndGreaterThanHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\InNotInHandlers\InHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\InNotInHandlers\NotInHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\MethodHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\NameValue.cs" />
-    <Compile Include="Linq\Transform\Handlers\NotHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\StringHandlers\StringContainsHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\StringHandlers\StringEndsWithHandler.cs" />
-    <Compile Include="Linq\Transform\Handlers\StringHandlers\StringStartsWithHandler.cs" />
-    <Compile Include="Linq\Transform\MongoQueryTransformVisitor.cs" />
-    <Compile Include="Linq\Transform\OrderByHandler.cs" />
-    <Compile Include="Linq\Transform\VisitorContext.cs" />
-    <Compile Include="Linq\Paging.cs" />
-    <Compile Include="Linq\QueryProvider.cs" />
-    <Compile Include="Linq\StringExtensions.cs" />
-    <Compile Include="MongoQuery.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="Processes\Commit\CommitContext.cs" />
-    <Compile Include="Processes\Commit\CommitPipeline.cs" />
-    <Compile Include="Processes\Commit\CommitToDbTask.cs" />
-    <Compile Include="Commands\AllDocsRequest.cs" />
-    <Compile Include="Processes\Query\LoadContext.cs" />
-    <Compile Include="Processes\Query\MongoQueryFromDataBaseTask.cs" />
-    <Compile Include="Processes\Query\PostCheckCacheTask.cs" />
-    <Compile Include="Processes\Query\QueryPipeline.cs" />
-    <Compile Include="Serialization\Newton\BaseOverride.cs" />
-    <Compile Include="Serialization\Newton\LocalCamelCaseNamingStrategy.cs" />
-    <Compile Include="Serialization\Newton\MongoQueryResponseConverter.cs" />
-    <Compile Include="Serialization\Newton\OrderEnumConverter.cs" />
-    <Compile Include="Serialization\Newton\PropertiesOverride.cs" />
-    <Compile Include="Serialization\Newton\SerializerSettingsFactory.cs" />
-    <Compile Include="SessionExtensions.cs" />
-    <Compile Include="DatabaseExtensions.cs" />
-    <Compile Include="Tasks\BySingleItem\IItemIterator.cs" />
-    <Compile Include="Tasks\BySingleItem\ListsItemIterator.cs" />
-    <Compile Include="Tasks\BySingleItem\TaskOnItem.cs" />
-    <Compile Include="Tasks\BySingleItem\YeildingItemIterator.cs" />
-    <Compile Include="Tasks\IPipeItemTask.cs" />
-    <Compile Include="Tasks\PipeItemMapTask.cs" />
-    <Compile Include="Tasks\PipilineExecutor.cs" />
-    <Compile Include="Utils\Dynamic.cs" />
-    <Compile Include="Serialization\Newton\AllDocsRequestConverter.cs" />
-    <Compile Include="Commands\AllDocsResponse.cs" />
-    <Compile Include="Serialization\Newton\AllDocsResponseConverter.cs" />
-    <Compile Include="Commands\AllDocsRowResponse.cs" />
-    <Compile Include="Commands\AllDocsValueResponse.cs" />
-    <Compile Include="Commands\BulkDocRequest.cs" />
-    <Compile Include="Commands\BulkDocResponse.cs" />
-    <Compile Include="Serialization\Newton\BulkDocsResponseConverter.cs" />
-    <Compile Include="Commands\BulkDocsRequest.cs" />
-    <Compile Include="Serialization\Newton\BulkDocsRequestConverter.cs" />
-    <Compile Include="Serialization\Newton\DocumentContractResolver.cs" />
-    <Compile Include="Processes\CreateTaskContext.cs" />
-    <Compile Include="Commands\CouchDb.cs" />
-    <Compile Include="Extenstions.cs" />
-    <Compile Include="Http\BasicAuthentication.cs" />
-    <Compile Include="Http\Connection.cs" />
-    <Compile Include="Http\CookieAuthentication.cs" />
-    <Compile Include="Http\FormRequest.cs" />
-    <Compile Include="Http\HttpContentType.cs" />
-    <Compile Include="Http\HttpVerbType.cs" />
-    <Compile Include="Http\IAuthentication.cs" />
-    <Compile Include="Http\IConnection.cs" />
-    <Compile Include="Http\IRequest.cs" />
-    <Compile Include="Http\IResponse.cs" />
-    <Compile Include="Http\Request.cs" />
-    <Compile Include="Http\RequestException.cs" />
-    <Compile Include="Http\Response.cs" />
-    <Compile Include="IdManagement\ShortGuidKey.cs" />
-    <Compile Include="IdManagement\ShortGuidGenerator.cs" />
-    <Compile Include="EntityManagement\IdAccessor.cs" />
-    <Compile Include="EntityManagement\IIdAccessor.cs" />
-    <Compile Include="IdManagement\IIdentityGenerator.cs" />
-    <Compile Include="IdManagement\IIdManager.cs" />
-    <Compile Include="IdManagement\Key.cs" />
-    <Compile Include="IdManagement\ShortGuidIdManager.cs" />
-    <Compile Include="InSession\ActionType.cs" />
-    <Compile Include="InSession\SessionCache.cs" />
-    <Compile Include="InSession\SessionEntry.cs" />
-    <Compile Include="ISession.cs" />
-    <Compile Include="Processes\Load\LoadContext.cs" />
-    <Compile Include="Processes\Load\LoadFromDataBaseTask.cs" />
-    <Compile Include="Processes\Load\LoadManyFromDataBaseTask.cs" />
-    <Compile Include="Processes\Load\LoadPipeline.cs" />
-    <Compile Include="Processes\Load\PostSaveToSesionTask.cs" />
-    <Compile Include="Processes\Load\PostTrackingTask.cs" />
-    <Compile Include="Processes\Commit\PostCommitSesionTask.cs" />
-    <Compile Include="Processes\Commit\PostCommitTrackingTask.cs" />
-    <Compile Include="Processes\Load\PreLoadFromSessionTask.cs" />
-    <Compile Include="Processes\Commit\PreCommitFilterTrackingTask.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Serialization\Newton\JObjectExtensions.cs" />
-    <Compile Include="Serialization\Newton\Serializer.cs" />
-    <Compile Include="Session.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Tracking\ITrackingProvider.cs" />
-    <Compile Include="Tracking\Shadowing\ShadowTrackingProvider.cs" />
-    <Compile Include="Tracking\Shadowing\TrackingEntry.cs" />
-    <Compile Include="Processes\Commit\CommitPayLoad.cs" />
-    <Compile Include="Utils\CallGet.cs" />
-    <Compile Include="Utils\CallSet.cs" />
-    <Compile Include="Utils\ExpressionExtensions.cs" />
-    <Compile Include="Utils\Comparing\Comparer.cs" />
-    <Compile Include="Utils\Copying\ShadowCopier.cs" />
-    <Compile Include="Utils\Copying\CollectionCopyToTarget.cs" />
-    <Compile Include="Utils\Copying\CopyMeta.cs" />
-    <Compile Include="Utils\Copying\CopyToTarget.cs" />
-    <Compile Include="Utils\Copying\DictionaryCopyToTarget.cs" />
-    <Compile Include="Utils\Copying\EntityCopyToTarget.cs" />
-    <Compile Include="Utils\Copying\ICopyToTarget.cs" />
-    <Compile Include="Utils\Copying\ValueCopyToTarget.cs" />
-    <Compile Include="Utils\FieldMeta.cs" />
-    <Compile Include="Utils\ReaderWriterLockSlimExtensions.cs" />
-    <Compile Include="Utils\ReflectionHelper.cs" />
-    <Compile Include="Utils\ShortGuid.cs" />
-    <Compile Include="Utils\TypeExtensions.cs" />
-    <Compile Include="Utils\TypeMeta.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Linq\ToolKit\license.txt" />
-    <Content Include="Linq\ToolKit\readme.txt" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

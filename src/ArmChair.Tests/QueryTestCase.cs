@@ -1,9 +1,9 @@
 namespace ArmChair.Tests
 {
     using System.Linq;
+    using System.Reflection;
     using Domain;
     using Domain.Sample1;
-    using EntityManagement.Config;
 
     public abstract class QueryTestCase : DataTestCase
     {
@@ -15,7 +15,7 @@ namespace ArmChair.Tests
 
         public virtual void SetupMaps()
         {
-            var types = typeof(Person).Assembly.GetTypes().Where(x => typeof(EntityRoot).IsAssignableFrom(x)).ToList();
+            var types = typeof(Person).GetTypeInfo().Assembly.GetTypes().Where(x => typeof(EntityRoot).IsAssignableFrom(x)).ToList();
             Database.Register(types);
         }
 

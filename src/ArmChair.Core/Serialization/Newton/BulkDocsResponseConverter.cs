@@ -50,7 +50,7 @@ namespace ArmChair.Serialization.Newton
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IEnumerable<BulkDocResponse>).GetTypeInfo().IsAssignableFrom(objectType);
+            return typeof(IEnumerable<BulkDocResponse>).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
         }
     }
 }

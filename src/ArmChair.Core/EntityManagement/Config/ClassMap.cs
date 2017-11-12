@@ -120,7 +120,6 @@ namespace ArmChair.EntityManagement.Config
         {
             var index = new IndexEntry<T>();
             addIndex(index);
-            index.Compile();
             _indexes.Add(index);
         }
     }

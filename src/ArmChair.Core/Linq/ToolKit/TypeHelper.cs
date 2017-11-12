@@ -5,14 +5,16 @@ namespace IQToolkit
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
+    using System.Net;
     using System.Reflection;
 
     /// <summary>
     /// Type related helper methods
     /// </summary>
     public static class TypeHelper
-    {
+    {        
         public static Type FindIEnumerable(Type seqType)
         {
             if (seqType == null || seqType == typeof(string))
@@ -22,17 +24,17 @@ namespace IQToolkit
             var info = seqType.GetTypeInfo();
             if (info.IsGenericType)
             {
-                foreach (Type arg in info.GetGenericArguments())
+                foreach (Type arg in info.GenericTypeParameters)
                 {
                     Type ienum = typeof(IEnumerable<>).MakeGenericType(arg);
-                    if (ienum.GetTypeInfo().IsAssignableFrom(seqType))
+                    if (ienum.GetTypeInfo().IsAssignableFrom(info))
                     {
                         return ienum;
                     }
                 }
             }
-            Type[] ifaces = info.GetInterfaces();
-            if (ifaces != null && ifaces.Length > 0)
+            IEnumerable<Type> ifaces = info.ImplementedInterfaces;
+            if (ifaces != null && ifaces.Any())
             {
                 foreach (Type iface in ifaces)
                 {
@@ -56,12 +58,13 @@ namespace IQToolkit
         {
             Type ienum = FindIEnumerable(seqType);
             if (ienum == null) return seqType;
-            return ienum.GetTypeInfo().GetGenericArguments()[0];
+            return ienum.GetTypeInfo().GenericTypeParameters[0];
         }
 
         public static bool IsNullableType(Type type)
         {
-            return type != null && type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+            return type != null && type.GetTypeInfo().IsGenericType &&
+                   type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         public static bool IsNullAssignable(Type type)
@@ -73,7 +76,7 @@ namespace IQToolkit
         {
             if (IsNullableType(type))
             {
-                return type.GetTypeInfo().GetGenericArguments()[0];
+                return type.GetTypeInfo().GenericTypeParameters[0];
             }
             return type;
         }
@@ -94,13 +97,13 @@ namespace IQToolkit
 
         public static Type GetMemberType(MemberInfo mi)
         {
-            FieldInfo fi = mi as FieldInfo;
+            var fi = mi as FieldInfo;
             if (fi != null) return fi.FieldType;
-            PropertyInfo pi = mi as PropertyInfo;
+            var pi = mi as PropertyInfo;
             if (pi != null) return pi.PropertyType;
-            EventInfo ei = mi as EventInfo;
+            var ei = mi as EventInfo;
             if (ei != null) return ei.EventHandlerType;
-            MethodInfo meth = mi as MethodInfo;  // property getters really
+            var meth = mi as MethodInfo; // property getters really
             if (meth != null) return meth.ReturnType;
             return null;
         }
@@ -115,21 +118,60 @@ namespace IQToolkit
 
         public static bool IsReadOnly(MemberInfo member)
         {
+            
+#if NETSTANDARD1_1
+            var fieldInfo = member as FieldInfo;
+            if (fieldInfo != null)
+            {
+                return (fieldInfo.Attributes & FieldAttributes.InitOnly) != 0;
+            }
+            
+            var propertyInfo = member as PropertyInfo;
+            if (propertyInfo != null)
+            {
+                return !propertyInfo.CanWrite || propertyInfo.SetMethod == null;
+            }
+            return true;
+#endif
+
+#if NETSTANDARD1_6   
             switch (member.MemberType)
             {
                 case MemberTypes.Field:
                     return (((FieldInfo)member).Attributes & FieldAttributes.InitOnly) != 0;
                 case MemberTypes.Property:
-                    PropertyInfo pi = (PropertyInfo)member;
-                    return !pi.CanWrite || pi.GetSetMethod() == null;
+                    var propertyInfo = (PropertyInfo)member;
+                    return !propertyInfo.CanWrite || propertyInfo.GetSetMethod() == null;
                 default:
                     return true;
             }
+#endif
         }
-
+        
+#if NETSTANDARD1_1
+        static readonly Type _sbyte = typeof(sbyte);
+        static readonly Type _int16 = typeof(Int16);
+        static readonly Type _int32 = typeof(Int32);
+        static readonly Type _int64 = typeof(Int64);
+        static readonly Type _byte = typeof(byte);
+        static readonly Type _uInt16 = typeof(UInt16);
+        static readonly Type _uInt32 = typeof(UInt32);
+        static readonly Type _uInt64 = typeof(UInt64);
+        static readonly HashSet<Type> ints = new HashSet<Type>()
+        {
+            _sbyte, _int16, _int32, _int64, _byte, _uInt16, _uInt32, _uInt64
+        };
+#endif
+        
         public static bool IsInteger(Type type)
         {
-            Type nnType = GetNonNullableType(type);
+ #if NETSTANDARD1_1
+            var nnType = GetNonNullableType(type);
+            return ints.Contains(nnType);            
+ #endif
+            
+ #if NETSTANDARD1_6
+            var nnType = GetNonNullableType(type);
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.SByte:
@@ -142,8 +184,9 @@ namespace IQToolkit
                 case TypeCode.UInt64:
                     return true;
                 default:
-                    return false;        
+                    return false;
             }
+#endif
         }
     }
 }

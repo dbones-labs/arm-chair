@@ -18,6 +18,7 @@ namespace ArmChair.Tests
     using System.Net.Http;
     using System.Threading;
     using Http;
+    //using Http;
     using NUnit.Framework;
 
 
@@ -30,14 +31,14 @@ namespace ArmChair.Tests
         protected Database Database;
         protected string DbName = "auto_testing";
         protected string DbLocation = "http://document:5984";
-        protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8081) : null;
+        //protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8081) : null;
         //127.0.0.1:8081
         //8888
 
         public virtual Database CreateDatabase()
         {
             var conn = new Connection(DbLocation);
-            conn.SetupConfig(cfg => cfg.Proxy = Proxy);
+            //conn.SetupConfig(cfg => cfg.Proxy = Proxy);
             return new Database(DbName, conn);
         }
 

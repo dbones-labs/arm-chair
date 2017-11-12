@@ -3,16 +3,21 @@ namespace ArmChair
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Commands;
+    using Utils.Hashing;
 
     public class Indexing
     {
         private readonly CouchDb _couchDb;
+        private readonly IHash _hash;
 
-        public Indexing(CouchDb couchDb)
+        public Indexing(CouchDb couchDb, IHash hash)
         {
             _couchDb = couchDb;
+            _hash = hash;
         }
+
 
         /// <summary>
         /// creates an index on the database, which can be used with Mongo/Linq queries.
@@ -22,6 +27,8 @@ namespace ArmChair
         public virtual void Create(IndexEntry index)
         {
             if (index == null) throw new ArgumentNullException(nameof(index));
+
+            Compile(index);
 
             var request = new CreateIndexRequest
             {
@@ -43,6 +50,28 @@ namespace ArmChair
             //todo: check the response
             var response = _couchDb.CreateIndex(request);
         }
+
+        /// <summary>
+        /// sets properties with generated values (only if they have not )
+        /// </summary>
+        protected void Compile(IndexEntry indexEntry)
+        {
+            if (string.IsNullOrEmpty(indexEntry.DesignDocument) && indexEntry.Type != null)
+            {
+                indexEntry.DesignDocument = indexEntry.Type.GetTypeInfo().FullName;
+            }
+            if (string.IsNullOrEmpty(indexEntry.Name))
+            {
+                var entries = indexEntry.Index.Fields.Select(x =>
+                {
+                    var entry = x.First();
+                    return $"{entry.Key}.{entry.Value}";
+                });
+
+                indexEntry.Name = _hash.ComputeHash(string.Join("-", entries));
+            }
+        }
+
     }
 
     public static class IndexingExtensions
@@ -51,7 +80,6 @@ namespace ArmChair
         {
             var index = new IndexEntry<T>();
             config(index);
-            index.Compile();
             indexing.Create(index);
         }
     }
