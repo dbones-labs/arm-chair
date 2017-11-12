@@ -18,12 +18,12 @@ ArmChair has been built from the ground up with the following goals:
 
 ## Documentation
 
-its being worked on but you can find some here: http://docs.dbones.co.uk/ArmChair.Default.aspx
+its being worked on but you can find some here: https://bitbucket.org/dboneslabs/arm-chair/wiki/Home
 
 ##Nuget
 
-* **Current version:** 0.7.x
-* **Released:** August 2017
+* **Current version:** 0.8.x
+* **Released:** November 2017
 
 ```
 PM> Install-Package ArmChair.Core
