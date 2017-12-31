@@ -30,7 +30,7 @@ namespace IQToolkit
             throw new Exception($"sorry this member is not supported: {member.Name}");
 #endif
             
-#if NETSTANDARD1_6
+#if NETSTANDARD1_6 || NET45
             switch (member.MemberType)
             {
                 case MemberTypes.Property:
