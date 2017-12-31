@@ -68,7 +68,7 @@ namespace ArmChair.Utils
 
         public static Type GetUnderlyingType(this MemberInfo member)
         {
- #if NETSTANDARD1_1
+#if NETSTANDARD1_1
             var fieldInfo = member as FieldInfo;
             if (fieldInfo != null) return fieldInfo.FieldType;
             
@@ -87,7 +87,7 @@ namespace ArmChair.Utils
             );
 #endif
 
-#if NETSTANDARD1_6
+#if NETSTANDARD1_6 || NET45
             switch (member.MemberType)
             {
                 case MemberTypes.Event:

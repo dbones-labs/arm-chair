@@ -118,7 +118,7 @@ namespace IQToolkit
 
         public static bool IsReadOnly(MemberInfo member)
         {
-            
+
 #if NETSTANDARD1_1
             var fieldInfo = member as FieldInfo;
             if (fieldInfo != null)
@@ -134,7 +134,7 @@ namespace IQToolkit
             return true;
 #endif
 
-#if NETSTANDARD1_6   
+#if NETSTANDARD1_6 || NET45
             switch (member.MemberType)
             {
                 case MemberTypes.Field:
@@ -165,12 +165,12 @@ namespace IQToolkit
         
         public static bool IsInteger(Type type)
         {
- #if NETSTANDARD1_1
+#if NETSTANDARD1_1
             var nnType = GetNonNullableType(type);
             return ints.Contains(nnType);            
- #endif
-            
- #if NETSTANDARD1_6
+#endif
+
+#if NETSTANDARD1_6 || NET45
             var nnType = GetNonNullableType(type);
             switch (Type.GetTypeCode(type))
             {

@@ -52,7 +52,7 @@ namespace ArmChair.Utils
                 .SelectMany(t => t.GetTypeInfo().DeclaredFields)
                 .Where(x => !x.IsStatic);
 #endif
-#if NETSTANDARD1_6
+#if NETSTANDARD1_6 || NET45
                 .SelectMany(t => t.GetTypeInfo().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
 #endif
             _isAbstract = _typeInfo.IsAbstract;
@@ -63,7 +63,7 @@ namespace ArmChair.Utils
 #if NETSTANDARD1_1
                     _typeInfo.DeclaredConstructors.Where(x => !x.IsStatic)
 #endif
-#if NETSTANDARD1_6
+#if NETSTANDARD1_6 || NET45
                     _typeInfo.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
 #endif
                         .FirstOrDefault(x => !x.GetParameters().Any());
