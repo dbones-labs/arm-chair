@@ -1,7 +1,7 @@
 Thanks for downloading ArmChair.
 You can find full list of changes in changes.txt
 
-Documentation:      - http://docs.dbones.co.uk/armchair.MainPage.ashx
+Documentation:      - https://bitbucket.org/dboneslabs/arm-chair/wiki/Home
 Source Code:        - https://bitbucket.org/dboneslabs/arm-chair
 Issue tracker:      - https://bitbucket.org/dboneslabs/arm-chair/issues
 

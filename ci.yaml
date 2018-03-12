@@ -1,0 +1,52 @@
+version: 2
+
+services:
+  database: couchdb
+
+pipeline:	
+
+  checkout:
+    clone_to: $working_dir
+
+  build:
+    depends_on: checkout
+    image: dbones/monocore:1.1-2.0 bash
+    script:
+      - cd src/
+      - dotnet restore --packages packages
+      - dotnet restore
+      - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=$build_number
+
+  test:
+    depends_on: build
+    image: microsoft/aspnetcore-build:1.1-2.0 bash
+    script:
+      - cd src/ArmChair.Tests/
+      - dotnet test --no-build --no-restore --framework netcoreapp1.1 --configuration Release 
+
+  pack:
+    depends_on: build
+    image: dbones/monocore:1.1-2.0 bash
+    script:
+      - cd src/
+      - dotnet pack --no-build --no-restore --configuration Release --output ../nupkgs
+
+  deploy:
+    on:
+      repo: dboneslabs/arm-chair
+      branch: master
+    depends_on:
+      - test
+      - pack
+    using: 
+      image: ciplugins/uploadbitbucket
+      files: /nupkgs/*.nupkg
+      username: $$bb_user
+      password: $$bb_pwd
+
+  notify:
+    depends_on:
+      - ignore_failure: all
+    using:
+      image: ciplugins/notifyemail
+      addresses: $$project_admin_email
