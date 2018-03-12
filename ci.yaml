@@ -3,7 +3,7 @@ version: 2
 services:
   database: couchdb
 
-pipeline:	
+pipeline:
 
   checkout:
     clone_to: $working_dir
@@ -14,7 +14,6 @@ pipeline:
     script:
       - cd src/
       - dotnet restore --packages packages
-      - dotnet restore
       - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=$build_number
 
   test:
