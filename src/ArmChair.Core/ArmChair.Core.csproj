@@ -43,8 +43,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>UOW CouchDB Document Database Client Linq NoSql</PackageTags>
     <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
-    <PackageProjectUrl>http://docs.dbones.co.uk/armchair.MainPage.ashx</PackageProjectUrl>
-    <PackageIconUrl>http://docs.dbones.co.uk/GetFile.aspx?File=/armchair/armChair128.png</PackageIconUrl>
+    <PackageProjectUrl>https://bitbucket.org/dboneslabs/arm-chair</PackageProjectUrl>
+    <PackageIconUrl>http://dbones.co.uk/assets/images/armChair128.png</PackageIconUrl>
     <RepositoryUrl>https://bitbucket.org/dboneslabs/arm-chair</RepositoryUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
 	<IncludeSymbols>true</IncludeSymbols>
