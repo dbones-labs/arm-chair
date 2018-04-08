@@ -1,3 +1,14 @@
+0.9.x
+=====
+.NET Standard 1.6 (.NET Core 1.0+ and .NET 4.6.1+ )
+.NET 4.5 (.NET 4.5+)
+
+Updated dependencies (latest Newtonsoft)
+Updated Tests to .NET core 2.0
+Added a couple more tests.
+
+removed .NET Standard 1.1 for now, the switches and code are still there.
+
 0.7.x & 0.8.x
 =============
 .NET 4.5 (.NET Full 4.5 +)

@@ -40,7 +40,7 @@ namespace ArmChair.Tests.Core
         {
             var p = new Person("Dave") { Id = "1337" };
             var p2 = new Person("Ben") { Id = "1332" };
-            var b = new Book("This is a test", p);
+            var b = new Book("This is a test", p, 170);
             b.AddEdition(new Edition("10th year limited Edition", EditionType.HardBack) { ReleaseDate = DateTime.Now });
             b.AddContributor(p2, ContributorType.Editor);
 

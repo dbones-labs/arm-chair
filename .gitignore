@@ -106,3 +106,5 @@ output/
 src/.idea.ArmChair/
 
 src/\.vs/ArmChair/v15/Server/sqlite3/
+
+src/nupkgs/
