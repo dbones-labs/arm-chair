@@ -50,11 +50,7 @@ namespace ArmChair.Serialization.Newton
         {
             set
             {
-                if (value == null)
-                {
-                    throw new Exception("requires a value");
-                }
-                _settings = value;
+                _settings = value ?? throw new Exception("requires a value");
                 _jsonSerializer = JsonSerializer.Create(_settings);
             }
         }

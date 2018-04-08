@@ -28,7 +28,7 @@ namespace ArmChair.Tests.Core
                 var author = new Person("dave");
                 session.Add(author);
 
-                book = new Book("Epic book", author);
+                book = new Book("Epic book", author, 70);
                 session.Add(book);
 
                 session.Commit();

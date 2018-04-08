@@ -39,17 +39,20 @@ namespace ArmChair.Tests
                 var john = new Person("john") { Id = "p4", BirthDate = new DateTime(1972, 1, 1) };
                 var max = new Person("max") { Id = "p5", BirthDate = new DateTime(1972, 1, 1) };
 
-                var book = new Book("using couchdb", dave) { Id = "b1" };
+                var book = new Book("using couchdb", dave, 50) { Id = "b1" };
                 book.AddEdition(new Edition("2nd", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(33) });
                 book.AddEdition(new Edition("1st", EditionType.Electronic) { ReleaseDate = DateTime.Now });
                 book.AddEdition(new Edition("1st", EditionType.HardBack) { ReleaseDate = DateTime.Now.AddDays(3) });
                 book.AddEdition(new Edition("preview", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-10) });
 
-                var book2 = new Book("being awesome", dave) { Id = "b2" };
-                book.AddEdition(new Edition("1st", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(50) });
-                book.AddEdition(new Edition("preview", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-30) });
+                var book2 = new Book("being awesome", dave, 51) { Id = "b2" };
+                book2.AddEdition(new Edition("1st", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(50) });
+                book2.AddEdition(new Edition("preview", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-30) });
                 book2.AddContributor(pam, ContributorType.Editor);
                 book2.AddContributor(chan, ContributorType.CoAuthor);
+
+                var book3 = new Book("being epic with couchdb", chan, 100) { Id = "b3" };
+                book3.AddEdition(new Edition("1st", EditionType.Electronic) { ReleaseDate = DateTime.Now.AddDays(-10) });
 
                 //add some domain 2
                 var leeloo = new Cat { Id = "c1", Name = "leeloo", RequiresHeatPad = true };
@@ -70,6 +73,7 @@ namespace ArmChair.Tests
                 ReferenceItems.Add(max);
                 ReferenceItems.Add(book);
                 ReferenceItems.Add(book2);
+                ReferenceItems.Add(book3);
                 ReferenceItems.Add(leeloo);
                 ReferenceItems.Add(robbie);
                 ReferenceItems.Add(bonnie);

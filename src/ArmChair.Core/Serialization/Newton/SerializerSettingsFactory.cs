@@ -54,7 +54,7 @@ namespace ArmChair.Serialization.Newton
         {
             return new JsonSerializerSettings()
             {
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Objects,
                 NullValueHandling = NullValueHandling.Ignore,
                 Converters = Converters,

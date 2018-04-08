@@ -23,9 +23,10 @@ namespace ArmChair.Tests.Domain.Sample1
 
         public Book() { }
 
-        public Book(string title, Person author)
+        public Book(string title, Person author, int pages)
         {
             Title = title;
+            NumberOfPages = pages;
             _contributors.Add(new Contributor(author, ContributorType.Author));
         }
 
@@ -46,6 +47,7 @@ namespace ArmChair.Tests.Domain.Sample1
             _editions.Add(edition);
         }
 
+        public virtual int NumberOfPages { get; private set; }
         public virtual string Title { get; private set; }
         public virtual IEnumerable<Contributor> Contributors { get { return _contributors; } }
         public virtual IEnumerable<Edition> Editions { get { return _editions; } }
