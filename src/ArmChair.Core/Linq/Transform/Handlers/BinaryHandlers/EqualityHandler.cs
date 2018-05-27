@@ -21,8 +21,11 @@ namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
 
         public override bool CanHandle(BinaryExpression expression)
         {
-            return expression.NodeType == ExpressionType.Equal
+            var isBoolean = expression.NodeType == ExpressionType.Equal
                 || expression.NodeType == ExpressionType.NotEqual;
+
+            return isBoolean;
+            //return isBoolean && expression.Left is MemberExpression;
         }
     }
 

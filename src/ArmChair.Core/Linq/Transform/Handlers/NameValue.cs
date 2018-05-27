@@ -4,7 +4,7 @@ namespace ArmChair.Linq.Transform.Handlers
 
     public class NameValue
     {
-        public MemberExpression Member { get; set; }
+        public Expression Member { get; set; }
         public ConstantExpression Constant { get; set; }
     }
 }

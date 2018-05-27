@@ -28,11 +28,15 @@ namespace ArmChair.Utils.Copying
         public DictionaryCopyToTarget(Type type)
         {
             var genericArguments = type.GetTypeInfo().GetGenericArguments();
-            _getKeyValue = genericArguments[0].GetTypeInfo().IsValueType
+
+            var keyType = genericArguments[0].GetTypeInfo();
+            var valueType = genericArguments[1].GetTypeInfo();
+
+            _getKeyValue = keyType.IsValueType || Equals(keyType, typeof(string).GetTypeInfo())
                 ? (Func<object, object>)(source => source)
                 : (Func<object, object>)(source => Copier.Copy(source));
 
-            _getValue = genericArguments[1].GetTypeInfo().IsValueType
+            _getValue = valueType.IsValueType || Equals(valueType, typeof(string).GetTypeInfo())
                 ? (Func<object, object>)(source => source)
                 : (Func<object, object>)(source => Copier.Copy(source));
         }
@@ -44,8 +48,8 @@ namespace ArmChair.Utils.Copying
 
             foreach (DictionaryEntry entry in srcCollection)
             {
-                var key = _getKeyValue(entry);
-                var value = _getValue(entry);
+                var key = _getKeyValue(entry.Key);
+                var value = _getValue(entry.Value);
                 destCollection.Add(key, value);
             }
         }
