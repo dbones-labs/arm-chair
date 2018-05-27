@@ -5,6 +5,7 @@ namespace ArmChair.Linq.Transform
     using Handlers;
     using Handlers.BinaryHandlers;
     using Handlers.CollectionHandlers;
+    using Handlers.Dictionaries;
     using Handlers.InNotInHandlers;
     using Handlers.StringHandlers;
 
@@ -28,6 +29,9 @@ namespace ArmChair.Linq.Transform
             Register<StringEndsWithHandler>();
 
             Register<AnyHandler>();
+
+            Register<DictionaryContainsKeyHandler>();
+            Register<IndexHandler>();
 
             Register<InHandler>();
             Register<NotInHandler>();

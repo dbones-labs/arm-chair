@@ -7,6 +7,7 @@ namespace ArmChair.Tests
     using Domain.Sample1;
     using Domain.Sample2;
     using Domain.Sample3;
+    using Domain.Sample4;
 
     /// <summary>
     /// provides some known data in the database.
@@ -66,6 +67,10 @@ namespace ArmChair.Tests
                 var todo1 = new TodoTask("write an armchair example", PriorityLevel.Medium) {Id = "t1" };
                 var todo2 = new TodoTask("inital convert armchair to support .net core", PriorityLevel.High) {Id = "t2", IsComplete = true };
 
+                //domain 4
+                var repo = new Repoisitory("armchair") { Members = new Dictionary<string, Access>() { { "dave", Access.Administrator }, { "bob", Access.Contributor } } };
+                var repo2 = new Repoisitory("awesome-source") { Members = new Dictionary<string, Access>() { { "bob", Access.Administrator } } };
+
                 ReferenceItems.Add(dave);
                 ReferenceItems.Add(chan);
                 ReferenceItems.Add(pam);
@@ -81,6 +86,8 @@ namespace ArmChair.Tests
                 ReferenceItems.Add(booking);
                 ReferenceItems.Add(todo1);
                 ReferenceItems.Add(todo2);
+                ReferenceItems.Add(repo);
+                ReferenceItems.Add(repo2);
 
                 session.AddRange(ReferenceItems.Cast<EntityRoot>());
                 session.Commit();

@@ -13,7 +13,6 @@
 // limitations under the License.
 namespace ArmChair
 {
-    using System.Threading;
     using Commands;
     using EntityManagement;
     using Http;

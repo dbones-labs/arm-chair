@@ -16,6 +16,7 @@ namespace ArmChair.Http
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -25,6 +26,7 @@ namespace ArmChair.Http
         private readonly List<Action<HttpClientHandler>> _configHandlers = new List<Action<HttpClientHandler>>();
         private readonly List<Action<HttpRequestHeaders>> _headerHandlers = new List<Action<HttpRequestHeaders>>();
         readonly HttpClientHandler _config;
+        private IAuthentication _authentication;
 
         public string BaseUrl { get; protected set; }
 
@@ -44,7 +46,15 @@ namespace ArmChair.Http
             };
         }
 
-        public virtual IAuthentication Authentication { get; set; }
+        public virtual IAuthentication Authentication
+        {
+            get => _authentication;
+            set
+            {
+                _authentication = value;
+                Authentication?.Apply(this);
+            }
+        }
 
 
         public virtual IResponse Execute(IRequest request)
@@ -52,11 +62,14 @@ namespace ArmChair.Http
             try
             {
                 //apply once
-                foreach (var configHandler in _configHandlers)
+                if (_configHandlers.Any())
                 {
-                    configHandler(_config);
+                    foreach (var configHandler in _configHandlers)
+                    {
+                        configHandler(_config);
+                    }
+                    _configHandlers.Clear();
                 }
-                _configHandlers.Clear();
 
                 var conn = new HttpClient(_config);
                 conn.BaseAddress = new Uri(BaseUrl);
@@ -65,8 +78,7 @@ namespace ArmChair.Http
                 {
                     headerHandler(conn.DefaultRequestHeaders);
                 }
-
-                Authentication?.Apply(this);
+                
                 return request.Execute(conn);
             }
             catch (Exception ex)

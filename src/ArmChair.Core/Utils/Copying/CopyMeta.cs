@@ -64,16 +64,24 @@ namespace ArmChair.Utils.Copying
                     _ctor = typeMeta.Ctor;
                 }
 
+                //its still null
+                if (_ctor == null)
+                {
+                    throw new Exception($"confirm that type {typeMeta.Type.FullName} has a parameterless constructor");
+                }
+
                 //copying a collection of somesort
                 if (typeof(IDictionary).GetTypeInfo().IsAssignableFrom(_sourceInfo))
                 {
                     AddTargetToCopy(new DictionaryCopyToTarget(_source));
+                    _compiled = true;
                     return;
                 }
 
                 if (typeof(IList).GetTypeInfo().IsAssignableFrom(_sourceInfo))
                 {
                     AddTargetToCopy(new CollectionCopyToTarget(_source));
+                    _compiled = true;
                     return;
                 }
 
