@@ -1,3 +1,8 @@
+0.10.x
+======
+Added basic LINQ support for IDictionary<string, TValue>
+Fix for Authentication
+
 0.9.x
 =====
 .NET Standard 1.6 (.NET Core 1.0+ and .NET 4.6.1+ )
@@ -15,7 +20,7 @@ removed .NET Standard 1.1 for now, the switches and code are still there.
 .NET Standard 1.1 (may remove this one)
 .NET Standard 1.6 (compatible with .NET Core)
 
-Improved Linq support. 
+Improved LINQ support. 
 
 0.6.x
 ==============
@@ -26,7 +31,7 @@ Initial .NET standard support work:
     moved to .NET 4.5 (not core yet, aiming for 1.1, but it does compile on 1.6).
     updated internal Http to use HttpClient.
     updated reflection code to be complaint.
-integrated IQ Tool Kit, retaining the NOTICE and licence on those files.
+integrated IQ Tool Kit, retaining the NOTICE and license on those files.
 initial support to create index's.
     via Database.Index.Create()
     via ClassMap<T>
@@ -38,8 +43,8 @@ Supported more of the Linq interface
 ==============
 Initial support for MongoQuery either by a 
     defined query object or JSON.
-    Linq expression / Query<T> (partial support)
-API support registering types (required for Linq query)
+    LINQ expression / Query<T> (partial support)
+API support registering types (required for LINQ query)
 Small changes in the pipelines, Load, Commit (backwards compatible)
 
 0.4.x
@@ -49,11 +54,11 @@ updated internal http code
 
 0.3.x
 ==============
-updated to newton 9.x, which required updates to serialisation code
+updated to newton 9.x, which required updates to serialization code
 
 0.2.x
 ==============
-improved the serialisation code
+improved the serialization code
 
 0.1.x
 ==============

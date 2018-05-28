@@ -20,7 +20,7 @@
 
   <PropertyGroup>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
-    <Version>0.9.$(BuildNumber)</Version>
+    <Version>0.10.$(BuildNumber)</Version>
   </PropertyGroup>
 
   <PropertyGroup>
