@@ -18,11 +18,11 @@ namespace ArmChair.Linq.Transform.Handlers.Dictionaries
                 throw new NotSupportedException("requires a parameter");
             }
 
-            var name = GetMemberName((MemberExpression)expression.Object, context);
+            //var name = GetMemberName((MemberExpression)expression.Object, context);
             
             var exists = new QueryObject { { "$exists", true } };
-            var query = new QueryObject { { $"{name}.{cValue.Value.ToString()}", exists } };
-
+            //var query = new QueryObject { { $"{name}.{cValue.Value.ToString()}", exists } };
+            var query = CreateQuery(expression, exists, context);
             context.SetResult(query);
         }
 
@@ -46,9 +46,9 @@ namespace ArmChair.Linq.Transform.Handlers.Dictionaries
                 throw new NotSupportedException("requires a parameter");
             }
 
-            var name = GetMemberName((MemberExpression)expression.Object, context);
-
-            var query = new QueryObject { { $"{name}.{cValue.Value.ToString()}", null } };
+            
+            //var query = new QueryObject { { $"{name}.{cValue.Value.ToString()}", null } };
+            var query = CreateQuery(expression, null, context);
 
             context.SetResult(query);
         }

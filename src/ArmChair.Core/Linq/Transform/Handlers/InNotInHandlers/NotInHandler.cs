@@ -17,11 +17,10 @@
         {
             var list = (IEnumerable)((ConstantExpression)(expression.Arguments[0])).Value;
             var binaryExp = (BinaryExpression)((LambdaExpression)expression.Arguments[1]).Body;
-            
             var property = binaryExp.Right as MemberExpression ?? (MemberExpression)binaryExp.Left;
-            var propertyName = GetMemberName(property, context);
 
-            var query = new QueryObject { { propertyName, new QueryObject { { "$nin", list } } } };
+            var notInQuery = new QueryObject {{"$nin", list}};
+            var query = CreateQuery(property, notInQuery, context);
             context.SetResult(query);
         }
 

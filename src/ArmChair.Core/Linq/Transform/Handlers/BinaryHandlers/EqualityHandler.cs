@@ -7,14 +7,12 @@ namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
         public override void Handle(BinaryExpression expression, VisitorContext context)
         {
             var nameValue = GetNameValue(expression);
-            var name = GetMemberName(nameValue.Member, context);
-
             var @operator = expression.NodeType == ExpressionType.Equal
                 ? "$eq"
                 : "$ne";
 
             var equal = new QueryObject { { @operator, nameValue.Constant.Value } };
-            var result = new QueryObject { { name, equal } };
+            var result = CreateQuery(nameValue.Member, equal, context);
 
             context.SetResult(result);
         }
