@@ -39,7 +39,6 @@
         public void Key_value_equals_with_a_non_alpha_key()
         {
             List<Repoisitory> results;
-            List<Repoisitory> reference;
             
             var repo = new Repoisitory("grr");
             repo.Members.Add("(45\"£$", Access.Administrator);
@@ -55,11 +54,10 @@
             using (var session = Database.CreateSession())
             {
                 results = session.Query<Repoisitory>().Where(x => x.Members["(45\"£$"] == Access.Administrator).ToList();
-                reference = Query<Repoisitory>().Where(x => x.Members["(45\"£$"] == Access.Administrator).ToList();
             }
 
-            Assert.IsTrue(results.Count == reference.Count);
-            Assert.AreEqual(results.First().Name, reference.First().Name);
+            Assert.IsTrue(results.Count == 1);
+            Assert.AreEqual(results.First().Name, repo.Name);
         }
     }
 }

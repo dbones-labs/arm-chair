@@ -9,13 +9,11 @@ namespace ArmChair.Linq.Transform.Handlers.CollectionHandlers
     {
         public override void Handle(MethodCallExpression expression, VisitorContext context)
         {
-            var name = GetMemberName((MemberExpression) expression.Arguments[0], context);
-
             context.Visit(expression.Arguments[1]);
             var matchCriteria = context.GetResult();
             
             var regex = new QueryObject { { "$elemMatch", matchCriteria } };
-            var query = new QueryObject { { name, regex } };
+            var query = CreateQuery(expression.Arguments[0], regex, context);
 
             context.SetResult(query);
         }

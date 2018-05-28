@@ -28,12 +28,22 @@ namespace ArmChair.Linq.Transform.Handlers
         /// </summary>
         /// <param name="memberExpression">the expression to pull this from</param>
         /// <returns></returns>
+        [Obsolete("meh2", true)]
         protected virtual string GetMemberName(Expression memberExpression, VisitorContext context)
         {
             var evaluator = new NameEvaluator(context);
             evaluator.Visit(memberExpression);
             return evaluator.PropertyName;
         }
+
+        protected virtual QueryObject CreateQuery(Expression left, QueryObject right, VisitorContext context)
+        {
+            var evaluator = new NameEvaluator2(context, right);
+            evaluator.Visit(left);
+            return evaluator.Query;
+        }
+
+
 
     }
 }

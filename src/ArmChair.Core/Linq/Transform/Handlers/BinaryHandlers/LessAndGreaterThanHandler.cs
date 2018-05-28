@@ -21,10 +21,10 @@ namespace ArmChair.Linq.Transform.Handlers.BinaryHandlers
             }
 
             var nameValue = GetNameValue(expression);
-            var name = GetMemberName(nameValue.Member, context);
+            //var name = GetMemberName(nameValue.Member, context);
 
             var compareObject = new QueryObject { { @operator, nameValue.Constant.Value } };
-            var result = new QueryObject { { name, compareObject } };
+            var result = CreateQuery(nameValue.Member, compareObject, context);
 
             context.SetResult(result);
         }

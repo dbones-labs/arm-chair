@@ -11,7 +11,7 @@ namespace ArmChair.Linq.Transform.Handlers
     /// <summary>
     /// this will extract the name an expression.
     /// </summary>
-   
+    [Obsolete("meh", true)]
     internal class NameEvaluator : ExpressionVisitor
     {
         private readonly VisitorContext _context;
@@ -99,7 +99,7 @@ namespace ArmChair.Linq.Transform.Handlers
         public QueryObject Query;
 
 
-        protected NameEvaluator2(VisitorContext context, QueryObject right)
+        public NameEvaluator2(VisitorContext context, QueryObject right)
         {
             _context = context;
             _right = right;
@@ -113,31 +113,31 @@ namespace ArmChair.Linq.Transform.Handlers
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            var result = base.VisitMethodCall(node);
             var isDictionary = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(node.Method.DeclaringType);
 
             //only support dictionay index by name
-            if (node.Method.Name == "get_Item" && isDictionary)
-            {
-                if (node.Arguments.Count() > 1) throw new Exception("sorry get_Item (dictionary indexer) is supported, and there seems to be more than one");
-                var arg = node.Arguments.FirstOrDefault() as ConstantExpression;
-                if (arg == null) throw new Exception("sorry get_Item (dictionary indexer) is supported, and there seems to be no args");
-                //Append($"[\"{arg.Value}\"]", false);
-                Append($"{arg.Value}");
-            }
+            if (!isDictionary || (node.Method.Name != "get_Item" && node.Method.Name != "ContainsKey")) return node;
 
+            if (node.Arguments.Count() > 1) throw new Exception("sorry get_Item (dictionary indexer) is supported, and there seems to be more than one");
+            var arg = node.Arguments.FirstOrDefault() as ConstantExpression;
+            if (arg == null) throw new Exception("sorry get_Item (dictionary indexer) is supported, and there seems to be no args");
+            
+            //Append($"[\"{arg.Value}\"]", false);
+            Append($"{arg.Value}");
+
+            var result = base.VisitMethodCall(node);
             return result;
         }
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            var result = base.VisitMember(node);
-
             var type = node.Member.DeclaringType;
             var name = node.Member.Name;
             var actualName = GetActualName(type, name);
 
             Append(actualName);
+
+            var result = base.VisitMember(node);
             return result;
         }
 
