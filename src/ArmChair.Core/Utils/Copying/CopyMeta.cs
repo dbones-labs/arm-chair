@@ -121,7 +121,7 @@ namespace ArmChair.Utils.Copying
         /// <param name="source">the src</param>
         /// <param name="destination">can be null, will newup a new instance</param>
         /// <returns>the destination</returns>
-        public object Copy(object source, object destination = null)
+        public virtual object Copy(object source, object destination = null)
         {
             if (!_compiled) Compile();
             if (source == null) return null;

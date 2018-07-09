@@ -39,4 +39,19 @@ namespace ArmChair.Tests.Domain.Sample4
         Contributor,
         Administrator
     }
+
+    public class SecurityProfile : EntityRoot
+    {
+        public SecurityProfile()
+        {
+            SecruityIds = new List<string>();
+        }
+
+        public List<string> SecruityIds { get; }
+
+        public void AddSecurityId(string profileId)
+        {
+            SecruityIds.Add(profileId);
+        }
+    }
 }
