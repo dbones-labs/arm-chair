@@ -22,8 +22,9 @@ its being worked on but you can find some here: https://bitbucket.org/dboneslabs
 
 ##Nuget
 
-* **Current version:** 0.8.x
-* **Released:** November 2017
+* **Url** https://www.nuget.org/packages/ArmChair.Core/
+* **Current version:** 0.11.x
+* **Released:** July 2018
 
 ```
 PM> Install-Package ArmChair.Core
@@ -32,8 +33,7 @@ PM> Install-Package ArmChair.Core
 ## Compatibility
 
 * .NET 4.5 + (Mono latest)
-* .NET Core
-* .NET Standard 1.1 and 1.6 +
+* .NET Standard 1.6 + (.NET core 1.1 +)
 * CouchDB 2.0 +
 
 ## Licence
@@ -45,7 +45,7 @@ Apache 2.0 licensed.
 To build this project you will need dotnet core
 
 ```
-dotnet resstore
+dotnet restore
 dotnet msbuild /target:Build /p:Configuration=Release /p:BuildNumber=37
 dotnet test
 ```
