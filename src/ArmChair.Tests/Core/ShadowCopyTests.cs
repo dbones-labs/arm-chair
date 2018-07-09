@@ -16,6 +16,7 @@ namespace ArmChair.Tests.Core
     using System;
     using Domain.Sample1;
     using Domain.Sample2;
+    using Domain.Sample4;
     using NUnit.Framework;
     using Utils.Comparing;
     using Utils.Copying;
@@ -103,6 +104,19 @@ namespace ArmChair.Tests.Core
             cat.RequiresHeatPad = false;
 
             Assert.IsFalse(new Comparer().AreEqual(booking, result));
+        }
+
+
+        [Test]
+        public void List_of_strings()
+        {
+            var data = new SecurityProfile();
+            data.AddSecurityId("t1");
+
+            var sut = new ShadowCopier();
+
+            var result = sut.Copy(data);
+            Assert.IsTrue(new Comparer().AreEqual(data, result));
         }
 
 

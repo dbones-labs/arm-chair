@@ -27,7 +27,8 @@ namespace ArmChair.Utils.Copying
         public CollectionCopyToTarget(Type type)
         {
             var genericArguments = type.GetTypeInfo().GetGenericArguments();
-            _getValue = genericArguments[0].GetTypeInfo().IsValueType
+            var itemType = genericArguments[0].GetTypeInfo();
+            _getValue = itemType.IsValueType || itemType == typeof(string).GetTypeInfo()
                 ? (Func<object, object>)(source => source)
                 : (Func<object, object>)(source => Copier.Copy(source));
         }

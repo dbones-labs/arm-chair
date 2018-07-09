@@ -17,6 +17,7 @@ namespace ArmChair.Tests.Core
     using System.Linq;
     using Domain.Sample1;
     using Domain.Sample3;
+    using Domain.Sample4;
     using NUnit.Framework;
 
     public class LoadingTests : TestCase
@@ -102,6 +103,26 @@ namespace ArmChair.Tests.Core
 
             Assert.AreEqual(actual.Description, expected.Description);
             Assert.AreEqual(actual.Created, expected.Created); //this value is a readonly
+        }
+
+        [Test]
+        public void Hydrate_slightly_complex_object()
+        {
+            var data = new SecurityProfile();
+            data.AddSecurityId("t1");
+            using (var session = Database.CreateSession())
+            {
+                session.Add(data);
+                session.Commit();
+            }
+
+            SecurityProfile actual;
+            using (var session = Database.CreateSession())
+            {
+                actual = session.GetById<SecurityProfile>(data.Id);
+            }
+
+            Assert.IsTrue(data.SecruityIds.All(x=> actual.SecruityIds.Contains(x)));
         }
     }
 }

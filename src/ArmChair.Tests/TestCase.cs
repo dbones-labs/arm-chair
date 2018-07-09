@@ -30,7 +30,7 @@ namespace ArmChair.Tests
     {
         protected Database Database;
         protected string DbName = "auto_testing";
-        protected string DbLocation = "http://document:5984";
+        protected string DbLocation = false ? "https://devops.dyndns.info:5984/":"http://document:5984";
         //protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8081) : null;
         //127.0.0.1:8081
         //8888
@@ -39,6 +39,7 @@ namespace ArmChair.Tests
         {
             var conn = new Connection(DbLocation);
             //conn.SetupConfig(cfg => cfg.Proxy = Proxy);
+            //conn.Authentication = new BasicAuthentication("admin", "abc123!!");
             return new Database(DbName, conn);
         }
 
@@ -69,6 +70,7 @@ namespace ArmChair.Tests
 
             //create a test db
             var conn = new Connection(DbLocation);
+            //conn.Authentication = new BasicAuthentication("admin", "abc123!!");
             var createDb = new Request("/:db", HttpMethod.Put);
             createDb.AddUrlSegment("db", DbName);
             createDb.SetContentType(ContentType.Json);
@@ -118,6 +120,7 @@ namespace ArmChair.Tests
         {
             //delete a test db
             var conn = new Connection(DbLocation);
+            //conn.Authentication = new BasicAuthentication("admin", "abc123!!");
 
             bool needToDelete = true;
 
