@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair.Tests
 {
+    using System;
     using System.Diagnostics;
     using System.Net;
     using System.Net.Http;
@@ -20,6 +21,7 @@ namespace ArmChair.Tests
     using Http;
     //using Http;
     using NUnit.Framework;
+    using Utils.Logging;
 
 
     /// <summary>
@@ -30,7 +32,7 @@ namespace ArmChair.Tests
     {
         protected Database Database;
         protected string DbName = "auto_testing";
-        protected string DbLocation = false ? "https://devops.dyndns.info:5984/":"http://document:5984";
+        protected string DbLocation = "http://document:5984";
         //protected WebProxy Proxy = false ? new WebProxy("127.0.0.1", 8081) : null;
         //127.0.0.1:8081
         //8888
@@ -40,7 +42,12 @@ namespace ArmChair.Tests
             var conn = new Connection(DbLocation);
             //conn.SetupConfig(cfg => cfg.Proxy = Proxy);
             //conn.Authentication = new BasicAuthentication("admin", "abc123!!");
-            return new Database(DbName, conn);
+
+            return DatabaseBuilder.Create(DbName, conn)
+                .SetLogger(new Logger())
+                .Build();
+            
+            //return new Database(DbName, conn);
         }
 
         /// <summary>
@@ -148,4 +155,12 @@ namespace ArmChair.Tests
 
         protected virtual void OnFixtureTearDown() { }
     }
+
+   public class Logger : ILogger
+   {
+       public void Log(Func<string> message)
+       {
+           Console.WriteLine(message());
+       }
+   }
 }
