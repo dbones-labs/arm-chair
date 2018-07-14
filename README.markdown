@@ -15,6 +15,7 @@ ArmChair has been built from the ground up with the following goals:
 
 * Mongo Query Support
 * Linq Support (Partial)
+* (configurable) Logs requests and responses, to assist development
 
 ## Documentation
 
