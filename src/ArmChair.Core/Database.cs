@@ -17,7 +17,6 @@ namespace ArmChair
     using Http;
     using InSession;
     using Tracking.Shadowing;
-    using Utils.Hashing;
 
     /// <summary>
     /// An instance of a single Database, which you can create sessions with.
@@ -33,7 +32,16 @@ namespace ArmChair
         /// <param name="connection">the connection to the database server</param>
         public Database(string databaseName, Connection connection)
         {
-            Settings = new Settings(databaseName, connection);
+            Settings = new Settings2(databaseName, connection);
+            _index = new Indexing(Settings.CouchDb, Settings.Hash);
+        }
+
+        /// <summary>
+        /// Create the instance of the database
+        /// </summary>
+        public Database(Settings settings)
+        {
+            Settings = settings;
             _index = new Indexing(Settings.CouchDb, Settings.Hash);
         }
 

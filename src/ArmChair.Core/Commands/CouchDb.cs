@@ -19,6 +19,7 @@ namespace ArmChair.Commands
     using System.Net.Http;
     using Http;
     using Serialization;
+    using Utils.Logging;
 
     /// <summary>
     /// PLEASE USE <see cref="Database"/>. This represents the CouchDB API, allowing execution of supported commands.
@@ -32,6 +33,7 @@ namespace ArmChair.Commands
         private readonly IConnection _connection;
         private readonly ISerializer _serializer;
         private readonly ISerializer _querySerializer;
+        private readonly ILogger _logger;
 
 
         /// <summary>
@@ -41,12 +43,15 @@ namespace ArmChair.Commands
         /// <param name="connection">the connection to the CouchDb</param>
         /// <param name="serializer">the serializer to use when exxchanging data</param>
         /// <param name="querySerializer">serializer for mongo queries</param>
-        public CouchDb(string name, Connection connection, ISerializer serializer, ISerializer querySerializer)
+        /// <param name="logger">a logger which we can log the requests and responses too for debugging only</param>
+        public CouchDb(string name, Connection connection, ISerializer serializer, ISerializer querySerializer, ILogger logger)
         {
+            _logger = logger;
             _name = name;
             _connection = connection;
             _serializer = serializer;
             _querySerializer = querySerializer;
+            _logger = logger;
         }
 
         /// <summary>
@@ -61,14 +66,19 @@ namespace ArmChair.Commands
             request.AddUrlSegment("db", _name);
             request.AddUrlSegment("key", key);
 
+            _logger.Log(()=> $"loading {objecType.FullName}:{key}");
+
             using (var response = _connection.Execute(request))
             {
                 if (response.Status == HttpStatusCode.NotFound)
                 {
+                    _logger.Log(() => $"not found {objecType.FullName}:{key}");
+
                     return null;
                 }
 
                 var content = response.GetBody();
+                _logger.Log(() => $"loaded {objecType.FullName}:{key}{Environment.NewLine}{content}");
                 return _serializer.Deserialize(content, objecType);
             }
         }
@@ -86,9 +96,12 @@ namespace ArmChair.Commands
             request.AddParameter("include_docs", "true"); //load entire content.
             request.AddContent(() => new StringContent(requestJson), ContentType.Json);
 
+            _logger.Log(() => $"loading multiple objects: [{requestJson}]");
+
             using (var response = _connection.Execute(request))
             {
                 var content = response.GetBody();
+                _logger.Log(() => $"loading multiple objects: [{requestJson}]{Environment.NewLine}{content}");
                 return _serializer.Deserialize<AllDocsResponse>(content);
             }
         }
@@ -105,9 +118,12 @@ namespace ArmChair.Commands
             request.AddUrlSegment("db", _name);
             request.AddContent(()=> new StringContent(json), ContentType.Json);
 
+            _logger.Log(()=> $"applying changes:{Environment.NewLine}{json}");
+
             using (var response = _connection.Execute(request))
             {
                 var content = response.GetBody();
+                _logger.Log(() => $"applyed changes:{Environment.NewLine}{content}");
                 return _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
             }
         }
@@ -125,9 +141,12 @@ namespace ArmChair.Commands
             request.AddUrlSegment("db", _name);
             request.AddContent(()=> new StringContent(json), ContentType.Json);
 
+            _logger.Log(()=> $"querying:{Environment.NewLine}{json}");
+
             using (var response = _connection.Execute(request))
             {
                 var content = response.GetBody();
+                _logger.Log(() => $"query results:{Environment.NewLine}{content}");
                 return _serializer.Deserialize<MongoQueryResponse>(content);
             }
         }
@@ -144,9 +163,12 @@ namespace ArmChair.Commands
             request.AddUrlSegment("db", _name);
             request.AddContent(()=> new StringContent(json), ContentType.Json);
 
+            _logger.Log(() => $"creating index:{Environment.NewLine}{json}");
+
             using (var response = _connection.Execute(request))
             {
                 var content = response.GetBody();
+                _logger.Log(() => $"index creation response:{Environment.NewLine}{content}");
                 return _serializer.Deserialize<CreateIndexResponse>(content);
             }
         }
