@@ -1,0 +1,38 @@
+# This is a sample build configuration for .NET Core.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: dbones/monocore:2.1-sdk-alpine 
+
+pipelines:
+  default:
+  
+    - step:
+        name: build
+        script: # Modify the comma`nds below to build your repository.
+          - cd src
+          - dotnet restore --packages packages
+          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=$BITBUCKET_BUILD_NUMBER
+          
+    - parallel:
+        - step:
+            name: test
+            script:
+              - pwd
+              - cd src/ArmChair.Tests/
+              - dotnet test --no-build --no-restore --framework netcoreapp1.1 --configuration Release
+            services:
+              - database
+
+        - step:
+            name: package
+            script:
+              - pwd
+              - cd src
+              - dotnet pack --no-build --no-restore --configuration Release --output ../nupkgs
+
+definitions:
+  services:
+    database:
+      image: couchdb
