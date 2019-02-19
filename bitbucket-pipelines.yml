@@ -1,19 +1,14 @@
-# This is a sample build configuration for .NET Core.
-# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-image: dbones/monocore:2.1-sdk-alpine 
+image: dbones/monocore:1.1-2.0-sdk
 
 pipelines:
   default:
   
     - step:
         name: build
-        script: # Modify the comma`nds below to build your repository.
+        script:
           - cd src
           - dotnet restore --packages packages
-          - dotnet build --configuration Release
+          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=0
           
     - parallel:
         - step:
