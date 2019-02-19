@@ -13,7 +13,7 @@ pipelines:
         script: # Modify the comma`nds below to build your repository.
           - cd src
           - dotnet restore --packages packages
-          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=0
+          - dotnet build --configuration Release
           
     - parallel:
         - step:
