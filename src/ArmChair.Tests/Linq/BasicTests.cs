@@ -58,6 +58,37 @@ namespace ArmChair.Tests.Linq
             Assert.IsTrue(people.Any(x => x.Id == "4"));
 
         }
+        
+        [Test]
+        public void load_item_twice_in_separate_sessions_it_be_the_same()
+        {
 
+            using (var session = Database.CreateSession())
+            {   
+                var person = new Person("chan");
+                session.Add(person);
+                session.Commit();
+            }
+
+            Person p1;
+            Person p2;
+            using (var session = Database.CreateSession())
+            {
+                p1 = session.Query<Person>().FirstOrDefault(x => x.Name == "chan");
+                session.Commit();
+            }
+            
+            using (var session = Database.CreateSession())
+            {
+                p2 = session.Query<Person>().FirstOrDefault(x => x.Name == "chan");
+                session.Commit();
+            }
+            
+            Assert.IsFalse(p1 == p2, "these are the same object but difference instances");
+            Assert.AreEqual(p1.Name, p2.Name);
+            Assert.AreEqual(p1.Id, p2.Id);
+            Assert.AreEqual(p1.Rev, p2.Rev);
+        }
+        
     }
 }

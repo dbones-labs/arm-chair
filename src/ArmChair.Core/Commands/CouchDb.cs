@@ -15,8 +15,10 @@ namespace ArmChair.Commands
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using Exceptions;
     using Http;
     using Serialization;
     using Utils.Logging;
@@ -124,7 +126,9 @@ namespace ArmChair.Commands
             {
                 var content = response.GetBody();
                 _logger.Log(() => $"applyed changes:{Environment.NewLine}{content}");
-                return _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
+                var results = _serializer.Deserialize<IEnumerable<BulkDocResponse>>(content);
+                results = CheckForExceptions(results);
+                return results;
             }
         }
 
@@ -171,6 +175,32 @@ namespace ArmChair.Commands
                 _logger.Log(() => $"index creation response:{Environment.NewLine}{content}");
                 return _serializer.Deserialize<CreateIndexResponse>(content);
             }
+        }
+
+        private IEnumerable<BulkDocResponse> CheckForExceptions(IEnumerable<BulkDocResponse> results)
+        {
+            List<CouchDbException> exceptions = new List<CouchDbException>();
+            foreach (var result in results)
+            {
+                if (result.Ok == true)
+                {
+                    yield return result;
+                    continue;
+                }
+                
+                switch (result.Error)
+                {
+                    case "conflict": 
+                        exceptions.Add(new ConflictException(result.Id, result.Rev, result.Error, result.Reason));
+                        break;
+                    default:
+                        exceptions.Add(new CouchDbException(result.Id, result.Rev, result.Error, result.Reason));
+                        break;
+                }
+            }
+            
+            if(exceptions.Any())
+                throw new BulkException(exceptions);
         }
     }
 }

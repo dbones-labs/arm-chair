@@ -2,7 +2,7 @@
 {
     using ArmChair.EntityManagement.Config;
 
-    public class TaskClassMap : ClassMap<Models.Task>
+    public class TaskClassMap : ClassMap<Models.TodoItem>
     {
         public TaskClassMap()
         {

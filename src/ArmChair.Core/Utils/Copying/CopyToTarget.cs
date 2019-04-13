@@ -18,7 +18,7 @@ namespace ArmChair.Utils.Copying
         protected ShadowCopier Copier;
 
         public abstract void Copy(object source, object destination);
-        public virtual void Congfigure(ShadowCopier copier)
+        public virtual void Configure(ShadowCopier copier)
         {
             Copier = copier;
         }

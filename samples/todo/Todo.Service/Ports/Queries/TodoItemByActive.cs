@@ -3,32 +3,35 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ArmChair;
     using MediatR;
     using Models;
     
-    public class AllTasks : IRequest<IEnumerable<Task>>
+    public class TasksByActive : IRequest<IEnumerable<TodoItem>>
     {
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 50;
         public string OrderBy { get; set; }
     }
 
-    public class AllTasksHandler : IRequestHandler<AllTasks, IEnumerable<Task>>
+    public class TasksByActiveHandler : IRequestHandler<TasksByActive, IEnumerable<TodoItem>>
     {
         private readonly ISession _session;
 
-        public AllTasksHandler(ISession session)
+        public TasksByActiveHandler(ISession session)
         {
             _session = session;
         }
         
-        public IEnumerable<Task> Handle(AllTasks message)
+        public Task<IEnumerable<TodoItem>> Handle(TasksByActive request, CancellationToken cancellationToken)
         {
-            var query = _session.Query<Task>();
-            
-            if (message.OrderBy == null) message.OrderBy = "date";
-            switch (message.OrderBy.ToLower())
+            var query = _session.Query<TodoItem>()
+                .Where(x=> x.IsComplete == false);
+
+            if (request.OrderBy == null) request.OrderBy = "date";
+            switch (request.OrderBy.ToLower())
             {
                 case "priority":
                     query = query.OrderByDescending(x => x.Priority);
@@ -40,10 +43,14 @@
                     throw new NotSupportedException();
             }
                 
-            return query
-                .Skip(message.Skip)
-                .Take(message.Take)
+            IEnumerable<TodoItem> result = query
+                .Skip(request.Skip)
+                .Take(request.Take)
                 .ToList();
+
+            return Task.FromResult(result);
         }
+
+        
     }
 }

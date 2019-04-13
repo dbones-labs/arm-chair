@@ -16,6 +16,7 @@ namespace ArmChair.Tests.Core
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
+    using Exceptions;
     using NUnit.Framework;
 
     public class SavingTests : TestCase
@@ -79,6 +80,46 @@ namespace ArmChair.Tests.Core
             }
 
             Assert.Pass();
+        }
+        
+        
+        [Test]
+        public void Concurrancy_Load_and_save()
+        {
+            string id;
+            string rev;
+            using (var session = Database.CreateSession())
+            {
+                var author = new Person("dave");
+                session.Add(author);
+
+                id = author.Id;
+
+                session.Commit();
+
+                rev = author.Rev;
+            }
+            
+            using (var session1 = Database.CreateSession())
+            using (var session2 = Database.CreateSession())
+            {
+                var p1 = session1.GetById<Person>(id);
+                var p2 = session2.GetById<Person>(id);
+                var p3 = new Person("chan");
+                session2.Add(p3);
+
+                p1.Name = "bob";
+                p2.Name = "bobby";
+                
+                session1.Commit();
+
+                var result = Assert.Throws<BulkException>(() => session2.Commit(), "should have a conflict");
+                Assert.IsTrue(result.Exceptions.Any());
+                var ex = result.Exceptions.First();
+                Assert.IsTrue(ex is ConflictException);
+                Assert.AreEqual(ex.Id, id);
+            }
+
         }
 
     }

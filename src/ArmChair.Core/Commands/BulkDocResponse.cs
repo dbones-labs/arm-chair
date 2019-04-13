@@ -17,6 +17,10 @@ namespace ArmChair.Commands
     {
         public string Id { get; set; }
         public string Rev { get; set; }
-        public bool Ok { get; set; }
+        public bool? Ok { get; set; }
+
+        //[{"id":"1pxXq49AuS0q-7RexxZYOxg","error":"conflict","reason":"Document update conflict."}]
+        public string Error { get; set; }
+        public string Reason { get; set; }
     }
 }

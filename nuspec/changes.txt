@@ -1,5 +1,10 @@
+
+
+
 0.11.x
 ======
+.NET 4.5.2 (for versions 0.11.2 +)
+fix for Newtonsoft returning an empty string for null's
 fix for List<string>
 added simple logger (only to be used for development)
 

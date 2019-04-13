@@ -26,6 +26,6 @@ namespace ArmChair.Utils.Copying
         void Copy(object source, object destination);
 
 
-        void Congfigure(ShadowCopier copier);
+        void Configure(ShadowCopier copier);
     }
 }

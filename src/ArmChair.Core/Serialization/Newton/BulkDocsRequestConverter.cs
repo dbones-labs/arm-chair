@@ -37,6 +37,8 @@ namespace ArmChair.Serialization.Newton
 
             var request = (BulkDocsRequest)value;
             writer.WriteStartObject();
+            //writer.WritePropertyName("all_or_nothing");
+            //writer.WriteValue(true);
             writer.WritePropertyName("docs");
             writer.WriteStartArray();
             foreach (var doc in request.Docs)

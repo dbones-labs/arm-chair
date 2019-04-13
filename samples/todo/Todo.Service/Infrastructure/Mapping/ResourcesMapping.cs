@@ -19,18 +19,18 @@ namespace Todo.Service.Infrastructure.Mapping
             var port = webServerConfig.Port == 80 ? "" : $":{webServerConfig.Port}";
             baseUrl = $"{http}{domain}{port}/api/v1/tasks";
             
-            CreateMap<Task, TodoResource>()
+            CreateMap<TodoItem, TodoResource>()
                 .ForMember(dest => dest.Links, opt => opt.MapFrom(src => GetLinksFromTask(src)))
                 .ForMember(dest => dest.Actions, opt => opt.MapFrom(src => GetActionsFromTask(src)));
             
-            CreateMap<IEnumerable<Task>, CollectionResource<TodoResource>>()
+            CreateMap<IEnumerable<TodoItem>, CollectionResource<TodoResource>>()
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.Links, opt => opt.MapFrom(src => GetCollectionLinksFromTask(src)))
                 .ForMember(dest => dest.Actions, opt => opt.MapFrom(src => GetCollectionActionsFromTask(src)));
 
         }
 
-        protected IDictionary<string, string> GetLinksFromTask(Task task)
+        protected IDictionary<string, string> GetLinksFromTask(TodoItem todoItem)
         {
             var result = new Dictionary<string,string>();
             result.Add("collection", $"{baseUrl}/");
@@ -38,17 +38,17 @@ namespace Todo.Service.Infrastructure.Mapping
         }
         
         
-        protected IDictionary<string, string> GetActionsFromTask(Task task)
+        protected IDictionary<string, string> GetActionsFromTask(TodoItem todoItem)
         {
             var result = new Dictionary<string,string>();
-            if (!task.IsComplete) result.Add("update", $"{baseUrl}/{task.Id}");
-            if (!task.IsComplete) result.Add("complete", $"{baseUrl}/{task.Id}/complete");
-            result.Add("remove", $"{baseUrl}/{task.Id}");
+            if (!todoItem.IsComplete) result.Add("update", $"{baseUrl}/{todoItem.Id}");
+            if (!todoItem.IsComplete) result.Add("complete", $"{baseUrl}/{todoItem.Id}/complete");
+            result.Add("remove", $"{baseUrl}/{todoItem.Id}");
             return result;
         }
         
         
-        protected IDictionary<string, string> GetCollectionLinksFromTask(IEnumerable<Task> task)
+        protected IDictionary<string, string> GetCollectionLinksFromTask(IEnumerable<TodoItem> task)
         {
             var result = new Dictionary<string,string>();
             result.Add("self", $"{baseUrl}/");
@@ -58,7 +58,7 @@ namespace Todo.Service.Infrastructure.Mapping
         }
         
         
-        protected IDictionary<string, string> GetCollectionActionsFromTask(IEnumerable<Task> task)
+        protected IDictionary<string, string> GetCollectionActionsFromTask(IEnumerable<TodoItem> task)
         {
             var result = new Dictionary<string,string>();
             result.Add("createTodoTask", $"{baseUrl}/");
