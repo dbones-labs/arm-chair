@@ -26,7 +26,7 @@
         {
             if (queryString == null) throw new ArgumentNullException(nameof(queryString));
 
-            var query = _mapper.Map<Ports.Queries.AllTasks>(queryString);
+            var query = _mapper.Map<Ports.Queries.AllTodoItems>(queryString);
             var tasks = await _mediator.Send(query);
 
             var result = _mapper.Map<CollectionResource<TodoResource>>(tasks);

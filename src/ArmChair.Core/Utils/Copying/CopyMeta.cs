@@ -111,7 +111,7 @@ namespace ArmChair.Utils.Copying
         /// <param name="copyToTarget"></param>
         private void AddTargetToCopy(ICopyToTarget copyToTarget)
         {
-            copyToTarget.Congfigure(_copier);
+            copyToTarget.Configure(_copier);
             _copyActions.Add(copyToTarget);
         }
 

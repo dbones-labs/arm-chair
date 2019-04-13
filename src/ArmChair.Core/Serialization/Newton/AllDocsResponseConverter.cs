@@ -56,10 +56,17 @@ namespace ArmChair.Serialization.Newton
                 Doc = x,
             });
 
+            //newton json represents null as an empty string.
+            var offSet = jsonContent["offset"];
+            if (offSet?.ToString() == "")
+            {
+                offSet = 0;
+            }
+            
             return new AllDocsResponse()
             {
                 Rows = rows,
-                Offset = (int)(jsonContent["offset"] ?? 0),
+                Offset = (int)(offSet ?? 0),
                 TotalRows = (int)jsonContent["total_rows"]
             };
         }

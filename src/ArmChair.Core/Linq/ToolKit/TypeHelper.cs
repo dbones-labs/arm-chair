@@ -134,7 +134,7 @@ namespace IQToolkit
             return true;
 #endif
 
-#if NETSTANDARD1_6 || NET45
+#if NETSTANDARD1_6 || NET452
             switch (member.MemberType)
             {
                 case MemberTypes.Field:
@@ -170,7 +170,7 @@ namespace IQToolkit
             return ints.Contains(nnType);            
 #endif
 
-#if NETSTANDARD1_6 || NET45
+#if NETSTANDARD1_6 || NET452
             var nnType = GetNonNullableType(type);
             switch (Type.GetTypeCode(type))
             {

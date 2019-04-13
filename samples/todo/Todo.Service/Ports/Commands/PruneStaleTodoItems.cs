@@ -1,6 +1,8 @@
 ﻿namespace Todo.Service.Ports.Commands
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ArmChair;
     using MediatR;
 
@@ -19,16 +21,20 @@
             _session = session;
         }
         
-        public void Handle(PuneStaleTasks message)
+        public Task<Unit> Handle(PuneStaleTasks request, CancellationToken cancellationToken)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
-            var tasks = _mediator.Send(new Queries.TasksByStale()).Result;
+            var todoItems = _mediator.Send(new Queries.TasksByStale()).Result;
 
-            if (tasks != null)
+            if (todoItems != null)
             {
-                _session.RemoveRange(tasks);
+                _session.RemoveRange(todoItems);
             }
+            
+            return Task.FromResult(new Unit());
         }
+
+        
     }
 }

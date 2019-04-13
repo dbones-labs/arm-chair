@@ -39,7 +39,9 @@ namespace ArmChair.Serialization.Newton
             {
                 Id = (string)x["id"],
                 Rev = (string)x["rev"],
-                Ok = (bool)x["ok"]
+                Ok = (bool?)x["ok"],
+                Error = (string)x["error"],
+                Reason = (string)x["reason"]
             }).ToList();
         }
 

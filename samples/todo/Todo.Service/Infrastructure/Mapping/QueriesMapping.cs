@@ -7,7 +7,7 @@ namespace Todo.Service.Infrastructure.Mapping
     {
         public QueriesMapping()
         {
-            CreateMap<AllQueryString, AllTasks>();
+            CreateMap<AllQueryString, AllTodoItems>();
             CreateMap<ByActiveQueryString, TasksByActive>();
             CreateMap<ByPriorityQueryString, TasksByPriority>();
         }

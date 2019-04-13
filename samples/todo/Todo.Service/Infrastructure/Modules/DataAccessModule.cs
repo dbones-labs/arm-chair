@@ -89,7 +89,7 @@
         /// <param name="database">the database instance</param>
         protected void SetupDatabase(Database database)
         {
-            database.Settings.QueryPipeline.SetItemIterator(new ListsItemIterator<QueryContext>());
+            //database.Settings.QueryPipeline.SetItemIterator(new ListsItemIterator<QueryContext>());
 
             //register maps
             database.Register(new[] { new TaskClassMap() });

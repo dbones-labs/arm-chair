@@ -60,6 +60,7 @@ namespace ArmChair
             {
                 indexEntry.DesignDocument = indexEntry.Type.GetTypeInfo().FullName;
             }
+            
             if (string.IsNullOrEmpty(indexEntry.Name))
             {
                 var entries = indexEntry.Index.Fields.Select(x =>

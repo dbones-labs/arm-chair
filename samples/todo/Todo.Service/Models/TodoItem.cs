@@ -2,17 +2,17 @@
 {
     using System;
 
-    public class Task : EntityRoot
+    public class TodoItem : EntityRoot
     {
         private string _description;
         private bool _isComplete;
 
-        protected Task()
+        protected TodoItem()
         {
             
         }
 
-        public Task(string description, PriorityLevel priorityLevel)
+        public TodoItem(string description, PriorityLevel priorityLevel)
         {
             Created = DateTime.UtcNow;
             _description = description;

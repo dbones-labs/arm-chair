@@ -87,7 +87,7 @@ namespace ArmChair.Utils
             );
 #endif
 
-#if NETSTANDARD1_6 || NET45
+#if NETSTANDARD1_6 || NET452
             switch (member.MemberType)
             {
                 case MemberTypes.Event:

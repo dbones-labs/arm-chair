@@ -3,33 +3,34 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ArmChair;
     using MediatR;
     using Models;
     
-    public class TasksByActive : IRequest<IEnumerable<Task>>
+    public class AllTodoItems : IRequest<IEnumerable<TodoItem>>
     {
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 50;
         public string OrderBy { get; set; }
     }
 
-    public class TasksByActiveHandler : IRequestHandler<TasksByActive, IEnumerable<Task>>
+    public class AllTasksHandler : IRequestHandler<AllTodoItems, IEnumerable<TodoItem>>
     {
         private readonly ISession _session;
 
-        public TasksByActiveHandler(ISession session)
+        public AllTasksHandler(ISession session)
         {
             _session = session;
         }
         
-        public IEnumerable<Task> Handle(TasksByActive message)
+        public Task<IEnumerable<TodoItem>> Handle(AllTodoItems request, CancellationToken cancellationToken)
         {
-            var query = _session.Query<Task>()
-                .Where(x=> x.IsComplete == false);
-
-            if (message.OrderBy == null) message.OrderBy = "date";
-            switch (message.OrderBy.ToLower())
+            var query = _session.Query<TodoItem>();
+            
+            if (request.OrderBy == null) request.OrderBy = "date";
+            switch (request.OrderBy.ToLower())
             {
                 case "priority":
                     query = query.OrderByDescending(x => x.Priority);
@@ -41,10 +42,13 @@
                     throw new NotSupportedException();
             }
                 
-            return query
-                .Skip(message.Skip)
-                .Take(message.Take)
+            IEnumerable<TodoItem> result = query
+                .Skip(request.Skip)
+                .Take(request.Take)
                 .ToList();
+            return Task.FromResult(result);
         }
+
+        
     }
 }

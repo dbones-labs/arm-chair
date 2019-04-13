@@ -1,15 +1,12 @@
 namespace ArmChair.Utils.Hashing
 {
-
-    /*
-
     using System;
     using System.Security.Cryptography;
     using System.Text;
 
 
     /// <summary>
-    /// simple SHA1 hashing algoithm.
+    /// simple SHA1 hashing algorithm.
     /// </summary>
     public class Sha1Hash : IHash
     {
@@ -23,10 +20,4 @@ namespace ArmChair.Utils.Hashing
             }
         }
     }
-
-    */
-
-
-
-
 }

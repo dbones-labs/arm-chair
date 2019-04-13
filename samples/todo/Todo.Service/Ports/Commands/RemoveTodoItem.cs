@@ -2,6 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ArmChair;
     using MediatR;
     using Models;
@@ -21,16 +23,18 @@
             _session = session;
         }
         
-        public void Handle(RemoveTask message)
+        public Task<Unit> Handle(RemoveTask request, CancellationToken cancellationToken)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (request == null) throw new ArgumentNullException(nameof(request));
             
-            var task = _session.GetById<Task>(message.Id);
+            var todoItem = _session.GetById<TodoItem>(request.Id);
 
-            if (task != null)
+            if (todoItem != null)
             {
-                _session.Remove(task);
+                _session.Remove(todoItem);
             }
+
+            return Task.FromResult(new Unit());
         }
     }
 }

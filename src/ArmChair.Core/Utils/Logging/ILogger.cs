@@ -2,8 +2,6 @@
 
 namespace ArmChair.Utils.Logging
 {
-    using System.Diagnostics;
-
     public interface ILogger
     {
         void Log(Func<string> message);
