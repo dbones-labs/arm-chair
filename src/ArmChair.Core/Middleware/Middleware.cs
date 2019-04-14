@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     public class Middleware<TContext>
@@ -13,7 +14,7 @@
             _pipedTypes.Add(new PipeItem(action));
         }
 
-
+        [DebuggerStepThrough]
         public async Task Execute(TContext context)
         {
             var enumerator = _pipedTypes.GetEnumerator();
@@ -33,6 +34,7 @@
         }
 
 
+        [DebuggerStepThrough]
         public async Task<TOut> Execute(TIn context)
         {
             var enumerator = _pipedTypes.GetEnumerator();

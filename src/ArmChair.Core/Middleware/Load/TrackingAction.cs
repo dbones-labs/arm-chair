@@ -21,11 +21,10 @@ namespace ArmChair.Middleware.Load
 
             await next(items);
 
-            items.Where(x => !x.LoadedFromCache)
-                .Where(x => x.Entity != null);
-
             foreach (var item in items)
             {
+                if (item.LoadedFromCache) continue;
+                if (item.Entity == null) continue;
                 _tracking.TrackInstance(item.Entity);
             }
         }

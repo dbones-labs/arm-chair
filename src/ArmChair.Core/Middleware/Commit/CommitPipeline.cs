@@ -30,16 +30,6 @@ namespace ArmChair.Middleware.Commit
             _revisionAccessor = revisionAccessor;
         }
 
-        
-//        /// <summary>
-//        /// register any task to be executed after commiting an item.
-//        /// </summary>
-//        /// <param name="createTask">func which will be used to create the task</param>
-//        public void RegisterCommitAction(Func<CreateTaskContext, IAction<IEnumerable<CommitContext>> createAction)
-//        {
-//            //_postProcessTasks.Add(createTask);
-//        }
-
         public virtual async Task Process(ISessionCache sessionCache, ITrackingProvider tracking)
         {
             //var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);

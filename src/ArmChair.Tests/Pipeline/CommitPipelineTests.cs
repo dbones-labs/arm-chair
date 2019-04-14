@@ -23,11 +23,11 @@ namespace ArmChair.Tests.Pipeline
 
     public class CommitPipelineTests: QueryTestCase
     {
-        [Test]
+        [Test, Ignore("not supported")]
         public void Using_Pre_task()
         {
             string id;
-            Database.Settings.CommitPipeline.RegisterPreCommitTask(ctx => new PreCommitTask());
+            //Database.Settings.CommitPipeline.RegisterPreCommitTask(ctx => new PreCommitTask());
             using (var session = Database.CreateSession())
             {
                 var cat = new Cat
@@ -49,7 +49,7 @@ namespace ArmChair.Tests.Pipeline
 
         }
 
-        [Test]
+        [Test, Ignore("not supported")]
         public void Using_Post_task()
         {
             var postTask = new PostCommitTask();
@@ -58,7 +58,7 @@ namespace ArmChair.Tests.Pipeline
             Cat delete;
             Cat add;
 
-            Database.Settings.CommitPipeline.RegisterPreCommitTask(ctx => postTask);
+            //Database.Settings.CommitPipeline.RegisterPreCommitTask(ctx => postTask);
             using (var session = Database.CreateSession())
             {
                 update = new Cat

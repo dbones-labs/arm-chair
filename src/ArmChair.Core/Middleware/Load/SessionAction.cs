@@ -18,7 +18,6 @@ namespace ArmChair.Middleware.Load
         public async Task Execute(IEnumerable<T> context, Next<IEnumerable<T>> next)
         {
             var items = context
-                .Where(x => x.Entity != null)
                 .Select(x =>
                 {
                     var entry = _sessionCache[x.Key];
@@ -32,12 +31,14 @@ namespace ArmChair.Middleware.Load
                         return null;
                     }
 
+                    //item was cached
                     x.Entity = entry.Instance;
                     x.LoadedFromCache = true;
                     return x;
                 })
-                .Where(x => x != null) //.ToList();
-                .Where(x => !x.LoadedFromCache).ToList();
+                .Where(x => x != null) //removed deleted
+                .Where(x => !x.LoadedFromCache) //removed cached
+                .ToList();
 
             await next(items);
 

@@ -21,9 +21,9 @@ namespace ArmChair
     using Linq;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using Processes.Commit;
-    using Processes.Load;
-    using Processes.Query;
+    using Middleware.Commit;
+    using Middleware.Load;
+    using Middleware.Query;
     using Serialization;
     using Serialization.Newton;
     using Utils.Hashing;
