@@ -1,0 +1,35 @@
+image: dbones/monocore:1.1-2.0-sdk
+
+pipelines:
+  default:
+  
+    - step:
+        name: build
+        script:
+          - cd src
+          - dotnet restore
+          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=0
+        artifacts: # defining the artifacts to be passed to each future step.
+          - src/**
+
+    - parallel:
+        - step:
+            name: test
+            script:
+              - pwd
+              - cd src/ArmChair.Tests/
+              - dotnet test --no-build --framework netcoreapp1.1 --configuration Release
+            services:
+              - database
+
+        - step:
+            name: package
+            script:
+              - pwd
+              - cd src
+              - dotnet pack --no-build --configuration Release --output ../nupkgs
+
+definitions:
+  services:
+    database:
+      image: couchdb
