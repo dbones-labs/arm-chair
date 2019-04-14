@@ -1,6 +1,7 @@
 namespace ArmChair.Middleware
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     internal class GetNextFactory
@@ -12,6 +13,7 @@ namespace ArmChair.Middleware
             _enumerator = enumerator;
         }
 
+        [DebuggerStepThrough]
         public Next<TIn, TOut> GetNext<TIn, TOut>()
         {
             if (!_enumerator.MoveNext())
@@ -31,6 +33,7 @@ namespace ArmChair.Middleware
 
         }
         
+        [DebuggerStepThrough]
         public Next<TContext> GetNext<TContext>()
         {
             if (!_enumerator.MoveNext())

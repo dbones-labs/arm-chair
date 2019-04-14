@@ -11,11 +11,11 @@ namespace ArmChair.Tests.Pipeline
 
     public class LoadPipelineTests : QueryTestCase
     {
-        [Test]
+        [Test, Ignore("not suported")]
         public void Using_Preload_task()
         {
             IEnumerable<Cat> results;
-            Database.Settings.LoadPipeline.RegisterPreLoadTask(ctx => new PreLoadTask());
+            //Database.Settings.LoadPipeline.RegisterPreLoadTask(ctx => new PreLoadTask());
             using (var session = Database.CreateSession())
             {
                 results = session.GetByIds<Cat>(new[] {"c1", "c2"});
@@ -25,12 +25,12 @@ namespace ArmChair.Tests.Pipeline
             Assert.AreEqual(results.ElementAt(0).Id, "c1");
         }
 
-        [Test]
+        [Test, Ignore("not supported")]
         public void Using_Postload_task()
         {
             var postTask = new PostLoadTask<LoadContext>();
 
-            Database.Settings.LoadPipeline.RegisterPostLoadTask(ctx => postTask);
+            //Database.Settings.LoadPipeline.RegisterPostLoadTask(ctx => postTask);
             using (var session = Database.CreateSession())
             {
                 session.GetByIds<Cat>(new[] {"c1", "c2"});

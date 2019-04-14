@@ -30,15 +30,6 @@ namespace ArmChair.Middleware.Load
         }
 
 
-//        /// <summary>
-//        /// add a task to be execute after items are loaded from the database
-//        /// </summary>
-//        /// <param name="createTask">note this is a function that create your task in a context</param>
-//        public void RegisterPostLoadTask(Func<CreateTaskContext, IPipeTask<LoadContext>> createTask)
-//        {
-//            _postLoadTasks.Add(createTask);
-//        }
-
         public async Task<T> LoadOne<T>(object id, ISessionCache sessionCache, ITrackingProvider tracking)
             where T : class
         {
@@ -56,7 +47,6 @@ namespace ArmChair.Middleware.Load
         protected virtual async Task<IEnumerable<T>> Load<T>(IEnumerable ids, ISessionCache sessionCache,
             ITrackingProvider tracking, IAction<IEnumerable<LoadContext>> loadTask) where T : class
         {
-            //var taskCtx = new CreateTaskContext(_couchDb, _idManager, _revisionAccessor, sessionCache);
 
             //setup the pipeline
             var pipe = new Middleware<IEnumerable<LoadContext>>();

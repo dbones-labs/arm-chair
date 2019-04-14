@@ -22,9 +22,9 @@ namespace ArmChair
     using IdManagement;
     using InSession;
     using Linq;
-    using Processes.Commit;
-    using Processes.Load;
-    using Processes.Query;
+    using Middleware.Commit;
+    using Middleware.Load;
+    using Middleware.Query;
     using Tracking;
 
     public class Session : ISession
@@ -125,26 +125,26 @@ namespace ArmChair
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
             if (!ids.GetEnumerator().MoveNext()) return new List<T>();
-            var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _tracking);
+            var results = _loadPipeline.LoadMany<T>(ids, _sessionCache, _tracking).Result;
             return results;
         }
 
         public virtual T GetById<T>(object id) where T : class
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
-            var result = _loadPipeline.LoadOne<T>(id, _sessionCache, _tracking);
+            var result = _loadPipeline.LoadOne<T>(id, _sessionCache, _tracking).Result;
             return result;
         }
 
         public virtual void Commit()
         {
-            _commitPipeline.Process(_sessionCache, _tracking);
+            _commitPipeline.Process(_sessionCache, _tracking).Wait();
         }
 
         public virtual IEnumerable<T> Query<T>(MongoQuery query) where T : class
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
-            var result = _queryPipeline.Query<T>(query, _sessionCache, _tracking);
+            var result = _queryPipeline.Query<T>(query, _sessionCache, _tracking).Result;
             return result;
         }
 
