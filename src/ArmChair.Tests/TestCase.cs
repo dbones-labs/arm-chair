@@ -18,6 +18,7 @@ namespace ArmChair.Tests
     using System.Net;
     using System.Net.Http;
     using System.Threading;
+    using System.Xml.Linq;
     using Http;
     //using Http;
     using NUnit.Framework;
@@ -39,6 +40,15 @@ namespace ArmChair.Tests
 
         public virtual Database CreateDatabase()
         {
+            string env = Environment.GetEnvironmentVariable("DB");
+            if (!string.IsNullOrWhiteSpace(env))
+            {
+                if (!env.StartsWith("http://")) env = $"http://{env}";
+                if (!env.EndsWith(":5984")) env = $"{env}:5984";
+                Console.WriteLine("using env conn " + env);
+                DbLocation = env;
+            }
+            
             var conn = new Connection(DbLocation);
             //conn.SetupConfig(cfg => cfg.Proxy = Proxy);
             //conn.Authentication = new BasicAuthentication("admin", "abc123!!");
