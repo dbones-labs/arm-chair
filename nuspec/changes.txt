@@ -1,12 +1,15 @@
-
-
+0.12.x
+======
+Compiled for .NET standard 1.6 only (Mono, .NET core, .NET 4.6.1)
+Replaced how the pipeline works (and encapsulated it, allowing for easy iterating this moving forward)
+Added transactions (with an overrideable transaction coordinator/store)
 
 0.11.x
 ======
 .NET 4.5.2 (for versions 0.11.2 +)
-fix for Newtonsoft returning an empty string for null's
-fix for List<string>
-added simple logger (only to be used for development)
+Fix for Newtonsoft returning an empty string for null's
+Fix for List<string>
+Added simple logger (only to be used for development)
 
 0.10.x
 ======

@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 namespace ArmChair.Serialization.Newton
 {
     using System;
@@ -31,11 +32,12 @@ namespace ArmChair.Serialization.Newton
             throw new NotImplementedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             Func<JObject, object> getObject = jInstance =>
             {
-                var type = Type.GetType((string)jInstance["$type"]);
+                var type = Type.GetType((string) jInstance["$type"]);
                 using (var tReader = jInstance.CreateReader())
                 {
                     return serializer.Deserialize(tReader, type);
@@ -45,8 +47,10 @@ namespace ArmChair.Serialization.Newton
             var jsonContent = JToken.ReadFrom(reader);
 
             var docs = jsonContent["rows"]
+                .Where(row => row["error"]?.ToString() != "not_found")
                 .Select(row => row["doc"])
                 .Where(x => x != null)
+                .Where(x => !(x is JValue))
                 .Cast<JObject>()
                 .ToList();
 
@@ -62,12 +66,12 @@ namespace ArmChair.Serialization.Newton
             {
                 offSet = 0;
             }
-            
+
             return new AllDocsResponse()
             {
                 Rows = rows,
-                Offset = (int)(offSet ?? 0),
-                TotalRows = (int)jsonContent["total_rows"]
+                Offset = (int) (offSet ?? 0),
+                TotalRows = (int) jsonContent["total_rows"]
             };
         }
 

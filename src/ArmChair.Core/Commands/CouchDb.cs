@@ -200,7 +200,7 @@ namespace ArmChair.Commands
             }
             
             if(exceptions.Any())
-                throw new BulkException(exceptions);
+                throw new AggregateException(exceptions);
         }
     }
 }
