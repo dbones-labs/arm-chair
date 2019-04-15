@@ -17,7 +17,7 @@ pipelines:
             name: test
             script:
               - pwd
-              - cd src/ArmChair.Tests/
+              - cd src
               - dotnet test --no-build --framework netcoreapp1.1 --configuration Release
             services:
               - database
