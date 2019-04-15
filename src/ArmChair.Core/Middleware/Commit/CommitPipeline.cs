@@ -7,8 +7,8 @@ namespace ArmChair.Middleware.Commit
     using EntityManagement;
     using IdManagement;
     using InSession;
-    using Processes.Commit;
     using Tracking;
+    using Transactions;
 
     /// <summary>
     /// pipeline which will commit changes to the database

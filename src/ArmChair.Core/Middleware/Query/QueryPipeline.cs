@@ -7,8 +7,7 @@ namespace ArmChair.Middleware.Query
     using EntityManagement;
     using IdManagement;
     using InSession;
-    using Processes.Load;
-    using Processes.Query;
+    using Load;
     using Tracking;
 
     /// <summary>

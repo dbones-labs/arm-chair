@@ -11,13 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace ArmChair.Processes.Query
+namespace ArmChair.Middleware.Query
 {
-    using Load;
+    using System;
 
-    public class QueryContext : LoadContext
+    public class QueryContext 
     {
         public MongoQuery Query { get; set; }
+        public Type Type { get; set; }
         
     }
 }

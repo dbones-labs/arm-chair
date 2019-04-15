@@ -4,8 +4,7 @@ namespace ArmChair.Middleware.Query
     using System.Linq;
     using System.Threading.Tasks;
     using InSession;
-    using Processes.Load;
-    using Processes.Query;
+    using Load;
 
     public class UpdateCacheAction : IAction<QueryContext, IEnumerable<LoadContext>>
     {

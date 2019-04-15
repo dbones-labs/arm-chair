@@ -3,7 +3,6 @@ namespace ArmChair.Middleware.Load
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Processes.Load;
     using Tracking;
 
     public class TrackingAction<T> : IAction<IEnumerable<T>> where T : LoadContext

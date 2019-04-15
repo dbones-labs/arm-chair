@@ -27,6 +27,8 @@ namespace ArmChair
     using Middleware.Query;
     using Serialization;
     using Serialization.Newton;
+    using Transactions;
+    using Transactions.Couch;
     using Utils.Hashing;
     using Utils.Logging;
 

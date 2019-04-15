@@ -21,9 +21,7 @@ namespace ArmChair.Middleware.Query
     using EntityManagement;
     using IdManagement;
     using Load;
-    using Processes.Load;
-    using Processes.Query;
-    using Tasks;
+
 
     /// <summary>
     /// query the db using the mongo query object
