@@ -17,5 +17,6 @@ namespace ArmChair.Commands
     {
         public AllDocsValueResponse Value { get; set; }
         public object Doc { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace ArmChair
     using System;
     using Commands;
     using EntityManagement;
+    using Exceptions;
     using Http;
     using IdManagement;
     using Linq;
@@ -33,6 +34,7 @@ namespace ArmChair
     {
         Settings _settings = new Settings();
         private Func<IIdAccessor, IRevisionAccessor, ISerializer> _createSerializer;
+        private Func<IIdAccessor, IRevisionAccessor, ITransactionCoordinator> _createTransactionCoordinator;
 
 
         public DatabaseBuilder(string databaseName, Connection connection)
@@ -57,6 +59,12 @@ namespace ArmChair
             _createSerializer = createSerializer ?? throw new ArgumentNullException(nameof(createSerializer));
             return this;
         }
+        
+        public DatabaseBuilder SetTransactionCoordinator(Func<IIdAccessor, IRevisionAccessor, ITransactionCoordinator> createTransactionCoordinator)
+        {
+            _createTransactionCoordinator = createTransactionCoordinator ?? throw new ArgumentNullException(nameof(createTransactionCoordinator));
+            return this;
+        }
 
         public DatabaseBuilder SetHash(IHash hash)
         {
@@ -69,12 +77,12 @@ namespace ArmChair
         {
             //global
             _settings.Logger = _settings.Logger ?? new NullLogger();
-
+            _settings.Hash = _settings.Hash ?? new ToLowerPassThroughHash();
             _settings.IdAccessor = _settings.IdAccessor ?? new IdAccessor();
             _settings.IdManager = _settings.IdManager ?? new ShortGuidIdManager();
             _settings.RevisionAccessor = _settings.RevisionAccessor ?? new RevisionAccessor();
             _settings.TypeManager = _settings.TypeManager ?? new TypeManager();
-
+            
             _settings.Serializer = _createSerializer == null
                 ? new Serializer(_settings.IdAccessor, _settings.RevisionAccessor)
                 : _createSerializer(_settings.IdAccessor, _settings.RevisionAccessor);
@@ -91,19 +99,28 @@ namespace ArmChair
                     }
             };
             settings.Converters.Add(new OrderEnumConverter());
-
+            
             _settings.QuerySerializer = _settings.QuerySerializer ?? new Serializer(settings);
-
-            //these are not override-able at the moment.
             _settings.CouchDb = new CouchDb(_settings.DatabaseName, _settings.Connection, _settings.Serializer, _settings.QuerySerializer, _settings.Logger);
 
+
+            //setup the transction Coordinator.
+            if (_createTransactionCoordinator == null)
+            {
+                _settings.TransactionCoordinator =
+                    _settings.TransactionCoordinator ?? new TransactionCoordinator(_settings.CouchDb, _settings.IdAccessor, _settings.RevisionAccessor);
+    
+            }
+            else
+            {
+                _settings.TransactionCoordinator = _createTransactionCoordinator(_settings.IdAccessor, _settings.RevisionAccessor);
+            }
+            
             _settings.QueryFactory = new QueryFactory(_settings.TypeManager, _settings.IdAccessor);
             _settings.LoadPipeline = new LoadPipeline(_settings.CouchDb, _settings.IdManager, _settings.IdAccessor, _settings.RevisionAccessor);
-            _settings.CommitPipeline = new CommitPipeline(_settings.CouchDb, _settings.IdManager, _settings.RevisionAccessor);
+            _settings.CommitPipeline = new CommitPipeline(_settings.CouchDb, _settings.IdManager, _settings.RevisionAccessor, _settings.TransactionCoordinator);
             _settings.QueryPipeline = new QueryPipeline(_settings.CouchDb, _settings.IdManager, _settings.IdAccessor, _settings.RevisionAccessor);
-
-            _settings.Hash = _settings.Hash ?? new ToLowerPassThroughHash();
-
+            
             return new Database(_settings);
         }
 
@@ -127,6 +144,7 @@ namespace ArmChair
         public ISerializer QuerySerializer { get; internal set; }
         public ITypeManager TypeManager { get; internal set; }
         public IHash Hash { get; set; }
+        public ITransactionCoordinator TransactionCoordinator { get; internal set; }
 
         public LoadPipeline LoadPipeline { get; internal set; }
         public CommitPipeline CommitPipeline { get; internal set; }
@@ -165,11 +183,11 @@ namespace ArmChair
             QuerySerializer = new Serializer(settings);
 
             CouchDb = new CouchDb(databaseName, connection, Serializer, QuerySerializer, Logger);
-
             QueryFactory = new QueryFactory(TypeManager, IdAccessor);
+            TransactionCoordinator = new TransactionCoordinator(CouchDb, IdAccessor, RevisionAccessor);
 
             LoadPipeline = new LoadPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
-            CommitPipeline = new CommitPipeline(CouchDb, IdManager, RevisionAccessor);
+            CommitPipeline = new CommitPipeline(CouchDb, IdManager, RevisionAccessor, TransactionCoordinator);
             QueryPipeline = new QueryPipeline(CouchDb, IdManager, IdAccessor, RevisionAccessor);
 
             Hash = new ToLowerPassThroughHash();

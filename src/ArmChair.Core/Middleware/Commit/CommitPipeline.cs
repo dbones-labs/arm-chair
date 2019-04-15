@@ -18,16 +18,19 @@ namespace ArmChair.Middleware.Commit
         private readonly CouchDb _couchDb;
         private readonly IIdManager _idManager;
         private readonly IRevisionAccessor _revisionAccessor;
+        private readonly ITransactionCoordinator _transactionCoordinator;
 
-        
+
         public CommitPipeline(
             CouchDb couchDb,
             IIdManager idManager,
-            IRevisionAccessor revisionAccessor)
+            IRevisionAccessor revisionAccessor, 
+            ITransactionCoordinator transactionCoordinator)
         {
             _couchDb = couchDb;
             _idManager = idManager;
             _revisionAccessor = revisionAccessor;
+            _transactionCoordinator = transactionCoordinator;
         }
 
         public virtual async Task Process(ISessionCache sessionCache, ITrackingProvider tracking)
@@ -37,6 +40,7 @@ namespace ArmChair.Middleware.Commit
             //setup the pipeline
             var pipe = new Middleware<IEnumerable<CommitContext>>();
             pipe.Use(new TrackingAction(tracking));
+            pipe.Use(new TransactionAction(_transactionCoordinator));
             pipe.Use(new SessionAction(sessionCache));
             pipe.Use(new CommitToDatabaseAction(_couchDb, _revisionAccessor));
             

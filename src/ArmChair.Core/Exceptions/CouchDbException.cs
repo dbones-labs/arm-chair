@@ -26,7 +26,28 @@ namespace ArmChair.Exceptions
             Exceptions = exceptions;
         }
     }
+
+    public class RollbackException : Exception
+    {
+        public Exception RollbackCause { get; }
+        public Exception TransactionCause { get; }
+
+        public RollbackException(Exception rollbackCause, Exception transactionCause)
+        {
+            RollbackCause = rollbackCause;
+            TransactionCause = transactionCause;
+        }
+    }
     
+    public class TransactionException : Exception
+    {
+        public List<string> Ids { get; }
+
+        public TransactionException(List<string> ids)
+        {
+            Ids = ids;
+        }
+    }
 
     public class CouchDbException : Exception
     {

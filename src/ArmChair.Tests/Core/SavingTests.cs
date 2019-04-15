@@ -13,6 +13,7 @@
 // limitations under the License.
 namespace ArmChair.Tests.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Sample1;
@@ -84,7 +85,7 @@ namespace ArmChair.Tests.Core
         
         
         [Test]
-        public void Concurrancy_Load_and_save()
+        public void Concurrent_save_all_or_nothing_conflict()
         {
             string id;
             string rev;
@@ -113,10 +114,13 @@ namespace ArmChair.Tests.Core
                 
                 session1.Commit();
 
-                var result = Assert.Throws<BulkException>(() => session2.Commit(), "should have a conflict");
-                Assert.IsTrue(result.Exceptions.Any());
-                var ex = result.Exceptions.First();
-                Assert.IsTrue(ex is ConflictException);
+                var result = Assert.Throws<AggregateException>(() =>
+                {
+                    session2.Commit();
+                }, "should have a conflict");
+                Assert.IsTrue(result.InnerExceptions.Any());
+                var ex = result.InnerExceptions.FirstOrDefault()?.InnerException as ConflictException;
+                Assert.IsTrue(ex != null);
                 Assert.AreEqual(ex.Id, id);
             }
 
