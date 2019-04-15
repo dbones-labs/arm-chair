@@ -1,4 +1,4 @@
-image: mcr.microsoft.com/dotnet/core/sdk:2.2
+image: dbones/monocore:1.1-2.0-sdk
 
 pipelines:
   default:
