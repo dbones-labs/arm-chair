@@ -8,7 +8,7 @@ pipelines:
         script:
           - cd src
           - dotnet restore
-          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=0
+          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=$BITBUCKET_BUILD_NUMBER
         artifacts: # defining the artifacts to be passed to each future step.
           - src/**
 
@@ -17,10 +17,11 @@ pipelines:
             name: test
             script:
               - pwd
-              - cd src/ArmChair.Tests/
-              - dotnet test --no-build --framework netcoreapp1.1 --configuration Release
+              - ping -c 4 document
+              - cd src
+              - dotnet test --no-build --configuration Release
             services:
-              - database
+              - document
 
         - step:
             name: package
@@ -29,7 +30,17 @@ pipelines:
               - cd src
               - dotnet pack --no-build --configuration Release --output ../nupkgs
 
+    - step:
+        deployment: production
+        name: Deploy to test
+        trigger: manual
+        script:
+          - echo "Deploying to test environment"
+          - pwd
+          - cd src -k $
+          - dotnet nuget push $NUGET
+
 definitions:
   services:
-    database:
+    document:
       image: couchdb
