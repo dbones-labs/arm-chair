@@ -7,7 +7,6 @@ namespace ArmChair.Middleware.Commit
     using Commands;
     using EntityManagement;
     using InSession;
-    using Processes.Commit;
 
     /// <summary>
     /// this will send the correct command which will update the database

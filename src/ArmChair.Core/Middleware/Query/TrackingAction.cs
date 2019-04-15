@@ -3,8 +3,7 @@ namespace ArmChair.Middleware.Query
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Processes.Load;
-    using Processes.Query;
+    using Load;
     using Tracking;
 
     public class TrackingAction : IAction<QueryContext, IEnumerable<LoadContext>>

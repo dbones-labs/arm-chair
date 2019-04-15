@@ -6,7 +6,6 @@ namespace ArmChair.Middleware.Load
     using Commands;
     using EntityManagement;
     using IdManagement;
-    using Processes.Load;
 
     /// <summary>
     /// load a number of items from the database using the ids.

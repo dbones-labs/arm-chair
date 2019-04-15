@@ -19,9 +19,7 @@ namespace ArmChair.Middleware.Commit
     using System.Linq;
     using System.Threading.Tasks;
     using InSession;
-    using Processes.Commit;
     using Tracking;
-    using   ArmChair.Processes;
 
     /// <summary>
     /// filters out entities which do not require updates to the db.

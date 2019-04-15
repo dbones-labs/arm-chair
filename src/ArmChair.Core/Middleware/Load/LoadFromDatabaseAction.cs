@@ -18,7 +18,6 @@ namespace ArmChair.Middleware.Load
     using System.Linq;
     using System.Threading.Tasks;
     using Commands;
-    using Processes.Load;
 
     /// <summary>
     /// load a single item from the database

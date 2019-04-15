@@ -4,8 +4,7 @@ namespace ArmChair.Middleware.Query
     using System.Linq;
     using System.Threading.Tasks;
     using InSession;
-    using Processes.Load;
-    using Processes.Query;
+    using Load;
 
     /// <summary>
     /// when running a query, we will load the object from the database

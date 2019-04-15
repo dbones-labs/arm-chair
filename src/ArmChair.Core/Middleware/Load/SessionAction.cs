@@ -4,7 +4,6 @@ namespace ArmChair.Middleware.Load
     using System.Linq;
     using System.Threading.Tasks;
     using InSession;
-    using Processes.Load;
 
     public class SessionAction<T> : IAction<IEnumerable<T>> where T : LoadContext
     {

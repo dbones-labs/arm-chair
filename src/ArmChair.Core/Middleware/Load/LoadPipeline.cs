@@ -8,7 +8,6 @@ namespace ArmChair.Middleware.Load
     using EntityManagement;
     using IdManagement;
     using InSession;
-    using Processes.Load;
     using Tracking;
 
     public class LoadPipeline

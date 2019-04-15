@@ -4,7 +4,6 @@ namespace ArmChair.Middleware.Commit
     using System.Linq;
     using System.Threading.Tasks;
     using InSession;
-    using Processes.Commit;
 
     /// <summary>
     /// updates the cache accordingly on a db commit.
