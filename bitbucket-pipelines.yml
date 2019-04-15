@@ -1,4 +1,4 @@
-image: dbones/monocore:1.1-2.0-sdk
+image: mcr.microsoft.com/dotnet/core/sdk:2.2
 
 pipelines:
   default:
@@ -8,7 +8,7 @@ pipelines:
         script:
           - cd src
           - dotnet restore
-          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=0
+          - msbuild /target:Build /p:Configuration=Release /p:BuildNumber=$BITBUCKET_BUILD_NUMBER
         artifacts: # defining the artifacts to be passed to each future step.
           - src/**
 
@@ -17,6 +17,7 @@ pipelines:
             name: test
             script:
               - pwd
+              - ping -c 4 document
               - cd src
               - dotnet test --no-build --configuration Release
             services:
@@ -28,6 +29,16 @@ pipelines:
               - pwd
               - cd src
               - dotnet pack --no-build --configuration Release --output ../nupkgs
+
+    - step:
+        deployment: production
+        name: Deploy to test
+        trigger: manual
+        script:
+          - echo "Deploying to test environment"
+          - pwd
+          - cd src -k $
+          - dotnet nuget push $NUGET
 
 definitions:
   services:
