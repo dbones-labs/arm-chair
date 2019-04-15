@@ -20,7 +20,7 @@ pipelines:
               - cd src
               - dotnet test --no-build --configuration Release
             services:
-              - database
+              - document
 
         - step:
             name: package
@@ -31,5 +31,5 @@ pipelines:
 
 definitions:
   services:
-    database:
+    document:
       image: couchdb
