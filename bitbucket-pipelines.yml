@@ -17,7 +17,6 @@ pipelines:
             name: test
             script:
               - pwd
-              - ping -c 4 document
               - cd src
               - dotnet test --no-build --configuration Release
             services:
