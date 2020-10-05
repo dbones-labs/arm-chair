@@ -21,11 +21,11 @@ ArmChair has been built from the ground up with the following goals:
 
 its being worked on but you can find some here: https://bitbucket.org/dboneslabs/arm-chair/wiki/Home
 
-##Nuget
+## Nuget
 
 * **Url** https://www.nuget.org/packages/ArmChair.Core/
-* **Current version:** 0.11.x
-* **Released:** July 2018
+* **Current version:** 0.12.x
+* **Released:** May 2019
 
 ```
 PM> Install-Package ArmChair.Core
