@@ -1,6 +1,6 @@
 0.12.x
 ======
-Compiled for .NET standard 1.6 only (Mono, .NET core, .NET 4.6.1)
+Compiled for .NET standard 1.6 only (which supports Mono, .NET core, .NET 4.6.1)
 Replaced how the pipeline works (and encapsulated it, allowing for easy iterating this moving forward)
 Added transactions (with an overrideable transaction coordinator/store)
 

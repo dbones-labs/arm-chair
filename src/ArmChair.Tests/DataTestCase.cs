@@ -8,6 +8,7 @@ namespace ArmChair.Tests
     using Domain.Sample2;
     using Domain.Sample3;
     using Domain.Sample4;
+    using Domain.Sample5;
 
     /// <summary>
     /// provides some known data in the database.
@@ -71,6 +72,11 @@ namespace ArmChair.Tests
                 var repo = new Repoisitory("armchair") { Members = new Dictionary<string, Access>() { { "dave", Access.Administrator }, { "bob", Access.Contributor } } };
                 var repo2 = new Repoisitory("awesome-source") { Members = new Dictionary<string, Access>() { { "bob", Access.Administrator } } };
 
+                //domain 5
+                var serviceEntry1 = new ServiceEntry { Id = "se1", Name = "SqlServer", Description = "a sql server database", Tags = new List<string>(new []{"Database", "Sql", "Relational"})};
+                var serviceEntry2 = new ServiceEntry { Id = "se2", Name = "CouchDb", Description = "a document server database", Tags = new List<string>(new []{"Database", "Document" })};
+                var serviceEntry3 = new ServiceEntry { Id = "se3", Name = "PostgreSql", Description = "a relational and document server database", Tags = new List<string>(new []{"Database", "Document", "Relational", "Sql" })};
+                
                 ReferenceItems.Add(dave);
                 ReferenceItems.Add(chan);
                 ReferenceItems.Add(pam);
@@ -88,6 +94,9 @@ namespace ArmChair.Tests
                 ReferenceItems.Add(todo2);
                 ReferenceItems.Add(repo);
                 ReferenceItems.Add(repo2);
+                ReferenceItems.Add(serviceEntry1);
+                ReferenceItems.Add(serviceEntry2);
+                ReferenceItems.Add(serviceEntry3);
 
                 session.AddRange(ReferenceItems.Cast<EntityRoot>());
                 session.Commit();
